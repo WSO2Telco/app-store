@@ -1,0 +1,106 @@
+{
+  "name": "api-store",
+  "version": "0.0.0",
+  "dependencies": {
+    "@angular/animations": {
+      "version": "5.1.2",
+      "from": "@angular/animations@>=5.0.0 <6.0.0",
+      "resolved": "https://registry.npmjs.org/@angular/animations/-/animations-5.1.2.tgz"
+    },
+    "@angular/cdk": {
+      "version": "5.0.2",
+      "from": "@angular/cdk@latest",
+      "resolved": "https://registry.npmjs.org/@angular/cdk/-/cdk-5.0.2.tgz"
+    },
+    "@angular/common": {
+      "version": "5.1.2",
+      "from": "@angular/common@>=5.0.0 <6.0.0",
+      "resolved": "https://registry.npmjs.org/@angular/common/-/common-5.1.2.tgz"
+    },
+    "@angular/compiler": {
+      "version": "5.1.2",
+      "from": "@angular/compiler@>=5.0.0 <6.0.0",
+      "resolved": "https://registry.npmjs.org/@angular/compiler/-/compiler-5.1.2.tgz"
+    },
+    "@angular/core": {
+      "version": "5.1.2",
+      "from": "@angular/core@>=5.0.0 <6.0.0",
+      "resolved": "https://registry.npmjs.org/@angular/core/-/core-5.1.2.tgz"
+    },
+    "@angular/forms": {
+      "version": "5.1.2",
+      "from": "@angular/forms@>=5.0.0 <6.0.0",
+      "resolved": "https://registry.npmjs.org/@angular/forms/-/forms-5.1.2.tgz"
+    },
+    "@angular/http": {
+      "version": "5.1.2",
+      "from": "@angular/http@>=5.0.0 <6.0.0",
+      "resolved": "https://registry.npmjs.org/@angular/http/-/http-5.1.2.tgz"
+    },
+    "@angular/material": {
+      "version": "5.0.2",
+      "from": "@angular/material@latest",
+      "resolved": "https://registry.npmjs.org/@angular/material/-/material-5.0.2.tgz"
+    },
+    "@angular/platform-browser": {
+      "version": "5.1.2",
+      "from": "@angular/platform-browser@>=5.0.0 <6.0.0",
+      "resolved": "https://registry.npmjs.org/@angular/platform-browser/-/platform-browser-5.1.2.tgz"
+    },
+    "@angular/platform-browser-dynamic": {
+      "version": "5.1.2",
+      "from": "@angular/platform-browser-dynamic@>=5.0.0 <6.0.0",
+      "resolved": "https://registry.npmjs.org/@angular/platform-browser-dynamic/-/platform-browser-dynamic-5.1.2.tgz"
+    },
+    "@angular/router": {
+      "version": "5.1.2",
+      "from": "@angular/router@>=5.0.0 <6.0.0",
+      "resolved": "https://registry.npmjs.org/@angular/router/-/router-5.1.2.tgz"
+    },
+    "@ngrx/core": {
+      "version": "1.2.0",
+      "from": "@ngrx/core@latest",
+      "resolved": "https://registry.npmjs.org/@ngrx/core/-/core-1.2.0.tgz"
+    },
+    "@ngrx/effects": {
+      "version": "4.1.1",
+      "from": "@ngrx/effects@latest",
+      "resolved": "https://registry.npmjs.org/@ngrx/effects/-/effects-4.1.1.tgz"
+    },
+    "@ngrx/store": {
+      "version": "4.1.1",
+      "from": "@ngrx/store@latest",
+      "resolved": "https://registry.npmjs.org/@ngrx/store/-/store-4.1.1.tgz"
+    },
+    "animate.css": {
+      "version": "3.5.2",
+      "from": "animate.css@latest",
+      "resolved": "https://registry.npmjs.org/animate.css/-/animate.css-3.5.2.tgz"
+    },
+    "core-js": {
+      "version": "2.5.3",
+      "from": "core-js@>=2.4.1 <3.0.0",
+      "resolved": "https://registry.npmjs.org/core-js/-/core-js-2.5.3.tgz"
+    },
+    "rxjs": {
+      "version": "5.5.6",
+      "from": "rxjs@>=5.5.2 <6.0.0",
+      "resolved": "https://registry.npmjs.org/rxjs/-/rxjs-5.5.6.tgz"
+    },
+    "symbol-observable": {
+      "version": "1.0.1",
+      "from": "symbol-observable@1.0.1",
+      "resolved": "https://registry.npmjs.org/symbol-observable/-/symbol-observable-1.0.1.tgz"
+    },
+    "tslib": {
+      "version": "1.8.1",
+      "from": "tslib@>=1.7.1 <2.0.0",
+      "resolved": "https://registry.npmjs.org/tslib/-/tslib-1.8.1.tgz"
+    },
+    "zone.js": {
+      "version": "0.8.18",
+      "from": "zone.js@>=0.8.14 <0.9.0",
+      "resolved": "https://registry.npmjs.org/zone.js/-/zone.js-0.8.18.tgz"
+    }
+  }
+}

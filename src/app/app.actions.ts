@@ -1,0 +1,1 @@
+export const OPEN_LOGIN_PANEL = 'OPEN_LOGIN_PANEL';

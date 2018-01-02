@@ -1,0 +1,71 @@
+.prof-icon {
+  font-size: 2em;
+  margin-right: 10px;
+  margin-top: 5px;
+}
+
+.fill-remaining-space {
+  flex: 1 1 auto;
+}
+
+.menu-toolbar {
+  height: 150px;
+  background-image: url('../assets/images/back.png');
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.logo-container {
+  display: block;
+  width: 100%;
+
+  .img-container {
+    text-align: center;
+  }
+
+}
+
+.app-name-container {
+  text-align: center;
+  color: #fff;
+}
+
+mat-sidenav {
+  width: 300px;
+}
+
+.toolbar-main {
+  &.isOpen {
+    padding-left: 0;
+  }
+
+  .tb-logo {
+    height: 25px;
+    margin-right: 5px;
+  }
+
+  .app-name {
+    font-size: .7em;
+    margin-right: 20px;
+  }
+
+  .menu-icon-container {
+    display: block;
+    height: 100%;
+    border-left: solid 1px #6876c1;
+
+    store-hamburger-menu {
+      margin-top: 8px;
+      margin-left: 5px;
+
+    }
+  }
+}
+
+.content-container {
+  padding: 20px;
+  height: 100%;
+}
+
+

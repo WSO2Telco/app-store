@@ -1,0 +1,77 @@
+@import "../../../../styles/varibles";
+
+:host {
+  display: block;
+}
+
+.hm-menu-container {
+  position: relative;
+  width: 50px;
+  height: 50px;
+
+  .hamburger-menu {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    margin: auto;
+    width: $hm-bar-width;
+    height: $hm-bar-height + $hm-bar-spacing*2;
+    cursor: pointer;
+
+    .bar,
+    .bar:after,
+    .bar:before {
+      width: $hm-bar-width;
+      height: $hm-bar-height;
+    }
+
+    .bar {
+      position: relative;
+      transform: translateY($hm-bar-spacing);
+      transition: all 0 300ms;
+
+      &:before {
+        content: "";
+        position: absolute;
+        left: 0;
+        bottom: $hm-bar-spacing;
+        transition: bottom 300ms 300ms cubic-bezier(0.23, 1, 0.32, 1), transform 300ms cubic-bezier(0.23, 1, 0.32, 1);
+      }
+
+      &:after {
+        content: "";
+        position: absolute;
+        left: 0;
+        top: $hm-bar-spacing;
+        transition: top 300ms 300ms cubic-bezier(0.23, 1, 0.32, 1), transform 300ms cubic-bezier(0.23, 1, 0.32, 1);
+      }
+
+      &.animate {
+        background: rgba(255, 255, 255, 0);
+
+        &:after {
+          width: $hm-bar-width / 1.6;
+          top: 0;
+          left: 5px;
+          transform-origin: 0 0;
+          transform: rotate(45deg);
+          transition: top 300ms cubic-bezier(0.23, 1, 0.32, 1), transform 300ms 300ms cubic-bezier(0.23, 1, 0.32, 1);
+        }
+
+        &:before {
+          width: $hm-bar-width / 1.6;
+          bottom: 0;
+          left: 5px;
+          transform-origin: 0 0;
+          transform: rotate(-45deg);
+          transition: bottom 300ms cubic-bezier(0.23, 1, 0.32, 1), transform 300ms 300ms cubic-bezier(0.23, 1, 0.32, 1);
+        }
+      }
+
+    }
+
+  }
+
+}

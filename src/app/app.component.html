@@ -1,0 +1,49 @@
+<mat-sidenav-container fullscreen >
+  <mat-sidenav #sidenav mode="side" [(opened)]="opened" class="mat-elevation-z2" color="primary" fixedTopGap="50">
+    <mat-toolbar color="primary" class="menu-toolbar mat-elevation-z5">
+      <div class="logo-container">
+        <div class="img-container">
+          <img class="menu-logo" src="assets/images/logo.svg" />
+        </div>
+        <div class="app-name-container">
+          API STORE
+        </div>
+      </div>
+
+    </mat-toolbar>
+
+    <div>
+      <store-main-menu></store-main-menu>
+    </div>
+
+  </mat-sidenav>
+
+  <mat-sidenav #right position="end" [(opened)]="rightNavOpened"  class="right-nav mat-elevation-z5" color="primary" fixedTopGap="50">
+    <store-login-form></store-login-form>
+ </mat-sidenav>
+
+
+  <div style="height:100%">
+    <mat-toolbar color="primary"  class="mat-elevation-z5 toolbar-main" [class.isOpen]="opened">
+      <span *ngIf="!opened">
+        <img class="tb-logo" src="assets/images/logo.svg" />
+        <span class="app-name">API STORE </span>
+      </span>
+
+      <span class="menu-icon-container">
+        <store-hamburger-menu (click)="opened=!opened"></store-hamburger-menu>
+      </span>
+
+      <span class="fill-remaining-space"></span>
+
+      <span>
+        <store-login-icon (menuSelect)="onMenuSelect($event)"></store-login-icon>
+      </span>
+    </mat-toolbar>
+    <div class="content-container">
+      <router-outlet></router-outlet>
+    </div>
+
+  </div>
+
+</mat-sidenav-container>

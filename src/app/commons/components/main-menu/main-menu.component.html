@@ -1,0 +1,46 @@
+<mat-nav-list>
+  <mat-list-item routerLink="home">
+    <mat-icon>home</mat-icon>
+    <span>HOME</span>
+  </mat-list-item>
+  <mat-list-item [routerLink]="['legacy','apis']">
+    <mat-icon>extension</mat-icon>
+    APIS </mat-list-item>
+  <mat-list-item [routerLink]="['legacy','applications']">
+    <mat-icon>apps</mat-icon>
+    APPLICATIONS</mat-list-item>
+  <mat-list-item [routerLink]="['legacy','forum']">
+    <mat-icon>forum</mat-icon>
+    FORUM </mat-list-item>
+
+</mat-nav-list>
+<mat-accordion>
+  <mat-expansion-panel>
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        <mat-icon>insert_chart</mat-icon>
+        STATISTICS
+      </mat-panel-title>
+    </mat-expansion-panel-header>
+
+    <mat-nav-list>
+      <mat-list-item [routerLink]="['legacy','api-usage']">
+        <mat-icon>data_usage</mat-icon>
+        <span>API USAGE</span>
+      </mat-list-item>
+      <mat-list-item [routerLink]="['legacy','top-users']">
+        <mat-icon>supervisor_account</mat-icon>
+        TOP USERS</mat-list-item>
+      <mat-list-item [routerLink]="['legacy','res-usage']">
+        <mat-icon>monetization_on</mat-icon>
+        RESOURCE USAGE</mat-list-item>
+      <mat-list-item [routerLink]="['legacy','faults']">
+        <mat-icon>error_outline</mat-icon>
+        FAULTY INVOCATIONS </mat-list-item>
+      <mat-list-item [routerLink]="['legacy','alerts']">
+        <mat-icon>add_alert</mat-icon>
+        MANAGE ALERT TYPES </mat-list-item>
+    </mat-nav-list>
+  </mat-expansion-panel>
+
+</mat-accordion>

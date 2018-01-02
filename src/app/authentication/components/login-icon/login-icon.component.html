@@ -1,0 +1,8 @@
+<mat-menu #storeMenu="matMenu">
+  <button mat-menu-item (click)="onMenuSelected('Login')"> Login </button>
+  <button mat-menu-item (click)="onMenuSelected('Help')"> Help </button>
+</mat-menu>
+
+<button mat-icon-button  [matMenuTriggerFor]="storeMenu">
+  <mat-icon aria-label="Example icon-button with a heart icon">account_circle</mat-icon>
+</button>

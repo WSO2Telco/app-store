@@ -1,0 +1,24 @@
+@import '~@angular/material/theming';
+@mixin hamburger-menu-theme($theme) {
+  $primary: map-get($theme, primary);
+
+  .hm-menu-container {
+    .hamburger-menu {
+      #hmenu {
+        background: mat-color($primary,default-contrast);
+
+        &::before{
+            background: mat-color($primary,default-contrast);
+        }
+
+        &::after{
+            background: mat-color($primary,default-contrast);
+        }
+
+        &.animate {
+            background: rgba(255, 255, 255, 0);
+        }
+      }
+    }
+  }
+}

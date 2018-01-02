@@ -1,0 +1,38 @@
+@import '~@angular/material/theming';
+
+//Import custom component theams
+@import '~app/commons/components/hamburger-menu/hamburger-menu.component.scss.theme';
+@import '~app/commons/components/main-menu/main-menu.component.scss.theme';
+@import '~app/app.component.scss.theme';
+
+@include mat-core();
+
+$store-primary: mat-palette($mat-orange);
+$store-accent: mat-palette($mat-light-blue);
+$store-warn: mat-palette($mat-red);
+
+
+//$store-theme: mat-light-theme($store-primary, $store-accent,$store-warn);
+$store-theme: mat-dark-theme($store-primary, $store-accent,$store-warn);
+
+
+
+@mixin custom-components-theme($theme) {
+   @include hamburger-menu-theme($theme);
+   @include app-component-theme($theme);
+   @include main-menu-theme($theme);
+}
+
+@include angular-material-theme($store-theme);
+@include custom-components-theme($store-theme);
+
+
+//Alternative Theam
+$store-alt-primary: mat-palette($mat-yellow);
+$store-alt-accent: mat-palette($mat-grey, 200);
+
+$store-alt-theme: mat-dark-theme($store-alt-primary, $store-alt-accent);
+
+.alternative {
+  @include angular-material-theme($store-alt-theme);
+}

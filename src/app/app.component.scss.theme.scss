@@ -1,0 +1,7 @@
+@import '~@angular/material/theming';
+@mixin app-component-theme($theme) {
+  .mat-drawer-backdrop.mat-drawer-shown {
+    background-color:rgba(0,0,0,0.6);
+  }
+
+}

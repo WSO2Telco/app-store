@@ -1,0 +1,24 @@
+.header {
+  height: 150px;
+  background-image: url('../../../../assets/images/right-nav-back.jpg');
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+
+  h2 {
+    line-height: 150px;
+    text-align: center;
+    padding: 0;
+    margin: 0;
+  }
+}
+
+.form-container {
+  padding: 20px;
+  min-height: 300px;
+  margin: 50px 20px;
+ 
+  * {
+    width: 100%;
+  }
+}
