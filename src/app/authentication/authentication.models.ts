@@ -4,5 +4,13 @@ export class LoginAction {
 }
 
 export class LoginFormData {
-    constructor(public userName: string, public password: string) { }
+    constructor(public username: string, public password: string) { }
+}
+
+export class LoginResponseData {
+    constructor(
+        public username: string,
+        public permissions: any,
+        public error: boolean = false,
+        public messages: string = '') { }
 }

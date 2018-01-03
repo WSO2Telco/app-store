@@ -1,9 +1,20 @@
 import * as loginActions from './authentication.actions';
+import { AppState } from '../app.reducer';
+import { LoginResponseData } from './authentication.models';
 
-export function reducer(state, action: loginActions.Actions) {
+export interface AuthState {
+    loginData: LoginResponseData;
+}
+
+export const initState: AuthState = {
+    loginData: null
+};
+
+
+export function authReducer(state: AuthState = initState, action: loginActions.Actions) {
     switch (action.type) {
-        case loginActions.DO_LOGIN: {
-            break;
+        case loginActions.LOGIN_SUCCESS: {
+            return Object.assign({}, state, action.payload);
         }
 
         default: {

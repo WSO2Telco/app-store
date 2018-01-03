@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-
+import { Store } from '@ngrx/store';
+import { AuthState } from '../../authentication.reducers';
+import * as actions from '../../authentication.actions';
+import { LoginFormData } from '../../authentication.models';
 @Component({
   selector: 'store-login-form',
   templateUrl: './login-form.component.html',
@@ -7,12 +10,16 @@ import { Component, OnInit } from '@angular/core';
 })
 export class LoginFormComponent implements OnInit {
 
-  constructor() { }
+  public username: string;
+  public password: string;
+
+
+  constructor(private store: Store<AuthState>) { }
 
   ngOnInit() {
   }
 
   onLoginClick() {
-    alert('ddd');
+    this.store.dispatch(new actions.DoLoginAction(new LoginFormData(this.username, this.password)));
   }
 }
