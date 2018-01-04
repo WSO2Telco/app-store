@@ -12,15 +12,19 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { MatCardModule } from '@angular/material/card';
 import { MatMenuModule } from '@angular/material/menu';
-import { MatInputModule } from '@angular/material';
+import { MatInputModule } from '@angular/material/input';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import { NotificationService } from './services/notification.service';
+import { NotificationComponent } from './components/notification/notification.component';
 
 
 @NgModule({
   imports: [
-    CommonModule
+    CommonModule,
+    MatIconModule
   ],
-  declarations: [],
+  declarations: [NotificationComponent],
   exports: [
     RouterModule,
     FormsModule,
@@ -35,7 +39,12 @@ import { MatFormFieldModule } from '@angular/material/form-field';
     MatCardModule,
     MatMenuModule,
     MatFormFieldModule,
-    MatInputModule
+    MatInputModule,
+    MatSnackBarModule
+  ],
+  providers: [NotificationService],
+  entryComponents: [
+    NotificationComponent
   ]
 })
 export class SharedModule { }

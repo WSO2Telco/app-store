@@ -1,0 +1,48 @@
+.main-container {
+  padding: 10px;
+
+  &.SUCCESS {
+    background-color: #51A351;
+  }
+
+  &.ERROR {
+    background-color: #BD362F;
+  }
+
+  &.WARNING {
+    background-color: #F89406;
+  }
+
+  &.INFO {
+    background-color: #2F96B4;
+  }
+
+  &::after {
+    content: '';
+    display: block;
+    clear: both;
+  }
+
+  .icon-container {
+    float: left;
+    padding-right: 10px;
+  }
+
+  .msg-container {
+    width: 80%;
+    float: left;
+  }
+
+  &.ERROR,
+  &.INFO,
+  &.SUCCESS,
+  &.WARNING {
+    .icon-container {
+      color: #ececec;
+    }
+
+    .msg-container {
+      color: #ececec;
+    }
+  }
+}
