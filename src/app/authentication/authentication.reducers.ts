@@ -1,20 +1,39 @@
 import * as loginActions from './authentication.actions';
-import { AppState } from '../app.reducer';
-import { LoginResponseData } from './authentication.models';
+import { LoginResponseData, LoginMenuActionTypes } from './authentication.models';
+import { AuthState } from './authentication.models';
 
-export interface AuthState {
-    loginData: LoginResponseData;
-}
+const defaultMenu = [
+    { name: 'Login', action: LoginMenuActionTypes.LOGIN },
+    { name: 'Sign up', action: LoginMenuActionTypes.SIGNUP },
+    { name: 'Help', action: LoginMenuActionTypes.HELP }
+];
 
-export const initState: AuthState = {
-    loginData: null
+const loggedInMenu = [
+    { name: 'My Accunt', action: LoginMenuActionTypes.MYACCOUNT },
+    { name: 'Logout', action: LoginMenuActionTypes.LOGOUT }
+];
+
+const initState: AuthState = {
+    loginData: null,
+    menuData: defaultMenu
 };
 
 
 export function authReducer(state: AuthState = initState, action: loginActions.Actions) {
     switch (action.type) {
         case loginActions.LOGIN_SUCCESS: {
-            return Object.assign({}, state, action.payload);
+            return Object.assign({}, state,
+                {
+                    loginData: action.payload,
+                    menuData: loggedInMenu
+                });
+        }
+
+        case loginActions.DO_LOGOUT_SUCCESS: {
+            return Object.assign({}, state, {
+                loginData: null,
+                menuData: defaultMenu
+            });
         }
 
         default: {

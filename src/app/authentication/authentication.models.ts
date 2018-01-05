@@ -1,6 +1,24 @@
-export class LoginAction {
-    constructor(public type: 'Login' | 'Help') {
+export interface AuthState {
+    loginData: LoginResponseData;
+    menuData: IMenuItem[];
+}
+
+export interface IMenuItem {
+    name: string;
+    action: LoginMenuActionTypes;
+}
+
+export class LoginMenuAction {
+    constructor(public type: LoginMenuActionTypes) {
     }
+}
+
+export enum LoginMenuActionTypes {
+    LOGIN = 'login',
+    LOGOUT = 'logout',
+    SIGNUP = 'signup',
+    MYACCOUNT = 'my-account',
+    HELP = 'help'
 }
 
 export class LoginFormData {
@@ -12,5 +30,9 @@ export class LoginResponseData {
         public username: string,
         public permissions: any,
         public error: boolean = false,
-        public messages: string = '') { }
+        public message: string = '') { }
+}
+
+export class LogoutResponseData {
+    constructor(data: any) { }
 }

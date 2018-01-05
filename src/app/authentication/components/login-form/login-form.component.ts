@@ -1,25 +1,25 @@
-import { Component, OnInit } from '@angular/core';
-import { Store } from '@ngrx/store';
-import { AuthState } from '../../authentication.reducers';
-import * as actions from '../../authentication.actions';
-import { LoginFormData } from '../../authentication.models';
+import { ChangeDetectionStrategy, Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { LoginFormData, LoginResponseData } from '../../authentication.models';
 @Component({
   selector: 'store-login-form',
   templateUrl: './login-form.component.html',
-  styleUrls: ['./login-form.component.scss']
+  styleUrls: ['./login-form.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class LoginFormComponent implements OnInit {
 
   public username: string;
   public password: string;
 
+  @Output()
+  public loginClick: EventEmitter<LoginFormData> = new EventEmitter();
 
-  constructor(private store: Store<AuthState>) { }
+  constructor() { }
 
   ngOnInit() {
   }
 
   onLoginClick() {
-    this.store.dispatch(new actions.DoLoginAction(new LoginFormData(this.username, this.password)));
+    this.loginClick.emit(new LoginFormData(this.username, this.password));
   }
 }

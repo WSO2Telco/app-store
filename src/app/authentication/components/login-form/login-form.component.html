@@ -7,10 +7,10 @@
     <form #loginForm="ngForm" novalidate (ngSubmit)="onLoginClick(loginForm)">
       <mat-card-content>
         <mat-form-field>
-          <input matInput name="username" #userNameRef="ngModel" required [(ngModel)]="username" placeholder="Username">
+          <input matInput name="username" autocomplete="off" #userNameRef="ngModel" required [(ngModel)]="username" placeholder="Username">
         </mat-form-field>
         <mat-form-field>
-          <input matInput type="password" placeholder="Password" name="password" #passwordRef="ngModel" required [(ngModel)]="password">
+          <input matInput type="password" autocomplete="off" placeholder="Password" name="password" #passwordRef="ngModel" required [(ngModel)]="password">
         </mat-form-field>
       </mat-card-content>
 

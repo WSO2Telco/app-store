@@ -14,6 +14,7 @@ import { CommonsModule } from './commons/commons.module';
 import { AppComponent } from './app.component';
 import { SharedModule } from './shared/shared.module';
 import { AuthenticationModule } from './authentication/authentication.module';
+import { globalReducer } from './app.reducer';
 
 
 @NgModule({
@@ -33,7 +34,7 @@ import { AuthenticationModule } from './authentication/authentication.module';
     CommonsModule,
     SharedModule,
     AuthenticationModule,
-    StoreModule.forRoot({}),
+    StoreModule.forRoot({ global: globalReducer }),
     EffectsModule.forRoot([]),
     StoreDevtoolsModule.instrument({
       maxAge: 25 //  Retains last 25 states

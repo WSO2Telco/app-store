@@ -1,4 +1,4 @@
-<mat-sidenav-container fullscreen >
+<mat-sidenav-container fullscreen>
   <mat-sidenav #sidenav mode="side" [(opened)]="opened" class="mat-elevation-z2" color="primary" fixedTopGap="50">
     <mat-toolbar color="primary" class="menu-toolbar mat-elevation-z5">
       <div class="logo-container">
@@ -18,13 +18,14 @@
 
   </mat-sidenav>
 
-  <mat-sidenav #right position="end" [(opened)]="rightNavOpened"  class="right-nav mat-elevation-z5" color="primary" fixedTopGap="50">
-    <store-login-form></store-login-form>
- </mat-sidenav>
+  <mat-sidenav #right position="end" [(opened)]="rightNavOpened" (closedStart)="onRightNavClose()" class="right-nav mat-elevation-z5" color="primary"
+    fixedTopGap="50">
+    <store-login-form (loginClick)="onLoginClick($event)"></store-login-form>
+  </mat-sidenav>
 
 
   <div style="height:100%">
-    <mat-toolbar color="primary"  class="mat-elevation-z5 toolbar-main" [class.isOpen]="opened">
+    <mat-toolbar color="primary" class="mat-elevation-z5 toolbar-main" [class.isOpen]="opened">
       <span *ngIf="!opened">
         <img class="tb-logo" src="assets/images/logo.svg" />
         <span class="app-name">API STORE </span>

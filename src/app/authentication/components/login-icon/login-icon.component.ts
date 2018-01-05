@@ -1,5 +1,8 @@
 import { Component, OnInit, EventEmitter, Output } from '@angular/core';
-import { LoginAction } from '../../authentication.models';
+import { LoginMenuAction, IMenuItem, LoginMenuActionTypes } from '../../authentication.models';
+import { AppState } from '../../../app.models';
+import { Store } from '@ngrx/store';
+import { Observable } from 'rxjs/Observable';
 
 @Component({
   selector: 'store-login-icon',
@@ -9,16 +12,18 @@ import { LoginAction } from '../../authentication.models';
 export class LoginIconComponent implements OnInit {
 
   @Output()
-  private menuSelect: EventEmitter<LoginAction> = new EventEmitter();
+  private menuSelect: EventEmitter<LoginMenuAction> = new EventEmitter();
 
+  public menu$: Observable<IMenuItem[]>;
 
-  constructor() { }
+  constructor(private store: Store<AppState>) { }
 
   ngOnInit() {
+    this.menu$ = this.store.select(state => state.authentication.menuData);
   }
 
-  private onMenuSelected(type: 'Login' | 'Help') {
-    this.menuSelect.emit(new LoginAction(type));
+  private onMenuSelected(type: LoginMenuActionTypes) {
+    this.menuSelect.emit(new LoginMenuAction(type));
   }
 
 }
