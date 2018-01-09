@@ -11,6 +11,10 @@ const routes: Routes = [
     loadChildren: 'app/legacy/legacy.module#LegacyModule'
   },
   {
+    path: 'apis',
+    loadChildren: 'app/apis/apis.module#ApisModule'
+  },
+  {
     path: '',
     redirectTo: '/home',
     pathMatch: 'full'

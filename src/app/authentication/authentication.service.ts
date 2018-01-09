@@ -2,16 +2,12 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
+import { ApiEndpoints } from '../config/api.endpoints';
 
 import { LoginFormData, LoginResponseData, LogoutResponseData } from './authentication.models';
 
 @Injectable()
 export class AuthenticationService {
-
-    private endPoints = {
-        login: '../store/site/blocks/user/login/ajax/login.jag',
-        logout: '../store/site/blocks/user/login/ajax/login.jag'
-    };
 
     constructor(private http: HttpClient) { }
 
@@ -28,13 +24,11 @@ export class AuthenticationService {
             })
         };
 
-        return this.http.post(this.endPoints.login, body.toString(), httpOptions)
+        return this.http.post(ApiEndpoints.authentication.login, body.toString(), httpOptions)
             .map((data: any) =>
                 new LoginResponseData(param.username, {}, data.error, data.message)
             );
     }
-
-
 
     logout(): Observable<LogoutResponseData> {
         const body: HttpParams = new HttpParams()
@@ -46,7 +40,7 @@ export class AuthenticationService {
             })
         };
 
-        return this.http.post(this.endPoints.logout, body.toString(), httpOptions)
+        return this.http.post(ApiEndpoints.authentication.logout, body.toString(), httpOptions)
             .map((data: any) => new LogoutResponseData(data));
     }
 }

@@ -14,6 +14,7 @@ import { CommonsModule } from './commons/commons.module';
 import { AppComponent } from './app.component';
 import { SharedModule } from './shared/shared.module';
 import { AuthenticationModule } from './authentication/authentication.module';
+import { ApisModule } from './apis/apis.module';
 import { globalReducer } from './app.reducer';
 
 
@@ -34,6 +35,7 @@ import { globalReducer } from './app.reducer';
     CommonsModule,
     SharedModule,
     AuthenticationModule,
+    ApisModule,
     StoreModule.forRoot({ global: globalReducer }),
     EffectsModule.forRoot([]),
     StoreDevtoolsModule.instrument({

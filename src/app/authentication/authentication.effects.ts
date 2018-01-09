@@ -16,7 +16,6 @@ import { NotificationService } from '../shared/services/notification.service';
 @Injectable()
 export class AuthenticationEffects {
     constructor(
-        private http: HttpClient,
         private actions$: Actions,
         private authService: AuthenticationService,
         private notification: NotificationService) { }
