@@ -22,6 +22,7 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { MatSelectModule } from '@angular/material/select';
+import { FrameManagerDirective } from './directives/frame-manager.directive';
 
 
 
@@ -30,7 +31,7 @@ import { MatSelectModule } from '@angular/material/select';
     CommonModule,
     MatIconModule
   ],
-  declarations: [NotificationComponent],
+  declarations: [NotificationComponent, FrameManagerDirective],
   exports: [
     RouterModule,
     FormsModule,
@@ -51,7 +52,8 @@ import { MatSelectModule } from '@angular/material/select';
     MatPaginatorModule,
     MatTooltipModule,
     FlexLayoutModule,
-    MatSelectModule
+    MatSelectModule,
+    FrameManagerDirective
   ],
   providers: [NotificationService],
   entryComponents: [

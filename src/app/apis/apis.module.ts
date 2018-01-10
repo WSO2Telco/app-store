@@ -9,6 +9,7 @@ import { EffectsModule } from '@ngrx/effects';
 import { apisReducer } from './apis.reducers';
 import { ApisEffects } from './apis.effects';
 import { ApiDetailComponent } from './components/api-detail/api-detail.component';
+import { ApiSubscriptionComponent } from './components/api-subscription/api-subscription.component';
 
 @NgModule({
   imports: [
@@ -18,7 +19,8 @@ import { ApiDetailComponent } from './components/api-detail/api-detail.component
     StoreModule.forFeature('apis', apisReducer),
     EffectsModule.forFeature([ApisEffects]),
   ],
-  declarations: [ApiSearchComponent, ApiDetailComponent],
-  providers: [ApisService]
+  declarations: [ApiSearchComponent, ApiDetailComponent, ApiSubscriptionComponent],
+  providers: [ApisService],
+  entryComponents: [ApiSubscriptionComponent]
 })
 export class ApisModule { }
