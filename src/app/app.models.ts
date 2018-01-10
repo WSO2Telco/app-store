@@ -10,5 +10,6 @@ export interface AppState {
 export interface GlobalState {
     layout: {
         rightNavOpened: boolean;
+        leftNavOpened: boolean;
     };
 }

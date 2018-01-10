@@ -3,7 +3,8 @@ import * as globalActions from './app.actions';
 
 const initState: GlobalState = {
     layout: {
-        rightNavOpened: false
+        rightNavOpened: false,
+        leftNavOpened: false
     }
 };
 
@@ -12,9 +13,18 @@ export function globalReducer(state: GlobalState = initState, action: globalActi
         case globalActions.TOGGLE_RIGHT_NAV_PANEL: {
             return Object.assign({}, state,
                 {
-                    layout: {
+                    layout: Object.assign({}, state.layout, {
                         rightNavOpened: action.payload
-                    }
+                    })
+                });
+        }
+
+        case globalActions.TOGGLE_LEFT_NAV_PANEL: {
+            return Object.assign({}, state,
+                {
+                    layout: Object.assign({}, state.layout, {
+                        leftNavOpened: !state.layout.leftNavOpened
+                    })
                 });
         }
         default:

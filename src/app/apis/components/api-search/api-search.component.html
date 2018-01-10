@@ -1,4 +1,4 @@
-<mat-card >
+<mat-card class="search-container">
   <mat-card-content>
     <p>
       Search API
@@ -6,47 +6,50 @@
   </mat-card-content>
 </mat-card>
 
-<mat-card >
+<mat-card>
   <mat-card-content>
-    <div class="example-header">
+
+    <div class="filter-container">
       <mat-form-field>
         <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
       </mat-form-field>
     </div>
-    
+
+
     <div class="example-container mat-elevation-z8">
-    
-      <mat-table [dataSource]="dataSource" matSort>
-    
-        <!-- ID Column -->
-        <ng-container matColumnDef="id">
-          <mat-header-cell *matHeaderCellDef mat-sort-header> ID </mat-header-cell>
-          <mat-cell *matCellDef="let row"> {{row.id}} </mat-cell>
-        </ng-container>
-    
-        <!-- Progress Column -->
-        <ng-container matColumnDef="progress">
-          <mat-header-cell *matHeaderCellDef mat-sort-header> Progress </mat-header-cell>
-          <mat-cell *matCellDef="let row"> {{row.progress}}% </mat-cell>
-        </ng-container>
-    
-        <!-- Name Column -->
+
+      <mat-table [dataSource]="apiSearchResult">
+
         <ng-container matColumnDef="name">
           <mat-header-cell *matHeaderCellDef mat-sort-header> Name </mat-header-cell>
           <mat-cell *matCellDef="let row"> {{row.name}} </mat-cell>
         </ng-container>
-    
-        <!-- Color Column -->
-        <ng-container matColumnDef="color">
-          <mat-header-cell *matHeaderCellDef mat-sort-header> Color </mat-header-cell>
-          <mat-cell *matCellDef="let row" [style.color]="row.color"> {{row.color}} </mat-cell>
+
+        <ng-container matColumnDef="provider">
+          <mat-header-cell *matHeaderCellDef mat-sort-header> Provider </mat-header-cell>
+          <mat-cell *matCellDef="let row"> {{row.provider}}</mat-cell>
         </ng-container>
-    
-        <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-        <mat-row *matRowDef="let row; columns: displayedColumns;">
+
+        <ng-container matColumnDef="version">
+          <mat-header-cell *matHeaderCellDef mat-sort-header> Version </mat-header-cell>
+          <mat-cell *matCellDef="let row"> {{row.version}} </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="apiOwner">
+          <mat-header-cell *matHeaderCellDef mat-sort-header> Api Owner </mat-header-cell>
+          <mat-cell *matCellDef="let row"> {{row.apiOwner}} </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="rating">
+          <mat-header-cell *matHeaderCellDef mat-sort-header> Rating </mat-header-cell>
+          <mat-cell *matCellDef="let row"> {{row.rates}} </mat-cell>
+        </ng-container>
+
+        <mat-header-row *matHeaderRowDef="['name','provider','version','apiOwner','rating']"></mat-header-row>
+        <mat-row *matRowDef="let row; columns: ['name','provider','version','apiOwner','rating'];">
         </mat-row>
       </mat-table>
-    
+      
       <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
     </div>
   </mat-card-content>

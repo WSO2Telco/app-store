@@ -1,9 +1,9 @@
-import { ApisState } from './apis.models';
+import { ApisState, ApiSearchResult } from './apis.models';
 import { ApisService } from './apis.service';
 import * as apiActions from './apis.actions';
 
 const initialState: ApisState = {
-    apiSearchResult: null
+    apiSearchResult: new ApiSearchResult()
 };
 
 export function apisReducer(state: ApisState = initialState, action: apiActions.Actions) {

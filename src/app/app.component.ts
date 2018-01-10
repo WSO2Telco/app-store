@@ -1,5 +1,5 @@
 import { Component, ChangeDetectionStrategy } from '@angular/core';
-import { OnInit } from '@angular/core/src/metadata/lifecycle_hooks';
+import { OnInit, ChangeDetectorRef } from '@angular/core';
 import { LoginMenuAction, LoginResponseData, LoginMenuActionTypes, LoginFormData } from './authentication/authentication.models';
 import { Store } from '@ngrx/store';
 import { AppState } from './app.models';
@@ -7,6 +7,7 @@ import { DoLogoutAction } from './authentication/authentication.actions';
 import { Observable } from 'rxjs/Observable';
 import * as loginActions from './authentication/authentication.actions';
 import * as globalActions from './app.actions';
+import { ToggleLeftPanelAction } from './app.actions';
 
 @Component({
   selector: 'store-root',
@@ -16,18 +17,21 @@ import * as globalActions from './app.actions';
 })
 export class AppComponent implements OnInit {
 
-  public opened: boolean;
+  public leftNavOpened: boolean;
   public rightNavOpened: boolean;
 
-  constructor(private store: Store<AppState>) { }
+  constructor(private store: Store<AppState>, private ref: ChangeDetectorRef) { }
 
   ngOnInit(): void {
-    setTimeout(() => {
-      this.opened = true;
-    }, 100);
 
     this.store.select(store => store.global.layout.rightNavOpened)
-      .subscribe(val => { this.rightNavOpened = val; });
+      .subscribe(val => this.rightNavOpened = val);
+
+    this.store.select(store => store.global.layout.leftNavOpened)
+      .subscribe(val => {
+        this.leftNavOpened = val;
+        this.ref.detectChanges();
+      });
 
     this.store.select(store => store.authentication.loginData)
       .subscribe((loginData) => {
@@ -35,6 +39,11 @@ export class AppComponent implements OnInit {
           this.store.dispatch(new globalActions.ToggleRightPanelAction(false));
         }
       });
+
+    setTimeout(() => {
+      this.store.dispatch(new ToggleLeftPanelAction());
+    }, 200);
+
   }
 
   private onMenuSelect(event: LoginMenuAction) {
@@ -61,5 +70,9 @@ export class AppComponent implements OnInit {
 
   onRightNavClose() {
     this.store.dispatch(new globalActions.ToggleRightPanelAction(false));
+  }
+
+  onHambergerMenuClick() {
+    this.store.dispatch(new globalActions.ToggleLeftPanelAction());
   }
 }

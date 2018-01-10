@@ -1,5 +1,5 @@
 <mat-sidenav-container fullscreen>
-  <mat-sidenav #sidenav mode="side" [(opened)]="opened" class="mat-elevation-z2" color="primary" fixedTopGap="50">
+  <mat-sidenav #sidenav mode="side" [(opened)]="leftNavOpened" class="mat-elevation-z2" color="primary" fixedTopGap="50">
     <mat-toolbar color="primary" class="menu-toolbar mat-elevation-z5">
       <div class="logo-container">
         <div class="img-container">
@@ -25,14 +25,14 @@
 
 
   <div style="height:100%">
-    <mat-toolbar color="primary" class="mat-elevation-z5 toolbar-main" [class.isOpen]="opened">
-      <span *ngIf="!opened">
+    <mat-toolbar color="primary" class="mat-elevation-z5 toolbar-main" [class.isOpen]="leftNavOpened">
+      <span *ngIf="!leftNavOpened">
         <img class="tb-logo" src="assets/images/logo.svg" />
         <span class="app-name">API STORE </span>
       </span>
 
       <span class="menu-icon-container">
-        <store-hamburger-menu (click)="opened=!opened"></store-hamburger-menu>
+        <store-hamburger-menu (click)="onHambergerMenuClick()"></store-hamburger-menu>
       </span>
 
       <span class="fill-remaining-space"></span>
