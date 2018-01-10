@@ -15,11 +15,15 @@
 
 mat-header-row{
     background-color: #272727;
+    margin-left: -2px;
+    margin-right: -2px;
 }
 
 mat-paginator{
     padding: 20px;
     background-color: #272727;
+    margin-left: -2px;
+    margin-right: -2px;
 }
 
 mat-row{
@@ -27,5 +31,22 @@ mat-row{
         background-color: #333333;
         transition: all 0.2s ease-in;
         cursor: pointer;
+    }
+}
+
+.search-Container{
+    .search-txt{
+        padding-top: 20px;
+        padding-right: 20px;
+        font-weight: 900;
+    }
+    
+    .search-input{
+        margin-left: 20px;
+        width: 30%;
+    }
+
+    .search{
+        margin-left: 20px;
     }
 }

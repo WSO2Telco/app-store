@@ -8,6 +8,7 @@ import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 import { apisReducer } from './apis.reducers';
 import { ApisEffects } from './apis.effects';
+import { ApiDetailComponent } from './components/api-detail/api-detail.component';
 
 @NgModule({
   imports: [
@@ -17,7 +18,7 @@ import { ApisEffects } from './apis.effects';
     StoreModule.forFeature('apis', apisReducer),
     EffectsModule.forFeature([ApisEffects]),
   ],
-  declarations: [ApiSearchComponent],
+  declarations: [ApiSearchComponent, ApiDetailComponent],
   providers: [ApisService]
 })
 export class ApisModule { }

@@ -1,14 +1,16 @@
 export enum ApiStatus {
+    ALL = 'ALL',
     PROTOTYPED = 'PROTOTYPED',
     PRODUCTION = 'PRODUCTION'
 }
 
 export class ApiSearchParam {
     constructor(
-        public tag: string = null,
+        public apiStatus: ApiStatus = ApiStatus.ALL,
+        public query: string = '',
         public page: number = 1,
-        public query: string = null,
-        public apiStatus: ApiStatus = null) { }
+        public tag: string = ''
+        ) { }
 }
 
 export class ApiSearchResult {
@@ -43,4 +45,5 @@ export class ApiSummery {
 
 export interface ApisState {
     apiSearchResult: ApiSearchResult;
+    apiStatus: ApiStatus[];
 }

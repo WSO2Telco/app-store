@@ -20,6 +20,9 @@ import { NotificationComponent } from './components/notification/notification.co
 import { MatTableModule } from '@angular/material/table';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { FlexLayoutModule } from '@angular/flex-layout';
+import { MatSelectModule } from '@angular/material/select';
+
 
 
 @NgModule({
@@ -46,7 +49,9 @@ import { MatTooltipModule } from '@angular/material/tooltip';
     MatSnackBarModule,
     MatTableModule,
     MatPaginatorModule,
-    MatTooltipModule
+    MatTooltipModule,
+    FlexLayoutModule,
+    MatSelectModule
   ],
   providers: [NotificationService],
   entryComponents: [

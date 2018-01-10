@@ -1,9 +1,13 @@
-import { ApisState, ApiSearchResult } from './apis.models';
+import { ApisState, ApiSearchResult, ApiStatus } from './apis.models';
 import { ApisService } from './apis.service';
 import * as apiActions from './apis.actions';
 
 const initialState: ApisState = {
-    apiSearchResult: new ApiSearchResult()
+    apiSearchResult: new ApiSearchResult(),
+    apiStatus: [
+        ApiStatus.ALL,
+        ApiStatus.PRODUCTION,
+        ApiStatus.PROTOTYPED]
 };
 
 export function apisReducer(state: ApisState = initialState, action: apiActions.Actions) {

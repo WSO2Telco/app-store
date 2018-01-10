@@ -12,12 +12,11 @@ export class ApisService {
     constructor(private http: HttpClient) { }
 
     search(param: ApiSearchParam): Observable<any> {
-        const searchParams = new HttpParams();
-        searchParams.append('tag', param.tag);
-        searchParams.append('apiStatus', param.apiStatus);
-        searchParams.append('page', <any>param.page);
-        searchParams.append('query', param.query);
-
+        const searchParams = new HttpParams()
+        .append('tag', param.tag)
+        .append('apiStatus', param.apiStatus)
+        .append('page', <any>param.page)
+        .append('query', param.query);
         return this.http.get<ApiSearchResult>(ApiEndpoints.apis.search, { params: searchParams });
     }
 
