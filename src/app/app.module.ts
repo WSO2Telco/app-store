@@ -16,6 +16,8 @@ import { SharedModule } from './shared/shared.module';
 import { AuthenticationModule } from './authentication/authentication.module';
 import { ApisModule } from './apis/apis.module';
 import { globalReducer } from './app.reducer';
+import { AppGlobalEffects } from './app.effects';
+import { AppService } from './app.service';
 
 
 @NgModule({
@@ -37,12 +39,12 @@ import { globalReducer } from './app.reducer';
     AuthenticationModule,
     ApisModule,
     StoreModule.forRoot({ global: globalReducer }),
-    EffectsModule.forRoot([]),
+    EffectsModule.forRoot([AppGlobalEffects]),
     StoreDevtoolsModule.instrument({
       maxAge: 25 //  Retains last 25 states
     })
   ],
-  providers: [],
+  providers: [AppService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -1,10 +1,14 @@
 import { GlobalState } from './app.models';
 import * as globalActions from './app.actions';
+import { ToggleRightPanelAction } from './app.actions';
 
 const initState: GlobalState = {
     layout: {
         rightNavOpened: false,
         leftNavOpened: false
+    },
+    mccAndmnc: {
+        countries: []
     }
 };
 
@@ -14,7 +18,7 @@ export function globalReducer(state: GlobalState = initState, action: globalActi
             return Object.assign({}, state,
                 {
                     layout: Object.assign({}, state.layout, {
-                        rightNavOpened: action.payload
+                        rightNavOpened: <any>action.payload
                     })
                 });
         }
@@ -27,6 +31,12 @@ export function globalReducer(state: GlobalState = initState, action: globalActi
                     })
                 });
         }
+        case globalActions.LOAD_COUNTRIES_SUCCESS: {
+            return Object.assign({}, state, {
+                mccAndmnc: Object.assign({}, state.mccAndmnc, { countries: action.payload })
+            });
+        }
+
         default:
             return state;
     }

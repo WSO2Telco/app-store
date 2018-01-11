@@ -5,5 +5,8 @@ export const ApiEndpoints = {
     },
     apis: {
         search: '../store/site/blocks/api/api-listing-all/ajax/api-listing-all.jag'
+    },
+    global: {
+        countries: 'assets/files/countries.json'
     }
 };

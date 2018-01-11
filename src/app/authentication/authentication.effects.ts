@@ -13,6 +13,7 @@ import { DoLoginAction } from './authentication.actions';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { NotificationService } from '../shared/services/notification.service';
 
+
 @Injectable()
 export class AuthenticationEffects {
     constructor(

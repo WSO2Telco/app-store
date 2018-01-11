@@ -7,6 +7,7 @@ import { Router } from '@angular/router';
 })
 export class FrameManagerDirective implements OnInit, AfterViewInit {
 
+  /* element with style classes to be removed from loaded iframe content   */
   @Input()
   public storeFrameManager: string[];
 
@@ -23,10 +24,6 @@ export class FrameManagerDirective implements OnInit, AfterViewInit {
   ngAfterViewInit(): void {
 
     this._elementRef.nativeElement.onload = () => {
-
-      this._elementRef.nativeElement.contentDocument.querySelector('.header-default').remove();
-      this._elementRef.nativeElement.contentDocument.querySelector('.media-left').remove();
-      this._elementRef.nativeElement.contentDocument.querySelector('.footer').remove();
 
       if (!!this.storeFrameManager) {
         this.storeFrameManager.forEach((selector) => this._elementRef.nativeElement.contentDocument.querySelector(selector).remove());

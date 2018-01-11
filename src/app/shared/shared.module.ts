@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatIconModule } from '@angular/material/icon';
@@ -22,6 +22,7 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { MatSelectModule } from '@angular/material/select';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { FrameManagerDirective } from './directives/frame-manager.directive';
 
 
@@ -29,12 +30,14 @@ import { FrameManagerDirective } from './directives/frame-manager.directive';
 @NgModule({
   imports: [
     CommonModule,
-    MatIconModule
+    MatIconModule,
+    MatAutocompleteModule
   ],
   declarations: [NotificationComponent, FrameManagerDirective],
   exports: [
     RouterModule,
     FormsModule,
+    ReactiveFormsModule,
     HttpClientModule,
     MatSidenavModule,
     MatIconModule,
@@ -53,6 +56,7 @@ import { FrameManagerDirective } from './directives/frame-manager.directive';
     MatTooltipModule,
     FlexLayoutModule,
     MatSelectModule,
+    MatAutocompleteModule,
     FrameManagerDirective
   ],
   providers: [NotificationService],

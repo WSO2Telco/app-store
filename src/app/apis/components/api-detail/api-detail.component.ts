@@ -16,6 +16,8 @@ export class ApiDetailComponent implements OnInit, AfterViewInit {
 
   @ViewChild('iframeRef', { read: ElementRef }) iframeRef: ElementRef;
 
+  private nativeElement;
+
   constructor(
     private componentFactoryResolver: ComponentFactoryResolver,
     private ngZone: NgZone,
@@ -24,35 +26,39 @@ export class ApiDetailComponent implements OnInit, AfterViewInit {
   ) { }
 
   ngOnInit() {
-
+    this.nativeElement = this.iframeRef.nativeElement;
+    this.nativeElement.style.visibility = 'hidden';
   }
 
   ngAfterViewInit(): void {
-    const ele = this.iframeRef.nativeElement;
+    this.nativeElement.onload = () => {
+      this.nativeElement.contentDocument.querySelector('.header-default').remove();
+      this.nativeElement.contentDocument.querySelector('.media-left').remove();
+      this.nativeElement.contentDocument.querySelector('.footer').remove();
 
-    ele.onload = () => {
-      ele.contentDocument.querySelector('.header-default').remove();
-      ele.contentDocument.querySelector('.media-left').remove();
-      ele.contentDocument.querySelector('.form-api-subscription').parentElement.classList.add('lagazySupContainer');
-      ele.contentDocument.querySelector('.form-api-subscription').remove();
-      ele.contentDocument.querySelector('.footer').remove();
+      const injetingTarget = this.nativeElement.contentDocument.querySelector('.form-api-subscription');
+      if (!!injetingTarget) {
+        this.nativeElement.contentDocument.querySelector('.form-api-subscription').parentElement.classList.add('lagazySupContainer');
+        this.nativeElement.contentDocument.querySelector('.form-api-subscription').remove();
 
-      const innerHost = ele.contentDocument.querySelector('.lagazySupContainer');
-      const element = document.createElement('store-api-subscription');
-      innerHost.appendChild(element);
+        const innerHost = this.nativeElement.contentDocument.querySelector('.lagazySupContainer');
+        const element = document.createElement('store-api-subscription');
+        innerHost.appendChild(element);
 
-      this.ngZone.run(() => {
-        const componetFactory = this.componentFactoryResolver.resolveComponentFactory(ApiSubscriptionComponent);
-        const componentRef = componetFactory.create(this.injector, [], innerHost);
-        const hostView = componentRef.hostView;
+        this.ngZone.run(() => {
+          const componetFactory = this.componentFactoryResolver.resolveComponentFactory(ApiSubscriptionComponent);
+          const componentRef = componetFactory.create(this.injector, [], innerHost);
+          const hostView = componentRef.hostView;
 
-        try {
-          this.applicationRef.attachView(hostView);
-        } catch (e) {
-          console.log('ERROR' + e);
-        }
+          try {
+            this.applicationRef.attachView(hostView);
+          } catch (e) {
+            console.log('ERROR' + e);
+          }
+        });
+      }
 
-      });
+      this.nativeElement.style.visibility = 'visible';
     };
   }
 

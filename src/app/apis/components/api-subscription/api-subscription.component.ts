@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { AppState } from '../../../app.models';
-import { ToggleLeftPanelAction } from '../../../app.actions';
+import { AppState, Country } from '../../../app.models';
+import { ToggleLeftPanelAction, LoadCountriesAction } from '../../../app.actions';
+import { FormControl } from '@angular/forms';
+import { Observable } from 'rxjs/Observable';
 
 @Component({
   selector: 'store-api-subscription',
@@ -10,9 +12,15 @@ import { ToggleLeftPanelAction } from '../../../app.actions';
 })
 export class ApiSubscriptionComponent implements OnInit {
 
-  constructor( private store: Store<AppState>) { }
+  public countries$: Observable<Country[]>;
+  public countryControl = new FormControl();
+
+  constructor(private store: Store<AppState>) {
+    this.countries$ = this.store.select((s: AppState) => s.global.mccAndmnc.countries);
+  }
 
   ngOnInit() {
+    this.store.dispatch(new LoadCountriesAction());
   }
 
   onToggle() {
