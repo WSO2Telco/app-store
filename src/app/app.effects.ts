@@ -3,7 +3,7 @@ import { AppService } from './app.service';
 import { Actions, Effect } from '@ngrx/effects';
 import * as appActons from './app.actions';
 import { Action } from '@ngrx/store/src/models';
-import { Country } from './app.models';
+import { Country, Operator } from './app.models';
 import { HttpErrorResponse } from '@angular/common/http';
 import { NotificationService } from './shared/services/notification.service';
 import { Observable } from 'rxjs/Observable';
@@ -25,6 +25,18 @@ export class AppGlobalEffects {
         .map((action: appActons.LoadCountriesAction) => action.payload)
         .switchMap(() => this.appService.getCountries()
             .map((result: Country[]) => new appActons.LoadCountriesSuccessAction(result))
+            .catch((e: HttpErrorResponse) => {
+                this.notification.error(e.message);
+                return Observable.empty();
+            })
+        );
+
+    @Effect()
+    operators$ = this.actions$
+        .ofType(appActons.LOAD_OPERATORS)
+        .map((action: appActons.LoadOperatorsAction) => action.payload)
+        .switchMap((payload: Country) => this.appService.getOperators(payload)
+            .map((result: Operator[]) => new appActons.LoadOperatorsSuccessAction(result))
             .catch((e: HttpErrorResponse) => {
                 this.notification.error(e.message);
                 return Observable.empty();

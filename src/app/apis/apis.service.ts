@@ -13,10 +13,10 @@ export class ApisService {
 
     search(param: ApiSearchParam): Observable<any> {
         const searchParams = new HttpParams()
-        .append('tag', param.tag)
-        .append('apiStatus', param.apiStatus)
-        .append('page', <any>param.page)
-        .append('query', param.query);
+            .append('tag', param.tag)
+            .append('apiStatus', param.apiStatus)
+            .append('page', <any>param.page)
+            .append('query', param.query);
         return this.http.get<ApiSearchResult>(ApiEndpoints.apis.search, { params: searchParams });
     }
 

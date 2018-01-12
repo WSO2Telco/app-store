@@ -1,13 +1,29 @@
 <div class="container" style="width:100%; height:300px; background-color:white;padding:20px;" >
   <form class="sub-form">
-    <mat-form-field >
-      <input type="text" placeholder="Country" aria-label="Country" matInput [formControl]="countryControl" [matAutocomplete]="auto">
-      <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
-        <mat-option *ngFor="let country of countries " [value]="country">
-          {{ country.name }}
-        </mat-option>
-      </mat-autocomplete>
-    </mat-form-field>
+    
+    <div class="form-group">
+      <label for="exampleFormControlSelect1">Countries</label>
+      <select class="form-control" name="countries" [(ngModel)]="selectedCountry" (change)="onCountryChange()">
+        <option *ngFor="let c of countries$ | async" [ngValue]="c">{{c.country}}</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label for="exampleFormControlSelect1">Operators</label>
+      <select class="form-control">
+        <option *ngFor="let op of operators$ | async" [ngValue]="op">{{op.network + ' - '+ op.mnc}}</option>
+      </select>
+    </div>
+
+
+    <div class="form-group">
+      <label for="exampleInputEmail1">Email address</label>
+      <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email">
+      <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+    </div>
+
+
+    <button type="button" class="btn btn-primary">subscribe</button>
   </form>
   
 </div>

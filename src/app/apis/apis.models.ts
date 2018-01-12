@@ -10,7 +10,7 @@ export class ApiSearchParam {
         public query: string = '',
         public page: number = 1,
         public tag: string = ''
-        ) { }
+    ) { }
 }
 
 export class ApiSearchResult {
