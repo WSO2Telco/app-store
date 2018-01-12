@@ -4,7 +4,7 @@ import { ApisService } from './apis.service';
 import { NotificationService } from '../shared/services/notification.service';
 import * as apiActions from './apis.actions';
 import { Observable } from 'rxjs/Observable';
-import { ApiSearchParam, ApiSearchResult } from './apis.models';
+import { ApiSearchParam, ApiSearchResult, ApplicationSearchParam, Application, ApplicationsResult } from './apis.models';
 import { Effect, Actions } from '@ngrx/effects';
 import { ApiSearchSuccessAction } from './apis.actions';
 
@@ -21,6 +21,24 @@ export class ApisEffects {
         .map((action: apiActions.DoApiSearchAction) => action.payload)
         .switchMap((payload: ApiSearchParam) => this.apiService.search(payload)
             .map((result: ApiSearchResult) => new ApiSearchSuccessAction(result))
+            .catch((e: HttpErrorResponse) => {
+                this.notification.error(e.message);
+                return Observable.empty();
+            })
+        );
+
+    @Effect() userApplications$ = this.actions$
+        .ofType(apiActions.GET_USER_APPLICATIONS)
+        .map((action: apiActions.GetUserApplicationsAction) => new ApplicationSearchParam('getApplications'))
+        .switchMap((payload: ApplicationSearchParam) => this.apiService.getUserApplicationsActions(payload)
+            .map((result: ApplicationsResult) => {
+                if (result.error) {
+                    result.message = 'Load application error';
+                    throw result;
+                } else {
+                    return new apiActions.GetUserApplicationsSuccessAction(result.applications);
+                }
+            })
             .catch((e: HttpErrorResponse) => {
                 this.notification.error(e.message);
                 return Observable.empty();

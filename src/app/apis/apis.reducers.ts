@@ -7,7 +7,8 @@ const initialState: ApisState = {
     apiStatus: [
         ApiStatus.ALL,
         ApiStatus.PRODUCTION,
-        ApiStatus.PROTOTYPED]
+        ApiStatus.PROTOTYPED],
+    userApplications: []
 };
 
 export function apisReducer(state: ApisState = initialState, action: apiActions.Actions) {
@@ -15,6 +16,11 @@ export function apisReducer(state: ApisState = initialState, action: apiActions.
         case apiActions.DO_API_SEARCH_SUCCESS: {
             return Object.assign({}, state, { apiSearchResult: action.payload });
         }
+
+        case apiActions.GET_USER_APPLICATIONS_SUCCESS: {
+            return Object.assign({}, state, { userApplications: action.payload });
+        }
+
         default:
             return state;
     }

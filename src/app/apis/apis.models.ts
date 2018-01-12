@@ -46,4 +46,29 @@ export class ApiSummery {
 export interface ApisState {
     apiSearchResult: ApiSearchResult;
     apiStatus: ApiStatus[];
+    userApplications: Application[];
+}
+
+export interface Application {
+    apiCount: number;
+    callbackUrl: string;
+    description: string;
+    groupId: string;
+    id: number;
+    isBlacklisted: boolean;
+    name: string;
+    status: string;
+    tier: string;
+}
+
+export interface ApplicationsResult {
+    error: boolean;
+    applications: Application[];
+    message: string;
+}
+
+export class ApplicationSearchParam {
+    constructor(
+        public action: string
+    ) { }
 }
