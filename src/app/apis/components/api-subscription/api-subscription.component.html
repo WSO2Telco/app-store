@@ -1,41 +1,66 @@
 <div class="container" style="width:100%; background-color:white;padding:20px;">
-  <form class="sub-form">
+  <form class="sub-form" #subForm="ngForm" novalidate (ngSubmit)="onSubscribeClick(subForm)">
 
     <div class="form-group">
-      <label for="exampleFormControlSelect1">Countries</label>
-      <select class="form-control" name="countries" [(ngModel)]="selectedCountry" (change)="onCountryChange()">
+      <label for="countries">Countries</label>
+      <select class="form-control" name="countries" #countries="ngModel" required [(ngModel)]="selectedCountry" (change)="onCountryChange()">
         <option *ngFor="let c of countries$ | async" [ngValue]="c">{{c.country}}</option>
       </select>
-    </div>
-
-    <div class="form-group">
-      <label for="exampleFormControlSelect1">Operators</label>
-      <select class="form-control" name="operator" [(ngModel)]="selectedOperator" (change)="onOperatorChange()">
-        <option value="">Select</option>
-        <option *ngFor="let op of operators$ | async" [ngValue]="op">{{op.network + ' - '+ op.mnc}}</option>
-      </select>
-      <div style="padding-top: 10px;">
-        <store-operator-tag *ngFor="let op of selectedOperators$ | async" [operator]="op" (removeOperator)="onOperatorRemove($event)"></store-operator-tag>
+      <div *ngIf="countries.invalid && (subForm.submitted || countries.dirty || countries.touched)" class="alert-danger" style="padding: 0px 5px;
+      font-size: 0.9em;">
+        <div *ngIf="countries.errors.required">
+          Country is required.
+        </div>
       </div>
     </div>
 
     <div class="form-group">
-      <label for="exampleFormControlSelect1">Applications</label>
-      <select class="form-control">
-        <option *ngFor="let app of applications$ | async" [ngValue]="app">{{app.name}}</option>
+      <label for="operator">Operators</label>
+      <select class="form-control" name="operator" #operator="ngModel" [(ngModel)]="selectedOperator" (change)="onOperatorChange()">
+        <option *ngFor="let op of operators$ | async" [ngValue]="op">{{op.network + ' - '+ op.mnc}}</option>
       </select>
+      <div *ngIf="!selectedOperators.length && (subForm.submitted || operator.dirty || operator.touched)" class="alert-danger" style="padding: 0px 5px;
+      font-size: 0.9em;">
+        <div >
+          At least one operator is required.
+        </div>
+      </div>
+      <div style="padding-top: 10px;">
+        <store-operator-tag style="float:left" *ngFor="let op of selectedOperators" [operator]="op" (removeOperator)="onOperatorRemove($event)"></store-operator-tag>
+        <div style="clear:both"></div>
+      </div>
+
     </div>
 
     <div class="form-group">
-      <label for="exampleFormControlSelect1">Tiers</label>
-      <select class="form-control">
-        <option *ngFor="let op of operators$ | async" [ngValue]="op">{{op.network + ' - '+ op.mnc}}</option>
+      <label for="application">Applications</label>
+      <select class="form-control" name="application" #application="ngModel" required [(ngModel)]="selectedApplication">
+        <option *ngFor="let app of applications$ | async" [ngValue]="app">{{app.name}}</option>
       </select>
+      <div *ngIf="application.invalid && (subForm.submitted || application.dirty || application.touched)" class="alert-danger" style="padding: 0px 5px;
+      font-size: 0.9em;">
+        <div *ngIf="application.errors.required">
+          Application is required.
+        </div>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="tier">Tiers</label>
+      <select class="form-control" name="tier" #tire="ngModel" required [(ngModel)]="selectedTier">
+        <option *ngFor="let t of tiers$ | async" [ngValue]="t">{{t.name}}</option>
+      </select>
+      <div *ngIf="tire.invalid && (subForm.submitted || tire.dirty || tire.touched)" class="alert-danger" style="padding: 0px 5px;
+      font-size: 0.9em;">
+        <div *ngIf="tire.errors.required">
+          Tire is required.
+        </div>
+      </div>
     </div>
 
 
 
-    <button type="button" class="btn btn-primary">subscribe</button>
+    <button type="submit" class="btn btn-primary">subscribe</button>
   </form>
 
 </div>

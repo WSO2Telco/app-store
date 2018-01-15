@@ -1,4 +1,4 @@
-import { Operator } from "../app.models";
+import { Operator, Country, Tier } from "../app.models";
 
 export enum ApiStatus {
     ALL = 'ALL',
@@ -50,6 +50,7 @@ export interface ApisState {
     apiStatus: ApiStatus[];
     userApplications: Application[];
     selectedOperators: Operator[];
+    isSubscriptionSuccess: boolean;
 }
 
 export interface Application {
@@ -74,4 +75,19 @@ export class ApplicationSearchParam {
     constructor(
         public action: string
     ) { }
+}
+
+export class SubscribeParam {
+    constructor(
+        public country: Country,
+        public operators: Operator[],
+        public application: Application,
+        public tier: Tier
+    ) { }
+}
+
+
+export class SubcribeResult {
+    public error: boolean;
+    public message: string;
 }

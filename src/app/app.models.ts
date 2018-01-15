@@ -36,5 +36,11 @@ export interface GlobalState {
     mccAndmnc: {
         countries: Country[];
         operators: Operator[];
+        tiers: Tier[];
     };
+}
+
+
+export class Tier {
+    constructor(public name: string) { }
 }

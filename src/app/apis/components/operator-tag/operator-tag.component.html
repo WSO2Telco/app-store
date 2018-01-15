@@ -1,4 +1,8 @@
-<div>
-  <span>{{operator.network}}</span>
-  <i class="fa fa-times-circle" aria-hidden="true" (click)="onRemove()"></i>
+<div style="padding: 2px 4px;
+background-color: #ff9802;
+margin: 2px;
+border-radius: 2px;
+font-size: 0.9em;">
+  <span style="margin-right: 2px;">{{operator.network + '-'+ operator.mnc}}</span>
+  <i class="fa fa-times-circle" style="cursor: pointer" aria-hidden="true" (click)="onRemove()"></i>
 </div>

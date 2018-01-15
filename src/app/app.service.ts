@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { ApiEndpoints } from './config/api.endpoints';
 import { Observable } from 'rxjs/Observable';
-import { Country, CountryOperator, Operator } from './app.models';
+import { Country, CountryOperator, Operator, Tier } from './app.models';
 import 'rxjs/add/observable/from';
 import 'rxjs/add/observable/of';
 import 'rxjs/add/operator/mergeMap';
@@ -67,5 +67,9 @@ export class AppService {
         } else {
             return this.operatorAdaptor(this.loadCountries(), country);
         }
+    }
+
+    getTiers(): Observable<Tier[]> {
+        return this.http.get<Tier[]>(ApiEndpoints.global.tiers);
     }
 }

@@ -5,9 +5,11 @@ export const ApiEndpoints = {
     },
     apis: {
         search: '../store/site/blocks/api/api-listing-all/ajax/api-listing-all.jag',
-        applications: '../store/site/blocks/application/application-list/ajax/application-list.jag'
+        applications: '../store/site/blocks/application/application-list/ajax/application-list.jag',
+        subscribe: 'assets/files/subscribe.json'
     },
     global: {
-        countries: 'assets/files/countries.json'
+        countries: 'assets/files/countries.json',
+        tiers: 'assets/files/tiers.json',
     }
 };

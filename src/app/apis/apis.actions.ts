@@ -1,13 +1,18 @@
 import { Action } from '@ngrx/store';
-import { ApiSearchParam, ApiSearchResult, Application } from './apis.models';
+import { ApiSearchParam, ApiSearchResult, Application, SubscribeParam } from './apis.models';
 import { Operator } from '../app.models';
 
 export const DO_API_SEARCH = 'DO_API_SEARCH';
 export const DO_API_SEARCH_SUCCESS = 'DO_API_SEARCH_SUCCESS';
 export const GET_USER_APPLICATIONS = 'GET_USER_APPLICATIONS';
 export const GET_USER_APPLICATIONS_SUCCESS = 'GET_USER_APPLICATIONS_SUCCESS';
+export const REMOVE_ALL_OPERATOR_FROM_SELECTION = 'REMOVE_ALL_OPERATOR_FROM_SELECTION';
+export const DO_SUBSCRIBE = 'DO_SUBSCRIBE';
+export const DO_SUBSCRIBE_SUCCESS = 'DO_SUBSCRIBE_SUCCESS';
+
 export const ADD_OPERATOR_TO_SELECTION = 'ADD_OPERATOR_TO_SELECTION';
 export const REMOVE_OPERATOR_FROM_SELECTION = 'REMOVE_OPERATOR_FROM_SELECTION';
+
 
 export class DoApiSearchAction implements Action {
     readonly type: string = DO_API_SEARCH;
@@ -39,11 +44,31 @@ export class RemoveOperatorFromSelectionAction {
     constructor(public payload: Operator) { }
 }
 
+export class RemoveAllOperatorFromSelectionAction {
+    readonly type: string = REMOVE_ALL_OPERATOR_FROM_SELECTION;
+    constructor(public payload: any = null) { }
+}
+
+export class DoSubscribeAction {
+    readonly type: string = DO_SUBSCRIBE;
+    constructor(public payload: SubscribeParam) { }
+}
+
+export class DoSubscribeSuccessAction {
+    readonly type: string = DO_SUBSCRIBE_SUCCESS;
+    constructor(public payload: any = null) { }
+}
+
+
 export type Actions
     = DoApiSearchAction
     | ApiSearchSuccessAction
     | GetUserApplicationsAction
     | GetUserApplicationsSuccessAction
     | AddOperatorToSelectionAction
-    | RemoveOperatorFromSelectionAction;
+    | RemoveOperatorFromSelectionAction
+    | RemoveAllOperatorFromSelectionAction
+    | DoSubscribeAction
+    | DoSubscribeSuccessAction;
+
 

@@ -1,5 +1,5 @@
 import { Action } from '@ngrx/store';
-import { Country, Operator } from './app.models';
+import { Country, Operator, Tier } from './app.models';
 
 export const TOGGLE_RIGHT_NAV_PANEL = 'TOGGLE_RIGHT_NAV_PANEL';
 export const TOGGLE_LEFT_NAV_PANEL = 'TOGGLE_LEFT_NAV_PANEL';
@@ -7,6 +7,9 @@ export const LOAD_COUNTRIES = 'LOAD_COUNTRIES';
 export const LOAD_COUNTRIES_SUCCESS = 'LOAD_COUNTRIES_SUCCESS';
 export const LOAD_OPERATORS = 'LOAD_OPERATORS';
 export const LOAD_OPERATORS_SUCCESS = 'LOAD_OPERATORS_SUCCESS';
+export const LOAD_TIERS = 'LOAD_TIERS';
+export const LOAD_TIERS_SUCCESS = 'LOAD_TIERS_SUCCESS';
+
 
 export class ToggleRightPanelAction implements Action {
     type: string = TOGGLE_RIGHT_NAV_PANEL;
@@ -38,12 +41,24 @@ export class LoadOperatorsSuccessAction implements Action {
     constructor(public payload: Operator[]) { }
 }
 
+export class LoadTiersAction {
+    readonly type: string = LOAD_TIERS;
+    constructor(public payload: any = null) { }
+}
+
+export class LoadTiersSuccessAction {
+    readonly type: string = LOAD_TIERS_SUCCESS;
+    constructor(public payload: Tier[]) { }
+}
+
 
 export type Actions
     = ToggleRightPanelAction
     | ToggleLeftPanelAction
     | LoadCountriesAction
     | LoadOperatorsAction
-    | LoadOperatorsSuccessAction;
+    | LoadOperatorsSuccessAction
+    | LoadTiersAction
+    | LoadTiersSuccessAction;
 
 

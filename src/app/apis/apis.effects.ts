@@ -4,7 +4,10 @@ import { ApisService } from './apis.service';
 import { NotificationService } from '../shared/services/notification.service';
 import * as apiActions from './apis.actions';
 import { Observable } from 'rxjs/Observable';
-import { ApiSearchParam, ApiSearchResult, ApplicationSearchParam, Application, ApplicationsResult } from './apis.models';
+import {
+    ApiSearchParam, ApiSearchResult, ApplicationSearchParam, Application,
+    ApplicationsResult, SubscribeParam, SubcribeResult
+} from './apis.models';
 import { Effect, Actions } from '@ngrx/effects';
 import { ApiSearchSuccessAction } from './apis.actions';
 
@@ -45,5 +48,16 @@ export class ApisEffects {
             })
         );
 
+    @Effect()
+    subscribe$ = this.actions$
+        .ofType(apiActions.DO_SUBSCRIBE)
+        .map((action: apiActions.DoSubscribeAction) => action.payload)
+        .switchMap((payload: SubscribeParam) => this.apiService.subscribe(payload)
+            .map((result: SubscribeResult) => new apiActions.DoSubscribeSuccessAction(result))
+            .catch((e: HttpErrorResponse) => {
+                this.notification.error(e.message);
+                return Observable.empty();
+            })
+        );
 
 }

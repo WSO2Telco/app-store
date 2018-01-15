@@ -10,7 +10,8 @@ const initialState: ApisState = {
         ApiStatus.PRODUCTION,
         ApiStatus.PROTOTYPED],
     userApplications: [],
-    selectedOperators: []
+    selectedOperators: [],
+    isSubscriptionSuccess: false
 };
 
 export function apisReducer(state: ApisState = initialState, action: apiActions.Actions) {
@@ -24,12 +25,20 @@ export function apisReducer(state: ApisState = initialState, action: apiActions.
         }
 
         case apiActions.ADD_OPERATOR_TO_SELECTION: {
-            return Object.assign({}, state, { selectedOperators: [...state.selectedOperators, action.payload] });
+            return Object.assign({}, state, {
+                selectedOperators:
+                    [...state.selectedOperators.filter((op: Operator) => op.mnc !== action.payload.mnc), action.payload]
+            });
         }
 
         case apiActions.REMOVE_OPERATOR_FROM_SELECTION: {
             return Object.assign({}, state,
                 { selectedOperators: state.selectedOperators.filter((op: Operator) => op.mnc !== action.payload.mnc) });
+        }
+
+        case apiActions.REMOVE_ALL_OPERATOR_FROM_SELECTION: {
+            return Object.assign({}, state,
+                { selectedOperators: [] });
         }
 
         default:
