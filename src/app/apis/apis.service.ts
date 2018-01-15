@@ -4,7 +4,7 @@ import { Observable } from 'rxjs/Observable';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import {
     ApiSearchParam, ApiSearchResult, Application, ApplicationSearchParam, ApplicationsResult,
-    SubcribeResult, SubscribeParam, SubscribeResult
+    SubscribeParam, SubscribeResult
 } from './apis.models';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
@@ -29,7 +29,7 @@ export class ApisService {
         return this.http.get<ApplicationsResult>(ApiEndpoints.apis.applications, { params: searchParams });
     }
 
-    subscribe(param: SubscribeParam): Observable<SubcribeResult> {
+    subscribe(param: SubscribeParam): Observable<SubscribeResult> {
         return this.http.post<SubscribeResult>(ApiEndpoints.apis.subscribe, param);
     }
 

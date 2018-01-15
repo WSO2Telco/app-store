@@ -53,7 +53,7 @@ export class AppGlobalEffects {
                 this.notification.error(e.message);
                 return Observable.empty();
             })
-        );
+        ));
 
 
 }

@@ -87,7 +87,7 @@ export class SubscribeParam {
 }
 
 
-export class SubcribeResult {
+export class SubscribeResult {
     public error: boolean;
     public message: string;
 }

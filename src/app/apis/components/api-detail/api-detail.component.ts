@@ -37,10 +37,16 @@ export class ApiDetailComponent implements OnInit, AfterViewInit {
       this.nativeElement.contentDocument.querySelector('.media-left').remove();
       this.nativeElement.contentDocument.querySelector('.footer').remove();
 
+      const icon = this.nativeElement.contentDocument.querySelector('.white-wrapper');
+      if (!!icon) {
+        icon.parentElement.classList.add('icon-remove');
+        this.nativeElement.contentDocument.querySelector('.icon-remove').remove();
+      }
+
       const injetingTarget = this.nativeElement.contentDocument.querySelector('.form-api-subscription');
       if (!!injetingTarget) {
-        this.nativeElement.contentDocument.querySelector('.form-api-subscription').parentElement.classList.add('lagazySupContainer');
-        this.nativeElement.contentDocument.querySelector('.form-api-subscription').remove();
+        injetingTarget.parentElement.classList.add('lagazySupContainer');
+        injetingTarget.remove();
 
         const innerHost = this.nativeElement.contentDocument.querySelector('.lagazySupContainer');
         const element = document.createElement('store-api-subscription');

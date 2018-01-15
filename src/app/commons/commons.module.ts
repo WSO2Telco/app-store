@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { MainMenuComponent } from './components/main-menu/main-menu.component';
 import { HamburgerMenuComponent } from './components/hamburger-menu/hamburger-menu.component';
 import { SharedModule } from '../shared/shared.module';
+import { BreadcrumbsComponent } from './components/breadcrumbs/breadcrumbs.component';
 
 @NgModule({
   imports: [
@@ -11,9 +12,11 @@ import { SharedModule } from '../shared/shared.module';
   ],
   declarations: [
     MainMenuComponent,
-    HamburgerMenuComponent],
+    HamburgerMenuComponent,
+    BreadcrumbsComponent],
   exports: [
     MainMenuComponent,
+    BreadcrumbsComponent,
     HamburgerMenuComponent]
 })
 export class CommonsModule { }

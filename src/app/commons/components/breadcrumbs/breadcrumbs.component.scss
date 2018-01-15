@@ -1,0 +1,13 @@
+.url-part{
+    display: inline-block;
+    padding-right: 10px;
+    font-size: 1.3em;
+    font-weight: 300;
+    text-transform: capitalize;
+  
+    &:last-child{
+      font-weight: 900;
+      text-transform: uppercase;
+    }
+  }
+  

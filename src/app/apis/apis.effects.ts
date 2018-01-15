@@ -6,7 +6,7 @@ import * as apiActions from './apis.actions';
 import { Observable } from 'rxjs/Observable';
 import {
     ApiSearchParam, ApiSearchResult, ApplicationSearchParam, Application,
-    ApplicationsResult, SubscribeParam, SubcribeResult
+    ApplicationsResult, SubscribeParam, SubscribeResult
 } from './apis.models';
 import { Effect, Actions } from '@ngrx/effects';
 import { ApiSearchSuccessAction } from './apis.actions';

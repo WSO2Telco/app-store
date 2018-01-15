@@ -1,13 +1,14 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Store } from '@ngrx/store';
+import { Actions } from '@ngrx/effects';
 import { AppState, Country, Operator, Tier } from '../../../app.models';
 import { ToggleLeftPanelAction, LoadCountriesAction, LoadOperatorsAction, LoadTiersAction } from '../../../app.actions';
-import { FormControl } from '@angular/forms';
+import { FormControl, NgForm } from '@angular/forms';
 import { Observable } from 'rxjs/Observable';
 import { Application, SubscribeParam } from '../../apis.models';
 import {
   GetUserApplicationsAction, AddOperatorToSelectionAction,
-  RemoveOperatorFromSelectionAction, RemoveAllOperatorFromSelectionAction, DoSubscribeAction
+  RemoveOperatorFromSelectionAction, RemoveAllOperatorFromSelectionAction, DoSubscribeAction, DO_SUBSCRIBE_SUCCESS
 } from '../../apis.actions';
 
 @Component({
@@ -16,6 +17,8 @@ import {
   styleUrls: ['./api-subscription.component.scss'],
 })
 export class ApiSubscriptionComponent implements OnInit {
+
+  @ViewChild(NgForm) subForm: NgForm;
 
   public countries$: Observable<Country[]>;
   public operators$: Observable<Operator[]>;
@@ -29,13 +32,17 @@ export class ApiSubscriptionComponent implements OnInit {
   public selectedApplication: Application;
   public selectedTier: Tier;
 
-  constructor(private store: Store<AppState>) {
+  constructor(private store: Store<AppState>, private actions: Actions) {
     this.countries$ = this.store.select((s: AppState) => s.global.mccAndmnc.countries);
     this.operators$ = this.store.select((s: AppState) => s.global.mccAndmnc.operators);
     this.tiers$ = this.store.select((s: AppState) => s.global.mccAndmnc.tiers);
     this.applications$ = this.store.select((s: AppState) => s.apis.userApplications);
     this.store.select((s: AppState) => s.apis.selectedOperators)
       .subscribe((res) => this.selectedOperators = res);
+
+    this.actions
+      .ofType(DO_SUBSCRIBE_SUCCESS)
+      .subscribe(() => {this.resetForm(); });
   }
 
   ngOnInit() {
@@ -63,5 +70,14 @@ export class ApiSubscriptionComponent implements OnInit {
       this.store.dispatch(new DoSubscribeAction(
         new SubscribeParam(this.selectedCountry, this.selectedOperators, this.selectedApplication, this.selectedTier)));
     }
+  }
+
+  private resetForm() {
+    this.subForm.resetForm();
+    this.selectedApplication = null;
+    this.selectedCountry = null;
+    this.selectedOperator = null;
+    this.selectedTier = null;
+    this.store.dispatch(new RemoveAllOperatorFromSelectionAction());
   }
 }
