@@ -1,6 +1,6 @@
-<div class="container" style="width:100%; background-color:white;padding:20px;" >
+<div class="container" style="width:100%; background-color:white;padding:20px;">
   <form class="sub-form">
-    
+
     <div class="form-group">
       <label for="exampleFormControlSelect1">Countries</label>
       <select class="form-control" name="countries" [(ngModel)]="selectedCountry" (change)="onCountryChange()">
@@ -10,18 +10,22 @@
 
     <div class="form-group">
       <label for="exampleFormControlSelect1">Operators</label>
-      <select class="form-control">
+      <select class="form-control" name="operator" [(ngModel)]="selectedOperator" (change)="onOperatorChange()">
+        <option value="">Select</option>
         <option *ngFor="let op of operators$ | async" [ngValue]="op">{{op.network + ' - '+ op.mnc}}</option>
       </select>
+      <div style="padding-top: 10px;">
+        <store-operator-tag *ngFor="let op of selectedOperators$ | async" [operator]="op" (removeOperator)="onOperatorRemove($event)"></store-operator-tag>
+      </div>
     </div>
-  
+
     <div class="form-group">
       <label for="exampleFormControlSelect1">Applications</label>
       <select class="form-control">
         <option *ngFor="let app of applications$ | async" [ngValue]="app">{{app.name}}</option>
       </select>
     </div>
-    
+
     <div class="form-group">
       <label for="exampleFormControlSelect1">Tiers</label>
       <select class="form-control">
@@ -30,8 +34,8 @@
     </div>
 
 
-   
+
     <button type="button" class="btn btn-primary">subscribe</button>
   </form>
-  
+
 </div>

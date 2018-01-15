@@ -1,3 +1,5 @@
+import { Operator } from "../app.models";
+
 export enum ApiStatus {
     ALL = 'ALL',
     PROTOTYPED = 'PROTOTYPED',
@@ -47,6 +49,7 @@ export interface ApisState {
     apiSearchResult: ApiSearchResult;
     apiStatus: ApiStatus[];
     userApplications: Application[];
+    selectedOperators: Operator[];
 }
 
 export interface Application {

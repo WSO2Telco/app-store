@@ -5,7 +5,7 @@ import { ToggleLeftPanelAction, LoadCountriesAction, LoadOperatorsAction } from 
 import { FormControl } from '@angular/forms';
 import { Observable } from 'rxjs/Observable';
 import { Application } from '../../apis.models';
-import { GetUserApplicationsAction } from '../../apis.actions';
+import { GetUserApplicationsAction, AddOperatorToSelectionAction, RemoveOperatorFromSelectionAction } from '../../apis.actions';
 
 @Component({
   selector: 'store-api-subscription',
@@ -17,14 +17,17 @@ export class ApiSubscriptionComponent implements OnInit {
   public countries$: Observable<Country[]>;
   public operators$: Observable<Operator[]>;
   public applications$: Observable<Application[]>;
+  public selectedOperators$: Observable<Operator[]>;
 
   public countryControl = new FormControl();
   public selectedCountry: Country;
+  public selectedOperator: Operator;
 
   constructor(private store: Store<AppState>) {
     this.countries$ = this.store.select((s: AppState) => s.global.mccAndmnc.countries);
     this.operators$ = this.store.select((s: AppState) => s.global.mccAndmnc.operators);
     this.applications$ = this.store.select((s: AppState) => s.apis.userApplications);
+    this.selectedOperators$ = this.store.select((s: AppState) => s.apis.selectedOperators);
   }
 
   ngOnInit() {
@@ -36,4 +39,12 @@ export class ApiSubscriptionComponent implements OnInit {
     this.store.dispatch(new LoadOperatorsAction(this.selectedCountry));
   }
 
+  onOperatorChange() {
+    this.store.dispatch(new AddOperatorToSelectionAction(this.selectedOperator));
+    this.selectedOperator = null;
+  }
+
+  onOperatorRemove(op: Operator) {
+    this.store.dispatch(new RemoveOperatorFromSelectionAction(op));
+  }
 }

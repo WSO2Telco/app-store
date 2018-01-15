@@ -33,6 +33,7 @@ export class ApiDetailComponent implements OnInit, AfterViewInit {
   ngAfterViewInit(): void {
     this.nativeElement.onload = () => {
       this.nativeElement.contentDocument.querySelector('.header-default').remove();
+      this.nativeElement.contentDocument.querySelector('.navbar-wrapper').remove();
       this.nativeElement.contentDocument.querySelector('.media-left').remove();
       this.nativeElement.contentDocument.querySelector('.footer').remove();
 

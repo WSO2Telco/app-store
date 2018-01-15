@@ -10,6 +10,7 @@ import { apisReducer } from './apis.reducers';
 import { ApisEffects } from './apis.effects';
 import { ApiDetailComponent } from './components/api-detail/api-detail.component';
 import { ApiSubscriptionComponent } from './components/api-subscription/api-subscription.component';
+import { OperatorTagComponent } from './components/operator-tag/operator-tag.component';
 
 @NgModule({
   imports: [
@@ -19,7 +20,7 @@ import { ApiSubscriptionComponent } from './components/api-subscription/api-subs
     StoreModule.forFeature('apis', apisReducer),
     EffectsModule.forFeature([ApisEffects]),
   ],
-  declarations: [ApiSearchComponent, ApiDetailComponent, ApiSubscriptionComponent],
+  declarations: [ApiSearchComponent, ApiDetailComponent, ApiSubscriptionComponent, OperatorTagComponent],
   providers: [ApisService],
   entryComponents: [ApiSubscriptionComponent]
 })
