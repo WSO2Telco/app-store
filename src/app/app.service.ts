@@ -25,14 +25,13 @@ export class AppService {
                 this.countriesResult = objArray;
                 return objArray.map((obj => {
                     return {
-                        country: obj.country,
-                        country_code: obj.country_code,
-                        iso: obj.iso
+                        countryName: obj.countryName,
+                        countryCode: obj.countryCode
                     };
                 })).reduce((acc, item) => {
-                    if (acc.nameArr.indexOf(item.country) < 0) {
+                    if (acc.nameArr.indexOf(item.countryCode) < 0) {
                         acc.countries.push(item);
-                        acc.nameArr.push(item.country);
+                        acc.nameArr.push(item.countryCode);
                     }
                     return acc;
                 }, { countries: [], nameArr: [] });
@@ -45,8 +44,8 @@ export class AppService {
     private operatorAdaptor(result: Observable<CountryOperator[]>, country: Country): Observable<Operator[]> {
         if (result) {
             return result.map((res: CountryOperator[]) => {
-                return res.filter((co: CountryOperator) => co.country_code === country.country_code)
-                    .map((c: CountryOperator) => new Operator(c.network, c.mcc, c.mnc));
+                return res.filter((co: CountryOperator) => co.countryCode === country.countryCode)
+                    .map((c: CountryOperator) => new Operator(c.brand, c.operator, c.mcc, c.mnc));
             });
         } else {
             return Observable.empty<Operator[]>();
@@ -69,7 +68,4 @@ export class AppService {
         }
     }
 
-    getTiers(): Observable<Tier[]> {
-        return this.http.get<Tier[]>(ApiEndpoints.global.tiers);
-    }
 }

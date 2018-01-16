@@ -9,7 +9,7 @@ export const ApiEndpoints = {
         subscribe: 'assets/files/subscribe.json'
     },
     global: {
-        countries: 'assets/files/countries.json',
+        countries: 'https://raw.githubusercontent.com/pbakondy/mcc-mnc-list/master/mcc-mnc-list.json',
         tiers: 'assets/files/tiers.json',
     }
 };

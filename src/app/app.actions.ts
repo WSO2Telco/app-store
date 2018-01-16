@@ -7,8 +7,6 @@ export const LOAD_COUNTRIES = 'LOAD_COUNTRIES';
 export const LOAD_COUNTRIES_SUCCESS = 'LOAD_COUNTRIES_SUCCESS';
 export const LOAD_OPERATORS = 'LOAD_OPERATORS';
 export const LOAD_OPERATORS_SUCCESS = 'LOAD_OPERATORS_SUCCESS';
-export const LOAD_TIERS = 'LOAD_TIERS';
-export const LOAD_TIERS_SUCCESS = 'LOAD_TIERS_SUCCESS';
 
 
 export class ToggleRightPanelAction implements Action {
@@ -41,24 +39,12 @@ export class LoadOperatorsSuccessAction implements Action {
     constructor(public payload: Operator[]) { }
 }
 
-export class LoadTiersAction {
-    readonly type: string = LOAD_TIERS;
-    constructor(public payload: any = null) { }
-}
-
-export class LoadTiersSuccessAction {
-    readonly type: string = LOAD_TIERS_SUCCESS;
-    constructor(public payload: Tier[]) { }
-}
-
-
 export type Actions
     = ToggleRightPanelAction
     | ToggleLeftPanelAction
     | LoadCountriesAction
     | LoadOperatorsAction
-    | LoadOperatorsSuccessAction
-    | LoadTiersAction
-    | LoadTiersSuccessAction;
+    | LoadOperatorsSuccessAction;
+
 
 

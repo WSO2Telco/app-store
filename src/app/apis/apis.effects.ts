@@ -39,7 +39,8 @@ export class ApisEffects {
                     result.message = 'Load application error';
                     throw result;
                 } else {
-                    return new apiActions.GetUserApplicationsSuccessAction(result.applications);
+                    const approvedApps = result.applications.filter((app) => app.status === 'APPROVED');
+                    return new apiActions.GetUserApplicationsSuccessAction(approvedApps || []);
                 }
             })
             .catch((e: HttpErrorResponse) => {

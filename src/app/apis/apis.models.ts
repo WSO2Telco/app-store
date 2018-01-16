@@ -47,6 +47,7 @@ export class ApiSummery {
 
 export interface ApisState {
     apiSearchResult: ApiSearchResult;
+    selectedApi: ApiSummery;
     apiStatus: ApiStatus[];
     userApplications: Application[];
     selectedOperators: Operator[];

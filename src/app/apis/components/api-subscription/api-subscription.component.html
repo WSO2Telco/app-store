@@ -4,7 +4,7 @@
     <div class="form-group">
       <label for="countries">Countries</label>
       <select class="form-control" name="countries" #countries="ngModel" required [(ngModel)]="selectedCountry" (change)="onCountryChange()">
-        <option *ngFor="let c of countries$ | async" [ngValue]="c">{{c.country}}</option>
+        <option *ngFor="let c of countries$ | async" [ngValue]="c">{{c.countryName}}</option>
       </select>
       <div *ngIf="countries.invalid && (subForm.submitted || countries.dirty || countries.touched)" class="alert-danger" style="padding: 0px 5px;
       font-size: 0.9em;">
@@ -17,7 +17,7 @@
     <div class="form-group">
       <label for="operator">Operators</label>
       <select class="form-control" name="operator" #operator="ngModel" [(ngModel)]="selectedOperator" (change)="onOperatorChange()">
-        <option *ngFor="let op of operators$ | async" [ngValue]="op">{{op.network + ' - '+ op.mnc}}</option>
+        <option *ngFor="let op of operators$ | async" [ngValue]="op">{{op.operator + ' - '+ op.mnc}}</option>
       </select>
       <div *ngIf="!selectedOperators.length && (subForm.submitted || operator.dirty || operator.touched)" class="alert-danger" style="padding: 0px 5px;
       font-size: 0.9em;">
@@ -48,7 +48,7 @@
     <div class="form-group">
       <label for="tier">Tiers</label>
       <select class="form-control" name="tier" #tire="ngModel" required [(ngModel)]="selectedTier">
-        <option *ngFor="let t of tiers$ | async" [ngValue]="t">{{t.name}}</option>
+        <option *ngFor="let t of tiers" [ngValue]="t">{{t}}</option>
       </select>
       <div *ngIf="tire.invalid && (subForm.submitted || tire.dirty || tire.touched)" class="alert-danger" style="padding: 0px 5px;
       font-size: 0.9em;">

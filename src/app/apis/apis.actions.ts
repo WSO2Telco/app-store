@@ -1,9 +1,10 @@
 import { Action } from '@ngrx/store';
-import { ApiSearchParam, ApiSearchResult, Application, SubscribeParam } from './apis.models';
+import { ApiSearchParam, ApiSearchResult, Application, SubscribeParam, ApiSummery } from './apis.models';
 import { Operator } from '../app.models';
 
 export const DO_API_SEARCH = 'DO_API_SEARCH';
 export const DO_API_SEARCH_SUCCESS = 'DO_API_SEARCH_SUCCESS';
+export const SET_SELECTED_API = 'SET_SELECTED_API';
 export const GET_USER_APPLICATIONS = 'GET_USER_APPLICATIONS';
 export const GET_USER_APPLICATIONS_SUCCESS = 'GET_USER_APPLICATIONS_SUCCESS';
 export const REMOVE_ALL_OPERATOR_FROM_SELECTION = 'REMOVE_ALL_OPERATOR_FROM_SELECTION';
@@ -59,6 +60,11 @@ export class DoSubscribeSuccessAction {
     constructor(public payload: any = null) { }
 }
 
+export class SetSelectedApiAction {
+    readonly type: string = SET_SELECTED_API;
+    constructor(public payload: ApiSummery) { }
+}
+
 
 export type Actions
     = DoApiSearchAction
@@ -69,6 +75,7 @@ export type Actions
     | RemoveOperatorFromSelectionAction
     | RemoveAllOperatorFromSelectionAction
     | DoSubscribeAction
-    | DoSubscribeSuccessAction;
+    | DoSubscribeSuccessAction
+    | SetSelectedApiAction;
 
 

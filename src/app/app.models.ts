@@ -8,24 +8,28 @@ export interface AppState {
 }
 
 export interface Country {
-    country: string;
-    country_code: number;
-    iso: string;
+    countryName: string;
+    countryCode: string;
 }
 
 export class Operator {
     constructor(
-        public network: string,
+        public brand: string,
+        public operator: string,
         public mcc: number,
         public mnc: number) { }
 }
 export interface CountryOperator {
-    network: string;
-    country: string;
+    type: string;
+    countryName: string;
+    countryCode: string;
     mcc: number;
-    iso: number;
-    country_code: number;
     mnc: number;
+    brand: string;
+    operator: string;
+    status: string;
+    bands: string;
+    notes: string;
 }
 
 export interface GlobalState {
@@ -36,7 +40,6 @@ export interface GlobalState {
     mccAndmnc: {
         countries: Country[];
         operators: Operator[];
-        tiers: Tier[];
     };
 }
 

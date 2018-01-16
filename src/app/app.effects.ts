@@ -42,20 +42,6 @@ export class AppGlobalEffects {
                 return Observable.empty();
             })
         );
-
-    @Effect()
-    applicationTiers$ = this.actions$
-        .ofType(appActons.LOAD_TIERS)
-        .map((action: appActons.LoadTiersAction) => action.payload)
-        .switchMap((payload => this.appService.getTiers()
-            .map((result: Tier[]) => new appActons.LoadTiersSuccessAction(result))
-            .catch((e: HttpErrorResponse) => {
-                this.notification.error(e.message);
-                return Observable.empty();
-            })
-        ));
-
-
 }
 
 

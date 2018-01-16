@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AppState } from '../../../app.models';
 import { Store } from '@ngrx/store';
-import { DoApiSearchAction } from '../../apis.actions';
+import { DoApiSearchAction, SetSelectedApiAction } from '../../apis.actions';
 import { ApiSearchParam, ApiSearchResult, ApiSummery, ApiStatus } from '../../apis.models';
 import { Observable } from 'rxjs/Observable';
 import { MatTableDataSource } from '@angular/material';
@@ -44,6 +44,7 @@ export class ApiSearchComponent implements OnInit {
   }
 
   onApiSelected($event) {
+    this.store.dispatch(new SetSelectedApiAction($event));
     this.router.navigate(['/apis/detail']);
   }
 
