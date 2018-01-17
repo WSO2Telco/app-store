@@ -1,7 +1,14 @@
 @import '~@angular/material/theming';
 @mixin app-component-theme($theme) {
+
+  $background: map-get($theme, background);
+
   .mat-drawer-backdrop.mat-drawer-shown {
-    background-color:rgba(0,0,0,0.6);
+    background-color: mat-color($background, app-bar);
+  }
+
+  #main-container {
+    background-color: mat-color($background, app-bar);
   }
 
 }

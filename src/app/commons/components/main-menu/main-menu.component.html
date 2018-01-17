@@ -1,46 +1,37 @@
 <mat-nav-list>
-  <mat-list-item routerLink="home">
-    <mat-icon>home</mat-icon>
-    <span>HOME</span>
-  </mat-list-item>
-  <mat-list-item routerLink="apis">
-    <mat-icon>extension</mat-icon>
-    APIS </mat-list-item>
-  <mat-list-item [routerLink]="['legacy','applications']">
-    <mat-icon>apps</mat-icon>
-    APPLICATIONS</mat-list-item>
-  <mat-list-item [routerLink]="['legacy','forum']">
-    <mat-icon>forum</mat-icon>
-    FORUM </mat-list-item>
+
+  <ng-container *ngFor="let menu of mainMenu">
+    <mat-list-item [routerLink]="menu.route" *ngIf="!menu.subMenu else innerMenu"
+     [ngClass]="{'selected':menu.id === selectedMenu.id}">
+      <mat-icon>{{menu.icon}}</mat-icon>
+      <span>{{menu.name}}</span>
+    </mat-list-item>
+    <ng-template #innerMenu>
+
+      <mat-accordion>
+
+        <mat-expansion-panel expanded="true">
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              <mat-icon>{{menu.icon}}</mat-icon>
+              {{menu.name}}
+            </mat-panel-title>
+          </mat-expansion-panel-header>
+
+          <mat-nav-list>
+            <mat-list-item [routerLink]="sub.route" *ngFor="let sub of menu.subMenu" 
+            [ngClass]="{'selected':sub.id === selectedMenu.id}">
+              <mat-icon>{{sub.icon}}</mat-icon>
+              <span>{{sub.name}}</span>
+            </mat-list-item>
+          </mat-nav-list>
+
+        </mat-expansion-panel>
+
+      </mat-accordion>
+
+    </ng-template>
+
+  </ng-container>
 
 </mat-nav-list>
-<mat-accordion>
-  <mat-expansion-panel>
-    <mat-expansion-panel-header>
-      <mat-panel-title>
-        <mat-icon>insert_chart</mat-icon>
-        STATISTICS
-      </mat-panel-title>
-    </mat-expansion-panel-header>
-
-    <mat-nav-list>
-      <mat-list-item [routerLink]="['legacy','api-usage']">
-        <mat-icon>data_usage</mat-icon>
-        <span>API USAGE</span>
-      </mat-list-item>
-      <mat-list-item [routerLink]="['legacy','top-users']">
-        <mat-icon>supervisor_account</mat-icon>
-        TOP USERS</mat-list-item>
-      <mat-list-item [routerLink]="['legacy','res-usage']">
-        <mat-icon>monetization_on</mat-icon>
-        RESOURCE USAGE</mat-list-item>
-      <mat-list-item [routerLink]="['legacy','faults']">
-        <mat-icon>error_outline</mat-icon>
-        FAULTY INVOCATIONS </mat-list-item>
-      <mat-list-item [routerLink]="['legacy','alerts']">
-        <mat-icon>add_alert</mat-icon>
-        MANAGE ALERT TYPES </mat-list-item>
-    </mat-nav-list>
-  </mat-expansion-panel>
-
-</mat-accordion>

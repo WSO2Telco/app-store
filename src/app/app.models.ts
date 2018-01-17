@@ -47,3 +47,12 @@ export interface GlobalState {
 export class Tier {
     constructor(public name: string) { }
 }
+
+export class MenuItem {
+    public id: number;
+    public name: string;
+    public icon?: string;
+    public route?: string[] = [];
+    public subMenu?: MenuItem[] = null;
+    public permissionPattern?= '*';
+}

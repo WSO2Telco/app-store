@@ -48,4 +48,7 @@ export class ApiSearchComponent implements OnInit {
     this.router.navigate(['/apis/detail']);
   }
 
+  onCategoryChange(){
+    this.store.dispatch(new DoApiSearchAction(new ApiSearchParam(this.apiCategory, this.searchQuery)));
+  }
 }

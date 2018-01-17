@@ -48,7 +48,7 @@ export class LegacyRendererComponent implements OnInit {
           break;
         }
 
-        case 'res-usage': {
+        case 'resource-usage': {
           this.legacyPath = '../store/site/pages/statistics.jag?stat=apiCallType';
           break;
         }

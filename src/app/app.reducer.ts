@@ -8,7 +8,7 @@ const initState: GlobalState = {
         leftNavOpened: false
     },
     mccAndmnc: {
-        countries: [],
+        countries: null,
         operators: []
     }
 };

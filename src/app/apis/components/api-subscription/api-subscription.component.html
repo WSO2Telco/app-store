@@ -2,13 +2,13 @@
   <form class="sub-form" #subForm="ngForm" novalidate (ngSubmit)="onSubscribeClick(subForm)">
 
     <div class="form-group">
-      <label for="countries">Countries</label>
-      <select class="form-control" name="countries" #countries="ngModel" required [(ngModel)]="selectedCountry" (change)="onCountryChange()">
+      <label for="country">Country</label>
+      <select class="form-control" name="country" #country="ngModel" required [(ngModel)]="selectedCountry" (change)="onCountryChange()">
         <option *ngFor="let c of countries$ | async" [ngValue]="c">{{c.countryName}}</option>
       </select>
-      <div *ngIf="countries.invalid && (subForm.submitted || countries.dirty || countries.touched)" class="alert-danger" style="padding: 0px 5px;
+      <div *ngIf="country.invalid && (subForm.submitted || country.dirty || country.touched)" class="alert-danger" style="padding: 0px 5px;
       font-size: 0.9em;">
-        <div *ngIf="countries.errors.required">
+        <div *ngIf="country.errors.required">
           Country is required.
         </div>
       </div>
@@ -33,7 +33,7 @@
     </div>
 
     <div class="form-group">
-      <label for="application">Applications</label>
+      <label for="application">Application</label>
       <select class="form-control" name="application" #application="ngModel" required [(ngModel)]="selectedApplication">
         <option *ngFor="let app of applications$ | async" [ngValue]="app">{{app.name}}</option>
       </select>
@@ -46,7 +46,7 @@
     </div>
 
     <div class="form-group">
-      <label for="tier">Tiers</label>
+      <label for="tier">Tier</label>
       <select class="form-control" name="tier" #tire="ngModel" required [(ngModel)]="selectedTier">
         <option *ngFor="let t of tiers" [ngValue]="t">{{t}}</option>
       </select>

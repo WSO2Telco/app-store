@@ -1,8 +1,8 @@
 @import '~@angular/material/theming';
 @mixin breadcrumbs-theme($theme) {
-    $foreground: map-get($theme, background);
+    $background: map-get($theme, background);
 
   #card-con {
-    background:  mat-color($foreground, app-bar);
+    background:  mat-color($background, app-bar);
   }
 }

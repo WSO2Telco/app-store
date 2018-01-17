@@ -5,10 +5,9 @@
   .mat-nav-list .mat-list-item {
     outline: none;
 
-    &.mat-list-item-focus
-    {
-      background:  mat-color($primary);
-      color:mat-color($primary,default-contrast);
+    &.selected {
+      background: mat-color($primary);
+      color: mat-color($primary,default-contrast);
     }
   }
 }

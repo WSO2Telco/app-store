@@ -7,7 +7,7 @@
           <div class="search-txt">Sear API :</div>
           <div fxFlex>
             <mat-form-field>
-              <mat-select placeholder="Category" name="apiCategory" [(ngModel)]="apiCategory">
+              <mat-select placeholder="Category" name="apiCategory" (change)="onCategoryChange()" [(ngModel)]="apiCategory">
                 <mat-option *ngFor="let cat of apiStatus" [value]="cat">
                   {{ cat }}
                 </mat-option>
