@@ -5,6 +5,7 @@
 
   .mat-drawer-backdrop.mat-drawer-shown {
     background-color: mat-color($background, app-bar);
+    opacity: 0.7;
   }
 
   #main-container {

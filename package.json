@@ -29,6 +29,7 @@
     "@ngrx/store": "^4.1.1",
     "animate.css": "^3.5.2",
     "core-js": "^2.4.1",
+    "ngrx-store-localstorage": "^0.3.0",
     "rxjs": "^5.5.2",
     "zone.js": "^0.8.14"
   },

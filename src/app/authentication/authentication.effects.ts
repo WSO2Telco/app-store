@@ -12,14 +12,16 @@ import { Observable } from 'rxjs/Observable';
 import { DoLoginAction } from './authentication.actions';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { NotificationService } from '../shared/services/notification.service';
+import { Router, ActivatedRoute } from '@angular/router';
 
 
 @Injectable()
 export class AuthenticationEffects {
     constructor(
-        private actions$:     Actions,
+        private actions$: Actions,
         private authService: AuthenticationService,
-        private notification: NotificationService) { }
+        private notification: NotificationService
+    ) { }
 
     @Effect() login$ = this.actions$
         .ofType(loginActions.DO_LOGIN)
@@ -29,6 +31,9 @@ export class AuthenticationEffects {
                 if (response.error) {
                     throw response;
                 } else {
+                    setTimeout(() => {
+                        window.location.reload();
+                    }, 0);
                     return new loginActions.LoginSuccessAction(response);
                 }
             })
@@ -43,7 +48,12 @@ export class AuthenticationEffects {
     logout$ = this.actions$
         .ofType(loginActions.DO_LOGOUT)
         .switchMap(() => this.authService.logout()
-            .map((response: LogoutResponseData) => new loginActions.DoLogoutSuccessAction())
+            .map((response: LogoutResponseData) => {
+                setTimeout(() => {
+                    window.location.reload();
+                }, 0);
+                return new loginActions.DoLogoutSuccessAction();
+            })
             .catch((e: HttpErrorResponse) => {
                 this.notification.error(e.message);
                 return Observable.empty();

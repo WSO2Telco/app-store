@@ -1,11 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, EventEmitter, Input, Output } from '@angular/core';
 
 @Component({
   selector: 'store-hamburger-menu',
   template: `
     <div class="hm-menu-container" (click)="onClick()">
       <div class="hamburger-menu" >
-          <div class="bar" id="hmenu" [ngClass]="{'animate':isClicked}"></div>	
+          <div class="bar" id="hmenu" [ngClass]="{'animate':isOpen}"></div>
       </div>
     </div>
   `,
@@ -13,7 +13,11 @@ import { Component, OnInit } from '@angular/core';
 })
 export class HamburgerMenuComponent implements OnInit {
 
-  private isClicked: boolean = true;
+  @Input()
+  isOpen = false;
+
+  @Output()
+  toggle: EventEmitter<boolean> = new EventEmitter<boolean>();
 
   constructor() {
   }
@@ -22,6 +26,7 @@ export class HamburgerMenuComponent implements OnInit {
   }
 
   onClick() {
-    this.isClicked = !this.isClicked;
+    this.isOpen = !this.isOpen;
+    this.toggle.emit(this.isOpen);
   }
 }

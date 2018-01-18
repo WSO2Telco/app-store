@@ -3,7 +3,7 @@ import { NgModule } from '@angular/core';
 import { HttpClientXsrfModule } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
-import { StoreModule } from '@ngrx/store';
+import { StoreModule, ActionReducerMap, ActionReducer, MetaReducer } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 
@@ -18,6 +18,25 @@ import { ApisModule } from './apis/apis.module';
 import { globalReducer } from './app.reducer';
 import { AppGlobalEffects } from './app.effects';
 import { AppService } from './app.service';
+import { AppState, GlobalState } from './app.models';
+import { authReducer } from './authentication/authentication.reducers';
+import { apisReducer } from './apis/apis.reducers';
+import { localStorageSync } from 'ngrx-store-localstorage';
+
+
+const reducers: ActionReducerMap<AppState> = {
+  global: globalReducer,
+  authentication: authReducer,
+  apis: apisReducer
+};
+
+export function localStorageSyncReducer(reducer: ActionReducer<any>): ActionReducer<any> {
+  return localStorageSync({
+    keys: ['global', 'authentication', 'apis'],
+    rehydrate: true
+  })(reducer);
+}
+const metaReducers: Array<MetaReducer<any, any>> = [localStorageSyncReducer];
 
 
 @NgModule({
@@ -38,7 +57,7 @@ import { AppService } from './app.service';
     SharedModule,
     AuthenticationModule,
     ApisModule,
-    StoreModule.forRoot({ global: globalReducer }),
+    StoreModule.forRoot(reducers, { metaReducers }),
     EffectsModule.forRoot([AppGlobalEffects]),
     StoreDevtoolsModule.instrument({
       maxAge: 25 //  Retains last 25 states

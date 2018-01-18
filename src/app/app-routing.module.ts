@@ -1,5 +1,7 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
+import { SignUpComponent } from './authentication/components/sign-up/sign-up.component';
+import { MyAccountComponent } from './authentication/components/my-account/my-account.component';
 
 const routes: Routes = [
   {
@@ -13,6 +15,14 @@ const routes: Routes = [
   {
     path: 'apis',
     loadChildren: 'app/apis/apis.module#ApisModule'
+  },
+  {
+    path: 'application/sign-up',
+    component: SignUpComponent
+  },
+  {
+    path: 'application/my-account',
+    component: MyAccountComponent
   },
   {
     path: '',

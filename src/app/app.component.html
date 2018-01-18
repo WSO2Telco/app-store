@@ -32,7 +32,7 @@
       </span>
 
       <span class="menu-icon-container">
-        <store-hamburger-menu (click)="onHambergerMenuClick()"></store-hamburger-menu>
+        <store-hamburger-menu isOpen="leftNavOpened" (toggle)="onHambergerMenuClick($event)"></store-hamburger-menu>
       </span>
 
       <span class="fill-remaining-space"></span>

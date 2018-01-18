@@ -8,6 +8,7 @@ import { Observable } from 'rxjs/Observable';
 import * as loginActions from './authentication/authentication.actions';
 import * as globalActions from './app.actions';
 import { ToggleLeftPanelAction } from './app.actions';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'store-root',
@@ -20,7 +21,10 @@ export class AppComponent implements OnInit {
   public leftNavOpened: boolean;
   public rightNavOpened: boolean;
 
-  constructor(private store: Store<AppState>, private ref: ChangeDetectorRef) { }
+  constructor(
+    private store: Store<AppState>,
+    private ref: ChangeDetectorRef,
+    private router: Router) { }
 
   ngOnInit(): void {
 
@@ -41,7 +45,7 @@ export class AppComponent implements OnInit {
       });
 
     setTimeout(() => {
-      this.store.dispatch(new ToggleLeftPanelAction());
+      this.store.dispatch(new ToggleLeftPanelAction(true));
     }, 200);
 
   }
@@ -55,6 +59,16 @@ export class AppComponent implements OnInit {
 
       case LoginMenuActionTypes.LOGOUT: {
         this.store.dispatch(new DoLogoutAction());
+        break;
+      }
+
+      case LoginMenuActionTypes.SIGNUP: {
+        this.router.navigate(['application/sign-up']);
+        break;
+      }
+
+      case LoginMenuActionTypes.MYACCOUNT: {
+        this.router.navigate(['application/my-account']);
         break;
       }
 
@@ -72,7 +86,7 @@ export class AppComponent implements OnInit {
     this.store.dispatch(new globalActions.ToggleRightPanelAction(false));
   }
 
-  onHambergerMenuClick() {
-    this.store.dispatch(new globalActions.ToggleLeftPanelAction());
+  onHambergerMenuClick(event) {
+    this.store.dispatch(new globalActions.ToggleLeftPanelAction(event));
   }
 }

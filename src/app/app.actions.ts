@@ -16,7 +16,7 @@ export class ToggleRightPanelAction implements Action {
 
 export class ToggleLeftPanelAction implements Action {
     type: string = TOGGLE_LEFT_NAV_PANEL;
-    constructor(public payload: any = null) { }
+    constructor(public payload: boolean) { }
 }
 
 export class LoadCountriesAction implements Action {

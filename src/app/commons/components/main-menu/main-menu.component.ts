@@ -93,6 +93,7 @@ export class MainMenuComponent implements OnInit {
     this._router.events.subscribe((event) => {
       if (event instanceof NavigationEnd) {
         const urlParts = event.url.split('/');
+
         for (let i = urlParts.length - 1; i >= 0; i--) {
           const p = urlParts[i];
           const filtered = this.flatternMenu.filter((m: MenuItem) => {
@@ -101,6 +102,8 @@ export class MainMenuComponent implements OnInit {
           if (!!filtered && filtered.length) {
             this.selectedMenu = filtered[0];
             break;
+          } else {
+            this.selectedMenu = null;
           }
         }
       }

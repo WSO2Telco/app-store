@@ -8,6 +8,8 @@ import { LoginFormComponent } from './components/login-form/login-form.component
 import { AuthenticationEffects } from './authentication.effects';
 import { authReducer } from './authentication.reducers';
 import { AuthenticationService } from './authentication.service';
+import { SignUpComponent } from './components/sign-up/sign-up.component';
+import { MyAccountComponent } from './components/my-account/my-account.component';
 
 @NgModule({
   imports: [
@@ -18,7 +20,9 @@ import { AuthenticationService } from './authentication.service';
   ],
   declarations: [
     LoginIconComponent,
-    LoginFormComponent],
+    LoginFormComponent,
+    SignUpComponent,
+    MyAccountComponent],
   providers: [
     AuthenticationService
   ],

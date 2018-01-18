@@ -28,7 +28,7 @@ export function globalReducer(state: GlobalState = initState, action: globalActi
             return Object.assign({}, state,
                 {
                     layout: Object.assign({}, state.layout, {
-                        leftNavOpened: !state.layout.leftNavOpened
+                        leftNavOpened: action.payload
                     })
                 });
         }

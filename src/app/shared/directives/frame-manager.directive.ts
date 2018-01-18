@@ -26,7 +26,11 @@ export class FrameManagerDirective implements OnInit, AfterViewInit {
     this._elementRef.nativeElement.onload = () => {
 
       if (!!this.storeFrameManager) {
-        this.storeFrameManager.forEach((selector) => this._elementRef.nativeElement.contentDocument.querySelector(selector).remove());
+        this.storeFrameManager.forEach((selector) => {
+          if (!!this._elementRef.nativeElement.contentDocument.querySelector(selector)) {
+            this._elementRef.nativeElement.contentDocument.querySelector(selector).remove();
+          }
+        });
       }
 
       this._elementRef.nativeElement.style.visibility = 'visible';

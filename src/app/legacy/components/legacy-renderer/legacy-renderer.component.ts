@@ -62,6 +62,11 @@ export class LegacyRendererComponent implements OnInit {
           this.legacyPath = '../store/site/pages/manage-alert-type.jag';
           break;
         }
+
+        case 'sign-up': {
+          this.legacyPath = '../store/site/pages/sign-up.jag';
+          break;
+        }
       }
 
       if (!!this.legacyPath) {
