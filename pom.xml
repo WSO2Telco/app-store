@@ -1,0 +1,131 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>com.wso2telco.dep.app-store</groupId>
+  <artifactId>app-store-ui</artifactId>
+  <packaging>war</packaging>
+  <version>1.0.0-SNAPSHOT</version>
+  <name>app-store-ui Maven Webapp</name>
+  <url>http://maven.apache.org</url>
+<dependencyManagement>
+  <dependencies>
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>3.8.1</version>
+      <scope>test</scope>
+    </dependency>
+  </dependencies>
+</dependencyManagement>
+
+<repositories>
+        <repository>
+            <id>wso2-maven2-repository</id>
+            <url>http://maven.wso2telco.com/nexus/content/groups/wso2-public</url>
+        </repository>
+        <repository>
+            <id>wso2telco-nexus</id>
+            <name>WSO2Telco internal Repository</name>
+            <url>http://maven.wso2telco.com/nexus/content/groups/public/</url>
+            <releases>
+                <enabled>true</enabled>
+                <updatePolicy>daily</updatePolicy>
+                <checksumPolicy>ignore</checksumPolicy>
+            </releases>
+        </repository>
+    </repositories>
+
+    <pluginRepositories>
+        <pluginRepository>
+            <id>wso2telco-nexus</id>
+            <name>WSO2Telco internal Repository</name>
+            <url>http://maven.wso2telco.com/nexus/content/groups/public/</url>
+            <releases>
+                <enabled>true</enabled>
+                <updatePolicy>daily</updatePolicy>
+                <checksumPolicy>ignore</checksumPolicy>
+            </releases>
+        </pluginRepository>
+
+        <pluginRepository>
+            <id>wso2telco.releases</id>
+            <name>WSO2 internal Repository</name>
+            <url>http://maven.wso2telco.com/nexus/content/repositories/releases/</url>
+            <releases>
+                <enabled>true</enabled>
+                <updatePolicy>daily</updatePolicy>
+                <checksumPolicy>ignore</checksumPolicy>
+            </releases>
+        </pluginRepository>
+        <pluginRepository>
+            <id>wso2Telco.snapshots</id>
+            <name>WSO2Telco Snapshot Repository</name>
+            <url>http://maven.wso2telco.com/nexus/content/repositories/snapshots/</url>
+            <snapshots>
+                <enabled>true</enabled>
+                <updatePolicy>daily</updatePolicy>
+            </snapshots>
+            <releases>
+                <enabled>false</enabled>
+            </releases>
+        </pluginRepository>
+    </pluginRepositories>
+
+    <distributionManagement>
+        <snapshotRepository>
+            <id>wso2Telco.snapshots</id>
+            <name>Snapshot repo</name>
+            <url>http://maven.wso2telco.com/nexus/content/repositories/snapshots</url>
+        </snapshotRepository>
+        <repository>
+            <id>wso2telco.releases</id>
+            <name>release repo</name>
+            <url>http://maven.wso2telco.com/nexus/content/repositories/releases/</url>
+        </repository>
+    </distributionManagement>
+
+
+    <modules>
+        <module>component/app-store-ui/</module>
+        <module>com.wso2telco.dep.app-store.feature</module>
+    </modules>
+
+    <scm>
+        <url>https://github.com/WSO2Telco/app-store.git</url>
+        <developerConnection>scm:git:https://github.com/WSO2Telco/app-store.git</developerConnection>
+        <connection>scm:git:https://github.com/WSO2Telco/app-store.git</connection>
+        <tag>HEAD</tag>
+    </scm>
+
+    <build>
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-release-plugin</artifactId>
+                    <version>2.5.3</version>
+                    <configuration>
+                        <preparationGoals>clean install</preparationGoals>
+                        <autoVersionSubmodules>true</autoVersionSubmodules>
+                        <arguments>-Dmaven.javadoc.skip=true</arguments>
+                    </configuration>
+                </plugin>
+                <plugin>
+                    <artifactId>maven-war-plugin</artifactId>
+                    <version>3.0.0</version>
+                </plugin>
+
+            </plugins>
+        </pluginManagement>
+    </build>
+    <properties>
+        <jersey-container-servlet.version>2.17</jersey-container-servlet.version>
+        <org.apache.httpcomponents.version>4.5.2</org.apache.httpcomponents.version>
+        <com.esotericsoftware.yamlbeans.version>1.11</com.esotericsoftware.yamlbeans.version>
+        <org.apache.commons.version>2.0</org.apache.commons.version>
+        <org.wso2.carbon.version>4.4.8</org.wso2.carbon.version>
+        <com.wso2telco.core.version>2.4.1</com.wso2telco.core.version>
+        <carbon.p2.plugin.version>1.5.8</carbon.p2.plugin.version>
+    </properties>
+
+</project>
