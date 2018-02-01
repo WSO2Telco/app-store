@@ -2,11 +2,12 @@
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.wso2telco.dep.app-store</groupId>
-  <artifactId>app-store-ui</artifactId>
-  <packaging>war</packaging>
+  <artifactId>app-store-ui-parent</artifactId>
+  <packaging>pom</packaging>
   <version>1.0.0-SNAPSHOT</version>
-  <name>app-store-ui Maven Webapp</name>
+  <name>app-store- Maven parent pom </name>
   <url>http://maven.apache.org</url>
+
 <dependencyManagement>
   <dependencies>
     <dependency>
@@ -87,7 +88,7 @@
 
     <modules>
         <module>component/app-store-ui/</module>
-        <module>com.wso2telco.dep.app-store.feature</module>
+        <!--module>com.wso2telco.dep.app-store.feature</module-->
     </modules>
 
     <scm>
