@@ -1,0 +1,13 @@
+.idea
+.settings
+/dist/
+/ui/node_modules/
+/ui/npm-debug.log
+ui/npm-debug.log
+/ui/server
+.vscode
+/target
+node_modules/
+server/
+.classpath
+.project
