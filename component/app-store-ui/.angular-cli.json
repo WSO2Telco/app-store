@@ -6,7 +6,7 @@
   "apps": [
     {
       "root": "src",
-      "outDir": "/home/sumudu/apps/wso2telcohub-2.2.1-SNAPSHOT/repository/deployment/server/webapps/store2",
+      "outDir": "../app-store-service/src/main/webapp/public",
       "assets": [
         "assets",
         "favicon.ico"

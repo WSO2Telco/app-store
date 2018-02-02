@@ -1,25 +1,82 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
-  <modelVersion>4.0.0</modelVersion>
-  <groupId>com.wso2telco.dep.app-store</groupId>
-  <artifactId>app-store-ui-parent</artifactId>
-  <packaging>pom</packaging>
-  <version>1.0.0-SNAPSHOT</version>
-  <name>app-store- Maven parent pom </name>
-  <url>http://maven.apache.org</url>
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>com.wso2telco.dep.app-store</groupId>
+    <artifactId>app-store-ui-parent</artifactId>
+    <packaging>pom</packaging>
+    <version>1.0.0-SNAPSHOT</version>
+    <name>app-store- Maven parent pom</name>
+    <url>http://maven.apache.org</url>
 
-<dependencyManagement>
-  <dependencies>
-    <dependency>
-      <groupId>junit</groupId>
-      <artifactId>junit</artifactId>
-      <version>3.8.1</version>
-      <scope>test</scope>
-    </dependency>
-  </dependencies>
-</dependencyManagement>
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>junit</groupId>
+                <artifactId>junit</artifactId>
+                <version>3.8.1</version>
+                <scope>test</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.glassfish.jersey.containers</groupId>
+                <artifactId>jersey-container-servlet</artifactId>
+                <version>${jersey-container-servlet.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.glassfish.jersey.core</groupId>
+                <artifactId>jersey-server</artifactId>
+                <version>${jersey-container-servlet.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.glassfish.jersey.media</groupId>
+                <artifactId>jersey-media-json-jackson</artifactId>
+                <version>${jersey-container-servlet.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.glassfish.jersey.core</groupId>
+                <artifactId>jersey-common</artifactId>
+                <version>${jersey-container-servlet.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.httpcomponents</groupId>
+                <artifactId>httpclient</artifactId>
+                <version>${org.apache.httpcomponents.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.esotericsoftware.yamlbeans</groupId>
+                <artifactId>yamlbeans</artifactId>
+                <version>${com.esotericsoftware.yamlbeans.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.commons</groupId>
+                <artifactId>commons-configuration2</artifactId>
+                <version>${org.apache.commons.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.wso2.carbon</groupId>
+                <artifactId>org.wso2.carbon.utils</artifactId>
+                <version>${org.wso2.carbon.version}</version>
+                <scope>provided</scope>
+            </dependency>
+            <dependency>
+                <groupId>com.wso2telco.core</groupId>
+                <artifactId>dbutils</artifactId>
+                <version>${com.wso2telco.core.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.wso2telco.core</groupId>
+                <artifactId>user-profile</artifactId>
+                <version>${com.wso2telco.core.version}</version>
+                <scope>provided</scope>
+            </dependency>
+            <dependency>
+                <groupId>com.wso2telco.core</groupId>
+                <artifactId>auth-filter</artifactId>
+                <version>${com.wso2telco.core.version}</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
 
-<repositories>
+    <repositories>
         <repository>
             <id>wso2-maven2-repository</id>
             <url>http://maven.wso2telco.com/nexus/content/groups/wso2-public</url>
@@ -125,7 +182,7 @@
         <com.esotericsoftware.yamlbeans.version>1.11</com.esotericsoftware.yamlbeans.version>
         <org.apache.commons.version>2.0</org.apache.commons.version>
         <org.wso2.carbon.version>4.4.8</org.wso2.carbon.version>
-        <com.wso2telco.core.version>2.4.1</com.wso2telco.core.version>
+        <com.wso2telco.core.version>2.4.0</com.wso2telco.core.version>
         <carbon.p2.plugin.version>1.5.8</carbon.p2.plugin.version>
     </properties>
 
