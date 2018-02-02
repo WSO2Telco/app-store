@@ -50,7 +50,7 @@ export class AppComponent implements OnInit {
 
   }
 
-  private onMenuSelect(event: LoginMenuAction) {
+  onMenuSelect(event: LoginMenuAction) {
     switch (event.type) {
       case LoginMenuActionTypes.LOGIN: {
         this.store.dispatch(new globalActions.ToggleRightPanelAction(true));

@@ -14,10 +14,10 @@ import { Router } from '@angular/router';
 })
 export class ApiSearchComponent implements OnInit {
 
-  private apiSearchResult: MatTableDataSource<ApiSummery> = new MatTableDataSource();
-  private apiStatus: ApiStatus[];
-  private searchQuery: string;
-  private apiCategory: ApiStatus;
+  apiSearchResult: MatTableDataSource<ApiSummery> = new MatTableDataSource();
+  apiStatus: ApiStatus[];
+  searchQuery: string;
+  apiCategory: ApiStatus;
 
   constructor(
     private store: Store<AppState>,

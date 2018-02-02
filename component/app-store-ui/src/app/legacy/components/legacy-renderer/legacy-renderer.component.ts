@@ -10,7 +10,7 @@ import { ActivatedRoute } from '@angular/router';
 })
 export class LegacyRendererComponent implements OnInit {
 
-  private url: SafeResourceUrl;
+  url: SafeResourceUrl;
   private path: string;
   private legacyPath: string;
 
