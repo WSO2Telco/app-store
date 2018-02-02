@@ -144,7 +144,7 @@
 
 
     <modules>
-        <module>component/app-store-ui/</module>
+        <module>component/app-store-service/</module>
         <!--module>com.wso2telco.dep.app-store.feature</module-->
     </modules>
 
