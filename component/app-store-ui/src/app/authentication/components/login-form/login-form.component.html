@@ -4,7 +4,7 @@
   </div>
 
   <mat-card class="form-container">
-    <form #loginForm="ngForm" novalidate (ngSubmit)="onLoginClick(loginForm)">
+    <form #loginForm="ngForm" novalidate (ngSubmit)="onLoginClick()">
       <mat-card-content>
         <mat-form-field>
           <input matInput name="username" autocomplete="off" #userNameRef="ngModel" required [(ngModel)]="username" placeholder="Username">

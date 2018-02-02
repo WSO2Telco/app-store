@@ -8,7 +8,7 @@ import 'rxjs/add/operator/filter';
   styleUrls: ['./breadcrumbs.component.scss']
 })
 export class BreadcrumbsComponent implements OnInit {
-  private activeView: any;
+  activeView: any;
 
   constructor(private _router: Router) {
   }

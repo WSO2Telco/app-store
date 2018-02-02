@@ -9,10 +9,10 @@ import { Operator } from '../../../app.models';
 export class OperatorTagComponent implements OnInit {
 
   @Input()
-  private operator: Operator;
+  operator: Operator;
 
   @Output()
-  private removeOperator: EventEmitter<Operator> = new EventEmitter<Operator>();
+  removeOperator: EventEmitter<Operator> = new EventEmitter<Operator>();
 
   constructor() { }
 
