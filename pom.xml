@@ -137,6 +137,7 @@
 
     <modules>
         <module>component/app-store-service</module>
+        <module>component/app-store-core</module>
         <!--module>com.wso2telco.dep.app-store.feature</module-->
     </modules>
 
@@ -176,6 +177,7 @@
         <org.wso2.carbon.version>4.4.8</org.wso2.carbon.version>
         <com.wso2telco.core.version>2.4.1</com.wso2telco.core.version>
         <carbon.p2.plugin.version>1.5.8</carbon.p2.plugin.version>
+        <org.wso2.carbon.apimgt.version>6.0.4</org.wso2.carbon.apimgt.version>
     </properties>
 
 </project>
