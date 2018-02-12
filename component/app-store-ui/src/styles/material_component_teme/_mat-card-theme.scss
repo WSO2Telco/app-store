@@ -1,0 +1,18 @@
+@import '~@angular/material/theming';
+@mixin mat-card-theme($theme) {
+  $background: map-get($theme, background);
+  $foreground: map-get($theme, foreground);
+
+  .mat-card {
+    background: mat-color($background, card);
+    color: mat-color($foreground, text);
+    box-shadow: none !important;
+    border: solid 1px   map_get($mat-grey, 100);
+    border-radius:0px;
+  }
+
+  .mat-card-subtitle {
+    color: mat-color($foreground, secondary-text);
+  }
+
+}

@@ -5,11 +5,26 @@
 
   .mat-drawer-backdrop.mat-drawer-shown {
     background-color: mat-color($background, app-bar);
-    opacity: 0.7;
+    opacity: .7;
   }
 
   #main-container {
     background-color: mat-color($background, app-bar);
   }
 
+  .toolbar-main {
+    background-color: #fff;
+  }
+
+  .menu-icon-container {
+    border-left: solid 1px map-get($mat-grey, 100);
+  }
+
+  mat-sidenav {
+    background-color: map-get($mat-grey, 100) !important;
+  }
+
+  store-breadcrumbs{
+    background-color:mat-color($background, app-bar);
+  }
 }

@@ -10,4 +10,10 @@
       text-transform: uppercase;
     }
   }
+
+  mat-card-content{
+    &.open{
+      padding-left : 300px;
+    }
+  }
   

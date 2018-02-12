@@ -1,0 +1,11 @@
+@import '~@angular/material/theming';
+@mixin login-form-theme($theme) {
+  $primary: map-get($theme, primary);
+  $back: map-get($theme, background);
+
+  .header {
+    background-color:    mat-color($primary);
+    color: mat-color($back, card);
+    font-weight:900;
+  }
+}
