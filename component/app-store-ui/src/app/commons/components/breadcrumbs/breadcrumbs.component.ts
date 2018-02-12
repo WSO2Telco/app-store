@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { Router, NavigationEnd } from '@angular/router';
 import 'rxjs/add/operator/filter';
 
@@ -9,6 +9,9 @@ import 'rxjs/add/operator/filter';
 })
 export class BreadcrumbsComponent implements OnInit {
   activeView: any;
+
+  @Input()
+  public isOpen: boolean;
 
   constructor(private _router: Router) {
   }

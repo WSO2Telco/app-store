@@ -1,18 +1,18 @@
 @import '~@angular/material/theming';
 @mixin hamburger-menu-theme($theme) {
-  $primary: map-get($theme, primary);
+  $accent: map-get($theme, accent);
 
   .hm-menu-container {
     .hamburger-menu {
       #hmenu {
-        background: mat-color($primary,default-contrast);
+        background: mat-color($accent);
 
         &::before{
-            background: mat-color($primary,default-contrast);
+            background: mat-color($accent);
         }
 
         &::after{
-            background: mat-color($primary,default-contrast);
+            background: mat-color($accent);
         }
 
         &.animate {
