@@ -8,7 +8,14 @@
           <button mat-fab [style.backgroundColor]="t.primary">Primary</button>
           <button mat-fab [style.backgroundColor]="t.accent">Accent</button>
           <button mat-fab [style.backgroundColor]="t.warn">Warn</button>
-          <mat-radio-button [value]="t.className" >Apply</mat-radio-button>
+          <mat-radio-button [value]="t.className">Apply</mat-radio-button>
+        </div>
+
+        <div>
+          <mat-slide-toggle (change)="onAnimationToggle($event)" [checked]="particleAnimation">Menu Particle Animation</mat-slide-toggle>
+        </div>
+        <div>
+          <mat-slide-toggle (change)="onBackgroundToggle($event)" [checked]="meunBackImage">Menu Background Image</mat-slide-toggle>
         </div>
 
       </mat-radio-group>

@@ -7,7 +7,7 @@ import { DoLogoutAction } from './authentication/authentication.actions';
 import { Observable } from 'rxjs/Observable';
 import * as loginActions from './authentication/authentication.actions';
 import * as globalActions from './app.actions';
-import { ToggleLeftPanelAction } from './app.actions';
+import { ToggleLeftPanelAction, ToggleParticleAction } from './app.actions';
 import { Router } from '@angular/router';
 
 @Component({
@@ -21,6 +21,8 @@ export class AppComponent implements OnInit {
   public leftNavOpened: boolean;
   public rightNavOpened: boolean;
   public selectedTheme: string;
+  public particleAnimation: boolean;
+  public menuBackImage: boolean;
 
   constructor(
     private store: Store<AppState>,
@@ -33,7 +35,9 @@ export class AppComponent implements OnInit {
       .subscribe(val => this.rightNavOpened = val);
 
     this.store.select((s) => s.global.layout.appTheme).subscribe((theme) => this.selectedTheme = theme);
-    
+    this.store.select((s) => s.global.layout.particleAnimation).subscribe((flag) => this.particleAnimation = flag);
+    this.store.select((s) => s.global.layout.menuBackImage).subscribe((flag) => this.menuBackImage = flag);
+
     this.store.select(store => store.global.layout.leftNavOpened)
       .subscribe(val => {
         this.leftNavOpened = val;
@@ -49,6 +53,8 @@ export class AppComponent implements OnInit {
 
     setTimeout(() => {
       this.store.dispatch(new ToggleLeftPanelAction(true));
+      this.store.dispatch(new ToggleParticleAction(true));
+      this.store.dispatch(new globalActions.ToggleMenuBackgroundAction(true));
     }, 200);
 
   }

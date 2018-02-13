@@ -6,7 +6,9 @@ const initState: GlobalState = {
     layout: {
         rightNavOpened: false,
         leftNavOpened: false,
-        appTheme: 'theme-one-light'
+        appTheme: 'theme-one-light',
+        particleAnimation: true,
+        menuBackImage: true
     },
     mccAndmnc: {
         countries: null,
@@ -49,6 +51,22 @@ export function globalReducer(state: GlobalState = initState, action: globalActi
             return Object.assign({}, state, {
                 layout: Object.assign({}, state.layout, {
                     appTheme: action.payload
+                })
+            });
+        }
+
+        case globalActions.TOGGLE_PARTICLE_ANIMATION: {
+            return Object.assign({}, state, {
+                layout: Object.assign({}, state.layout, {
+                    particleAnimation: action.payload
+                })
+            });
+        }
+
+        case globalActions.TOGGLE_MENU_BACKGROUND_IMAGE: {
+            return Object.assign({}, state, {
+                layout: Object.assign({}, state.layout, {
+                    menuBackImage: action.payload
                 })
             });
         }
