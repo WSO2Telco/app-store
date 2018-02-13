@@ -22,9 +22,16 @@ export class ThemeComponent implements OnInit {
     {
       name: 'Forest Theme',
       className: 'theme-two-light',
-      primary: '#4CAF50',
-      accent: '#00BCD4',
-      warn: '#F44336'
+      primary: '#00BCD4',
+      accent: '#FFA726',
+      warn: '#D50000'
+    },
+    {
+      name: 'Pinky in Gray Theme',
+      className: 'theme-three-light',
+      primary: '#37474F',
+      accent: '#F06292',
+      warn: '#FF1744'
     }
   ];
 

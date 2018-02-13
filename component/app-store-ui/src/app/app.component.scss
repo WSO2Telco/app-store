@@ -96,6 +96,8 @@ store-breadcrumbs {
 mat-sidenav {
   margin-top: $nav-bar-height + 15;
   box-shadow: none;
+  height: 100%;
+  overflow: hidden;
   background-image: url('../assets/images/2.jpg');
   background-attachment: fixed;
   background-position: center;
