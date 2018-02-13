@@ -1,6 +1,9 @@
-  public selectedTheme: string;
+ public selectedTheme: string;
 <mat-sidenav-container fullscreen id="main-container" [ngClass]="selectedTheme">
-  <mat-sidenav #sidenav mode="side" [(opened)]="leftNavOpened" class="mat-elevation-z2" color="primary" fixedTopGap="50">
+
+  <mat-sidenav #sidenav mode="side" [(opened)]="leftNavOpened" 
+  [ngClass]="{'backImg':menuBackImage}"
+  color="primary" fixedTopGap="50">
     <mat-toolbar color="primary" class="menu-toolbar mat-elevation-z5">
       <div class="logo-container">
         <div class="img-container">
@@ -13,10 +16,10 @@
 
     </mat-toolbar>
 
-    <div>
+    <div class="menu-wrapper">
       <store-main-menu></store-main-menu>
     </div>
-
+    <store-particles [isEnable]="particleAnimation"></store-particles>
   </mat-sidenav>
 
   <mat-sidenav #right position="end" [(opened)]="rightNavOpened" (closedStart)="onRightNavClose()" class="right-nav mat-elevation-z5"

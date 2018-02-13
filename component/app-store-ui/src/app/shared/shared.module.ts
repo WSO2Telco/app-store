@@ -25,6 +25,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { FrameManagerDirective } from './directives/frame-manager.directive';
 import { MatRadioModule } from '@angular/material/radio';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 
 
 @NgModule({
@@ -58,7 +59,8 @@ import { MatRadioModule } from '@angular/material/radio';
     FlexLayoutModule,
     MatSelectModule,
     MatAutocompleteModule,
-    FrameManagerDirective
+    FrameManagerDirective,
+    MatSlideToggleModule
   ],
   providers: [NotificationService],
   entryComponents: [

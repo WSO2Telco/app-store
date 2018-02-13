@@ -2,7 +2,6 @@ $nav-bar-height: 60px;
 $left-side-nav-width: 300px;
 $icon-sze: 30px;
 
-
 .prof-icon {
   font-size: 2em;
   margin-right: 10px;
@@ -98,20 +97,31 @@ mat-sidenav {
   box-shadow: none;
   height: 100%;
   overflow: hidden;
-  background-image: url('../assets/images/2.jpg');
-  background-attachment: fixed;
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: cover;
 
   &.right-nav {
     margin-top: 0;
   }
+
+  &.backImg {
+    background-image: url('../assets/images/2.jpg');
+    background-attachment: fixed;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+  }
+}
+
+.menu-wrapper {
+  height: 100%;
+
+  store-main-menu {
+    display: block;
+  }
 }
 
 .theme {
-    font-size: $icon-sze;
-    line-height: $icon-sze;
-    height: $icon-sze;
-    width: $icon-sze;
+  font-size: $icon-sze;
+  line-height: $icon-sze;
+  height: $icon-sze;
+  width: $icon-sze;
 }

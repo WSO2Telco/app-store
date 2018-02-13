@@ -9,6 +9,8 @@ export const LOAD_OPERATORS = 'LOAD_OPERATORS';
 export const LOAD_OPERATORS_SUCCESS = 'LOAD_OPERATORS_SUCCESS';
 export const APP_THEME_CHANGE = 'APP_THEME_CHANGE';
 export const APP_THEME_CHANGE_SUCCESS = 'APP_THEME_CHANGE_SUCCESS';
+export const TOGGLE_PARTICLE_ANIMATION = 'TOGGLE_PARTICLE_ANIMATION';
+export const TOGGLE_MENU_BACKGROUND_IMAGE = 'TOGGLE_MENU_BACKGROUND_IMAGE';
 
 
 export class ToggleRightPanelAction implements Action {
@@ -50,6 +52,16 @@ export class AppThemeChangeSuccessAction implements Action {
     constructor(public payload: any = null) { }
 }
 
+export class ToggleParticleAction implements Action {
+    type: string = TOGGLE_PARTICLE_ANIMATION;
+    constructor(public payload: boolean) { }
+}
+
+export class ToggleMenuBackgroundAction implements Action {
+    type: string = TOGGLE_MENU_BACKGROUND_IMAGE;
+    constructor(public payload: boolean) { }
+}
+
 export type Actions
     = ToggleRightPanelAction
     | ToggleLeftPanelAction
@@ -57,7 +69,8 @@ export type Actions
     | LoadOperatorsAction
     | LoadOperatorsSuccessAction
     | AppThemeChangeAction
-    | AppThemeChangeSuccessAction;
-
+    | AppThemeChangeSuccessAction
+    | ToggleParticleAction
+    | ToggleMenuBackgroundAction;
 
 

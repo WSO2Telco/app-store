@@ -2,6 +2,7 @@
 @mixin app-component-theme($theme) {
 
   $background: map-get($theme, background);
+  $primary: map-get($theme, primary);
 
   .mat-drawer-backdrop.mat-drawer-shown {
     background-color: mat-color($background, app-bar);
@@ -21,7 +22,7 @@
   }
 
   mat-sidenav {
-    background-color: map-get($mat-grey, 100) !important;
+    background-color: mat-color($primary, darker) !important;
   }
 
   store-breadcrumbs{

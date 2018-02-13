@@ -23,7 +23,7 @@
 /* 
  * Store Theme One 
  */
-$store-theme-one-primary: mat-palette($mat-blue,400);
+$store-theme-one-primary: mat-palette($mat-blue,500,100,900);
 $store-theme-one-accent: mat-palette($mat-pink);
 $store-theme-one-warn: mat-palette($mat-red);
 
@@ -33,7 +33,7 @@ $store-theme-one-light: mat-light-theme($store-theme-one-primary, $store-theme-o
 /* 
  * Store Theme Two 
  */
-$store-theme-two-primary: mat-palette($mat-cyan);
+$store-theme-two-primary: mat-palette($mat-cyan,500,100,900);
 $store-theme-two-accent: mat-palette($mat-orange,400);
 $store-theme-two-warn: mat-palette($mat-red,A700);
 
@@ -43,7 +43,7 @@ $store-theme-two-light: mat-light-theme($store-theme-two-primary, $store-theme-t
 /* 
  * Store Theme Three 
  */
-$store-theme-three-primary: mat-palette($mat-blue-grey,800);
+$store-theme-three-primary: mat-palette($mat-blue-grey,700,100,900);
 $store-theme-three-accent: mat-palette($mat-pink,300);
 $store-theme-three-warn: mat-palette($mat-red,A400);
 
