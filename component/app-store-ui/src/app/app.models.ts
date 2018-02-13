@@ -36,6 +36,7 @@ export interface GlobalState {
     layout: {
         rightNavOpened: boolean;
         leftNavOpened: boolean;
+        appTheme: string
     };
     mccAndmnc: {
         countries: Country[];

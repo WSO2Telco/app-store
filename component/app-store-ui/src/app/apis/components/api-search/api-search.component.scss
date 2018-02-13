@@ -20,14 +20,6 @@ mat-paginator{
     padding: 20px;
 }
 
-mat-row{
-    &:hover{
-        background-color: #333333;
-        transition: all 0.2s ease-in;
-        cursor: pointer;
-    }
-}
-
 .search-Container{
     .search-txt{
         padding-top: 20px;

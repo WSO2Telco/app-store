@@ -5,7 +5,8 @@ import { ToggleRightPanelAction } from './app.actions';
 const initState: GlobalState = {
     layout: {
         rightNavOpened: false,
-        leftNavOpened: false
+        leftNavOpened: false,
+        appTheme: 'theme-one-light'
     },
     mccAndmnc: {
         countries: null,
@@ -41,6 +42,14 @@ export function globalReducer(state: GlobalState = initState, action: globalActi
         case globalActions.LOAD_OPERATORS_SUCCESS: {
             return Object.assign({}, state, {
                 mccAndmnc: Object.assign({}, state.mccAndmnc, { operators: action.payload })
+            });
+        }
+
+        case globalActions.APP_THEME_CHANGE: {
+            return Object.assign({}, state, {
+                layout: Object.assign({}, state.layout, {
+                    appTheme: action.payload
+                })
             });
         }
 

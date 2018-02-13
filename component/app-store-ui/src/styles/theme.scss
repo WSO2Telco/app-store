@@ -1,4 +1,5 @@
 @import '~@angular/material/theming';
+@include mat-core();
 
 //Import custom component theams
 @import '~app/commons/components/hamburger-menu/hamburger-menu.component.scss.theme';
@@ -7,41 +8,67 @@
 @import '~app/apis/components/api-search/api-search.component.scss.theme';
 @import '~app/authentication/components/login-form/login-form.component.scss.theme';
 @import '~app/app.component.scss.theme';
-
-@include mat-core();
-
 @import './material_component_teme/mat-card-theme';
 
-$store-primary: mat-palette($mat-blue,400);
-$store-accent: mat-palette($mat-pink);
-$store-warn: mat-palette($mat-red);
-
-
-$store-theme: mat-light-theme($store-primary, $store-accent,$store-warn);
-//$store-theme: mat-dark-theme($store-primary, $store-accent,$store-warn);
-
-
-
 @mixin custom-components-theme($theme) {
-   @include mat-card-theme($theme);
-   @include breadcrumbs-theme($theme);
-   @include hamburger-menu-theme($theme);
-   @include app-component-theme($theme);
-   @include main-menu-theme($theme);
-   @include api-search-theme($theme);
-   @include login-form-theme($theme);
+  @include mat-card-theme($theme);
+  @include breadcrumbs-theme($theme);
+  @include hamburger-menu-theme($theme);
+  @include app-component-theme($theme);
+  @include main-menu-theme($theme);
+  @include api-search-theme($theme);
+  @include login-form-theme($theme);
 }
 
-@include angular-material-theme($store-theme);
-@include custom-components-theme($store-theme);
+/* 
+ * Store Theme One 
+ */
+$store-theme-one-primary: mat-palette($mat-blue,400);
+$store-theme-one-accent: mat-palette($mat-pink);
+$store-theme-one-warn: mat-palette($mat-red);
 
+$store-theme-one-light: mat-light-theme($store-theme-one-primary, $store-theme-one-accent,$store-theme-one-warn);
+//$store-theme-one-dark: mat-dark-theme($store-theme-one-primary, $store-theme-one-accent,$store-theme-one-warn);
 
-//Alternative Theam
-$store-alt-primary: mat-palette($mat-yellow);
-$store-alt-accent: mat-palette($mat-grey, 200);
+/* 
+ * Store Theme Two 
+ */
+$store-theme-two-primary: mat-palette($mat-cyan);
+$store-theme-two-accent: mat-palette($mat-orange,400);
+$store-theme-two-warn: mat-palette($mat-red,A700);
 
-$store-alt-theme: mat-dark-theme($store-alt-primary, $store-alt-accent);
+$store-theme-two-light: mat-light-theme($store-theme-two-primary, $store-theme-two-accent,$store-theme-two-warn);
+//$store-theme-two-dark: mat-dark-theme($store-theme-two-primary, $store-theme-two-accent,$store-theme-two-warn);
 
-.alternative {
-  @include angular-material-theme($store-alt-theme);
+/* 
+ * Store Theme Three 
+ */
+$store-theme-three-primary: mat-palette($mat-blue-grey,800);
+$store-theme-three-accent: mat-palette($mat-pink,300);
+$store-theme-three-warn: mat-palette($mat-red,A400);
+
+$store-theme-three-light: mat-light-theme($store-theme-three-primary,$store-theme-three-accent,$store-theme-three-warn);
+
+.theme-one-light {
+  @include angular-material-theme($store-theme-one-light);
+  @include custom-components-theme($store-theme-one-light);
+}
+
+/* .theme-one-dark {
+  @include angular-material-theme($store-theme-one-dark);
+  @include custom-components-theme($store-theme-one-dark);
+} */
+
+.theme-two-light {
+  @include angular-material-theme($store-theme-two-light);
+  @include custom-components-theme($store-theme-two-light);
+}
+/* .theme-two-dark{
+  @include angular-material-theme($store-theme-two-dark);
+  @include custom-components-theme($store-theme-two-dark);
+} */
+
+.theme-three-light {
+  @include angular-material-theme($store-theme-three-light);
+  @include custom-components-theme($store-theme-three-light);
 }

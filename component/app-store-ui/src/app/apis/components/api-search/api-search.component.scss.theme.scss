@@ -5,4 +5,13 @@
   mat-header-row {
     background-color: mat-color($background, app-bar);
   }
+
+  mat-row {
+    &:hover {
+      background-color: mat-color($background,hover);
+      transition: all .2s ease-in;
+      cursor: pointer;
+    }
+  }
+
 }

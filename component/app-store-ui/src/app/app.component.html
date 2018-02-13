@@ -1,9 +1,10 @@
-<mat-sidenav-container fullscreen id="main-container">
+  public selectedTheme: string;
+<mat-sidenav-container fullscreen id="main-container" [ngClass]="selectedTheme">
   <mat-sidenav #sidenav mode="side" [(opened)]="leftNavOpened" class="mat-elevation-z2" color="primary" fixedTopGap="50">
     <mat-toolbar color="primary" class="menu-toolbar mat-elevation-z5">
       <div class="logo-container">
         <div class="img-container">
-         
+
         </div>
         <div class="app-name-container">
           API STORE
@@ -37,12 +38,15 @@
       <span class="fill-remaining-space"></span>
 
       <span>
+        <button mat-icon-button routerLink="/home/theme">
+          <mat-icon class="theme" color="accent">palette</mat-icon>
+        </button>
         <store-login-icon (menuSelect)="onMenuSelect($event)"></store-login-icon>
       </span>
     </mat-toolbar>
     <store-breadcrumbs [isOpen]="leftNavOpened"></store-breadcrumbs>
     <div class="content-container">
-      
+
       <router-outlet></router-outlet>
     </div>
 
