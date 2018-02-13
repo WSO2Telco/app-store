@@ -24,7 +24,7 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 import { MatSelectModule } from '@angular/material/select';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { FrameManagerDirective } from './directives/frame-manager.directive';
-
+import { MatRadioModule } from '@angular/material/radio';
 
 
 @NgModule({
@@ -44,6 +44,7 @@ import { FrameManagerDirective } from './directives/frame-manager.directive';
     MatToolbarModule,
     MatExpansionModule,
     MatListModule,
+    MatRadioModule,
     MatButtonModule,
     MatGridListModule,
     MatCardModule,

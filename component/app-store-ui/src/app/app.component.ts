@@ -20,6 +20,7 @@ export class AppComponent implements OnInit {
 
   public leftNavOpened: boolean;
   public rightNavOpened: boolean;
+  public selectedTheme: string;
 
   constructor(
     private store: Store<AppState>,
@@ -31,6 +32,8 @@ export class AppComponent implements OnInit {
     this.store.select(store => store.global.layout.rightNavOpened)
       .subscribe(val => this.rightNavOpened = val);
 
+    this.store.select((s) => s.global.layout.appTheme).subscribe((theme) => this.selectedTheme = theme);
+    
     this.store.select(store => store.global.layout.leftNavOpened)
       .subscribe(val => {
         this.leftNavOpened = val;

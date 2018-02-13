@@ -17,6 +17,10 @@ const routes: Routes = [
     loadChildren: 'app/apis/apis.module#ApisModule'
   },
   {
+    path: 'applications',
+    loadChildren: 'app/applications/applications.module#ApplicationsModule'
+  },
+  {
     path: 'application/sign-up',
     component: SignUpComponent
   },

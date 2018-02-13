@@ -7,6 +7,8 @@ export const LOAD_COUNTRIES = 'LOAD_COUNTRIES';
 export const LOAD_COUNTRIES_SUCCESS = 'LOAD_COUNTRIES_SUCCESS';
 export const LOAD_OPERATORS = 'LOAD_OPERATORS';
 export const LOAD_OPERATORS_SUCCESS = 'LOAD_OPERATORS_SUCCESS';
+export const APP_THEME_CHANGE = 'APP_THEME_CHANGE';
+export const APP_THEME_CHANGE_SUCCESS = 'APP_THEME_CHANGE_SUCCESS';
 
 
 export class ToggleRightPanelAction implements Action {
@@ -39,12 +41,23 @@ export class LoadOperatorsSuccessAction implements Action {
     constructor(public payload: Operator[]) { }
 }
 
+export class AppThemeChangeAction implements Action {
+    type: string = APP_THEME_CHANGE;
+    constructor(public payload: string) { }
+}
+export class AppThemeChangeSuccessAction implements Action {
+    type: string = APP_THEME_CHANGE_SUCCESS;
+    constructor(public payload: any = null) { }
+}
+
 export type Actions
     = ToggleRightPanelAction
     | ToggleLeftPanelAction
     | LoadCountriesAction
     | LoadOperatorsAction
-    | LoadOperatorsSuccessAction;
+    | LoadOperatorsSuccessAction
+    | AppThemeChangeAction
+    | AppThemeChangeSuccessAction;
 
 
 

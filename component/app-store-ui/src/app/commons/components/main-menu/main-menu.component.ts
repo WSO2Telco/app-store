@@ -32,7 +32,7 @@ export class MainMenuComponent implements OnInit {
       id: 3,
       name: 'APPLICATIONS',
       icon: 'apps',
-      route: ['legacy', 'applications']
+      route: ['applications']
     },
     {
       id: 4,

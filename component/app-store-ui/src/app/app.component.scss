@@ -1,5 +1,7 @@
 $nav-bar-height: 60px;
 $left-side-nav-width: 300px;
+$icon-sze: 30px;
+
 
 .prof-icon {
   font-size: 2em;
@@ -100,8 +102,14 @@ mat-sidenav {
   background-repeat: no-repeat;
   background-size: cover;
 
-  &.right-nav{
-    margin-top: 0px;
+  &.right-nav {
+    margin-top: 0;
   }
 }
 
+.theme {
+    font-size: $icon-sze;
+    line-height: $icon-sze;
+    height: $icon-sze;
+    width: $icon-sze;
+}
