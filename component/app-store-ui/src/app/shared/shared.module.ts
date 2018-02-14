@@ -26,7 +26,7 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { FrameManagerDirective } from './directives/frame-manager.directive';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
-
+import { InfiniteScrollDirective } from './directives/infinite-scroll.directive';
 
 @NgModule({
   imports: [
@@ -34,7 +34,10 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
     MatIconModule,
     MatAutocompleteModule
   ],
-  declarations: [NotificationComponent, FrameManagerDirective],
+  declarations: [
+    NotificationComponent,
+    InfiniteScrollDirective,
+    FrameManagerDirective],
   exports: [
     RouterModule,
     FormsModule,
@@ -60,7 +63,8 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
     MatSelectModule,
     MatAutocompleteModule,
     FrameManagerDirective,
-    MatSlideToggleModule
+    MatSlideToggleModule,
+    InfiniteScrollDirective
   ],
   providers: [NotificationService],
   entryComponents: [

@@ -1,0 +1,11 @@
+<div class="result-wrapper" 
+   fxLayout="row" 
+   fxLayoutWrap
+   fxLayoutGap="10px"
+   fxLayoutAlign="center center"
+  >
+    <store-api-info class="api animated fadeIn" fxFlex="0 0 auto" 
+    [ngStyle]="{'animation-delay' :x*100+'ms'}" 
+    *ngFor="let item of dataSource;let x=index">{{item}}</store-api-info>
+</div>
+

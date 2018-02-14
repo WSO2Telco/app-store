@@ -17,7 +17,8 @@ import { ParticlesModule } from 'angular-particle';
     MainMenuComponent,
     HamburgerMenuComponent,
     BreadcrumbsComponent,
-    ParticlesComponent],
+    ParticlesComponent,
+    ],
   exports: [
     MainMenuComponent,
     BreadcrumbsComponent,

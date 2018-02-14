@@ -11,6 +11,8 @@ import { ApisEffects } from './apis.effects';
 import { ApiDetailComponent } from './components/api-detail/api-detail.component';
 import { ApiSubscriptionComponent } from './components/api-subscription/api-subscription.component';
 import { OperatorTagComponent } from './components/operator-tag/operator-tag.component';
+import { ApisearchResultComponent } from './components/apisearch-result/apisearch-result.component';
+import { ApiInfoComponent } from './components/api-info/api-info.component';
 
 @NgModule({
   imports: [
@@ -20,7 +22,13 @@ import { OperatorTagComponent } from './components/operator-tag/operator-tag.com
     StoreModule.forFeature('apis', apisReducer),
     EffectsModule.forFeature([ApisEffects]),
   ],
-  declarations: [ApiSearchComponent, ApiDetailComponent, ApiSubscriptionComponent, OperatorTagComponent],
+  declarations: [
+    ApiSearchComponent,
+    ApiDetailComponent,
+    ApiSubscriptionComponent,
+    OperatorTagComponent,
+    ApisearchResultComponent,
+    ApiInfoComponent],
   providers: [ApisService],
   entryComponents: [ApiSubscriptionComponent]
 })
