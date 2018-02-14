@@ -1,0 +1,12 @@
+@import '~@angular/material/theming';
+@mixin api-info-component-theme($theme) {
+  $primary: map-get($theme, primary);
+
+ .api-info{
+    
+  }
+  
+  .info-container{
+      background-color: mat-color($primary,darker);
+  }
+}

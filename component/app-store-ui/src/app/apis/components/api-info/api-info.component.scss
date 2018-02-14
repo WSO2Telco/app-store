@@ -1,0 +1,20 @@
+.api-info {
+  text-align: center;
+  border: solid 1px #dcdcdc;
+  width: 200px;
+  height: 200px;
+  margin: 5px;
+  box-shadow: 0 0 10px #ccc;
+
+  .name-container {
+    font-size: 2em;
+    font-weight:700;
+  }
+
+  .info-container {
+      color:white;
+    span {
+      display: block;
+    }
+  }
+}
