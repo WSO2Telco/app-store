@@ -2,11 +2,16 @@
 @mixin api-info-component-theme($theme) {
   $primary: map-get($theme, primary);
 
- .api-info{
-    
+  .name-container {
+    color: mat-color($primary);
+    &:hover{
+      color: mat-color($primary,darker);
+    }
   }
-  
-  .info-container{
-      background-color: mat-color($primary,darker);
+
+  .api-info {}
+
+  .info-container {
+    background-color: mat-color($primary,darker);
   }
 }

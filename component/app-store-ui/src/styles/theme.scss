@@ -7,6 +7,7 @@
 @import '~app/commons/components/main-menu/main-menu.component.scss.theme';
 @import '~app/apis/components/api-search/api-search.component.scss.theme';
 @import '~app/apis/components/api-info/api-info.component.scss.theme';
+@import '~app/apis/components/api-detail/api-detail.component.scss.theme.scss';
 @import '~app/authentication/components/login-form/login-form.component.scss.theme';
 @import '~app/app.component.scss.theme';
 @import './material_component_teme/mat-card-theme';
@@ -20,6 +21,7 @@
   @include api-search-theme($theme);
   @include login-form-theme($theme);
   @include api-info-component-theme($theme);
+  @include api-detail-component-theme($theme);
 }
 
 /* 

@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
+import { ApiSummery } from '../../apis.models';
 
 @Component({
   selector: 'store-api-info',
@@ -6,6 +7,9 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./api-info.component.scss']
 })
 export class ApiInfoComponent implements OnInit {
+
+  @Input()
+  api: ApiSummery;
 
   constructor() { }
 

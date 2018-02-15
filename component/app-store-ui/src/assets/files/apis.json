@@ -1,0 +1,95 @@
+{
+    "apis": [
+        {
+            "name": "payment",
+            "provider": "admin",
+            "version": "v1.0.0",
+            "context": "/payment/v1.0.0",
+            "status": "PUBLISHED",
+            "thumbnailurl": "images/api-default.png",
+            "visibility": "public",
+            "visibleRoles": null,
+            "description": null,
+            "apiOwner": "admin",
+            "isAdvertiseOnly": false,
+            "apiBusinessOwner": null,
+            "rates": 0.0,
+            "tiers": [
+                "Silver",
+                "Unlimited",
+                "Default",
+                "Requestbased"
+            ],
+            "monetizationCategory": "Free"
+        },
+        {
+            "name": "Swagger Petstore",
+            "provider": "admin",
+            "version": "v1.0.0",
+            "context": "/SwaggerPetstore/1.0.0",
+            "status": "PUBLISHED",
+            "thumbnailurl": "images/api-default.png",
+            "visibility": "public",
+            "visibleRoles": null,
+            "description": "This is a sample server Petstore server. You can find out more about Swagger at [http://swagger.io](http://swagger.io) or on [irc.freenode.net, #swagger](http://swagger.io/irc/). For this sample, you can use the api key `special-key` to test the authorization filters.",
+            "apiOwner": "admin",
+            "isAdvertiseOnly": false,
+            "apiBusinessOwner": null,
+            "rates": 0.0,
+            "tiers": [
+                "Unlimited",
+                "Default",
+                "Requestbased"
+            ],
+            "monetizationCategory": "Free"
+        },
+        {
+            "name": "Super wallet",
+            "provider": "Dialog",
+            "version": "v2.0.0",
+            "context": "/SwaggerPetstore/1.0.0",
+            "status": "PUBLISHED",
+            "thumbnailurl": "images/api-default.png",
+            "visibility": "public",
+            "visibleRoles": null,
+            "description": "This is a sample server Petstore server. You can find out more about Swagger at [http://swagger.io](http://swagger.io) or on [irc.freenode.net, #swagger](http://swagger.io/irc/). For this sample, you can use the api key `special-key` to test the authorization filters.",
+            "apiOwner": "admin",
+            "isAdvertiseOnly": false,
+            "apiBusinessOwner": null,
+            "rates": 0.0,
+            "tiers": [
+                "Unlimited",
+                "Default",
+                "Requestbased"
+            ],
+            "monetizationCategory": "Free"
+        },
+        {
+            "name": "Track My Location",
+            "provider": "Dialog",
+            "version": "v2.5.0",
+            "context": "/SwaggerPetstore/1.0.0",
+            "status": "PUBLISHED",
+            "thumbnailurl": "images/api-default.png",
+            "visibility": "public",
+            "visibleRoles": null,
+            "description": "This is a sample server Petstore server. You can find out more about Swagger at [http://swagger.io](http://swagger.io) or on [irc.freenode.net, #swagger](http://swagger.io/irc/). For this sample, you can use the api key `special-key` to test the authorization filters.",
+            "apiOwner": "admin",
+            "isAdvertiseOnly": false,
+            "apiBusinessOwner": null,
+            "rates": 0.0,
+            "tiers": [
+                "Unlimited",
+                "Default",
+                "Requestbased"
+            ],
+            "monetizationCategory": "Free"
+        }
+    ],
+    "totalLength": 2,
+    "isMore": false,
+    "isMonetizationEnabled": false,
+    "error": null,
+    "message": null,
+    "isRatingActivated": false
+}

@@ -1,5 +1,6 @@
-import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef, Input, Output, EventEmitter } from '@angular/core';
 import { ApisService } from '../../apis.service';
+import { ApiSummery } from '../../apis.models';
 
 @Component({
   selector: 'store-apisearch-result',
@@ -8,10 +9,20 @@ import { ApisService } from '../../apis.service';
 })
 export class ApisearchResultComponent implements OnInit {
 
-  dataSource = [1, 2, 3];
+  @Input()
+  dataSource: ApiSummery;
+
+  @Output()
+  selectApi: EventEmitter<ApiSummery> = new EventEmitter();
+
   constructor() {
   }
 
   ngOnInit() {
+  }
+
+  onApiSelceted(api) {
+    console.log('hhh');
+    this.selectApi.emit(api);
   }
 }

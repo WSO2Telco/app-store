@@ -1,0 +1,16 @@
+@import '~@angular/material/theming';
+@mixin api-detail-component-theme($theme) {
+  $primary: map-get($theme, primary);
+  $accent: map-get($theme, accent);
+
+  .api-name{
+      color : mat-color($accent);
+  }
+  .api-detail-accordion{
+      mat-expansion-panel-header {
+          &.mat-expanded{
+              background-color:    mat-color($primary) !important;
+          }
+      }
+  }
+}

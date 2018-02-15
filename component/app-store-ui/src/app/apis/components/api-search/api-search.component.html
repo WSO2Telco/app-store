@@ -31,50 +31,9 @@
 
 <mat-card class="animated fadeIn" style="margin-bottom:100px;">
   <mat-card-content>
-    <!--  <div class="filter-container">
-      <mat-form-field>
-        <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
-      </mat-form-field>
-    </div>
- -->
-<store-apisearch-result></store-apisearch-result>
 
+    <store-apisearch-result [dataSource]="apiSearchResult" (selectApi)="onApiSelected($event)"></store-apisearch-result>
 
-    <!--  <div class="example-container mat-elevation-z8">
-  <mat-table [dataSource]="apiSearchResult">
-
-        <ng-container matColumnDef="name">
-          <mat-header-cell *matHeaderCellDef mat-sort-header> Name </mat-header-cell>
-          <mat-cell *matCellDef="let row"> {{row.name}} </mat-cell>
-        </ng-container>
-
-        <ng-container matColumnDef="provider">
-          <mat-header-cell *matHeaderCellDef mat-sort-header> Provider </mat-header-cell>
-          <mat-cell *matCellDef="let row"> {{row.provider}}</mat-cell>
-        </ng-container>
-
-        <ng-container matColumnDef="version">
-          <mat-header-cell *matHeaderCellDef mat-sort-header> Version </mat-header-cell>
-          <mat-cell *matCellDef="let row"> {{row.version}} </mat-cell>
-        </ng-container>
-
-        <ng-container matColumnDef="apiOwner">
-          <mat-header-cell *matHeaderCellDef mat-sort-header> Api Owner </mat-header-cell>
-          <mat-cell *matCellDef="let row"> {{row.apiOwner}} </mat-cell>
-        </ng-container>
-
-        <ng-container matColumnDef="rating">
-          <mat-header-cell *matHeaderCellDef mat-sort-header> Rating </mat-header-cell>
-          <mat-cell *matCellDef="let row"> {{row.rates}} </mat-cell>
-        </ng-container>
-
-        <mat-header-row *matHeaderRowDef="['name','provider','version','apiOwner','rating']"></mat-header-row>
-        <mat-row *matRowDef="let row; columns: ['name','provider','version','apiOwner','rating'];" (click)="onApiSelected(row)">
-        </mat-row>
-      </mat-table>
-
-      
-    </div> -->
     <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
   </mat-card-content>
 </mat-card>

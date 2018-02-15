@@ -1,5 +1,75 @@
-<mat-card class="content-card">
-  <mat-card-content>
-    <iframe #iframeRef  src="../store/apis/info?name=SwaggerPetstore&version=1.0.0&provider=admin"></iframe>
-  </mat-card-content>
-</mat-card>
+<div fxLayout="column" fxLayoutGap="20px">
+
+  <mat-card class=" animated fadeInDown" fxFlex="">
+    <mat-card-content fxLayout="row" fxLayout.lt-md="column" fxLayoutGap="20px">
+      <div fxFlex>
+        <h2 class="api-name mat-headline">{{api.name}}</h2>
+        <h4 class="desc mat-subheading-1">{{api.description}}</h4>
+      </div>
+      <div class="info-summery" fxFlex="">
+        <div>
+          <span class="field-name">Version </span>
+          <span class="mat-body-2">{{api.version}}</span>
+        </div>
+        <div>
+          <span class="field-name">Provider </span>
+          <span class="mat-body-2">{{api.provider}}</span>
+        </div>
+        <div>
+          <span class="field-name">Status </span>
+          <span class="mat-body-2">{{api.status}}</span>
+        </div>
+        <div>
+          <span class="field-name">Ratings </span>
+          <span class="mat-body-2">{{api.rates}}</span>
+        </div>
+      </div>
+    </mat-card-content>
+  </mat-card>
+
+  <mat-card class="content-card animated fadeIn" fxFlex>
+    <mat-card-content>
+      <store-api-subscription></store-api-subscription>
+    </mat-card-content>
+  </mat-card>
+
+  <mat-card class="animated fadeIn">
+    <mat-card-content>
+      <mat-accordion class="api-detail-accordion">
+
+        <mat-expansion-panel expanded="true">
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              Overview
+            </mat-panel-title>
+          </mat-expansion-panel-header>
+        </mat-expansion-panel>
+
+        <mat-expansion-panel (opened)="panelOpenState = true" (closed)="panelOpenState = false">
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              Api Console
+            </mat-panel-title>
+          </mat-expansion-panel-header>
+        </mat-expansion-panel>
+
+        <mat-expansion-panel (opened)="panelOpenState = true" (closed)="panelOpenState = false">
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              Documentation
+            </mat-panel-title>
+          </mat-expansion-panel-header>
+        </mat-expansion-panel>
+
+        <mat-expansion-panel (opened)="panelOpenState = true" (closed)="panelOpenState = false">
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              Forum
+            </mat-panel-title>
+          </mat-expansion-panel-header>
+        </mat-expansion-panel>
+
+      </mat-accordion>
+    </mat-card-content>
+  </mat-card>
+</div>

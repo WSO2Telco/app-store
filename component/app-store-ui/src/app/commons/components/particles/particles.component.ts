@@ -40,15 +40,15 @@ export class ParticlesComponent implements OnInit {
         },
         shape: {
           type: 'triangle',
-        },
-        interactivity: {
-          events: {
-            onhover: {
-              enable: false,
-            },
-            onclick: {
-              enable: false,
-            }
+        }
+      },
+      interactivity: {
+        events: {
+          onhover: {
+            enable: false,
+          },
+          onclick: {
+            enable: false,
           }
         }
       }
