@@ -1,72 +1,33 @@
 import {
   Component, OnInit, ComponentFactoryResolver, NgZone, AfterViewInit, ApplicationRef,
-  ViewChild, ElementRef, Injector
+  ViewChild, ElementRef, Injector, OnDestroy
 } from '@angular/core';
 import { ApiSubscriptionComponent } from '../api-subscription/api-subscription.component';
-import { Store } from '@ngrx/store/src/store';
+import { Store } from '@ngrx/store';
 import { AppState } from '../../../app.models';
 import { ToggleLeftPanelAction } from '../../../app.actions';
+import { ApiSummery } from '../../apis.models';
 
 @Component({
   selector: 'store-api-detail',
   templateUrl: './api-detail.component.html',
   styleUrls: ['./api-detail.component.scss']
 })
-export class ApiDetailComponent implements OnInit, AfterViewInit {
+export class ApiDetailComponent implements OnInit, OnDestroy {
 
-  @ViewChild('iframeRef', { read: ElementRef }) iframeRef: ElementRef;
+  public api: ApiSummery;
 
-  private nativeElement;
+  private subscriptions = {
+    selectedApi: null
+  };
 
-  constructor(
-    private componentFactoryResolver: ComponentFactoryResolver,
-    private ngZone: NgZone,
-    private applicationRef: ApplicationRef,
-    private injector: Injector
-  ) { }
+  constructor(private store: Store<AppState>) { }
 
   ngOnInit() {
-    this.nativeElement = this.iframeRef.nativeElement;
-    this.nativeElement.style.visibility = 'hidden';
+    this.subscriptions.selectedApi = this.store.select((s) => s.apis.selectedApi).subscribe((api) => this.api = api);
   }
 
-  ngAfterViewInit(): void {
-    this.nativeElement.onload = () => {
-      this.nativeElement.contentDocument.querySelector('.header-default').remove();
-      this.nativeElement.contentDocument.querySelector('.navbar-wrapper').remove();
-      this.nativeElement.contentDocument.querySelector('.media-left').remove();
-      this.nativeElement.contentDocument.querySelector('.footer').remove();
-
-      const icon = this.nativeElement.contentDocument.querySelector('.white-wrapper');
-      if (!!icon) {
-        icon.parentElement.classList.add('icon-remove');
-        this.nativeElement.contentDocument.querySelector('.icon-remove').remove();
-      }
-
-      const injetingTarget = this.nativeElement.contentDocument.querySelector('.form-api-subscription');
-      if (!!injetingTarget) {
-        injetingTarget.parentElement.classList.add('lagazySupContainer');
-        injetingTarget.remove();
-
-        const innerHost = this.nativeElement.contentDocument.querySelector('.lagazySupContainer');
-        const element = document.createElement('store-api-subscription');
-        innerHost.appendChild(element);
-
-        this.ngZone.run(() => {
-          const componetFactory = this.componentFactoryResolver.resolveComponentFactory(ApiSubscriptionComponent);
-          const componentRef = componetFactory.create(this.injector, [], innerHost);
-          const hostView = componentRef.hostView;
-
-          try {
-            this.applicationRef.attachView(hostView);
-          } catch (e) {
-            console.log('ERROR' + e);
-          }
-        });
-      }
-
-      this.nativeElement.style.visibility = 'visible';
-    };
+  ngOnDestroy(): void {
+    this.subscriptions.selectedApi.unsubscribe();
   }
-
 }

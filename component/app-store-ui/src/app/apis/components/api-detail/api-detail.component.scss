@@ -1,17 +1,34 @@
-.hader-card{
-    margin-bottom: 20px;
+@import '../../../../styles/_mixing.scss';
+
+.hader-card {
+  margin-bottom: 20px;
 }
 
-.content-card{
+.content-card {
+  height: 100%;
+
+  mat-card-content {
     height: 100%;
+  }
+}
 
-    mat-card-content{
-        height: 100%;
-    }
+.desc {
+  color: #a2a0a0;
+}
 
-    iframe{
-        width: 100%;
-        height: 100%;
-        border: none;
+.info-summery {
+  span {
+    display: inline-block;
+    margin: 2px;
+
+    &.field-name {
+      width: 120px;
+      background-color: #fafafa;
+      padding: 5px;
     }
+  }
+}
+
+mat-expansion-panel-header {
+  @include transition(all 0.2s ease-in);
 }

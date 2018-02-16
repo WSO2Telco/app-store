@@ -1,66 +1,55 @@
-<div class="container" style="width:100%; background-color:white;padding:20px;">
-  <form class="sub-form" #subForm="ngForm" novalidate (ngSubmit)="onSubscribeClick(subForm)">
+<div>
+  <form fxLayout="row" fxLayoutGap="20px" fxLayoutWrap class="sub-form" #subForm="ngForm" novalidate (ngSubmit)="onSubscribeClick(subForm)">
+    <mat-form-field fxFlex="calc(50% - 20px)" fxFlex.lt-md="100%">
+      <mat-select placeholder="Country" name="country" #country="ngModel" required [(ngModel)]="selectedCountry" (change)="onCountryChange()">
+        <mat-option *ngFor="let c of countries$ | async" [value]="c">
+          {{c.countryName}}
+        </mat-option>
+      </mat-select>
+      <mat-error *ngIf="country.hasError('required')">You must make a selection</mat-error>
+    </mat-form-field>
 
-    <div class="form-group">
-      <label for="country">Country</label>
-      <select class="form-control" name="country" #country="ngModel" required [(ngModel)]="selectedCountry" (change)="onCountryChange()">
-        <option *ngFor="let c of countries$ | async" [ngValue]="c">{{c.countryName}}</option>
-      </select>
-      <div *ngIf="country.invalid && (subForm.submitted || country.dirty || country.touched)" class="alert-danger" style="padding: 0px 5px;
-      font-size: 0.9em;">
-        <div *ngIf="country.errors.required">
-          Country is required.
-        </div>
-      </div>
+    <div fxFlex="calc(50% - 20px)" fxFlex.lt-md="100%">
+      <mat-form-field style="width:100%">
+        <mat-select placeholder="Operators" name="operator" #operator="ngModel" required [(ngModel)]="selectedOperator" (change)="onOperatorChange()">
+          <mat-option *ngFor="let op of operators$ | async" [value]="op">
+            {{op.operator + ' - '+ op.mnc}}
+          </mat-option>
+        </mat-select>
+        <mat-error *ngIf="operator.hasError('required')"> At least one operator is required.</mat-error>
+      </mat-form-field>
     </div>
 
-    <div class="form-group">
-      <label for="operator">Operators</label>
-      <select class="form-control" name="operator" #operator="ngModel" [(ngModel)]="selectedOperator" (change)="onOperatorChange()">
-        <option *ngFor="let op of operators$ | async" [ngValue]="op">{{op.operator + ' - '+ op.mnc}}</option>
-      </select>
-      <div *ngIf="!selectedOperators.length && (subForm.submitted || operator.dirty || operator.touched)" class="alert-danger" style="padding: 0px 5px;
-      font-size: 0.9em;">
-        <div >
-          At least one operator is required.
-        </div>
-      </div>
-      <div style="padding-top: 10px;">
-        <store-operator-tag style="float:left" *ngFor="let op of selectedOperators" [operator]="op" (removeOperator)="onOperatorRemove($event)"></store-operator-tag>
-        <div style="clear:both"></div>
-      </div>
-
+    <div fxFlex="100%">
+      <mat-chip-list #chipList>
+        <mat-chip *ngFor="let op of selectedOperators" class="mat-basic-chip" color="accent" removable="true" (remove)="onOperatorRemove(op)">
+          {{op.operator + '-'+ op.mnc}}
+          <mat-icon matChipRemove>cancel</mat-icon>
+        </mat-chip>
+      </mat-chip-list>
     </div>
 
-    <div class="form-group">
-      <label for="application">Application</label>
-      <select class="form-control" name="application" #application="ngModel" required [(ngModel)]="selectedApplication">
-        <option *ngFor="let app of applications$ | async" [ngValue]="app">{{app.name}}</option>
-      </select>
-      <div *ngIf="application.invalid && (subForm.submitted || application.dirty || application.touched)" class="alert-danger" style="padding: 0px 5px;
-      font-size: 0.9em;">
-        <div *ngIf="application.errors.required">
-          Application is required.
-        </div>
-      </div>
+    <mat-form-field fxFlex="calc(50% - 20px)" fxFlex.lt-md="100%">
+      <mat-select placeholder="Application" name="application" #application="ngModel" required [(ngModel)]="selectedApplication">
+        <mat-option *ngFor="let app of applications$ | async" [value]="app">
+          {{app.name}}
+        </mat-option>
+      </mat-select>
+      <mat-error *ngIf="application.hasError('required')"> Application is required.</mat-error>
+    </mat-form-field>
+
+    <mat-form-field fxFlex="calc(50% - 20px)" fxFlex.lt-md="100%">
+      <mat-select placeholder="Tier" name="tier" #tier="ngModel" required [(ngModel)]="selectedTier">
+        <mat-option *ngFor="let t of tiers" [value]="t">
+          {{t}}
+        </mat-option>
+      </mat-select>
+      <mat-error *ngIf="tier.hasError('required')"> Tire is required.</mat-error>
+    </mat-form-field>
+
+    <div fxFlex="100%" style="padding-top: 30px">
+      <button mat-raised-button type="submit" color="accent">subscribe</button>
     </div>
-
-    <div class="form-group">
-      <label for="tier">Tier</label>
-      <select class="form-control" name="tier" #tire="ngModel" required [(ngModel)]="selectedTier">
-        <option *ngFor="let t of tiers" [ngValue]="t">{{t}}</option>
-      </select>
-      <div *ngIf="tire.invalid && (subForm.submitted || tire.dirty || tire.touched)" class="alert-danger" style="padding: 0px 5px;
-      font-size: 0.9em;">
-        <div *ngIf="tire.errors.required">
-          Tire is required.
-        </div>
-      </div>
-    </div>
-
-
-
-    <button type="submit" class="btn btn-primary">subscribe</button>
   </form>
 
 </div>

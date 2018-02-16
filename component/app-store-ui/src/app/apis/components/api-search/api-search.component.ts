@@ -14,7 +14,7 @@ import { Router } from '@angular/router';
 })
 export class ApiSearchComponent implements OnInit {
 
-  apiSearchResult: MatTableDataSource<ApiSummery> = new MatTableDataSource();
+  apiSearchResult: ApiSummery[];
   apiStatus: ApiStatus[];
   searchQuery: string;
   apiCategory: ApiStatus;
@@ -24,7 +24,7 @@ export class ApiSearchComponent implements OnInit {
     private router: Router) {
 
     this.store.select(s => s.apis.apiSearchResult)
-      .subscribe((res: ApiSearchResult) => { this.apiSearchResult.data = res.apis; });
+      .subscribe((res: ApiSearchResult) => { this.apiSearchResult = res.apis; });
 
     this.store.select(s => s.apis.apiStatus)
       .subscribe(res => this.apiStatus = res);
@@ -36,7 +36,6 @@ export class ApiSearchComponent implements OnInit {
 
   applyFilter(value: string) {
     value = value.trim().toLocaleLowerCase();
-    this.apiSearchResult.filter = value;
   }
 
   onSearchClick() {
@@ -48,7 +47,7 @@ export class ApiSearchComponent implements OnInit {
     this.router.navigate(['/apis/detail']);
   }
 
-  onCategoryChange(){
+  onCategoryChange() {
     this.store.dispatch(new DoApiSearchAction(new ApiSearchParam(this.apiCategory, this.searchQuery)));
   }
 }
