@@ -4,7 +4,7 @@ import { Observable } from 'rxjs/Observable';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import {
     ApiSearchParam, ApiSearchResult, Application, ApplicationSearchParam, ApplicationsResult,
-    SubscribeParam, SubscribeResult
+    SubscribeParam, SubscribeResult, ApiOverview
 } from './apis.models';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
@@ -31,6 +31,10 @@ export class ApisService {
 
     subscribe(param: SubscribeParam): Observable<SubscribeResult> {
         return this.http.post<SubscribeResult>(ApiEndpoints.apis.subscribe, param);
+    }
+
+    getApiOverview(param): Observable<ApiOverview> {
+        return this.http.post<ApiOverview>(ApiEndpoints.apis.apiOverview, param);
     }
 
 }

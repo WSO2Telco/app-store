@@ -1,0 +1,49 @@
+{
+   "name":"SwaggerPetstore",
+   "provider":"admin",
+   "version":"1.0.0",
+   "description":"This is a sample server Petstore server. You can find out more about Swagger at [http://swagger.io](http://swagger.io) or on [irc.freenode.net, #swagger](http://swagger.io/irc/). For this sample, you can use the api key `special-key` to test the authorization filters.",
+   "rates":0.0,
+   "endpoint":null,
+   "wsdl":null,
+   "wadl":null,
+   "updatedDate":"15/Dec/2017 11:26:49 AM IST",
+   "context":"/SwaggerPetstore/1.0.0",
+   "status":"PUBLISHED",
+   "serverURL":"{\"hybrid\":{\"Production and Sandbox\":{\"http\":\"http:\\/\\/172.17.0.1:8280\",\"https\":\"https:\\/\\/172.17.0.1:8243\",\"showInConsole\":true}}}",
+   "tiers":[
+      {
+         "tierName":"Unlimited",
+         "tierDisplayName":"Unlimited",
+         "tierDescription":"Allows unlimited requests"
+      },
+      {
+         "tierName":"Default",
+         "tierDisplayName":"Default",
+         "tierDescription":"Allows 20 request(s) per minute.",
+         "tierAttributes":""
+      },
+      {
+         "tierName":"Requestbased",
+         "tierDisplayName":"Requestbased",
+         "tierDescription":"Allows 20 request(s) per minute.",
+         "tierAttributes":""
+      }
+   ],
+   "subscribed":false,
+   "thumbnailurl":"images/api-default.png",
+   "bizOwner":null,
+   "bizOwnerMail":null,
+   "techOwner":null,
+   "techOwnerMail":null,
+   "visibility":"public",
+   "visibleRoles":null,
+   "uriTemplates":"[org.mozilla.javascript.NativeArray@75112720, org.mozilla.javascript.NativeArray@5796651b, org.mozilla.javascript.NativeArray@7a2b9d20, org.mozilla.javascript.NativeArray@412e4521, org.mozilla.javascript.NativeArray@3dfa4203, org.mozilla.javascript.NativeArray@59a0561a, org.mozilla.javascript.NativeArray@7f440293, org.mozilla.javascript.NativeArray@4c704717, org.mozilla.javascript.NativeArray@23f5fec0, org.mozilla.javascript.NativeArray@78be6c22, org.mozilla.javascript.NativeArray@27b1a93c, org.mozilla.javascript.NativeArray@69371a22, org.mozilla.javascript.NativeArray@65b8fa3a, org.mozilla.javascript.NativeArray@6eec55d3]",
+   "apiOwner":"admin",
+   "isAdvertiseOnly":false,
+   "redirectURL":null,
+   "subscriptionAvailability":null,
+   "subscriptionAvailableTenants":null,
+   "isDefaultVersion":true,
+   "transports":"http,https"
+}

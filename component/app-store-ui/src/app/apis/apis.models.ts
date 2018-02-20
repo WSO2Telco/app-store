@@ -45,9 +45,42 @@ export class ApiSummery {
         public monetizationCategory: string = '') { }
 }
 
+export class ApiOverview {
+    name: string;
+    provider: string;
+    version: string;
+    description: string;
+    rates: number;
+    endpoint: string;
+    wsdl: string;
+    wadl: string;
+    updatedDate: string;
+    context: string;
+    status: string;
+    serverURL: string;
+    tiers: Tier[];
+    subscribed: boolean;
+    thumbnailurl: string;
+    bizOwner: string;
+    bizOwnerMail: string;
+    techOwner: string;
+    techOwnerMail: string;
+    visibility: string;
+    visibleRoles: string;
+    uriTemplates: string;
+    apiOwner: string;
+    isAdvertiseOnly: string;
+    redirectURL: string;
+    subscriptionAvailability: string;
+    subscriptionAvailableTenants: string;
+    isDefaultVersion: string;
+    transports: string;
+}
+
 export interface ApisState {
     apiSearchResult: ApiSearchResult;
     selectedApi: ApiSummery;
+    selectedApiOverview: ApiOverview;
     apiStatus: ApiStatus[];
     userApplications: Application[];
     selectedOperators: Operator[];

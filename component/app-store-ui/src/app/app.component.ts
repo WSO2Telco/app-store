@@ -54,7 +54,7 @@ export class AppComponent implements OnInit {
     setTimeout(() => {
       this.store.dispatch(new ToggleLeftPanelAction(true));
       this.store.dispatch(new ToggleParticleAction(true));
-      this.store.dispatch(new globalActions.ToggleMenuBackgroundAction(true));
+      this.store.dispatch(new globalActions.ToggleMenuBackgroundAction(false));
     }, 200);
 
   }

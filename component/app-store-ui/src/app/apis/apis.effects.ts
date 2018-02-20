@@ -6,7 +6,7 @@ import * as apiActions from './apis.actions';
 import { Observable } from 'rxjs/Observable';
 import {
     ApiSearchParam, ApiSearchResult, ApplicationSearchParam, Application,
-    ApplicationsResult, SubscribeParam, SubscribeResult
+    ApplicationsResult, SubscribeParam, SubscribeResult, ApiOverview
 } from './apis.models';
 import { Effect, Actions } from '@ngrx/effects';
 import { ApiSearchSuccessAction } from './apis.actions';
@@ -24,6 +24,18 @@ export class ApisEffects {
         .map((action: apiActions.DoApiSearchAction) => action.payload)
         .switchMap((payload: ApiSearchParam) => this.apiService.search(payload)
             .map((result: ApiSearchResult) => new ApiSearchSuccessAction(result))
+            .catch((e: HttpErrorResponse) => {
+                this.notification.error(e.message);
+                return Observable.empty();
+            })
+        );
+
+
+    @Effect() apiOverview$ = this.actions$
+        .ofType(apiActions.GET_API_OVERVIEW)
+        .map((action: apiActions.GetApiOverviewAction) => action.payload)
+        .switchMap((payload) => this.apiService.getApiOverview(payload)
+            .map((result: ApiOverview) => new apiActions.GetApiOverviewSuccessAction(result))
             .catch((e: HttpErrorResponse) => {
                 this.notification.error(e.message);
                 return Observable.empty();

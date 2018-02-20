@@ -43,30 +43,34 @@
               Overview
             </mat-panel-title>
           </mat-expansion-panel-header>
+          <store-api-overview [apiOverview]="apiOverview"></store-api-overview>
         </mat-expansion-panel>
 
-        <mat-expansion-panel (opened)="panelOpenState = true" (closed)="panelOpenState = false">
+        <mat-expansion-panel>
           <mat-expansion-panel-header>
             <mat-panel-title>
               Api Console
             </mat-panel-title>
           </mat-expansion-panel-header>
+          <store-api-console></store-api-console>
         </mat-expansion-panel>
 
-        <mat-expansion-panel (opened)="panelOpenState = true" (closed)="panelOpenState = false">
+        <mat-expansion-panel>
           <mat-expansion-panel-header>
             <mat-panel-title>
               Documentation
             </mat-panel-title>
           </mat-expansion-panel-header>
+          <store-api-documentation></store-api-documentation>
         </mat-expansion-panel>
 
-        <mat-expansion-panel (opened)="panelOpenState = true" (closed)="panelOpenState = false">
+        <mat-expansion-panel>
           <mat-expansion-panel-header>
             <mat-panel-title>
               Forum
             </mat-panel-title>
           </mat-expansion-panel-header>
+          <store-api-forum></store-api-forum>
         </mat-expansion-panel>
 
       </mat-accordion>

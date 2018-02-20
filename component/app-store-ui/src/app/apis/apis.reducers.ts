@@ -6,6 +6,7 @@ import { Operator } from '../app.models';
 const initialState: ApisState = {
     apiSearchResult: new ApiSearchResult(),
     selectedApi: null,
+    selectedApiOverview: null,
     apiStatus: [
         ApiStatus.ALL,
         ApiStatus.PRODUCTION,
@@ -23,6 +24,12 @@ export function apisReducer(state: ApisState = initialState, action: apiActions.
 
         case apiActions.GET_USER_APPLICATIONS_SUCCESS: {
             return Object.assign({}, state, { userApplications: action.payload });
+        }
+
+        case apiActions.GET_API_OVERVIEW_SUCCESS: {
+            return Object.assign({}, state, {
+                selectedApiOverview: action.payload
+            });
         }
 
         case apiActions.ADD_OPERATOR_TO_SELECTION: {

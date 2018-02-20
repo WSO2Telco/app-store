@@ -7,13 +7,9 @@ import { ApiSummery } from '../../apis.models';
   styleUrls: ['./api-info.component.scss']
 })
 export class ApiInfoComponent implements OnInit {
+  @Input() api: ApiSummery;
 
-  @Input()
-  api: ApiSummery;
+  constructor() {}
 
-  constructor() { }
-
-  ngOnInit() {
-  }
-
+  ngOnInit() {}
 }
