@@ -22,7 +22,7 @@
 
     <div fxFlex="100%">
       <mat-chip-list #chipList>
-        <mat-chip *ngFor="let op of selectedOperators" class="mat-basic-chip" color="accent" removable="true" (remove)="onOperatorRemove(op)">
+        <mat-chip *ngFor="let op of selectedOperators"  color="accent" removable="true" (remove)="onOperatorRemove(op)">
           {{op.operator + '-'+ op.mnc}}
           <mat-icon matChipRemove>cancel</mat-icon>
         </mat-chip>

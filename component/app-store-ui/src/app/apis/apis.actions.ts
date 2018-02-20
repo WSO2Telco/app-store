@@ -1,5 +1,5 @@
 import { Action } from '@ngrx/store';
-import { ApiSearchParam, ApiSearchResult, Application, SubscribeParam, ApiSummery } from './apis.models';
+import { ApiSearchParam, ApiSearchResult, Application, SubscribeParam, ApiSummery, ApiOverview } from './apis.models';
 import { Operator } from '../app.models';
 
 export const DO_API_SEARCH = 'DO_API_SEARCH';
@@ -10,6 +10,8 @@ export const GET_USER_APPLICATIONS_SUCCESS = 'GET_USER_APPLICATIONS_SUCCESS';
 export const REMOVE_ALL_OPERATOR_FROM_SELECTION = 'REMOVE_ALL_OPERATOR_FROM_SELECTION';
 export const DO_SUBSCRIBE = 'DO_SUBSCRIBE';
 export const DO_SUBSCRIBE_SUCCESS = 'DO_SUBSCRIBE_SUCCESS';
+export const GET_API_OVERVIEW = 'GET_API_OVERVIEW';
+export const GET_API_OVERVIEW_SUCCESS = 'GET_API_OVERVIEW_SUCCESS';
 
 export const ADD_OPERATOR_TO_SELECTION = 'ADD_OPERATOR_TO_SELECTION';
 export const REMOVE_OPERATOR_FROM_SELECTION = 'REMOVE_OPERATOR_FROM_SELECTION';
@@ -65,6 +67,15 @@ export class SetSelectedApiAction {
     constructor(public payload: ApiSummery) { }
 }
 
+export class GetApiOverviewAction {
+    readonly type: string = GET_API_OVERVIEW;
+    constructor(public payload: any = null) { }
+}
+export class GetApiOverviewSuccessAction {
+    readonly type: string = GET_API_OVERVIEW_SUCCESS;
+    constructor(public payload: ApiOverview) { }
+}
+
 
 export type Actions
     = DoApiSearchAction
@@ -76,6 +87,8 @@ export type Actions
     | RemoveAllOperatorFromSelectionAction
     | DoSubscribeAction
     | DoSubscribeSuccessAction
-    | SetSelectedApiAction;
+    | SetSelectedApiAction
+    | GetApiOverviewAction
+    | GetApiOverviewSuccessAction;
 
 

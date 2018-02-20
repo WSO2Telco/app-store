@@ -6,7 +6,8 @@ import { ApiSubscriptionComponent } from '../api-subscription/api-subscription.c
 import { Store } from '@ngrx/store';
 import { AppState } from '../../../app.models';
 import { ToggleLeftPanelAction } from '../../../app.actions';
-import { ApiSummery } from '../../apis.models';
+import { ApiSummery, ApiOverview } from '../../apis.models';
+import * as apiActions from '../../apis.actions';
 
 @Component({
   selector: 'store-api-detail',
@@ -16,18 +17,25 @@ import { ApiSummery } from '../../apis.models';
 export class ApiDetailComponent implements OnInit, OnDestroy {
 
   public api: ApiSummery;
+  public apiOverview: ApiOverview;
 
   private subscriptions = {
-    selectedApi: null
+    selectedApi: null,
+    apiOverview: null
   };
 
   constructor(private store: Store<AppState>) { }
 
   ngOnInit() {
     this.subscriptions.selectedApi = this.store.select((s) => s.apis.selectedApi).subscribe((api) => this.api = api);
+    this.subscriptions.apiOverview = this.store.select((s) => s.apis.selectedApiOverview)
+      .subscribe((overview) => this.apiOverview = overview);
+
+    this.store.dispatch(new apiActions.GetApiOverviewAction());
   }
 
   ngOnDestroy(): void {
     this.subscriptions.selectedApi.unsubscribe();
+    this.subscriptions.apiOverview.unsubscribe();
   }
 }

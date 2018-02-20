@@ -13,6 +13,10 @@ import { ApiSubscriptionComponent } from './components/api-subscription/api-subs
 import { OperatorTagComponent } from './components/operator-tag/operator-tag.component';
 import { ApisearchResultComponent } from './components/apisearch-result/apisearch-result.component';
 import { ApiInfoComponent } from './components/api-info/api-info.component';
+import { ApiOverviewComponent } from './components/api-overview/api-overview.component';
+import { ApiConsoleComponent } from './components/api-console/api-console.component';
+import { ApiDocumentationComponent } from './components/api-documentation/api-documentation.component';
+import { ApiForumComponent } from './components/api-forum/api-forum.component';
 
 @NgModule({
   imports: [
@@ -28,7 +32,11 @@ import { ApiInfoComponent } from './components/api-info/api-info.component';
     ApiSubscriptionComponent,
     OperatorTagComponent,
     ApisearchResultComponent,
-    ApiInfoComponent],
+    ApiInfoComponent,
+    ApiOverviewComponent,
+    ApiConsoleComponent,
+    ApiDocumentationComponent,
+    ApiForumComponent],
   providers: [ApisService],
   entryComponents: [ApiSubscriptionComponent]
 })

@@ -48,7 +48,11 @@ export interface GlobalState {
 
 
 export class Tier {
-    constructor(public name: string) { }
+    constructor(
+        public tierName: string,
+        public tierDisplayName: string,
+        public tierDescription: string
+    ) { }
 }
 
 export class MenuItem {
