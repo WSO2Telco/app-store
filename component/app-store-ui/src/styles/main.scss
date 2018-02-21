@@ -1,20 +1,28 @@
-@import url('https://fonts.googleapis.com/css?family=Roboto:300,400,500,900');
+@import url("https://fonts.googleapis.com/css?family=Roboto:300,400,500,900");
 @import "~@angular/material/prebuilt-themes/indigo-pink.css";
-@import url('https://fonts.googleapis.com/icon?family=Material+Icons');
+@import url("https://fonts.googleapis.com/icon?family=Material+Icons");
 
+html,
+body {
+  left: 0;
+  top: 0;
+  bottom: 0;
+}
 
-html,body{
-    left: 0;
-    top: 0;
-    bottom:0;
-  }
-  
-  body *{
-    font-family: 'Roboto', sans-serif;
-    font-size: 12px;
-  }
+body * {
+  font-family: "Roboto", sans-serif;
+  font-size: 12px;
+}
 
-  body snack-bar-container{
-    border-radius: 0px !important;
-    padding: 0px !important;
-  }
+body snack-bar-container {
+  border-radius: 0px !important;
+  padding: 0px !important;
+}
+
+.information-container {
+  display: none;
+}
+
+.scheme-container {
+  margin-top: 30px;
+}
