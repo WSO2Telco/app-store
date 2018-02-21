@@ -20,10 +20,12 @@
       "prefix": "store",
       "styles": [
         "../node_modules/animate.css/animate.min.css",
+        "../node_modules/swagger-ui-dist/swagger-ui.css",
         "./styles/main.scss",
         "./styles/theme.scss"
       ],
-      "scripts": [],
+      "scripts": [
+      ],
       "environmentSource": "environments/environment.ts",
       "environments": {
         "dev": "environments/environment.ts",
