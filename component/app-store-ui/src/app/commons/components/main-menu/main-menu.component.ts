@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { MenuItem } from '../../../app.models';
+import { MenuItem } from '../../../app.data.models';
 
 import { NavigationEnd } from '@angular/router';
 @Component({

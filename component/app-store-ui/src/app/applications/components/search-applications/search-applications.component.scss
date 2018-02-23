@@ -1,0 +1,48 @@
+@import '../../../../styles/mixing';
+
+.intro-container, .search-container {
+    min-width: 300px;
+}
+
+.intro-container{
+    .txt{
+        font-size: 1.1em;
+        font-weight: 100;
+        line-height: 1.3em;
+        width:83%;
+        float: left;
+        text-align:right;
+
+        span{
+            font-size:2em;
+            font-weight:600;
+            margin-right:7px;
+        }
+    }
+
+    button{
+        float:right;
+    }
+}
+
+.tbl-container{
+    @include animation-delay(0.5s);
+
+    .mat-paginator-container{
+        padding-top:20px;
+        padding-bottom:20px;
+    }
+    mat-header-cell{
+        font-size: 1.2em;
+        &.action-container {
+            text-align:right;
+            padding-right:15px;
+        }
+    }
+
+    mat-cell{
+        &.action-container{
+            text-align:right;
+        }
+    }
+}

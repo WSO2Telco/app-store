@@ -1,9 +1,11 @@
 import { AuthState } from './authentication/authentication.models';
 import { ApisState } from './apis/apis.models';
+import { ApplicationsState } from './applications/applications.data.models';
 
 export interface AppState {
     authentication: AuthState;
     apis: ApisState;
+    applications:ApplicationsState;
     global: GlobalState;
 }
 

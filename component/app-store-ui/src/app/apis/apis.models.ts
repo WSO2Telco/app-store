@@ -1,4 +1,4 @@
-import { Operator, Country, Tier } from '../app.models';
+import { Operator, Country, Tier } from '../app.data.models';
 
 export enum ApiStatus {
     ALL = 'ALL',

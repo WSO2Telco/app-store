@@ -18,21 +18,23 @@ import { ApisModule } from './apis/apis.module';
 import { globalReducer } from './app.reducer';
 import { AppGlobalEffects } from './app.effects';
 import { AppService } from './app.service';
-import { AppState, GlobalState } from './app.models';
+import { AppState, GlobalState } from './app.data.models';
 import { authReducer } from './authentication/authentication.reducers';
 import { apisReducer } from './apis/apis.reducers';
 import { localStorageSync } from 'ngrx-store-localstorage';
+import { applicationsReducer } from './applications/applications.reducer';
 
 
 const reducers: ActionReducerMap<AppState> = {
   global: globalReducer,
   authentication: authReducer,
-  apis: apisReducer
+  apis: apisReducer,
+  applications: applicationsReducer
 };
 
 export function localStorageSyncReducer(reducer: ActionReducer<any>): ActionReducer<any> {
   return localStorageSync({
-    keys: ['global', 'authentication', 'apis'],
+    keys: ['global', 'authentication', 'apis', 'applications'],
     rehydrate: true
   })(reducer);
 }

@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Actions } from '@ngrx/effects';
-import { AppState, Country, Operator, Tier } from '../../../app.models';
+import { AppState, Country, Operator, Tier } from '../../../app.data.models';
 import { ToggleLeftPanelAction, LoadCountriesAction, LoadOperatorsAction } from '../../../app.actions';
 import { FormControl, NgForm } from '@angular/forms';
 import { Observable } from 'rxjs/Observable';

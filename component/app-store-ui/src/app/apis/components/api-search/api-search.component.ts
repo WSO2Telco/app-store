@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { AppState } from '../../../app.models';
+import { AppState } from '../../../app.data.models';
 import { Store } from '@ngrx/store';
 import { DoApiSearchAction, SetSelectedApiAction } from '../../apis.actions';
 import { ApiSearchParam, ApiSearchResult, ApiSummery, ApiStatus } from '../../apis.models';

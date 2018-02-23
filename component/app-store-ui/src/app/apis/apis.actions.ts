@@ -1,6 +1,6 @@
 import { Action } from '@ngrx/store';
 import { ApiSearchParam, ApiSearchResult, Application, SubscribeParam, ApiSummery, ApiOverview } from './apis.models';
-import { Operator } from '../app.models';
+import { Operator } from '../app.data.models';
 
 export const DO_API_SEARCH = 'DO_API_SEARCH';
 export const DO_API_SEARCH_SUCCESS = 'DO_API_SEARCH_SUCCESS';

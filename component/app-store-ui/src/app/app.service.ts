@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { ApiEndpoints } from './config/api.endpoints';
 import { Observable } from 'rxjs/Observable';
-import { Country, CountryOperator, Operator, Tier } from './app.models';
+import { Country, CountryOperator, Operator, Tier } from './app.data.models';
 import 'rxjs/add/observable/from';
 import 'rxjs/add/observable/of';
 import 'rxjs/add/operator/mergeMap';

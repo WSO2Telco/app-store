@@ -4,7 +4,7 @@ import {
 } from '@angular/core';
 import { ApiSubscriptionComponent } from '../api-subscription/api-subscription.component';
 import { Store } from '@ngrx/store';
-import { AppState } from '../../../app.models';
+import { AppState } from '../../../app.data.models';
 import { ToggleLeftPanelAction } from '../../../app.actions';
 import { ApiSummery, ApiOverview } from '../../apis.models';
 import * as apiActions from '../../apis.actions';
