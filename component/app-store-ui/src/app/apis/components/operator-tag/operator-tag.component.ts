@@ -1,5 +1,5 @@
 import { Output, EventEmitter, Input, Component, OnInit } from '@angular/core';
-import { Operator } from '../../../app.models';
+import { Operator } from '../../../app.data.models';
 
 @Component({
   selector: 'store-operator-tag',

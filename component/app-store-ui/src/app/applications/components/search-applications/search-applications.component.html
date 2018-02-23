@@ -1,3 +1,82 @@
-<p>
-  search-applications works!
-</p>
+<div fxLayout="column" fxLayoutGap="20px">
+<div fxLayout="row" fxLayout.lt-md="column" fxLayoutGap="20px">
+  <mat-card fxFlex class="intro-container animated fadeInDown mat-elevation-z8">
+    <mat-card-content>
+      <button mat-fab color="accent" >+</button>
+    <div class="txt"> <span> Application</span> is a logical collection of APIs. Applications allow you to use a single access token to invoke a collection
+      of APIs and to subscribe to one API multiple times with different SLA levels. The DefaultApplication is pre-created
+      and allows unlimited access by default.</div>
+  
+    </mat-card-content>
+  </mat-card>
+
+  <mat-card class="search-container animated fadeInDown" fxFlex>
+    <mat-card-content>
+      <div class="search-Container">
+
+
+        <form #searchForm="ngForm" novalidate (ngSubmit)="onSearchClick()" fxLayout="row" fxLayoutGap="20px">
+
+          <mat-form-field class="search-input" fxFlex="80%">
+            <input matInput placeholder="Filter by..." name="searchQuery" [(ngModel)]="searchQuery">
+          </mat-form-field>
+
+          <button class="search" fxFlex mat-raised-button color="accent">Search</button>
+
+
+        </form>
+
+
+      </div>
+    </mat-card-content>
+  </mat-card>
+</div>
+
+
+        <div class="tbl-container mat-elevation-z8 animated fadeIn">
+            <mat-table #table [dataSource]="dataSource">
+      
+              <ng-container matColumnDef="name">
+                <mat-header-cell *matHeaderCellDef> Name </mat-header-cell>
+                <mat-cell *matCellDef="let element"> {{element.name}} </mat-cell>
+              </ng-container>
+      
+              <ng-container matColumnDef="tier">
+                <mat-header-cell *matHeaderCellDef> Tier </mat-header-cell>
+                <mat-cell *matCellDef="let element"> {{element.tier}} </mat-cell>
+              </ng-container>
+              
+              <ng-container matColumnDef="wfStatus">
+                <mat-header-cell *matHeaderCellDef> Workflow Status </mat-header-cell>
+                <mat-cell *matCellDef="let element"> {{element.status}} </mat-cell>
+              </ng-container>
+              
+              <ng-container matColumnDef="subscription">
+                <mat-header-cell *matHeaderCellDef> Subscriptions </mat-header-cell>
+                <mat-cell *matCellDef="let element"> {{element.apiCount}} </mat-cell>
+              </ng-container>
+      
+              <ng-container matColumnDef="action">
+                <mat-header-cell class="action-container" *matHeaderCellDef> Actions </mat-header-cell>
+                <mat-cell class="action-container" *matCellDef="let element">
+                  <div class="button-row">
+                  
+                    <button mat-icon-button >
+                      <mat-icon>spellcheck</mat-icon>
+                    </button>
+                    <button mat-icon-button >
+                      <mat-icon>delete</mat-icon>
+                    </button>
+      
+                  </div>
+                </mat-cell>
+              </ng-container>
+      
+      
+              <mat-header-row *matHeaderRowDef="[ 'name','tier','wfStatus','subscription','action']"></mat-header-row>
+              <mat-row *matRowDef="let row; columns: [ 'name','tier','wfStatus','subscription','action'];"></mat-row>
+            </mat-table>
+            <mat-paginator [pageSizeOptions]="[5, 10, 25]"></mat-paginator>
+          </div>
+    
+</div>

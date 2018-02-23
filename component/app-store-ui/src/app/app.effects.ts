@@ -3,7 +3,7 @@ import { AppService } from './app.service';
 import { Actions, Effect } from '@ngrx/effects';
 import * as appActons from './app.actions';
 import { Action } from '@ngrx/store/src/models';
-import { Country, Operator, Tier } from './app.models';
+import { Country, Operator, Tier } from './app.data.models';
 import { HttpErrorResponse } from '@angular/common/http';
 import { NotificationService } from './shared/services/notification.service';
 import { Observable } from 'rxjs/Observable';

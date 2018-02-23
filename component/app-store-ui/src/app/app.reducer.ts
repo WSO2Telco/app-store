@@ -1,4 +1,4 @@
-import { GlobalState } from './app.models';
+import { GlobalState } from './app.data.models';
 import * as globalActions from './app.actions';
 import { ToggleRightPanelAction } from './app.actions';
 

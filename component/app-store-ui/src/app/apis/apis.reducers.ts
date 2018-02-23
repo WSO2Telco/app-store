@@ -1,7 +1,7 @@
 import { ApisState, ApiSearchResult, ApiStatus } from './apis.models';
 import { ApisService } from './apis.service';
 import * as apiActions from './apis.actions';
-import { Operator } from '../app.models';
+import { Operator } from '../app.data.models';
 
 const initialState: ApisState = {
     apiSearchResult: new ApiSearchResult(),

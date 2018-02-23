@@ -1,5 +1,5 @@
 import { Action } from '@ngrx/store';
-import { Country, Operator, Tier } from './app.models';
+import { Country, Operator, Tier } from './app.data.models';
 
 export const TOGGLE_RIGHT_NAV_PANEL = 'TOGGLE_RIGHT_NAV_PANEL';
 export const TOGGLE_LEFT_NAV_PANEL = 'TOGGLE_LEFT_NAV_PANEL';

@@ -2,7 +2,7 @@ import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { OnInit, ChangeDetectorRef } from '@angular/core';
 import { LoginMenuAction, LoginResponseData, LoginMenuActionTypes, LoginFormData } from './authentication/authentication.models';
 import { Store } from '@ngrx/store';
-import { AppState } from './app.models';
+import { AppState } from './app.data.models';
 import { DoLogoutAction } from './authentication/authentication.actions';
 import { Observable } from 'rxjs/Observable';
 import * as loginActions from './authentication/authentication.actions';

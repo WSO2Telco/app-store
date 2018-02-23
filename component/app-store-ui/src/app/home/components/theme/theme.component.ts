@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { AppState } from '../../../app.models';
+import { AppState } from '../../../app.data.models';
 import { AppThemeChangeAction, ToggleParticleAction, ToggleMenuBackgroundAction } from '../../../app.actions';
 
 @Component({
