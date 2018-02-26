@@ -1,0 +1,35 @@
+@import '../../../../styles/mixing';
+
+
+mat-grid-tile{
+    color : white;
+    @include  transition(all 0.2s ease-in);
+    &.selected{
+        background-color :rgb(233, 30, 99);
+        .mat-figure{
+            font-size: 2em;
+        }
+    }
+
+    &.default{
+        background-color:rgb(14, 71, 161);
+    }
+
+    &.appName{
+        background-color: white;
+        color:gray;
+        figure{
+            font-weight: 100;
+            font-size: 2em;
+            text-transform: uppercase;
+        }
+    }
+
+
+}
+
+
+.child-view{
+    min-height : 300px;
+    border-top: solid 5px rgb(233, 30, 99);
+}

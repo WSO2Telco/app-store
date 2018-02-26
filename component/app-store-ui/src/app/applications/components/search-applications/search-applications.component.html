@@ -2,7 +2,7 @@
 <div fxLayout="row" fxLayout.lt-md="column" fxLayoutGap="20px">
   <mat-card fxFlex class="intro-container animated fadeInDown mat-elevation-z8">
     <mat-card-content>
-      <button mat-fab color="accent" >+</button>
+      <button mat-fab color="accent" matTooltip="Create new application" [routerLink]="['/applications/create']">+</button>
     <div class="txt"> <span> Application</span> is a logical collection of APIs. Applications allow you to use a single access token to invoke a collection
       of APIs and to subscribe to one API multiple times with different SLA levels. The DefaultApplication is pre-created
       and allows unlimited access by default.</div>
@@ -61,10 +61,13 @@
                 <mat-cell class="action-container" *matCellDef="let element">
                   <div class="button-row">
                   
-                    <button mat-icon-button >
-                      <mat-icon>spellcheck</mat-icon>
+                    <button mat-icon-button  matTooltip="View" (click)="onAppAction(element,'view')" >
+                      <mat-icon>visibility</mat-icon>
                     </button>
-                    <button mat-icon-button >
+                    <button mat-icon-button  matTooltip="Edit" (click)="onAppAction(element,'edit')" >
+                      <mat-icon>create</mat-icon>
+                    </button>
+                    <button mat-icon-button  matTooltip="Delete" (click)="onAppAction(element,'delete')" >
                       <mat-icon>delete</mat-icon>
                     </button>
       

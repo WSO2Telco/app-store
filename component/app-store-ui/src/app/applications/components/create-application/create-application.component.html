@@ -1,0 +1,33 @@
+<div fxLayout="column" fxLayout.lt-lg="column" fxLayoutGap="20px">
+  <mat-card class="title-card animated fadeInDown" fxFlex="">
+    <mat-card-content>
+      <div fxFlex>
+        <h2 class="api-name mat-headline">Create Application</h2>
+      </div>
+    </mat-card-content>
+  </mat-card>
+
+  <mat-card class="info-table animated fadeInDown" fxFlex="">
+    <mat-card-content>
+      <form fxLayout="column" fxLayoutGap="20px" fxLayoutWrap class="sub-form" #appForm="ngForm" novalidate>
+      <mat-form-field>
+        <input matInput name="appName" #appName="ngModel" [(ngModel)]="application.name"  required placeholder="Application Name">
+
+        <mat-error *ngIf="appName.hasError('required')">Application name is required</mat-error>
+      </mat-form-field>
+
+
+      <mat-form-field style="width:100%">
+        <textarea matInput required name="description" #description="ngModel" [(ngModel)]="application.description" placeholder="Description"></textarea>
+        <mat-error *ngIf="description.hasError('required')">Description is required</mat-error>
+      </mat-form-field>
+
+      <div fxFlex="100%" fxLayoutAlign="end center" fxLayoutGap="10px" >
+          <button mat-raised-button type="button" [routerLink]="['/applications']" >Cancel</button>
+          <button mat-raised-button type="submit" color="accent" [routerLink]="['/applications']">Create</button>
+        </div>
+      </form>
+    </mat-card-content>
+  </mat-card>
+
+</div>

@@ -8,6 +8,8 @@ import { ApplicationsEffects } from './applications.effects';
 import { applicationsReducer } from './applications.reducer';
 import { SharedModule } from '../shared/shared.module';
 import { ApplicationsService } from './applications.service';
+import { CreateApplicationComponent } from './components/create-application/create-application.component';
+import { ApplicationDetailMainComponent } from './components/application-detail-main/application-detail-main.component';
 
 @NgModule({
   imports: [
@@ -17,7 +19,7 @@ import { ApplicationsService } from './applications.service';
     StoreModule.forFeature('apis', applicationsReducer),
     EffectsModule.forFeature([ApplicationsEffects]),
   ],
-  declarations: [SearchApplicationsComponent],
+  declarations: [SearchApplicationsComponent, CreateApplicationComponent, ApplicationDetailMainComponent],
   providers: [ApplicationsService]
 })
 export class ApplicationsModule { }
