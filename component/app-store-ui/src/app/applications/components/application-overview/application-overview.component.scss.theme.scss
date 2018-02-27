@@ -1,0 +1,20 @@
+@import "~@angular/material/theming";
+@mixin application-overview-theme($theme) {
+  $background: map-get($theme, background);
+  $foreground: map-get($theme, foreground);
+  $primary: map-get($theme, primary);
+  $accent: map-get($theme, accent);
+
+  .card-overview {
+      border-top: solid 5px mat-color($accent);
+
+      .field{
+          background-color: mat-color($primary,darker);
+          color: mat-color($background,app-bar);
+      }
+
+      .field-val{
+          color: mat-color($foreground,secondary-text);
+      }
+  }
+}

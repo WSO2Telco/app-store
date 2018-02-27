@@ -26,3 +26,12 @@ body snack-bar-container {
 .scheme-container {
   margin-top: 30px;
 }
+
+.mat-grid-tile.selected .mat-figure{
+  font-size:2em !important;
+}
+.mat-grid-tile.appName .mat-figure{
+  font-weight: 100;
+  font-size: 2em;
+  text-transform: uppercase;
+}
