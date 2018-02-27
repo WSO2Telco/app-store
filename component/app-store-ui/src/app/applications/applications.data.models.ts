@@ -1,6 +1,6 @@
 export enum Tiers {
-  DEFAULT = "DEFAULT",
-  UNLIMITED = "UNLIMITED"
+  DEFAULT = 'DEFAULT',
+  UNLIMITED = 'UNLIMITED'
 }
 
 export interface ApplicationsState {
@@ -27,4 +27,12 @@ export interface Application {
 export class CreateApplicationParam {
   name: string;
   description: string;
+}
+
+export class TabTile {
+  text: string;
+  route: string;
+  cols: number;
+  rows: number;
+  class: string;
 }

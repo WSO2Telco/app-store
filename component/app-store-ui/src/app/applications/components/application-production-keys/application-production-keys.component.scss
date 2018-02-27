@@ -1,0 +1,6 @@
+@import '../../../../styles/mixing';
+
+.card-production{
+    @include animation-delay(0.2s);
+    min-height: 300px;
+}

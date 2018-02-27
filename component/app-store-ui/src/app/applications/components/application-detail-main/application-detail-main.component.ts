@@ -1,34 +1,73 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { TabTile } from '../../applications.data.models';
 
 @Component({
-  selector: "store-application-detail-main",
-  templateUrl: "./application-detail-main.component.html",
-  styleUrls: ["./application-detail-main.component.scss"]
+  selector: 'store-application-detail-main',
+  templateUrl: './application-detail-main.component.html',
+  styleUrls: ['./application-detail-main.component.scss']
 })
 export class ApplicationDetailMainComponent implements OnInit {
-  tiles = [
-    { text: "Detais", cols: 1, rows: 2, class: "selected" },
-    { text: "Petstore Application", cols: 3, rows: 1, class: "appName" },
-    { text: "Production Keys", cols: 1, rows: 1, class: "default" },
-    { text: "Sandbox Keys", cols: 1, rows: 1, class: "default" },
-    { text: "Subscriptions", cols: 1, rows: 1, class: "default" }
-  ];
+  originalTiles = {
+    overview: {
+      text: 'Overview',
+      route: 'overview',
+      cols: 1,
+      rows: 2,
+      class: 'selected'
+    },
+    appName: {
+      text: 'Petstore Application',
+      route: 'overview',
+      cols: 3,
+      rows: 1,
+      class: 'appName'
+    },
+    prodKeys: {
+      text: 'Production Keys',
+      route: 'production-keys',
+      cols: 1,
+      rows: 1,
+      class: 'default'
+    },
+    sandboxKeys: {
+      text: 'Sandbox Keys',
+      route: 'sandbox-keys',
+      cols: 1,
+      rows: 1,
+      class: 'default'
+    },
+    subscription: {
+      text: 'Subscriptions',
+      route: 'subscriptions',
+      cols: 1,
+      rows: 1,
+      class: 'default'
+    }
+  };
 
-  selectedTile = this.tiles[0];
+  public tiles: TabTile[];
 
-  constructor() {}
+  selectedTile;
 
-  ngOnInit() {}
+  constructor(private router: Router) {}
+
+  ngOnInit() {
+    this.tiles = Object.keys(this.originalTiles).map(
+      key => this.originalTiles[key]
+    );
+    this.selectedTile = this.originalTiles.overview;
+  }
 
   onClick(tile, index) {
-    tile.rows = 2;
-    tile.class="selected";
-    this.selectedTile.rows = 1;
-    this.selectedTile.class="default";
-    const newFirst = this.tiles.splice(index, 1);
-    const xFirst = this.tiles.shift();
-    this.tiles.push(xFirst);
-    this.selectedTile = tile;
-    this.tiles.unshift(this.selectedTile);
+    if (tile.class !== 'appName') {
+      tile.rows = 2;
+      tile.class = 'selected';
+      this.selectedTile.rows = 1;
+      this.selectedTile.class = 'default';
+
+      this.selectedTile = tile;
+      this.router.navigate(['/applications/detail/' + tile.route]);
+    }
   }
 }

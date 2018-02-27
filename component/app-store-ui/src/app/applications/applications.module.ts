@@ -10,6 +10,10 @@ import { SharedModule } from '../shared/shared.module';
 import { ApplicationsService } from './applications.service';
 import { CreateApplicationComponent } from './components/create-application/create-application.component';
 import { ApplicationDetailMainComponent } from './components/application-detail-main/application-detail-main.component';
+import { ApplicationProductionKeysComponent } from './components/application-production-keys/application-production-keys.component';
+import { ApplicationSandboxKeysComponent } from './components/application-sandbox-keys/application-sandbox-keys.component';
+import { ApplicationSubscriptionsComponent } from './components/application-subscriptions/application-subscriptions.component';
+import { ApplicationOverviewComponent } from './components/application-overview/application-overview.component';
 
 @NgModule({
   imports: [
@@ -17,9 +21,17 @@ import { ApplicationDetailMainComponent } from './components/application-detail-
     SharedModule,
     ApplicationsRoutes,
     StoreModule.forFeature('apis', applicationsReducer),
-    EffectsModule.forFeature([ApplicationsEffects]),
+    EffectsModule.forFeature([ApplicationsEffects])
   ],
-  declarations: [SearchApplicationsComponent, CreateApplicationComponent, ApplicationDetailMainComponent],
+  declarations: [
+    SearchApplicationsComponent,
+    CreateApplicationComponent,
+    ApplicationDetailMainComponent,
+    ApplicationProductionKeysComponent,
+    ApplicationSandboxKeysComponent,
+    ApplicationSubscriptionsComponent,
+    ApplicationOverviewComponent
+  ],
   providers: [ApplicationsService]
 })
-export class ApplicationsModule { }
+export class ApplicationsModule {}
