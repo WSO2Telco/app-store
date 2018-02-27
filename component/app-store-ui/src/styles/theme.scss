@@ -10,6 +10,7 @@
 @import '~app/apis/components/api-detail/api-detail.component.scss.theme.scss';
 @import '~app/authentication/components/login-form/login-form.component.scss.theme';
 @import '~app/applications/components/search-applications/search-applications.component.scss.theme';
+@import '~app/applications/components/create-application/create-application.component.scss.theme.scss';
 @import '~app/app.component.scss.theme';
 @import './material_component_teme/mat-card-theme';
 
@@ -24,6 +25,7 @@
   @include api-info-component-theme($theme);
   @include api-detail-component-theme($theme);
   @include applications-search-theme($theme);
+  @include create-applications-theme($theme);
 }
 
 /* 
