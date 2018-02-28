@@ -6,6 +6,7 @@ export enum Tiers {
 export interface ApplicationsState {
   allApplications: Application[];
   selectedApplication: Application;
+  appSubscriptions: Subscription[];
 }
 
 export class GetApplicationsParam {
@@ -35,4 +36,22 @@ export class TabTile {
   cols: number;
   rows: number;
   class: string;
+}
+
+export class Subscription {
+  apiName: string;
+  apiVersion: string;
+  apiProvider: string;
+  description: string;
+  subscribedTier: string;
+  status: string;
+  subStatus: string;
+  thumburl: string;
+  operators: string;
+}
+
+export interface AppSubscriptionParam {
+  error: string;
+  apis: Subscription[];
+  depType: string;
 }

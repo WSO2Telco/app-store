@@ -25,8 +25,8 @@ export class ThemeComponent implements OnInit {
     {
       name: 'Forest Theme',
       className: 'theme-two-light',
-      primary: '#00BCD4',
-      accent: '#FFA726',
+      primary: '#4CAF50',
+      accent: '#FFA000',
       warn: '#D50000'
     },
     {
@@ -34,6 +34,13 @@ export class ThemeComponent implements OnInit {
       className: 'theme-three-light',
       primary: '#37474F',
       accent: '#F06292',
+      warn: '#FF1744'
+    },
+    {
+      name: 'Tele',
+      className: 'theme-four-light',
+      primary: '#009688',
+      accent: '#4DD0E1',
       warn: '#FF1744'
     }
   ];

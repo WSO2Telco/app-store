@@ -17,7 +17,8 @@
         background-color:  map_get($mat-grey, 300)
     }
     &.appName{
-        color: mat-color($primary,darker);
+        background-color: mat-color($primary,darker);
+        color:  map_get($mat-grey, 200)
     }
   }
 }

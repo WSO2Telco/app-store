@@ -13,6 +13,8 @@
 @import '~app/applications/components/create-application/create-application.component.scss.theme.scss';
 @import '~app/applications/components/application-detail-main/application-detail-main.component.scss.theme.scss';
 @import '~app/applications/components/application-overview/application-overview.component.scss.theme.scss';
+@import '~app/applications/components/application-subscriptions/application-subscriptions.component.scss.theme.scss';
+@import '~app/applications/components/application-production-keys/application-production-keys.component.scss.theme.scss';
 @import '~app/app.component.scss.theme';
 @import './material_component_teme/mat-card-theme';
 
@@ -30,6 +32,8 @@
   @include create-applications-theme($theme);
   @include application-detail-theme($theme);
   @include application-overview-theme($theme);
+  @include application-subscription-theme($theme);
+  @include application-production-keys-theme($theme);
 }
 
 /* 
@@ -45,8 +49,8 @@ $store-theme-one-light: mat-light-theme($store-theme-one-primary, $store-theme-o
 /* 
  * Store Theme Two 
  */
-$store-theme-two-primary: mat-palette($mat-cyan,500,100,900);
-$store-theme-two-accent: mat-palette($mat-orange,400);
+$store-theme-two-primary: mat-palette($mat-green,500,400,900);
+$store-theme-two-accent: mat-palette($mat-amber,700);
 $store-theme-two-warn: mat-palette($mat-red,A700);
 
 $store-theme-two-light: mat-light-theme($store-theme-two-primary, $store-theme-two-accent,$store-theme-two-warn);
@@ -60,6 +64,15 @@ $store-theme-three-accent: mat-palette($mat-pink,300);
 $store-theme-three-warn: mat-palette($mat-red,A400);
 
 $store-theme-three-light: mat-light-theme($store-theme-three-primary,$store-theme-three-accent,$store-theme-three-warn);
+
+/**
+* Store theme Four
+*/
+ $store-theme-four-primary: mat-palette($mat-teal,500,200,900);
+ $store-theme-four-accent: mat-palette($mat-light-blue,'A400');
+ $store-theme-four-warn: mat-palette($mat-red,A400);
+ $store-theme-four-light: mat-light-theme($store-theme-four-primary,$store-theme-four-accent,$store-theme-four-warn);
+ 
 
 .theme-one-light {
   @include angular-material-theme($store-theme-one-light);
@@ -84,3 +97,9 @@ $store-theme-three-light: mat-light-theme($store-theme-three-primary,$store-them
   @include angular-material-theme($store-theme-three-light);
   @include custom-components-theme($store-theme-three-light);
 }
+
+.theme-four-light {
+  @include angular-material-theme($store-theme-four-light);
+  @include custom-components-theme($store-theme-four-light);
+}
+

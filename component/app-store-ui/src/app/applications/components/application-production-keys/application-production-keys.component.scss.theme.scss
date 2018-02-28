@@ -1,0 +1,12 @@
+@import "~@angular/material/theming";
+@mixin application-production-keys-theme($theme) {
+  $background: map-get($theme, background);
+  $foreground: map-get($theme, foreground);
+  $primary: map-get($theme, primary);
+  $accent: map-get($theme, accent);
+
+  .card-production {
+      border-top: solid 5px mat-color($accent);
+      
+  }
+}
