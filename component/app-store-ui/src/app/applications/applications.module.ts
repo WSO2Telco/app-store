@@ -14,6 +14,7 @@ import { ApplicationProductionKeysComponent } from './components/application-pro
 import { ApplicationSandboxKeysComponent } from './components/application-sandbox-keys/application-sandbox-keys.component';
 import { ApplicationSubscriptionsComponent } from './components/application-subscriptions/application-subscriptions.component';
 import { ApplicationOverviewComponent } from './components/application-overview/application-overview.component';
+import { GenerateKeyFormComponent } from './components/generate-key-form/generate-key-form.component';
 
 @NgModule({
   imports: [
@@ -30,7 +31,8 @@ import { ApplicationOverviewComponent } from './components/application-overview/
     ApplicationProductionKeysComponent,
     ApplicationSandboxKeysComponent,
     ApplicationSubscriptionsComponent,
-    ApplicationOverviewComponent
+    ApplicationOverviewComponent,
+    GenerateKeyFormComponent
   ],
   providers: [ApplicationsService]
 })

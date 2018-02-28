@@ -1,0 +1,21 @@
+@import "~@angular/material/theming";
+@mixin application-subscription-theme($theme) {
+  $primary: map-get($theme, primary);
+  $accent: map-get($theme, accent);
+  $background: map-get($theme, background);
+
+  .subs-tbl-container{
+      border-top: solid 5px mat-color($accent);
+
+      mat-header-row{
+        background-color: mat-color($primary, darker);
+        mat-header-cell{
+            color:mat-color($background,card);
+        }
+    }
+    .mat-paginator-container{
+        background-color:map_get($mat-grey, 200),
+    }
+  }
+  
+}

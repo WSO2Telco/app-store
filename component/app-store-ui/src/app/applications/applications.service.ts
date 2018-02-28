@@ -1,7 +1,11 @@
 import { HttpClient, HttpParams, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { ApiEndpoints } from '../config/api.endpoints';
-import { GetApplicationsParam, Application } from './applications.data.models';
+import {
+  GetApplicationsParam,
+  Application,
+  Subscription
+} from './applications.data.models';
 
 @Injectable()
 export class ApplicationsService {
@@ -19,5 +23,12 @@ export class ApplicationsService {
       param,
       this.httpOptions
     );
+  }
+
+  getApplicationSubscriptions(param: Application) {
+    return this.http.get<Subscription[]>(
+      ApiEndpoints.applications.getSubscriptions,
+      this.httpOptions
+    ).map((res: any) => res.apis);
   }
 }

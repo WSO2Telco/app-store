@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, ActivatedRouteSnapshot, ActivatedRoute } from '@angular/router';
 import { TabTile } from '../../applications.data.models';
 
 @Component({
@@ -8,6 +8,7 @@ import { TabTile } from '../../applications.data.models';
   styleUrls: ['./application-detail-main.component.scss']
 })
 export class ApplicationDetailMainComponent implements OnInit {
+
   originalTiles = {
     overview: {
       text: 'Overview',
@@ -50,12 +51,14 @@ export class ApplicationDetailMainComponent implements OnInit {
 
   selectedTile;
 
-  constructor(private router: Router) {}
+  constructor(private router: Router, private route: ActivatedRoute) {}
 
   ngOnInit() {
     this.tiles = Object.keys(this.originalTiles).map(
       key => this.originalTiles[key]
     );
+    console.log(this.route.snapshot.url);
+
     this.selectedTile = this.originalTiles.overview;
   }
 

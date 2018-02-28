@@ -16,6 +16,7 @@ export const ApiEndpoints = {
     tiers: 'assets/files/tiers.json'
   },
   applications: {
-    getAllApplications: './assets/files/applications.json'
+    getAllApplications: './assets/files/applications.json',
+    getSubscriptions: './assets/files/subscriptions.json'
   }
 };

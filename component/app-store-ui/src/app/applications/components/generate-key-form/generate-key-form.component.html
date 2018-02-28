@@ -1,0 +1,23 @@
+<div class="gen-key-container">
+  <div class="title">{{formTitle}}</div>
+  <div fxLayout="column">
+    <section class="grant-type-section" fxFlex>
+      <div class="gt-title">
+        <span>Grant Types</span>
+        <br>
+        <br> Application can use the following grant types to generate Access Tokens. Based on the application requirement, you
+        can enable or disable grant types for this application.</div>
+      <mat-checkbox class="ck-gt" *ngFor="let t of grantTyles">{{t.name}}</mat-checkbox>
+    </section>
+    <mat-form-field>
+      <input type="url" matInput placeholder="Callback URL">
+    </mat-form-field>
+    <mat-form-field>
+      <input matInput placeholder="Access token validity period">
+    </mat-form-field>
+    <div fxLayoutAlign="end center">
+      <button mat-raised-button class="generate"  color="accent">Generate</button>
+    </div>
+  </div>
+
+</div>
