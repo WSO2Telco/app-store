@@ -5,11 +5,19 @@ import 'rxjs/add/operator/map';
 import { ApiEndpoints } from '../config/api.endpoints';
 
 import { LoginFormData, LoginResponseData, LogoutResponseData } from './authentication.models';
+import { AppState } from '../app.data.models';
+import { Store } from '@ngrx/store';
 
 @Injectable()
 export class AuthenticationService {
 
-    constructor(private http: HttpClient) { }
+    private loginData:LoginResponseData;
+
+    constructor(private http: HttpClient,private store:Store<AppState>) { 
+        this.store.select((s)=> s.authentication.loginData).subscribe((auth)=>{
+            this.loginData = auth;
+        })
+    }
 
     login(param: LoginFormData): Observable<LoginResponseData> {
         const body: HttpParams = new HttpParams()
@@ -42,5 +50,9 @@ export class AuthenticationService {
 
         return this.http.post(ApiEndpoints.authentication.logout, body.toString(), httpOptions)
             .map((data: any) => new LogoutResponseData(data));
+    }
+
+    isLoggedIn(){
+        return !!this.loginData;
     }
 }

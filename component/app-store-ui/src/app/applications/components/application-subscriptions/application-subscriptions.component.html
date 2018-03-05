@@ -32,12 +32,12 @@
     </ng-container>
 
     <ng-container matColumnDef="action">
-      <mat-header-cell class="action-container" *matHeaderCellDef> Actions </mat-header-cell>
-      <mat-cell class="action-container" *matCellDef="let element">
+      <mat-header-cell class="action-container" *matHeaderCellDef > Actions </mat-header-cell>
+      <mat-cell class="action-container" *matCellDef="let element" >
         <div class="button-row">
 
           <button mat-icon-button matTooltip="Unsubscribe" (click)="onAction(element,'unsubscribe')">
-            <mat-icon>delete</mat-icon>
+            <mat-icon >delete</mat-icon>
           </button>
 
         </div>

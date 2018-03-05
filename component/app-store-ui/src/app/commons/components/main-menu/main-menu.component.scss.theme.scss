@@ -30,6 +30,11 @@
       &:hover{
         background-color:white;
       }
+      &.selected {
+        &:hover{
+          background: mat-color($accent);
+        }
+      }
     }
   }
 }

@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { SignUpComponent } from './authentication/components/sign-up/sign-up.component';
 import { MyAccountComponent } from './authentication/components/my-account/my-account.component';
+import { AppGuard } from './app.guards';
 
 const routes: Routes = [
   {
@@ -18,7 +19,8 @@ const routes: Routes = [
   },
   {
     path: 'applications',
-    loadChildren: 'app/applications/applications.module#ApplicationsModule'
+    loadChildren: 'app/applications/applications.module#ApplicationsModule',
+    canActivate: [AppGuard]
   },
   {
     path: 'application/sign-up',

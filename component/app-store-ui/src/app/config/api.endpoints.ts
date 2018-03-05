@@ -1,7 +1,7 @@
 export const ApiEndpoints = {
   authentication: {
-    login: '../store/site/blocks/user/login/ajax/login.jag',
-    logout: '../store/site/blocks/user/login/ajax/login.jag'
+    login: './assets/files/login.json',
+    logout: './assets/files/logout.json'
   },
   apis: {
     search: './assets/files/apis.json',

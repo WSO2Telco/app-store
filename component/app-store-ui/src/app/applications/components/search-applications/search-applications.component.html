@@ -77,7 +77,7 @@
       
       
               <mat-header-row *matHeaderRowDef="[ 'name','tier','wfStatus','subscription','action']"></mat-header-row>
-              <mat-row *matRowDef="let row; columns: [ 'name','tier','wfStatus','subscription','action'];"></mat-row>
+              <mat-row *matRowDef="let row; columns: [ 'name','tier','wfStatus','subscription','action'];" (click)="onAppAction(row,'view')"></mat-row>
             </mat-table>
             <mat-paginator [pageSizeOptions]="[5, 10, 25]"></mat-paginator>
           </div>

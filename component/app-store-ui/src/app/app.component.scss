@@ -38,6 +38,10 @@ $icon-sze: 30px;
 
 mat-sidenav {
   width: $left-side-nav-width;
+
+  &.right-nav{
+    width:$left-side-nav-width + 100;
+  }
 }
 
 .toolbar-main {

@@ -8,6 +8,8 @@ export const LOGIN_FAIL = 'LOGIN_FAIL';
 export const DO_LOGOUT = 'DO_LOGOUT';
 export const DO_LOGOUT_SUCCESS = 'DO_LOGOUT_SUCCESS';
 
+export const SET_LAST_AUTH_REQUIRED_ROUTE = '';
+
 export class DoLoginAction implements Action {
     readonly type: string = DO_LOGIN;
 
@@ -28,6 +30,12 @@ export class DoLogoutSuccessAction implements Action {
     readonly type: string = DO_LOGOUT_SUCCESS;
     public payload: any;
 }
+
+export class SetLastAuthRequiredRouteAction implements Action {
+    readonly type: string = SET_LAST_AUTH_REQUIRED_ROUTE;
+    constructor(public payload: string) { }
+}
+
 
 export type Actions =
     DoLoginAction |
