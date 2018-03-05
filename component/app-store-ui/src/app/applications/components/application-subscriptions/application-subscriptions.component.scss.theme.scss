@@ -5,7 +5,6 @@
   $background: map-get($theme, background);
 
   .subs-tbl-container{
-      border-top: solid 5px mat-color($accent);
 
       mat-header-row{
         background-color: mat-color($primary, darker);
@@ -15,6 +14,14 @@
     }
     .mat-paginator-container{
         background-color:map_get($mat-grey, 200),
+    }
+
+    .action-container{
+        mat-icon{
+            &:hover{
+                color: mat-color($accent);
+            }
+        }
     }
   }
   

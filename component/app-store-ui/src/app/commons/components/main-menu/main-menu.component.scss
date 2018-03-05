@@ -1,7 +1,10 @@
+@import '../../../../styles/mixing';
+
 mat-list-item{
     mat-icon{
         margin-right: 15px;
     }
+    @include transition(all 0.2s ease-in);
 }
 
 mat-expansion-panel-header{

@@ -1,6 +1,7 @@
 import * as loginActions from './authentication.actions';
 import { LoginResponseData, LoginMenuActionTypes } from './authentication.models';
 import { AuthState } from './authentication.models';
+import { SET_LAST_AUTH_REQUIRED_ROUTE } from './authentication.actions';
 
 const defaultMenu = [
     { name: 'Login', action: LoginMenuActionTypes.LOGIN },
@@ -15,7 +16,8 @@ const loggedInMenu = [
 
 const initState: AuthState = {
     loginData: null,
-    menuData: defaultMenu
+    menuData: defaultMenu,
+    lastAuthRequiredRoute : null
 };
 
 
@@ -34,6 +36,10 @@ export function authReducer(state: AuthState = initState, action: loginActions.A
                 loginData: null,
                 menuData: defaultMenu
             });
+        }
+        
+        case loginActions.SET_LAST_AUTH_REQUIRED_ROUTE: {
+            return {...state,lastAuthRequiredRoute:action.payload};
         }
 
         default: {

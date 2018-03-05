@@ -1,7 +1,7 @@
 <div fxLayout="column" fxLayoutGap="20px">
   <mat-grid-list cols="4" rowHeight="50px">
     <mat-grid-tile *ngFor="let tile of tiles;let t=index" [colspan]="tile.cols" [rowspan]="tile.rows" [ngClass]="tile.class"
-      (click)="onClick(tile,t)">
+      (click)="nav(tile)">
       {{tile.text}}
     </mat-grid-tile>
   </mat-grid-list>

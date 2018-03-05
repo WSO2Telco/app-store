@@ -1,6 +1,7 @@
 export interface AuthState {
     loginData: LoginResponseData;
     menuData: IMenuItem[];
+    lastAuthRequiredRoute:string;
 }
 
 export interface IMenuItem {
