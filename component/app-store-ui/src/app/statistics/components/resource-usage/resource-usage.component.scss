@@ -1,0 +1,41 @@
+.name-container {
+    background-image: url("../../../../assets/images/resource-usage.jpg");
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    min-height: 300px;
+    position: relative;
+  
+    .name {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      padding: 20px;
+      color: white;
+      opacity: 0.9;
+  
+      .main {
+        font-size: 2em;
+      }
+      .sub{
+          font-weight: 100;
+          font-size: 1.5em;
+      }
+    }
+  }
+  
+  .api-usage-info-container{
+      padding: 0px;
+      .title{
+          i{
+              font-size: 3em;
+          }
+          padding: 20px;
+          color: white;
+          font-size: 2em;
+      }
+      .msg{
+          padding: 30px;
+      }
+  }

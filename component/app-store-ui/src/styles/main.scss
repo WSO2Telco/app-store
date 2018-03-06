@@ -1,6 +1,7 @@
 @import url("https://fonts.googleapis.com/css?family=Roboto:300,400,500,900");
 @import "~@angular/material/prebuilt-themes/indigo-pink.css";
 @import url("https://fonts.googleapis.com/icon?family=Material+Icons");
+@import "./_mixing.scss";
 
 html,
 body {
@@ -34,4 +35,17 @@ body snack-bar-container {
   font-weight: 100;
   font-size: 2em;
   text-transform: uppercase;
+}
+
+.delay_3{
+ @include animation-delay(0.3s);
+}
+.delay_5{
+ @include animation-delay(0.5s);
+}
+.delay_8{
+ @include animation-delay(0.8s);
+}
+.delay_1s{
+ @include animation-delay(1s);
 }

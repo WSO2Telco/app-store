@@ -23,6 +23,11 @@ const routes: Routes = [
     canActivate: [AppGuard]
   },
   {
+    path: 'statistics',
+    loadChildren: 'app/statistics/statistics.module#StatisticsModule',
+    canActivate: [AppGuard]
+  },
+  {
     path: 'application/sign-up',
     component: SignUpComponent
   },
