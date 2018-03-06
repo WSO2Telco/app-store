@@ -1,0 +1,19 @@
+@import '~@angular/material/theming';
+@mixin api-usage-theme($theme) {
+  $primary: map-get($theme, primary);
+  $accent: map-get($theme, accent);
+  $foreground: map-get($theme, background);
+
+  .name{
+      background-color: mat-color($primary,darker);
+  }
+
+ .api-usage-info-container{
+     .title{
+       background-color: mat-color($primary,darker);
+       i{
+           color:mat-color($primary,lighter);
+       }
+     }
+ }
+}

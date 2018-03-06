@@ -15,6 +15,7 @@
 @import '~app/applications/components/application-overview/application-overview.component.scss.theme.scss';
 @import '~app/applications/components/application-subscriptions/application-subscriptions.component.scss.theme.scss';
 @import '~app/applications/components/application-production-keys/application-production-keys.component.scss.theme.scss';
+@import '~app/statistics/components/api-usage/api-usage.component.scss.theme.scss';
 @import '~app/app.component.scss.theme';
 @import './material_component_teme/mat-card-theme';
 
@@ -34,6 +35,7 @@
   @include application-overview-theme($theme);
   @include application-subscription-theme($theme);
   @include application-production-keys-theme($theme);
+  @include api-usage-theme($theme);
 }
 
 /* 
