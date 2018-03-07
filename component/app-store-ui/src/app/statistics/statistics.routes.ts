@@ -7,6 +7,10 @@ import { ManageAlertTypesComponent } from "./components/manage-alert-types/manag
 
 const routes = [
   {
+    path: "",
+    component: ApiUsageComponent
+  },
+  {
     path: "api-usage",
     component: ApiUsageComponent
   },

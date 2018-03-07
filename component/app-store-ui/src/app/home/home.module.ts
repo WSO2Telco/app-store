@@ -4,6 +4,7 @@ import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { HomeRoutes } from './home.routes';
 import { SharedModule } from '../shared/shared.module';
 import { ThemeComponent } from './components/theme/theme.component';
+import { ThumbnailComponent } from './components/thumbnail/thumbnail.component';
 
 @NgModule({
   imports: [
@@ -11,6 +12,6 @@ import { ThemeComponent } from './components/theme/theme.component';
     SharedModule,
     HomeRoutes
   ],
-  declarations: [DashboardComponent, ThemeComponent]
+  declarations: [DashboardComponent, ThemeComponent, ThumbnailComponent]
 })
 export class HomeModule { }

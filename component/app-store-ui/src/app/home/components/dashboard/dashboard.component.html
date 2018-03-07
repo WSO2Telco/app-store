@@ -1,6 +1,15 @@
-<mat-card class="example-card animated fadeIn">
-  <mat-card-content>
-    <p style="height: 400px">
-    </p>
-  </mat-card-content>
-</mat-card>
+<div class="result-wrapper" 
+   fxLayout="row" 
+   fxLayoutWrap
+   fxLayoutAlign="center center"
+  >
+
+ <store-thumbnail 
+ *ngFor="let thumb of thumbnailParams;let x=index;"
+ [param]="thumb"
+  fxFlex class="animated fadeIn delay_{{x+1}}"></store-thumbnail>
+
+</div>
+
+
+
