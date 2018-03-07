@@ -1,0 +1,19 @@
+@import "~@angular/material/theming";
+@mixin home-thumbnail-theme($theme) {
+  $background: map-get($theme, background);
+  $foreground: map-get($theme, foreground);
+  $primary: map-get($theme, primary);
+  $accent: map-get($theme, accent);
+
+  .thumbnail-wrapper {
+    .thumbnail-card {
+      background-color: mat-color($primary,darker);
+
+    &:hover {
+        .name-container {
+            background-color: mat-color($accent);
+        }
+      }
+    }
+  }
+}

@@ -41,7 +41,8 @@ export function localStorageSyncReducer(
 ): ActionReducer<any> {
   return localStorageSync({
     keys: ["global", "authentication", "apis", "applications"],
-    rehydrate: true
+    rehydrate: true,
+    storage:sessionStorage
   })(reducer);
 }
 const metaReducers: Array<MetaReducer<any, any>> = [localStorageSyncReducer];

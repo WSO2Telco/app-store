@@ -37,15 +37,35 @@ body snack-bar-container {
   text-transform: uppercase;
 }
 
+
+.delay_1{
+ @include animation-delay(0.1s);
+}
+
+.delay_2{
+ @include animation-delay(0.2s);
+}
+
 .delay_3{
  @include animation-delay(0.3s);
 }
-.delay_5{
- @include animation-delay(0.5s);
+
+.delay_4{
+ @include animation-delay(0.4s);
 }
+
+.delay_6{
+ @include animation-delay(0.6s);
+}
+
 .delay_8{
  @include animation-delay(0.8s);
 }
+
 .delay_1s{
  @include animation-delay(1s);
+}
+
+.delay_1_2{
+ @include animation-delay(1.2s);
 }

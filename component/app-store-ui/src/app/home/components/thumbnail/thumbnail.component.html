@@ -1,0 +1,16 @@
+<div class="thumbnail-wrapper">
+  <mat-card class="thumbnail-card" [routerLink]="param.route">
+    <mat-card-content>
+     <div class="img-container"
+     [ngClass]="param.styleClass"
+     >
+       <div class="overlay">
+
+       </div>
+     </div>
+     <div class="name-container">
+      {{param.name}}
+     </div>
+    </mat-card-content>
+  </mat-card>
+</div>
