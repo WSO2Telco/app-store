@@ -1,3 +1,46 @@
-<div class="frame-container">
-  <iframe src="../store/site/pages/sign-up.jag" [storeFrameManager]="['.header-default','.media-left','.footer','.brand-container h2','.footer-main']"></iframe>
+<div class="signup-container">
+    <mat-card class="title animated fadeInDown">
+        <mat-card-content>
+            Create your Account
+        </mat-card-content>
+    </mat-card>
+    <mat-card class="form-card animated fadeIn delay_6">
+        <mat-card-content>
+            <form class="signup-form" fxLayout="row" fxLayoutGap="20px" fxLayoutWrap #signUpForm="ngForm" novalidate (ngSubmit)="onSignup(signUpForm)">
+                <mat-form-field fxFlex="calc(50% - 20px)" fxFlex.lt-md="100%">
+                    <input name="firstName" matInput #firstNameRef="ngModel" required [(ngModel)]="user.firstName" placeholder="First Name">
+                    <mat-error  *ngIf="firstNameRef.touched && firstNameRef.errors">First Name is Required </mat-error>
+                </mat-form-field>
+                
+                <mat-form-field fxFlex="calc(50% - 20px)" fxFlex.lt-md="100%">
+                    <input name="lastName" matInput  #lastNameRef="ngModel" required [(ngModel)]="user.lastName" placeholder="Last Name">
+                    <mat-error  *ngIf="lastNameRef.touched && lastNameRef.errors">Last Name is Required </mat-error>
+                </mat-form-field>
+                
+                <mat-form-field fxFlex="calc(50% - 20px)" fxFlex.lt-md="100%">
+                    <input name="email" matInput #emailRef="ngModel" required [(ngModel)]="user.email" placeholder="Email">
+                    <mat-error  *ngIf="emailRef.touched && emailRef.errors">Email is Required </mat-error>
+                </mat-form-field>
+                
+                <mat-form-field fxFlex="calc(50% - 20px)" fxFlex.lt-md="100%">
+                    <input name="userName" matInput  #userNameRef="ngModel" required [(ngModel)]="user.username" placeholder="User Name">
+                    <mat-error  *ngIf="userNameRef.touched && userNameRef.errors">User Name is Required </mat-error>
+                </mat-form-field>
+               
+                <mat-form-field fxFlex="calc(50% - 20px)" fxFlex.lt-md="100%">
+                    <input name="password" matInput type="password"  #passwordRef="ngModel" required [(ngModel)]="user.password" placeholder="Password">
+                    <mat-error  *ngIf="passwordRef.touched && passwordRef.errors">Password is Required </mat-error>
+                </mat-form-field>
+               
+                <mat-form-field fxFlex="calc(50% - 20px)" fxFlex.lt-md="100%">
+                    <input name="confirmPassword" type="password" matInput  #conPasswordRef="ngModel" required [(ngModel)]="confirmPassword" placeholder="Confirm Password">
+                    <mat-error  *ngIf="conPasswordRef.touched && conPasswordRef.errors">Password Confirmation is Required </mat-error>
+                </mat-form-field>
+
+                <div fxFlex="100%" style="padding-top: 30px" fxLayoutAlign="end">
+                    <button mat-raised-button type="submit" color="accent">Sign up</button>
+                  </div>
+            </form>
+        </mat-card-content>
+    </mat-card>
 </div>

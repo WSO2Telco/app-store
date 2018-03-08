@@ -7,6 +7,7 @@ import { ApiEndpoints } from '../config/api.endpoints';
 import { LoginFormData, LoginResponseData, LogoutResponseData } from './authentication.models';
 import { AppState } from '../app.data.models';
 import { Store } from '@ngrx/store';
+import { SigUpUserParam, ResetPasswordParam } from './authentication.data.models';
 
 @Injectable()
 export class AuthenticationService {
@@ -50,6 +51,14 @@ export class AuthenticationService {
 
         return this.http.post(ApiEndpoints.authentication.logout, body.toString(), httpOptions)
             .map((data: any) => new LogoutResponseData(data));
+    }
+
+    signup(param:SigUpUserParam){
+        return this.http.post(ApiEndpoints.authentication.signup,param);
+    }
+ 
+    changePassword(param:ResetPasswordParam){
+        return this.http.post(ApiEndpoints.authentication.changePassword,param);
     }
 
     isLoggedIn(){
