@@ -9,6 +9,8 @@
 @import '~app/apis/components/api-info/api-info.component.scss.theme';
 @import '~app/apis/components/api-detail/api-detail.component.scss.theme.scss';
 @import '~app/authentication/components/login-form/login-form.component.scss.theme';
+@import '~app/authentication/components/sign-up/sign-up.component.scss.theme.scss';
+@import '~app/authentication/components/my-account/my-account.component.scss.theme.scss';
 @import '~app/applications/components/search-applications/search-applications.component.scss.theme';
 @import '~app/applications/components/create-application/create-application.component.scss.theme.scss';
 @import '~app/applications/components/application-detail-main/application-detail-main.component.scss.theme.scss';
@@ -38,6 +40,8 @@
   @include application-production-keys-theme($theme);
   @include api-usage-theme($theme);
   @include home-thumbnail-theme($theme);
+  @include signup-form-theme($theme);
+  @include myaccount-theme($theme);
 }
 
 /* 

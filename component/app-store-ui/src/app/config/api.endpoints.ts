@@ -1,7 +1,9 @@
 export const ApiEndpoints = {
   authentication: {
     login: './assets/files/login.json',
-    logout: './assets/files/logout.json'
+    logout: './assets/files/logout.json',
+    signup: './assets/files/sign-up.json',
+    changePassword: './assets/files/sign-up.json'
   },
   apis: {
     search: './assets/files/apis.json',
