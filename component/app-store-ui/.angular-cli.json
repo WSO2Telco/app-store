@@ -6,11 +6,9 @@
   "apps": [
     {
       "root": "src",
-      "outDir": "/home/sumudu/apps/wso2telcohub-3.0.2/repository/deployment/server/webapps/app-store/public",
-      "assets": [
-        "assets",
-        "favicon.ico"
-      ],
+      "outDir":
+        "/home/sumudu/apps/wso2telcohub-3.0.2/repository/deployment/server/webapps/app-store/public",
+      "assets": ["assets", "favicon.ico"],
       "index": "index.html",
       "main": "main.ts",
       "polyfills": "polyfills.ts",
@@ -21,10 +19,15 @@
       "styles": [
         "../node_modules/animate.css/animate.min.css",
         "../node_modules/swagger-ui-dist/swagger-ui.css",
+        "../node_modules/froala-editor/css/froala_editor.pkgd.min.css",
+        "../node_modules/froala-editor/css/froala_style.min.css",
+        "../node_modules/font-awesome/css/font-awesome.css",
         "./styles/main.scss",
         "./styles/theme.scss"
       ],
       "scripts": [
+        "../node_modules/jquery/dist/jquery.min.js",
+        "../node_modules/froala-editor/js/froala_editor.pkgd.min.js"
       ],
       "environmentSource": "environments/environment.ts",
       "environments": {

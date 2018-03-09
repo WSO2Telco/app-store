@@ -28,21 +28,23 @@ import { apisReducer } from "./apis/apis.reducers";
 import { localStorageSync } from "ngrx-store-localstorage";
 import { applicationsReducer } from "./applications/applications.reducer";
 import { AppGuard } from "./app.guards";
+import { forumReducer } from "./forum/forum.reducer";
 
 const reducers: ActionReducerMap<AppState> = {
   global: globalReducer,
   authentication: authReducer,
   apis: apisReducer,
-  applications: applicationsReducer
+  forum: forumReducer,
+  applications: applicationsReducer,
 };
 
 export function localStorageSyncReducer(
   reducer: ActionReducer<any>
 ): ActionReducer<any> {
   return localStorageSync({
-    keys: ["global", "authentication", "apis", "applications"],
+    keys: ["global", "authentication", "apis", "applications", "forum"],
     rehydrate: true,
-    storage:sessionStorage
+    storage: sessionStorage
   })(reducer);
 }
 const metaReducers: Array<MetaReducer<any, any>> = [localStorageSyncReducer];

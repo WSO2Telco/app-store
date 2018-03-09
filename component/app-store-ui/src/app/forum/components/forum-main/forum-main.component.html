@@ -1,0 +1,28 @@
+<div fxLayout="column" fxLayoutGap="20px">
+  <div fxLayout="row" fxLayout.lt-md="column" fxLayoutGap="20px">
+    <mat-card fxFlex class="intro-container animated fadeInDown mat-elevation-z8">
+      <mat-card-content>
+        <button mat-fab color="accent" matTooltip="Create new Topic" [routerLink]="['/forum/create-topic']">+</button>
+      <div class="txt"> <span> Forum</span> 
+       is an online discussion board where people can hold conversations in the form of posted messages. </div>
+    
+      </mat-card-content>
+    </mat-card>
+  
+    <mat-card class="search-container animated fadeInDown" fxFlex>
+      <mat-card-content>
+        <div class="search-Container">
+          <form #searchForm="ngForm" novalidate (ngSubmit)="onSearchClick()" fxLayout="row" fxLayoutGap="20px">
+            <mat-form-field class="search-input" fxFlex="80%">
+              <input matInput placeholder="Search Forum..." name="searchQuery" [(ngModel)]="searchQuery">
+            </mat-form-field>
+  
+            <button class="search" type="submit" fxFlex mat-raised-button color="accent">Search</button>
+          </form>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+
+  <store-topic-result [topics]="topics" (whenDelete)="onTopicDelete($event)" class="animated fadeIn delay_6"></store-topic-result>
+ </div> 

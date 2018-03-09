@@ -22,7 +22,6 @@ export class ApisearchResultComponent implements OnInit {
   }
 
   onApiSelceted(api) {
-    console.log('hhh');
     this.selectApi.emit(api);
   }
 }

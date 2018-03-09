@@ -92,27 +92,29 @@ export class MainMenuComponent implements OnInit {
   ngOnInit() {
     this._router.events.subscribe(event => {
       if (event instanceof NavigationEnd) {
-        const urlParts = event.url.split("/");
-
-        for (let i = urlParts.length - 1; i >= 0; i--) {
-          const p = urlParts[i];
-          const filtered = this.flatternMenu.filter((m: MenuItem) => {
-            if (m && m.route && m.route.length) {
-              const tmp = m.route[0].split("/");
-              return tmp.indexOf(p) >= 0;
+        if (event.url === "/") {
+          this.selectedMenu = this.mainMenu[0];
+        } else {
+          const urlParts = event.url.split("/");
+          for (let i = urlParts.length - 1; i >= 0; i--) {
+            const p = urlParts[i];
+            const filtered = this.flatternMenu.filter((m: MenuItem) => {
+              if (m && m.route && m.route.length) {
+                const tmp = m.route[0].split("/");
+                return tmp.indexOf(p) >= 0;
+              }
+              return false;
+            });
+            if (!!filtered && filtered.length) {
+              this.selectedMenu = filtered[0];
+              break;
+            } else {
+              this.selectedMenu = null;
             }
-            return false;
-          });
-          if (!!filtered && filtered.length) {
-            this.selectedMenu = filtered[0];
-            break;
-          } else {
-            this.selectedMenu = null;
           }
         }
       }
     });
-
     this.selectedMenu = this.mainMenu[0];
   }
 }
