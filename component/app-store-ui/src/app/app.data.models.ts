@@ -1,67 +1,69 @@
-import { AuthState } from './authentication/authentication.models';
-import { ApisState } from './apis/apis.models';
-import { ApplicationsState } from './applications/applications.data.models';
+import { AuthState } from "./authentication/authentication.models";
+import { ApisState } from "./apis/apis.models";
+import { ApplicationsState } from "./applications/applications.data.models";
+import { ForumState } from './forum/forum.data.models';
 
 export interface AppState {
-    authentication: AuthState;
-    apis: ApisState;
-    applications:ApplicationsState;
-    global: GlobalState;
+  authentication: AuthState;
+  apis: ApisState;
+  applications: ApplicationsState;
+  global: GlobalState;
+  forum: ForumState;
 }
 
 export interface Country {
-    countryName: string;
-    countryCode: string;
+  countryName: string;
+  countryCode: string;
 }
 
 export class Operator {
-    constructor(
-        public brand: string,
-        public operator: string,
-        public mcc: number,
-        public mnc: number) { }
+  constructor(
+    public brand: string,
+    public operator: string,
+    public mcc: number,
+    public mnc: number
+  ) {}
 }
 export interface CountryOperator {
-    type: string;
-    countryName: string;
-    countryCode: string;
-    mcc: number;
-    mnc: number;
-    brand: string;
-    operator: string;
-    status: string;
-    bands: string;
-    notes: string;
+  type: string;
+  countryName: string;
+  countryCode: string;
+  mcc: number;
+  mnc: number;
+  brand: string;
+  operator: string;
+  status: string;
+  bands: string;
+  notes: string;
 }
 
 export interface GlobalState {
-    layout: {
-        rightNavOpened: boolean;
-        leftNavOpened: boolean;
-        appTheme: string;
-        particleAnimation: boolean;
-        menuBackImage: boolean;
-    };
-    mccAndmnc: {
-        countries: Country[];
-        operators: Operator[];
-    };
+  layout: {
+    rightNavOpened: boolean;
+    leftNavOpened: boolean;
+    appTheme: string;
+    particleAnimation: boolean;
+    menuBackImage: boolean;
+  };
+  mccAndmnc: {
+    countries: Country[];
+    operators: Operator[];
+  };
 }
 
-
 export class Tier {
-    constructor(
-        public tierName: string,
-        public tierDisplayName: string,
-        public tierDescription: string
-    ) { }
+  constructor(
+    public tierName: string,
+    public tierDisplayName: string,
+    public tierDescription: string
+  ) {}
 }
 
 export class MenuItem {
-    public id: number;
-    public name: string;
-    public icon?: string;
-    public route?: string[] = [];
-    public subMenu?: MenuItem[] = null;
-    public permissionPattern?= '*';
+  public id: number;
+  public name: string;
+  public icon?: string;
+  public route?: string[] = [];
+  public subMenu?: MenuItem[] = null;
+  public permissionPattern? = "*";
 }

@@ -15,6 +15,7 @@ export class SignUpComponent implements OnInit {
   @ViewChild(NgForm) signupForm: NgForm;
 
   public user: SigUpUserParam;
+  public confirmPassword:string;
 
   constructor(private store: Store<AppState>, private actions: Actions) {}
 

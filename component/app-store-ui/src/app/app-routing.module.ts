@@ -18,6 +18,10 @@ const routes: Routes = [
     loadChildren: 'app/apis/apis.module#ApisModule'
   },
   {
+    path: 'forum',
+    loadChildren: 'app/forum/forum.module#ForumModule'
+  },
+  {
     path: 'applications',
     loadChildren: 'app/applications/applications.module#ApplicationsModule',
     canActivate: [AppGuard]

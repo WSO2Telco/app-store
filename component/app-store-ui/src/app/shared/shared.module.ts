@@ -30,6 +30,7 @@ import { InfiniteScrollDirective } from "./directives/infinite-scroll.directive"
 import { MatChipsModule } from "@angular/material/chips";
 import { MatCheckboxModule } from "@angular/material/checkbox";
 import { MatDialogModule } from "@angular/material/dialog";
+import { FroalaEditorModule, FroalaViewModule } from 'angular-froala-wysiwyg';
 
 @NgModule({
   imports: [
@@ -37,7 +38,9 @@ import { MatDialogModule } from "@angular/material/dialog";
     MatIconModule,
     MatAutocompleteModule,
     MatChipsModule,
-    MatCheckboxModule
+    MatCheckboxModule,
+    FroalaEditorModule.forRoot(), 
+    FroalaViewModule.forRoot() 
   ],
   declarations: [
     NotificationComponent,
@@ -73,7 +76,9 @@ import { MatDialogModule } from "@angular/material/dialog";
     MatSlideToggleModule,
     InfiniteScrollDirective,
     MatChipsModule,
-    MatDialogModule
+    MatDialogModule,
+    FroalaEditorModule,
+    FroalaViewModule
   ],
   providers: [NotificationService],
   entryComponents: [NotificationComponent]

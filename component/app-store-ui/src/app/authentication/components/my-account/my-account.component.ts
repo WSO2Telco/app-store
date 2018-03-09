@@ -15,6 +15,7 @@ export class MyAccountComponent implements OnInit {
   @ViewChild(NgForm) changePwForm: NgForm;
   
   param: ResetPasswordParam;
+  confirmPassword:string;
 
   constructor(private store: Store<AppState>,private actions: Actions) {}
 

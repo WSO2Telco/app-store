@@ -13,6 +13,7 @@ import { Router } from '@angular/router';
 })
 export class SearchApplicationsComponent implements OnInit {
   dataSource = new MatTableDataSource<Application>();
+  searchQuery:string;
 
   constructor(private store: Store<AppState>, private router: Router) {}
 
@@ -38,4 +39,6 @@ export class SearchApplicationsComponent implements OnInit {
         break;
     }
   }
+
+  onSearchClick(){}
 }

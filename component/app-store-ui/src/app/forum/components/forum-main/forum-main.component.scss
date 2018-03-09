@@ -1,0 +1,24 @@
+.intro-container, .search-container {
+    min-width: 300px;
+}
+
+.intro-container{
+    .txt{
+        font-size: 1.1em;
+        font-weight: 100;
+        line-height: 1.3em;
+        width:83%;
+        float: left;
+        text-align:right;
+
+        span{
+            font-size:2em;
+            font-weight:600;
+            margin-right:7px;
+        }
+    }
+
+    button{
+        float:right;
+    }
+}
