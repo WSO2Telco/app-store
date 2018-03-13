@@ -19,6 +19,7 @@ export class TopicResultComponent implements OnInit, OnChanges {
   @Input() topics: Topic[];
 
   @Output() whenDelete: EventEmitter<string> = new EventEmitter<string>();
+  @Output() whenView: EventEmitter<Topic> = new EventEmitter<Topic>();
 
   dataSource = new MatTableDataSource<Topic>();
 
@@ -35,6 +36,9 @@ export class TopicResultComponent implements OnInit, OnChanges {
   onTopicAction(element, action) {
     if (action === "delete") {
       this.whenDelete.emit(element.topicId);
+    }
+    if(action ==='view'){
+      this.whenView.emit(element);
     }
   }
 }

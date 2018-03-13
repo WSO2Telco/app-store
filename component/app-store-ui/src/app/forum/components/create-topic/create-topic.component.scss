@@ -1,0 +1,15 @@
+.forum-title-container{
+    margin-bottom: 20px;
+    color:white;
+    font-size:2em;
+}
+
+.btn-wrapper{
+    button{
+        margin: 5px;
+        &:last-child{
+            margin-right: 0px;
+        }
+    }
+
+}

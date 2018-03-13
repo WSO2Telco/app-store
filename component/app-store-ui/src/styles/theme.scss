@@ -18,6 +18,7 @@
 @import '~app/applications/components/application-subscriptions/application-subscriptions.component.scss.theme.scss';
 @import '~app/applications/components/application-production-keys/application-production-keys.component.scss.theme.scss';
 @import '~app/statistics/components/api-usage/api-usage.component.scss.theme.scss';
+@import '~app/forum/components/create-topic/create-topic.component.scss.theme.scss';
 @import '~app/home/components/thumbnail/thumbnail.component.scss.theme.scss';
 @import '~app/app.component.scss.theme';
 @import './material_component_teme/mat-card-theme';
@@ -42,6 +43,7 @@
   @include home-thumbnail-theme($theme);
   @include signup-form-theme($theme);
   @include myaccount-theme($theme);
+  @include forum-topic-theme($theme);
 }
 
 /* 
@@ -57,8 +59,8 @@ $store-theme-one-light: mat-light-theme($store-theme-one-primary, $store-theme-o
 /* 
  * Store Theme Two 
  */
-$store-theme-two-primary: mat-palette($mat-green,500,400,900);
-$store-theme-two-accent: mat-palette($mat-amber,700);
+$store-theme-two-primary: mat-palette($mat-blue,700,200,900);
+$store-theme-two-accent: mat-palette($mat-orange,500);
 $store-theme-two-warn: mat-palette($mat-red,A700);
 
 $store-theme-two-light: mat-light-theme($store-theme-two-primary, $store-theme-two-accent,$store-theme-two-warn);

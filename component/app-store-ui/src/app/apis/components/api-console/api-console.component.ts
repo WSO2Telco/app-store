@@ -22,7 +22,7 @@ export class ApiConsoleComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit() {
     const ui = SwaggerUIBundle({
-      url: 'https://localhost:9443/store/api-docs/admin/SwaggerPetstore/1.0.0',
+      url: 'assets/files/swagger.json',
       domNode: this.container.nativeElement.querySelector('.swagger-container'),
       deepLinking: true,
       presets: [SwaggerUIBundle.presets.apis, SwaggerUIStandalonePreset],

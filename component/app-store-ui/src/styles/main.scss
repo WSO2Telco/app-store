@@ -1,6 +1,7 @@
 @import url("https://fonts.googleapis.com/css?family=Roboto:300,400,500,900");
 @import "~@angular/material/prebuilt-themes/indigo-pink.css";
 @import url("https://fonts.googleapis.com/icon?family=Material+Icons");
+@import "~css-star-rating/scss/star-rating.scss";
 @import "./_mixing.scss";
 
 html,
@@ -35,6 +36,10 @@ body snack-bar-container {
   font-weight: 100;
   font-size: 2em;
   text-transform: uppercase;
+}
+
+.fr-toolbar{
+  border-top:1px;
 }
 
 
