@@ -60,6 +60,10 @@ mat-sidenav {
     height: 35px;
     margin-top: 10px;
     margin-right: 20px;
+    cursor: pointer;
+    &:focus{
+      outline: none;
+    }
   }
 
   .app-name {

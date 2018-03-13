@@ -37,17 +37,17 @@
 
 
 
-  <mat-card class="content-card animated fadeIn" fxFlex>
+  <mat-card class="content-card animated fadeIn delay_4" fxFlex>
     <mat-card-content>
       <store-api-subscription></store-api-subscription>
     </mat-card-content>
   </mat-card>
 
-  <mat-card class="animated fadeIn">
+  <mat-card class="animated fadeIn delay_6">
     <mat-card-content>
       <mat-accordion class="api-detail-accordion">
 
-        <mat-expansion-panel expanded="true">
+        <mat-expansion-panel >
           <mat-expansion-panel-header>
             <mat-panel-title>
               Overview
@@ -56,7 +56,7 @@
           <store-api-overview [apiOverview]="apiOverview"></store-api-overview>
         </mat-expansion-panel>
 
-        <mat-expansion-panel>
+        <mat-expansion-panel expanded="true">
           <mat-expansion-panel-header>
             <mat-panel-title>
               Api Console

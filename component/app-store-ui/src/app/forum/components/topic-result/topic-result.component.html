@@ -2,17 +2,17 @@
   <mat-table #table [dataSource]="dataSource">
 
     <ng-container matColumnDef="topic">
-      <mat-header-cell *matHeaderCellDef> Topic </mat-header-cell>
+      <mat-header-cell *matHeaderCellDef=""> Topic </mat-header-cell>
       <mat-cell *matCellDef="let element"> {{element.subject}} </mat-cell>
     </ng-container>
 
     <ng-container matColumnDef="by">
-      <mat-header-cell *matHeaderCellDef> Created By </mat-header-cell>
+      <mat-header-cell *matHeaderCellDef=""> Created By </mat-header-cell>
       <mat-cell *matCellDef="let element"> {{element.topicOwner}} </mat-cell>
     </ng-container>
     
     <ng-container matColumnDef="replies">
-      <mat-header-cell *matHeaderCellDef> Replies </mat-header-cell>
+      <mat-header-cell *matHeaderCellDef=""> Replies </mat-header-cell>
       <mat-cell *matCellDef="let element"> {{element.replyCount}} </mat-cell>
     </ng-container>
     
@@ -22,7 +22,10 @@
         <div class="button-row">
         
        
-          <button mat-icon-button  matTooltip="Delete" (click)="onTopicAction(element,'delete')" >
+          <button mat-icon-button matTooltip="View" (click)="onTopicAction(element,'view')">
+            <mat-icon>remove_red_eye</mat-icon>
+          </button>
+          <button mat-icon-button matTooltip="Delete" (click)="onTopicAction(element,'delete')">
             <mat-icon>delete</mat-icon>
           </button>
 
@@ -32,7 +35,7 @@
 
 
     <mat-header-row *matHeaderRowDef="[ 'topic','by','replies','action']"></mat-header-row>
-    <mat-row *matRowDef="let row; columns: [ 'topic','by','replies','action'];" (click)="onTopicAction(row,'view')"></mat-row>
+    <mat-row *matRowDef="let row; columns: [ 'topic','by','replies','action'];"></mat-row>
   </mat-table>
   <mat-paginator [pageSizeOptions]="[5, 10, 25]"></mat-paginator>
 </div>

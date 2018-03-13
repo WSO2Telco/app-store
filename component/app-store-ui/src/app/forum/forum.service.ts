@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { GetTopicsParam, TopicResult } from './forum.data.models';
+import { GetTopicsParam, TopicResult, CreateTopicParam } from './forum.data.models';
 import { Observable } from 'rxjs/Observable';
 import { ApiEndpoints } from '../config/api.endpoints';
 
@@ -27,6 +27,15 @@ export class ForumService{
     }
 
     deleteTopic(topicId:string){
-        return this.http.delete(ApiEndpoints.forum.deleteTopic+topicId);
+        return this.http.delete(ApiEndpoints.forum.deleteTopic+'?id='+topicId);
+    }
+
+    createTopic(param:CreateTopicParam){
+        param.parentId = 'common';
+        return this.http.post(ApiEndpoints.forum.create,param);
+    }
+  
+    getOneTopic(topicId:string){
+        return this.http.get(ApiEndpoints.forum.getOneTopic+'?id='+topicId);
     }
 }

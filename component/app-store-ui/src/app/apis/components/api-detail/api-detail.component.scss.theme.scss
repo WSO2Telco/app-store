@@ -9,6 +9,9 @@
       mat-expansion-panel-header {
           &.mat-expanded{
               background-color:    mat-color($primary) !important;
+              mat-panel-title{
+                  color:white !important;
+              }
           }
       }
   }

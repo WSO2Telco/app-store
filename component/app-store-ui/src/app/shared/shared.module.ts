@@ -31,6 +31,7 @@ import { MatChipsModule } from "@angular/material/chips";
 import { MatCheckboxModule } from "@angular/material/checkbox";
 import { MatDialogModule } from "@angular/material/dialog";
 import { FroalaEditorModule, FroalaViewModule } from 'angular-froala-wysiwyg';
+import { StarRatingModule } from 'angular-star-rating';
 
 @NgModule({
   imports: [
@@ -40,7 +41,8 @@ import { FroalaEditorModule, FroalaViewModule } from 'angular-froala-wysiwyg';
     MatChipsModule,
     MatCheckboxModule,
     FroalaEditorModule.forRoot(), 
-    FroalaViewModule.forRoot() 
+    FroalaViewModule.forRoot(),
+    StarRatingModule.forRoot()
   ],
   declarations: [
     NotificationComponent,
@@ -78,7 +80,8 @@ import { FroalaEditorModule, FroalaViewModule } from 'angular-froala-wysiwyg';
     MatChipsModule,
     MatDialogModule,
     FroalaEditorModule,
-    FroalaViewModule
+    FroalaViewModule,
+    StarRatingModule
   ],
   providers: [NotificationService],
   entryComponents: [NotificationComponent]

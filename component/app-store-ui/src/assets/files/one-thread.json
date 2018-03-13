@@ -1,0 +1,28 @@
+{
+  "error": false,
+  "page": "1",
+  "total_pages": 1.0,
+  "data": {
+    "topic": [
+      {
+        "subject": "Angular File object constructor outputs wrong data on Ionic",
+        "description": "<p>d</p>",
+        "topicId": "ed59e53f-6616-40a4-b931-793ba21179d6",
+        "userRating": "0",
+        "averageRating": "0"
+      }
+    ],
+    "replies": [
+      {
+        "reply": "How to get back to the path in the shell after command",
+        "time": "1520827422000",
+        "date": "Mon Mar 12 2018",
+        "replyId": "079d66af-c9f0-4b36-ac40-220cbbf6e5cb",
+        "createdBy": "admin",
+        "timeStamp": "09:33:42",
+        "topicOwner": "admin",
+        "user": null
+      }
+    ]
+  }
+}

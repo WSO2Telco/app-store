@@ -1,11 +1,12 @@
 <div class="result-wrapper" 
    fxLayout="row" 
    fxLayoutWrap
-   fxLayoutGap="10px"
    fxLayoutAlign="center center"
   >
-    <store-api-info [api]="api" class="api" fxFlex="0 0 auto" 
-    *ngFor="let api of dataSource"
+  <div class="tile" *ngFor="let api of dataSource" fxFlex >
+    <store-api-info [api]="api" class="api"
     (click)="onApiSelceted(api)">{{item}}</store-api-info>
+  </div>  
+  
 </div>
 
