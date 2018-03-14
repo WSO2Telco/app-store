@@ -18,9 +18,8 @@ export class ApplicationsService {
   constructor(private http: HttpClient) {}
 
   getAllApplications(param: GetApplicationsParam) {
-    return this.http.post<Application[]>(
+    return this.http.get<Application[]>(
       ApiEndpoints.applications.getAllApplications,
-      param,
       this.httpOptions
     );
   }

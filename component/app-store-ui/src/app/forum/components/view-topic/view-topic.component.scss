@@ -1,0 +1,25 @@
+.view-topic-container{
+    color:white;
+  
+    .subject{
+        font-size: 1.8em;
+    }
+   .description{
+       padding-top: 10px;
+       font-size:1.1em;
+   }
+}
+
+.rep-title{
+    font-size: 2em;
+    margin: 20px 0px;
+    color: #89898a;
+}
+
+.reply-container{
+    margin-bottom: 20px;
+    .rep-by{
+        text-align: right;
+        margin: 10px 0px;
+    }
+}

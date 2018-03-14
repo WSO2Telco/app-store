@@ -1,3 +1,16 @@
-<p>
-  view-topic works!
-</p>
+<mat-card class="view-topic-container animated fadeInDown" >
+  <mat-card-content>
+        <div class="subject">{{topic.subject}}</div>
+        <div class="description" [innerHTML]="topic.description"></div>
+  </mat-card-content>
+</mat-card>
+<div class="rep-title">Replies</div>
+
+<div class="reply-container animated fadeIn delay_{{x+2}}}" *ngFor="let rep of replies;let x=index;">
+  <mat-card >
+    <mat-card-content>
+          <div class="subject">{{rep.reply}}</div>
+    </mat-card-content>
+  </mat-card>
+  <div class="rep-by">Posted By admin on Tue Mar 13 2018, 10:45:30</div>
+</div>

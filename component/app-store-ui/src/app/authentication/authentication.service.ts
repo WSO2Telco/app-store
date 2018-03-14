@@ -33,7 +33,7 @@ export class AuthenticationService {
             })
         };
 
-        return this.http.post(ApiEndpoints.authentication.login, body.toString(), httpOptions)
+        return this.http.get(ApiEndpoints.authentication.login, httpOptions)
             .map((data: any) =>
                 new LoginResponseData(param.username, {}, data.error, data.message)
             );
@@ -49,16 +49,16 @@ export class AuthenticationService {
             })
         };
 
-        return this.http.post(ApiEndpoints.authentication.logout, body.toString(), httpOptions)
+        return this.http.get(ApiEndpoints.authentication.logout, httpOptions)
             .map((data: any) => new LogoutResponseData(data));
     }
 
     signup(param:SigUpUserParam){
-        return this.http.post(ApiEndpoints.authentication.signup,param);
+        return this.http.get(ApiEndpoints.authentication.signup);
     }
  
     changePassword(param:ResetPasswordParam){
-        return this.http.post(ApiEndpoints.authentication.changePassword,param);
+        return this.http.get(ApiEndpoints.authentication.changePassword);
     }
 
     isLoggedIn(){
