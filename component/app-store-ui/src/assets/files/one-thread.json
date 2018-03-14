@@ -6,7 +6,7 @@
     "topic": [
       {
         "subject": "Angular File object constructor outputs wrong data on Ionic",
-        "description": "<p>d</p>",
+        "description": "You can check this blog about the features of PWA. Also based from this documentation, Chrome, Opera and Firefox have all implemented support for service worker with Edge having positive public",
         "topicId": "ed59e53f-6616-40a4-b931-793ba21179d6",
         "userRating": "0",
         "averageRating": "0"
@@ -15,6 +15,26 @@
     "replies": [
       {
         "reply": "How to get back to the path in the shell after command",
+        "time": "1520827422000",
+        "date": "Mon Mar 12 2018",
+        "replyId": "079d66af-c9f0-4b36-ac40-220cbbf6e5cb",
+        "createdBy": "admin",
+        "timeStamp": "09:33:42",
+        "topicOwner": "admin",
+        "user": null
+      },
+      {
+        "reply": " Where can I find list of PWA features that are supported and under development for each browser? This will greatly help to determine if I shall develop a native app or go directly for PWA.",
+        "time": "1520827422000",
+        "date": "Mon Mar 12 2018",
+        "replyId": "079d66af-c9f0-4b36-ac40-220cbbf6e5cb",
+        "createdBy": "admin",
+        "timeStamp": "09:33:42",
+        "topicOwner": "admin",
+        "user": null
+      },
+      {
+        "reply": "This will greatly help to determine if I shall develop a native app or go directly for PWA.",
         "time": "1520827422000",
         "date": "Mon Mar 12 2018",
         "replyId": "079d66af-c9f0-4b36-ac40-220cbbf6e5cb",

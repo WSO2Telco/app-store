@@ -30,9 +30,8 @@ import { InfiniteScrollDirective } from "./directives/infinite-scroll.directive"
 import { MatChipsModule } from "@angular/material/chips";
 import { MatCheckboxModule } from "@angular/material/checkbox";
 import { MatDialogModule } from "@angular/material/dialog";
-import { FroalaEditorModule, FroalaViewModule } from 'angular-froala-wysiwyg';
 import { StarRatingModule } from 'angular-star-rating';
-
+import { QuillModule } from 'ngx-quill'
 @NgModule({
   imports: [
     CommonModule,
@@ -40,14 +39,12 @@ import { StarRatingModule } from 'angular-star-rating';
     MatAutocompleteModule,
     MatChipsModule,
     MatCheckboxModule,
-    FroalaEditorModule.forRoot(), 
-    FroalaViewModule.forRoot(),
-    StarRatingModule.forRoot()
+    StarRatingModule.forRoot(),
   ],
   declarations: [
     NotificationComponent,
     InfiniteScrollDirective,
-    FrameManagerDirective
+    FrameManagerDirective,
   ],
   exports: [
     RouterModule,
@@ -79,9 +76,8 @@ import { StarRatingModule } from 'angular-star-rating';
     InfiniteScrollDirective,
     MatChipsModule,
     MatDialogModule,
-    FroalaEditorModule,
-    FroalaViewModule,
-    StarRatingModule
+    StarRatingModule,
+    QuillModule
   ],
   providers: [NotificationService],
   entryComponents: [NotificationComponent]

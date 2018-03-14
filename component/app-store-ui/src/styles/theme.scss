@@ -19,6 +19,7 @@
 @import '~app/applications/components/application-production-keys/application-production-keys.component.scss.theme.scss';
 @import '~app/statistics/components/api-usage/api-usage.component.scss.theme.scss';
 @import '~app/forum/components/create-topic/create-topic.component.scss.theme.scss';
+@import '~app/forum/components/view-topic/view-topic.component.scss.theme.scss';
 @import '~app/home/components/thumbnail/thumbnail.component.scss.theme.scss';
 @import '~app/app.component.scss.theme';
 @import './material_component_teme/mat-card-theme';
@@ -44,6 +45,7 @@
   @include signup-form-theme($theme);
   @include myaccount-theme($theme);
   @include forum-topic-theme($theme);
+  @include view-topic-theme($theme);
 }
 
 /* 

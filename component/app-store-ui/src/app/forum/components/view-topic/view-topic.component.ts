@@ -1,5 +1,5 @@
 import { Component, OnInit } from "@angular/core";
-import { Topic, TopicDetail } from "../../forum.data.models";
+import { Topic, TopicDetail, Reply } from "../../forum.data.models";
 import { AppState } from "../../../app.data.models";
 import { Store } from "@ngrx/store";
 import * as forumActions from "../../forum.actions";
@@ -11,13 +11,19 @@ import * as forumActions from "../../forum.actions";
 })
 export class ViewTopicComponent implements OnInit {
   public selectedTopic: Topic;
-  public TopicDetail: TopicDetail;
+  public topicDetail: TopicDetail;
+  public topic:Topic;
+  public replies:Reply[];
 
   constructor(private store: Store<AppState>) {}
 
   ngOnInit() {
     this.store.select(s => s.forum.topicDetail).subscribe(topic => {
-      this.TopicDetail = topic;
+      this.topicDetail = topic;
+      if(this.topicDetail){
+        this.topic = this.topicDetail.topic[0];
+        this.replies = this.topicDetail.replies;
+      }
     });
 
     this.store.select(s => s.forum.selectedTopic).subscribe(topic => {

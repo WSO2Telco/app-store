@@ -30,11 +30,11 @@ export class ApisService {
     }
 
     subscribe(param: SubscribeParam): Observable<SubscribeResult> {
-        return this.http.post<SubscribeResult>(ApiEndpoints.apis.subscribe, param);
+        return this.http.get<SubscribeResult>(ApiEndpoints.apis.subscribe);
     }
 
     getApiOverview(param): Observable<ApiOverview> {
-        return this.http.post<ApiOverview>(ApiEndpoints.apis.apiOverview, param);
+        return this.http.get<ApiOverview>(ApiEndpoints.apis.apiOverview);
     }
 
 }

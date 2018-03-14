@@ -10,7 +10,8 @@
                 <mat-form-field fxFlex>
                     <input matInput placeholder="Subject" name="subject" [(ngModel)]="topic.subject">
                 </mat-form-field>
-                <div fxFlex [froalaEditor]=""  [(froalaModel)]="topic.description"></div>
+                <quill-editor [style]="{height: '250px'}"></quill-editor>
+               <!--  <div fxFlex [froalaEditor]=""  [(froalaModel)]="topic.description"></div> -->
                 <div class="btn-wrapper" fxLayout="row"  fxLayoutAlign="end center" >
                     <button type="button"  mat-raised-button >Cancel</button>
                     <button type="submit"  mat-raised-button color="accent">Create</button>
