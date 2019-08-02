@@ -4,7 +4,7 @@ import { LoginMenuAction, LoginResponseData, LoginMenuActionTypes, LoginFormData
 import { Store } from '@ngrx/store';
 import { AppState } from './app.data.models';
 import { DoLogoutAction } from './authentication/authentication.actions';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 import * as loginActions from './authentication/authentication.actions';
 import * as globalActions from './app.actions';
 import { ToggleLeftPanelAction, ToggleParticleAction } from './app.actions';

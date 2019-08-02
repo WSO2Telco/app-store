@@ -1,3 +1,5 @@
+
+import {map} from 'rxjs/operators';
 import { HttpClient, HttpParams, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { ApiEndpoints } from '../config/api.endpoints';
@@ -28,6 +30,6 @@ export class ApplicationsService {
     return this.http.get<Subscription[]>(
       ApiEndpoints.applications.getSubscriptions,
       this.httpOptions
-    ).map((res: any) => res.apis);
+    ).pipe(map((res: any) => res.apis));
   }
 }

@@ -1,12 +1,13 @@
+
+import {fromEvent as observableFromEvent,  Observable } from 'rxjs';
 import { Directive, AfterViewInit, Input, ElementRef } from '@angular/core';
 import { ScrollPosition } from '../models/shared.models';
-import { Observable } from 'rxjs/Observable';
-import 'rxjs/add/observable/fromEvent';
-import 'rxjs/add/operator/pairwise';
-import 'rxjs/add/operator/startWith';
-import 'rxjs/add/operator/map';
-import 'rxjs/add/operator/exhaustMap';
-import 'rxjs/add/operator/filter';
+
+
+
+
+
+
 
 @Directive({
   selector: '[storeInfiniteScroll]'
@@ -48,7 +49,7 @@ export class InfiniteScrollDirective implements AfterViewInit {
 
   private registerScrollEvent() {
     const ele = document.getElementById('ss');
-    this.scrollEvent$ = Observable.fromEvent(ele, 'scroll');
+    this.scrollEvent$ = observableFromEvent(ele, 'scroll');
   }
 
   private streamScrollEvents() {

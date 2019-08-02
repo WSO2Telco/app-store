@@ -1,12 +1,11 @@
+
+import {of as observableOf, empty as observableEmpty,  Observable } from 'rxjs';
+
+import {map} from 'rxjs/operators';
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { ApiEndpoints } from './config/api.endpoints';
-import { Observable } from 'rxjs/Observable';
 import { Country, CountryOperator, Operator, Tier } from './app.data.models';
-import 'rxjs/add/observable/from';
-import 'rxjs/add/observable/of';
-import 'rxjs/add/operator/mergeMap';
-import 'rxjs/add/operator/do';
 
 @Injectable()
 export class AppService {
@@ -21,7 +20,7 @@ export class AppService {
 
     private countriesAdaptor(result: Observable<CountryOperator[]>): Observable<Country[]> {
         if (result) {
-            return result.map(((objArray: CountryOperator[]) => {
+            return result.pipe(map(((objArray: CountryOperator[]) => {
                 this.countriesResult = objArray;
                 return objArray.map((obj => {
                     return {
@@ -35,26 +34,26 @@ export class AppService {
                     }
                     return acc;
                 }, { countries: [], nameArr: [] });
-            })).map(obj => obj.countries);
+            })),map(obj => obj.countries),);
         } else {
-            return Observable.empty<Country[]>();
+            return observableEmpty();
         }
     }
 
     private operatorAdaptor(result: Observable<CountryOperator[]>, country: Country): Observable<Operator[]> {
         if (result) {
-            return result.map((res: CountryOperator[]) => {
+            return result.pipe(map((res: CountryOperator[]) => {
                 return res.filter((co: CountryOperator) => co.countryCode === country.countryCode)
                     .map((c: CountryOperator) => new Operator(c.brand, c.operator, c.mcc, c.mnc));
-            });
+            }));
         } else {
-            return Observable.empty<Operator[]>();
+            return observableEmpty();
         }
     }
 
     getCountries(): Observable<Country[]> {
         if (!!this.countriesResult) {
-            return this.countriesAdaptor(Observable.of(this.countriesResult));
+            return this.countriesAdaptor(observableOf(this.countriesResult));
         } else {
             return this.countriesAdaptor(this.loadCountries());
         }
@@ -62,7 +61,7 @@ export class AppService {
 
     getOperators(country: Country): Observable<Operator[]> {
         if (!!this.countriesResult) {
-            return this.operatorAdaptor(Observable.of(this.countriesResult), country);
+            return this.operatorAdaptor(observableOf(this.countriesResult), country);
         } else {
             return this.operatorAdaptor(this.loadCountries(), country);
         }

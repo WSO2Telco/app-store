@@ -4,7 +4,7 @@ import { Actions } from '@ngrx/effects';
 import { AppState, Country, Operator, Tier } from '../../../app.data.models';
 import { ToggleLeftPanelAction, LoadCountriesAction, LoadOperatorsAction } from '../../../app.actions';
 import { FormControl, NgForm } from '@angular/forms';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 import { Application, SubscribeParam } from '../../apis.models';
 import {
   GetUserApplicationsAction, AddOperatorToSelectionAction,
@@ -18,7 +18,7 @@ import {
 })
 export class ApiSubscriptionComponent implements OnInit {
 
-  @ViewChild(NgForm) subForm: NgForm;
+  @ViewChild(NgForm, {static:true}) subForm: NgForm;
 
   public countries$: Observable<Country[]>;
   public operators$: Observable<Operator[]>;

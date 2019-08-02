@@ -1,23 +1,19 @@
+
+import {empty as observableEmpty,  Observable } from 'rxjs';
+
+import {catchError, switchMap, map} from 'rxjs/operators';
 import { Actions, Effect } from "@ngrx/effects";
 import * as loginActions from "./authentication.actions";
 import { AuthenticationService } from "./authentication.service";
 import { Injectable } from "@angular/core";
 import {
-  HttpClient,
-  HttpHeaders,
-  HttpParams,
   HttpErrorResponse
 } from "@angular/common/http";
-import "rxjs/add/observable/empty";
-import "rxjs/add/operator/map";
-import "rxjs/add/operator/switchMap";
-import "rxjs/add/operator/catch";
 import {
   LoginFormData,
   LoginResponseData,
   LogoutResponseData
 } from "./authentication.models";
-import { Observable } from "rxjs/Observable";
 import {
   DoLoginAction,
   SignupUserAction,
@@ -51,66 +47,66 @@ export class AuthenticationEffects {
 
   @Effect()
   login$ = this.actions$
-    .ofType(loginActions.DO_LOGIN)
-    .map((action: DoLoginAction) => action.payload)
-    .switchMap((payload: any) =>
+    .ofType(loginActions.DO_LOGIN).pipe(
+    map((action: DoLoginAction) => action.payload),
+    switchMap((payload: any) =>
       this.authService
-        .login(new LoginFormData(payload.username, payload.password))
-        .map((response: LoginResponseData) => {
+        .login(new LoginFormData(payload.username, payload.password)).pipe(
+        map((response: LoginResponseData) => {
           if (response.error) {
             throw response;
           } else {
             this.router.navigate([this.lastAuthRequiredRoute || "home"]);
             return new loginActions.LoginSuccessAction(response);
           }
-        })
-        .catch((e: HttpErrorResponse) => {
+        }),
+        catchError((e: HttpErrorResponse) => {
           this.notification.error(e.message);
-          return Observable.empty();
-        })
-    );
+          return observableEmpty();
+        }),)
+    ),);
 
   @Effect()
-  logout$ = this.actions$.ofType(loginActions.DO_LOGOUT).switchMap(() =>
+  logout$ = this.actions$.ofType(loginActions.DO_LOGOUT).pipe(switchMap(() =>
     this.authService
-      .logout()
-      .map((response: LogoutResponseData) => {
+      .logout().pipe(
+      map((response: LogoutResponseData) => {
         this.router.navigate(["home"]);
         return new loginActions.DoLogoutSuccessAction();
-      })
-      .catch((e: HttpErrorResponse) => {
+      }),
+      catchError((e: HttpErrorResponse) => {
         this.notification.error(e.message);
-        return Observable.empty();
-      })
-  );
+        return observableEmpty();
+      }),)
+  ));
 
   @Effect()
   signup$ = this.actions$
-    .ofType(loginActions.SIGNUP_USER)
-    .map((action: SignupUserAction) => action.payload)
-    .switchMap((payload: any) => this.authService.signup(payload))
-    .map(response => {
+    .ofType(loginActions.SIGNUP_USER).pipe(
+    map((action: SignupUserAction) => action.payload),
+    switchMap((payload: any) => this.authService.signup(payload)),
+    map(response => {
       this.notification.success('User added successfully. You can now sign into the API store using the new user account'); 
       return new loginActions.SignupUserSuccessAction(response);
-    })
-    .catch((e: HttpErrorResponse) => {
+    }),
+    catchError((e: HttpErrorResponse) => {
       this.notification.error(e.message);
-      return Observable.empty();
-    });
+      return observableEmpty();
+    }),);
 
     @Effect()
     changePassword$ = this.actions$
-      .ofType(loginActions.CHANGE_USER_PW)
-      .map((action: ChangeUserPwAction) => action.payload)
-      .switchMap((payload: ResetPasswordParam) => this.authService.changePassword(payload))
-      .map(response => {
+      .ofType(loginActions.CHANGE_USER_PW).pipe(
+      map((action: ChangeUserPwAction) => action.payload),
+      switchMap((payload: ResetPasswordParam) => this.authService.changePassword(payload)),
+      map(response => {
         this.notification.success('User password changed successfully. You can now sign in to the API store using the new password.'); 
         return new loginActions.ChangeUserPwSuccessAction(response);
-      })
-      .catch((e: HttpErrorResponse) => {
+      }),
+      catchError((e: HttpErrorResponse) => {
         this.notification.error(e.message);
-        return Observable.empty();
-      });
+        return observableEmpty();
+      }),);
 
 
 }

@@ -1,13 +1,13 @@
 import { Injectable } from '@angular/core';
 import { ApiEndpoints } from '../config/api.endpoints';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import {
     ApiSearchParam, ApiSearchResult, Application, ApplicationSearchParam, ApplicationsResult,
     SubscribeParam, SubscribeResult, ApiOverview
 } from './apis.models';
-import 'rxjs/add/operator/map';
-import 'rxjs/add/operator/catch';
+
+
 
 @Injectable()
 export class ApisService {
