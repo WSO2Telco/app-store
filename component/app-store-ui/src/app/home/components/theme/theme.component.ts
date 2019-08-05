@@ -42,6 +42,13 @@ export class ThemeComponent implements OnInit {
       primary: '#009688',
       accent: '#4DD0E1',
       warn: '#FF1744'
+    },
+    {
+      name: 'Apigate',
+      className: 'theme-apigate-light',
+      primary: '#231F20',
+      accent: '#00AEEF',
+      warn: '#FF1744'
     }
   ];
 

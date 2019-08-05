@@ -1,4 +1,4 @@
-$nav-bar-height: 60px;
+$nav-bar-height: 45px;
 $left-side-nav-width: 300px;
 $icon-sze: 30px;
 
@@ -21,8 +21,8 @@ $icon-sze: 30px;
 }
 
 .logo-container {
-  display: block;
-  width: 100%;
+  display: flex;
+  align-items: center;
 
   .img-container {
     text-align: center;
@@ -53,13 +53,13 @@ mat-sidenav {
 
   .logo-container {
     width: $left-side-nav-width - 16px;
-    text-align: center;
+    // text-align: center;
   }
 
   .tb-logo {
     height: 35px;
-    margin-top: 10px;
-    margin-right: 20px;
+    // margin-top: 10px;
+    margin-right: 10px;
     cursor: pointer;
     &:focus{
       outline: none;
@@ -67,8 +67,7 @@ mat-sidenav {
   }
 
   .app-name {
-    font-size: .7em;
-    margin-right: 20px;
+    font-size: 16px;
   }
 
   .menu-icon-container {
@@ -100,7 +99,7 @@ store-breadcrumbs {
 }
 
 mat-sidenav {
-  margin-top: $nav-bar-height + 15;
+  margin-top: $nav-bar-height;
   box-shadow: none;
   height: 100%;
   overflow: hidden;

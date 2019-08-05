@@ -82,7 +82,7 @@ export class MainMenuComponent implements OnInit {
   constructor(private _router: Router) {
     this.flatternMenu = this.mainMenu.reduce(
       (acc: MenuItem[], menu: MenuItem) => {
-        acc = [...acc, menu, ...menu.subMenu];
+        acc = [...acc, menu];
         return acc;
       },
       []

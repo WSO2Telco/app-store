@@ -85,6 +85,113 @@ $store-theme-three-light: mat-light-theme($store-theme-three-primary,$store-them
  $store-theme-four-warn: mat-palette($mat-red,A400);
  $store-theme-four-light: mat-light-theme($store-theme-four-primary,$store-theme-four-accent,$store-theme-four-warn);
  
+/**
+* Store Apigate Theme
+*/
+$md-apigate-primary: (
+  50 : #e6f6ee,
+  100 : #bfe9d5,
+  200 : #95dbb9,
+  300 : #6bcc9d,
+  400 : #4bc188,
+  500 : #2bb673,
+  600 : #26af6b,
+  700 : #1a9e56,
+  800 : #1a9e56,
+  900 : #108e43,
+  A100 : #c0ffd7,
+  A200 : #8dffb6,
+  A400 : #5aff96,
+  A700 : #41ff85,
+  contrast: (
+      50 : #000000,
+      100 : #000000,
+      200 : #000000,
+      300 : #000000,
+      400 : #000000,
+      500 : #000000,
+      600 : #ffffff,
+      700 : #ffffff,
+      800 : #ffffff,
+      900 : #ffffff,
+      A100 : #000000,
+      A200 : #000000,
+      A400 : #000000,
+      A700 : #000000,
+  )
+);
+
+$md-apigate-accent: (
+  50 : #e0f5fd,
+  100 : #b3e7fa,
+  200 : #80d7f7,
+  300 : #4dc6f4,
+  400 : #26baf1,
+  500 : #00aeef,
+  600 : #00a7ed,
+  700 : #009deb,
+  800 : #0094e8,
+  900 : #0084e4,
+  A100 : #ffffff,
+  A200 : #d8ecff,
+  A400 : #a5d4ff,
+  A700 : #8bc8ff,
+  contrast: (
+      50 : #000000,
+      100 : #000000,
+      200 : #000000,
+      300 : #000000,
+      400 : #000000,
+      500 : #000000,
+      600 : #ffffff,
+      700 : #ffffff,
+      800 : #ffffff,
+      900 : #ffffff,
+      A100 : #000000,
+      A200 : #000000,
+      A400 : #000000,
+      A700 : #000000,
+  )
+);
+
+$mat-apigateblack : (
+  50 : #e5e4e4,
+  100 : #bdbcbc,
+  200 : #918f90,
+  300 : #656263,
+  400 : #444141,
+  500 : #231f20,
+  600 : #1f1b1c,
+  700 : #1a1718,
+  800 : #151213,
+  900 : #0c0a0b,
+  A100 : #ff52ff,
+  A200 : #ff1fff,
+  A400 : #eb00eb,
+  A700 : #d200d2,
+  contrast: (
+      50 : #000000,
+      100 : #000000,
+      200 : #000000,
+      300 : #ffffff,
+      400 : #ffffff,
+      500 : #ffffff,
+      600 : #ffffff,
+      700 : #ffffff,
+      800 : #ffffff,
+      900 : #ffffff,
+      A100 : #000000,
+      A200 : #ffffff,
+      A400 : #ffffff,
+      A700 : #ffffff,
+  )
+);
+
+$store-theme-apigate-one-primary: mat-palette($md-apigate-primary);
+$store-theme-apigate-one-accent: mat-palette($mat-apigateblack);
+$store-theme-apigate-one-warn: mat-palette($mat-red,A400);
+$store-theme-apigate-one-light: mat-light-theme($store-theme-apigate-one-primary,$store-theme-apigate-one-accent,$store-theme-apigate-one-warn);
+
 
 .theme-one-light {
   @include angular-material-theme($store-theme-one-light);
@@ -115,3 +222,7 @@ $store-theme-three-light: mat-light-theme($store-theme-three-primary,$store-them
   @include custom-components-theme($store-theme-four-light);
 }
 
+.theme-apigate-light {
+  @include angular-material-theme($store-theme-apigate-one-light);
+  @include custom-components-theme($store-theme-apigate-one-light);
+}

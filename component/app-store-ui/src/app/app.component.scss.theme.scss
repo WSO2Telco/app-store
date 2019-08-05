@@ -15,6 +15,10 @@
 
   .mat-drawer-content.mat-sidenav-content{
     background-color: #efeff0;
+
+    .mat-toolbar-single-row{
+      height: 45px;
+    }
   }
 
   .toolbar-main {
