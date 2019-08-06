@@ -160,11 +160,11 @@ $mat-apigateblack : (
   200 : #918f90,
   300 : #656263,
   400 : #444141,
-  500 : #231f20,
-  600 : #1f1b1c,
-  700 : #1a1718,
-  800 : #151213,
-  900 : #0c0a0b,
+  500 : #231F20,
+  600 : #231F20,
+  700 : #231F20,
+  800 : #231F20,
+  900 : #231F20,
   A100 : #ff52ff,
   A200 : #ff1fff,
   A400 : #eb00eb,
@@ -194,7 +194,7 @@ $store-theme-apigate-one-light: mat-light-theme($store-theme-apigate-one-primary
 
 
 $store-theme-apigate-blue-primary: mat-palette($mat-apigateblack);
-$store-theme-apigate-blue-accent: mat-palette($md-apigate-blue);
+$store-theme-apigate-blue-accent: mat-palette($md-apigate-blue, 700, 700, 700);
 $store-theme-apigate-blue-warn: mat-palette($mat-red,A400);
 $store-theme-apigate-blue-light: mat-light-theme($store-theme-apigate-blue-primary,$store-theme-apigate-blue-accent,$store-theme-apigate-blue-warn);
 

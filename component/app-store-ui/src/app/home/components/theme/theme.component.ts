@@ -36,13 +36,13 @@ export class ThemeComponent implements OnInit {
     //   accent: '#F06292',
     //   warn: '#FF1744'
     // },
-    {
-      name: 'Tele',
-      className: 'theme-four-light',
-      primary: '#009688',
-      accent: '#4DD0E1',
-      warn: '#FF1744'
-    },
+    // {
+    //   name: 'Tele',
+    //   className: 'theme-four-light',
+    //   primary: '#009688',
+    //   accent: '#4DD0E1',
+    //   warn: '#FF1744'
+    // },
     {
       name: 'Apigate',
       className: 'theme-apigate-light',
@@ -53,9 +53,9 @@ export class ThemeComponent implements OnInit {
     {
       name: 'Apigate Blue',
       className: 'theme-apigate-blue',
-      primary: '#00AEEF',
-      accent: '#4DD0E1',
-      warn: '#FF1744'
+      primary: '#231F20',
+      accent: '#00AEEF',
+      warn: '#F44336'
     },
   ];
 
