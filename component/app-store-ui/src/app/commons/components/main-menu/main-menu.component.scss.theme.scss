@@ -19,8 +19,8 @@
     }
   }
 
-  mat-expansion-panel {
-    background-color: rgba(255, 255, 255, 0.7) !important;
+  .mat-expansion-panel {
+    background-color: rgba(255, 255, 255, 0.7);
 
     mat-expansion-panel-header{
         background-color: transparent !important;
@@ -36,5 +36,49 @@
         }
       }
     }
+  }
+}
+
+.theme-apigate-light {
+  $primary: #2BB673;
+  $accent: #231F20;
+  $foreground: #FAFAFA;
+
+  .mat-nav-list .mat-list-item {
+    outline: none;
+    background-color:none;
+
+    &:hover{
+      background-color:rgba(255, 255, 255, 0.7);
+    }
+
+    &.selected {
+      background: none;
+      color: $foreground;
+      font-weight:900;
+    }
+  }
+
+  mat-expansion-panel {
+    // background-color: rgba(255, 255, 255, 0.7) !important;
+
+    mat-expansion-panel-header{
+        // background-color: transparent !important;
+    }
+
+    .mat-nav-list .mat-list-item {
+      &:hover{
+        background-color:rgba(255, 255, 255, 0.7);
+      }
+      &.selected {
+        &:hover{
+          // background: mat-color($accent);
+        }
+      }
+    }
+  }
+
+  .mat-expansion-panel{
+    background: transparent;
   }
 }

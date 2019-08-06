@@ -1,0 +1,96 @@
+.theme-apigate-light{
+    $primary: #2BB673;
+    $accent: #231F20;
+    $foreground: #FAFAFA;
+
+    .mat-nav-list .mat-list-item {
+        outline: none;
+        background-color:transparent;
+
+        &:hover{
+        background-color:rgba(255, 255, 255, 0.7);
+        }
+
+        &.selected {
+        background: none;
+        color: $foreground;
+        font-weight:900;
+        }
+    }
+
+    mat-expansion-panel {
+        // background-color: none !important;
+
+        mat-expansion-panel-header{
+            background-color: transparent;
+        }
+
+        .mat-nav-list .mat-list-item {
+        &:hover{
+            background-color:rgba(255, 255, 255, 0.7);
+        }
+        &.selected {
+            &:hover{
+            background: none;
+            }
+        }
+        }
+    }
+
+    .mat-expansion-panel{
+        background: transparent;
+    }
+}
+
+.theme-apigate-blue{
+    $primary: #231F20;
+    $accent: #00AEEF;
+    $foreground: #FAFAFA;
+
+    .mat-nav-list .mat-list-item {
+        outline: none;
+        background-color:transparent;
+        color: #fff;
+
+        &:hover{
+            background-color:rgba(255, 255, 255, 0.7);
+        }
+
+        &.selected {
+            background: none;
+            color: $accent;
+            font-weight:900;
+        }
+    }
+
+    .mat-nav-list{
+        .mat-expansion-panel-header-title{
+            color: #fff;
+        }
+    }
+
+    mat-expansion-panel {
+        // background-color: none !important;
+
+        mat-expansion-panel-header{
+            background-color: transparent;
+        }
+
+        .mat-nav-list .mat-list-item {
+            color: #fff;
+
+            &:hover{
+                background-color:rgba(255, 255, 255, 0.7);
+            }
+            &.selected {
+                &:hover{
+                background: none;
+                }
+            }
+        }
+    }
+
+    .mat-expansion-panel{
+        background: transparent;
+    }
+}

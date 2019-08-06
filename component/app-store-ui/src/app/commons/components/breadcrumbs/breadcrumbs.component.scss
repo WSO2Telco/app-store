@@ -2,22 +2,42 @@ mat-card{
 margin-left:-1px;
 }
 
-.url-part{
-    display: inline-block;
-    padding-right: 10px;
-    font-size: 1.3em;
-    font-weight: 300;
-    text-transform: capitalize;
+// .url-part{
+//     display: inline-block;
+//     padding-right: 10px;
+//     font-size: 1.3em;
+//     font-weight: 300;
+//     text-transform: capitalize;
   
-    &:last-child{
-      font-weight: 900;
-      text-transform: uppercase;
-    }
-  }
+//     &:last-child{
+//       font-weight: 900;
+//       text-transform: uppercase;
+//     }
+//   }
 
   mat-card-content{
     &.open{
-      padding-left : 300px;
+      padding-left : 220px;
     }
   }
   
+  .breadcrumb-parent {
+    text-transform: uppercase;
+    font-size: 14px;
+    font-weight: 500;
+    color: #fff;
+    position: relative;
+    padding-right: 15px;
+  
+    &:hover{
+      text-decoration: underline;
+    }
+  
+    &:after{
+      content: "\00BB";
+      position: absolute;
+      right: 5px;
+      bottom: 2px;
+      color: #ddd;
+    }
+  }

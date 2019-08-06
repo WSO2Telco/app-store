@@ -1,5 +1,5 @@
 $nav-bar-height: 45px;
-$left-side-nav-width: 300px;
+$left-side-nav-width: 220px;
 $icon-sze: 30px;
 
 .prof-icon {
@@ -75,15 +75,13 @@ mat-sidenav {
     height: 100%;
 
     store-hamburger-menu {
-      margin-top: 8px;
       margin-left: 5px;
-
     }
   }
 }
 
 .content-container {
-  margin-top: $nav-bar-height + 80;
+  margin-top: $nav-bar-height + 40;
   padding: 20px;
 }
 
@@ -118,10 +116,11 @@ mat-sidenav {
 }
 
 .menu-wrapper {
-  height: 100%;
+  // height: 100%;
 
   store-main-menu {
     display: block;
+    margin-top: 40px;
   }
 }
 

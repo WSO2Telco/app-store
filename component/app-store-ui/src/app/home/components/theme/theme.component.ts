@@ -22,20 +22,20 @@ export class ThemeComponent implements OnInit {
       accent: '#E91E63',
       warn: '#F44336'
     },
-    {
-      name: 'Forest Theme',
-      className: 'theme-two-light',
-      primary: '#4CAF50',
-      accent: '#FFA000',
-      warn: '#D50000'
-    },
-    {
-      name: 'Pinky in Gray Theme',
-      className: 'theme-three-light',
-      primary: '#37474F',
-      accent: '#F06292',
-      warn: '#FF1744'
-    },
+    // {
+    //   name: 'Forest Theme',
+    //   className: 'theme-two-light',
+    //   primary: '#4CAF50',
+    //   accent: '#FFA000',
+    //   warn: '#D50000'
+    // },
+    // {
+    //   name: 'Pinky in Gray Theme',
+    //   className: 'theme-three-light',
+    //   primary: '#37474F',
+    //   accent: '#F06292',
+    //   warn: '#FF1744'
+    // },
     {
       name: 'Tele',
       className: 'theme-four-light',
@@ -46,10 +46,17 @@ export class ThemeComponent implements OnInit {
     {
       name: 'Apigate',
       className: 'theme-apigate-light',
-      primary: '#231F20',
-      accent: '#00AEEF',
+      primary: '#2BB673',
+      accent: '#231F20',
+      warn: '#F44336'
+    },
+    {
+      name: 'Apigate Blue',
+      className: 'theme-apigate-blue',
+      primary: '#00AEEF',
+      accent: '#4DD0E1',
       warn: '#FF1744'
-    }
+    },
   ];
 
   constructor(private store: Store<AppState>) { }

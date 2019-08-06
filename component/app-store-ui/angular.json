@@ -11,7 +11,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "/home/sumudu/apps/wso2telcohub-3.0.2/repository/deployment/server/webapps/app-store/public",
+            "outputPath": "dist",
             "index": "src/index.html",
             "main": "src/main.ts",
             "tsConfig": "src/tsconfig.app.json",
@@ -25,8 +25,7 @@
               "node_modules/swagger-ui-dist/swagger-ui.css",
               "node_modules/material-design-icons-iconfont/dist/material-design-icons.css",
               "node_modules/font-awesome/css/font-awesome.css",
-              "src/styles/main.scss",
-              "src/styles/theme.scss"
+              "src/styles/style.scss"
             ],
             "scripts": []
           },
