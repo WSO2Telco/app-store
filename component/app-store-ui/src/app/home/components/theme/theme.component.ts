@@ -45,7 +45,7 @@ export class ThemeComponent implements OnInit {
     // },
     {
       name: 'Apigate',
-      className: 'theme-apigate-light',
+      className: 'theme-apigate-green',
       primary: '#2BB673',
       accent: '#231F20',
       warn: '#F44336'

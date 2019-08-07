@@ -228,7 +228,7 @@ $store-theme-apigate-blue-light: mat-light-theme($store-theme-apigate-blue-prima
 //   @include custom-components-theme($store-theme-four-light);
 // }
 
-.theme-apigate-light {
+.theme-apigate-green {
   @include angular-material-theme($store-theme-apigate-one-light);
   @include custom-components-theme($store-theme-apigate-one-light);
 }

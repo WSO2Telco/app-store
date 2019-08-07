@@ -1,8 +1,7 @@
 <mat-nav-list>
 
   <ng-container *ngFor="let menu of mainMenu">
-    <mat-list-item [routerLink]="menu.route" *ngIf="!menu.subMenu else innerMenu"
-     [ngClass]="{'selected':menu.id === selectedMenu?.id}">
+    <mat-list-item [routerLink]="menu.route" *ngIf="!menu.subMenu else innerMenu" routerLinkActive="selected">
       <mat-icon>{{menu.icon}}</mat-icon>
       <span>{{menu.name}}</span>
     </mat-list-item>
@@ -10,7 +9,7 @@
 
       <mat-accordion>
 
-        <mat-expansion-panel expanded="true">
+        <mat-expansion-panel expanded="false" class="sub-menu-wrap" routerLinkActive="sub-selected">
           <mat-expansion-panel-header>
             <mat-panel-title>
               <mat-icon>{{menu.icon}}</mat-icon>
@@ -19,8 +18,7 @@
           </mat-expansion-panel-header>
 
           <mat-nav-list>
-            <mat-list-item [routerLink]="sub.route" *ngFor="let sub of menu.subMenu" 
-            [ngClass]="{'selected':sub.id === selectedMenu?.id}">
+            <mat-list-item [routerLink]="sub.route" *ngFor="let sub of menu.subMenu" routerLinkActive="selected">
               <mat-icon>{{sub.icon}}</mat-icon>
               <span>{{sub.name}}</span>
             </mat-list-item>
