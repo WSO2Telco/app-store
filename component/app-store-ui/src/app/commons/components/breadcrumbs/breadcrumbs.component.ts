@@ -2,7 +2,9 @@
 import {filter} from 'rxjs/operators';
 import { Component, OnInit, Input } from '@angular/core';
 import { Router, NavigationEnd } from '@angular/router';
-
+import { Store } from '@ngrx/store';
+import { AppState } from '../../../app.data.models';
+import * as globalActions from '../../../app.actions';
 
 @Component({
   selector: 'store-breadcrumbs',
@@ -15,7 +17,7 @@ export class BreadcrumbsComponent implements OnInit {
   @Input()
   public isOpen: boolean;
 
-  constructor(private _router: Router) {
+  constructor(private _router: Router, private store: Store<AppState>) {
   }
 
   ngOnInit() {
@@ -31,5 +33,9 @@ export class BreadcrumbsComponent implements OnInit {
       });
 
   }
-}
+
+  onHambergerMenuClick(event) {
+    this.store.dispatch(new globalActions.ToggleLeftPanelAction(event));
+  }
+} 
 

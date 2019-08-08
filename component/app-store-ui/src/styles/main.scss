@@ -41,6 +41,9 @@ body snack-bar-container {
   border-top:1px;
 }
 
+.clearfix {
+  clear: both;
+}
 
 .delay_1{
  @include animation-delay(0.1s);
