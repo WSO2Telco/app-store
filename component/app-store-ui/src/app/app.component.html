@@ -3,17 +3,6 @@
   <mat-sidenav #sidenav mode="side" [(opened)]="leftNavOpened" 
   [ngClass]="{'backImg':menuBackImage}"
   color="primary" fixedTopGap="50">
-    <!-- <mat-toolbar color="primary" class="menu-toolbar mat-elevation-z5">
-      <div class="logo-container">
-        <div class="img-container">
-
-        </div>
-        <div class="app-name-container">
-          API STORE
-        </div>
-      </div>
-
-    </mat-toolbar> -->
 
     <div class="menu-wrapper">
       <store-main-menu></store-main-menu>
@@ -32,10 +21,6 @@
       <span class="logo-container">
         <img class="tb-logo" routerLink="/home" src="assets/images/logo_white.svg" /> <span class="app-name" routerLink="/home"> | API Store</span>
       </span>
-
-      <!-- <span class="menu-icon-container">
-        <store-hamburger-menu isOpen="leftNavOpened" (toggle)="onHambergerMenuClick($event)"></store-hamburger-menu>
-      </span> -->
 
       <span class="fill-remaining-space"></span>
 
