@@ -6,7 +6,7 @@ const initState: GlobalState = {
     layout: {
         rightNavOpened: false,
         leftNavOpened: false,
-        appTheme: 'theme-one-light',
+        appTheme: 'theme-apigate-blue',
         particleAnimation: true,
         menuBackImage: true
     },
