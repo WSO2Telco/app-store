@@ -4,7 +4,7 @@
             background-color:transparent;
     
             &:hover{
-                background-color:rgba(255, 255, 255, 0.7);
+                // background-color:rgba(255, 255, 255, 0.7);
             }
     
             &.selected {
@@ -61,7 +61,8 @@
     .menu-wrapper{
         .mat-nav-list .mat-list-item {
             &.selected {
-                color: $foreground;
+                color: $primary;
+                border-left: 3px solid;
             }
         }
 
@@ -76,12 +77,12 @@
                 border-left: 2px solid $foreground;
             }
             .mat-expansion-panel-header-title{
-                color: $foreground;
+                color: $primary;
             }
 
             .mat-expansion-indicator{
                 &:after{
-                    color: $foreground;
+                    color: $primary;
                 }
             }
         }
@@ -95,23 +96,11 @@
 
     .menu-wrapper{
         .mat-nav-list .mat-list-item {
-            color: #fff;
+            color: #231F20;
 
             &.selected {
                 color: $accent;
                 border-left: 3px solid;
-            }
-        }
-
-        .mat-nav-list{
-            .mat-expansion-panel-header-title{
-                color: $foreground;
-            }
-        }
-
-        .mat-expansion-indicator{
-            &:after{
-                color: $foreground;
             }
         }
     }

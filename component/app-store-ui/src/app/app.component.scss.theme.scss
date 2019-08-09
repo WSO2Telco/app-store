@@ -4,7 +4,6 @@
   $primary: map-get($theme, primary);
 
   .mat-drawer-backdrop.mat-drawer-shown {
-    background-color: mat-color($background, app-bar);
     opacity: 0.7;
   }
 
@@ -32,7 +31,8 @@
   }
 
   .mat-drawer{
-    background-color: mat-color($primary, darker);
+    // background-color: mat-color($primary, darker);
+    background-color: #e0e0e0;
   }
 
   mat-sidenav {

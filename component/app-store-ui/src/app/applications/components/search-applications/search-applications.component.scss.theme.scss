@@ -11,9 +11,10 @@
 
   .tbl-container {
     mat-header-row{
-        background-color: mat-color($primary, darker);
+        // background-color: mat-color($primary, darker);
         mat-header-cell{
-            color:mat-color($background,card);
+            color: #231F20;
+            font-weight: 600;
         }
     }
 

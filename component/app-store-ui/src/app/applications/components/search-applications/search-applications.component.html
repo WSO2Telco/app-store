@@ -1,6 +1,6 @@
 <div fxLayout="column" fxLayoutGap="20px">
 <div fxLayout="row" fxLayout.lt-md="column" fxLayoutGap="20px">
-  <mat-card fxFlex class="intro-container animated fadeInDown mat-elevation-z8">
+  <mat-card fxFlex class="intro-container animated fadeInDown Xmat-elevation-z8">
     <mat-card-content>
       <button mat-fab color="accent" matTooltip="Create new application" [routerLink]="['/applications/create']">+</button>
     <div class="txt"> <span> Application</span> is a logical collection of APIs. Applications allow you to use a single access token to invoke a collection
@@ -33,7 +33,7 @@
 </div>
 
 
-        <div class="tbl-container mat-elevation-z8 animated fadeIn">
+        <div class="tbl-container Xmat-elevation-z8 animated fadeIn">
             <mat-table #table [dataSource]="dataSource">
       
               <ng-container matColumnDef="name">
