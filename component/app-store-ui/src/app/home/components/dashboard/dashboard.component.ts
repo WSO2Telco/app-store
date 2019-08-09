@@ -8,10 +8,10 @@ import { ThumbnailParam } from "../../home.data.models";
 })
 export class DashboardComponent implements OnInit {
   thumbnailParams: ThumbnailParam[] = [
-    new ThumbnailParam('APIS','/apis','apis'),
-    new ThumbnailParam('APPLICATIONS','/applications','apps'),
-    new ThumbnailParam('FORUM','/forum','forum'),
-    new ThumbnailParam('STATISTICS','/statistics','stat')
+    new ThumbnailParam('APIs','/apis','apis'),
+    new ThumbnailParam('Applications','/applications','apps'),
+    new ThumbnailParam('Forum','/forum','forum'),
+    new ThumbnailParam('Statistics','/statistics','stat')
   ];
 
   constructor() {}

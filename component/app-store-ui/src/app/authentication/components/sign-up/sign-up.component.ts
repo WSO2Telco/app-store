@@ -12,7 +12,7 @@ import { NgForm } from "@angular/forms";
   styleUrls: ["./sign-up.component.scss"]
 })
 export class SignUpComponent implements OnInit {
-  @ViewChild(NgForm) signupForm: NgForm;
+  @ViewChild(NgForm, {static:false}) signupForm: NgForm;
 
   public user: SigUpUserParam;
   public confirmPassword:string;

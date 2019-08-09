@@ -1,5 +1,5 @@
 import { Directive, ElementRef, Input } from '@angular/core';
-import { OnInit, AfterViewInit } from '@angular/core/src/metadata/lifecycle_hooks';
+import { OnInit, AfterViewInit } from '@angular/core';
 import { Router } from '@angular/router';
 
 @Directive({

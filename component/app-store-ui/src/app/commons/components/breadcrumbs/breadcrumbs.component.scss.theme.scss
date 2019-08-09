@@ -3,6 +3,9 @@
   $primary: map-get($theme, primary);
 
   #card-con {
-    background-color:    mat-color($primary);;
+    background: transparent;
+    color: #fff;
+    padding: 10px;
+    box-shadow: none;
   }
 }

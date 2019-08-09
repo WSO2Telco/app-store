@@ -1,7 +1,9 @@
+
+import {map} from 'rxjs/operators';
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams, HttpHeaders } from '@angular/common/http';
-import { Observable } from 'rxjs/Observable';
-import 'rxjs/add/operator/map';
+import { Observable } from 'rxjs';
+
 import { ApiEndpoints } from '../config/api.endpoints';
 
 import { LoginFormData, LoginResponseData, LogoutResponseData } from './authentication.models';
@@ -33,10 +35,10 @@ export class AuthenticationService {
             })
         };
 
-        return this.http.get(ApiEndpoints.authentication.login, httpOptions)
-            .map((data: any) =>
+        return this.http.get(ApiEndpoints.authentication.login, httpOptions).pipe(
+            map((data: any) =>
                 new LoginResponseData(param.username, {}, data.error, data.message)
-            );
+            ));
     }
 
     logout(): Observable<LogoutResponseData> {
@@ -49,8 +51,8 @@ export class AuthenticationService {
             })
         };
 
-        return this.http.get(ApiEndpoints.authentication.logout, httpOptions)
-            .map((data: any) => new LogoutResponseData(data));
+        return this.http.get(ApiEndpoints.authentication.logout, httpOptions).pipe(
+            map((data: any) => new LogoutResponseData(data)));
     }
 
     signup(param:SigUpUserParam){

@@ -1,25 +1,13 @@
- public selectedTheme: string;
 <mat-sidenav-container fullscreen id="main-container" [ngClass]="selectedTheme">
 
   <mat-sidenav #sidenav mode="side" [(opened)]="leftNavOpened" 
   [ngClass]="{'backImg':menuBackImage}"
   color="primary" fixedTopGap="50">
-    <mat-toolbar color="primary" class="menu-toolbar mat-elevation-z5">
-      <div class="logo-container">
-        <div class="img-container">
-
-        </div>
-        <div class="app-name-container">
-          API STORE
-        </div>
-      </div>
-
-    </mat-toolbar>
 
     <div class="menu-wrapper">
       <store-main-menu></store-main-menu>
     </div>
-    <store-particles [isEnable]="particleAnimation"></store-particles>
+    <!-- <store-particles [isEnable]="particleAnimation"></store-particles> -->
   </mat-sidenav>
 
   <mat-sidenav #right position="end" [(opened)]="rightNavOpened" (closedStart)="onRightNavClose()" class="right-nav mat-elevation-z5"
@@ -31,23 +19,26 @@
   <mat-sidenav-content id="ss">
     <mat-toolbar class="mat-elevation-z5 toolbar-main" [class.isOpen]="leftNavOpened">
       <span class="logo-container">
-        <img class="tb-logo" routerLink="/home" src="assets/images/logo.svg" />
-      </span>
-
-      <span class="menu-icon-container">
-        <store-hamburger-menu isOpen="leftNavOpened" (toggle)="onHambergerMenuClick($event)"></store-hamburger-menu>
+        <img class="tb-logo" routerLink="/home" src="assets/images/logo_white.svg" /> <span class="app-name" routerLink="/home"> | API Store</span>
       </span>
 
       <span class="fill-remaining-space"></span>
 
       <span>
         <button mat-icon-button routerLink="/home/theme">
-          <mat-icon class="theme" color="accent">palette</mat-icon>
+          <mat-icon class="theme">palette</mat-icon>
         </button>
         <store-login-icon (menuSelect)="onMenuSelect($event)"></store-login-icon>
       </span>
     </mat-toolbar>
-    <store-breadcrumbs [isOpen]="leftNavOpened"></store-breadcrumbs>
+    <div class="breadcrumb-wrap" [ngClass]="{'left-open':leftNavOpened}">
+      <span class="menu-icon-container">
+        <store-hamburger-menu isOpen="leftNavOpened" (toggle)="onHambergerMenuClick($event)"></store-hamburger-menu>
+      </span>
+      <store-breadcrumbs [isOpen]="leftNavOpened"></store-breadcrumbs>
+      <div class="clearfix"></div>
+    </div>
+
     <div class="content-container">
 
       <router-outlet></router-outlet>

@@ -5,14 +5,14 @@
   .hm-menu-container {
     .hamburger-menu {
       #hmenu {
-        background: mat-color($accent);
+        background: #fff;
 
         &::before{
-            background: mat-color($accent);
+            background: #fff;
         }
 
         &::after{
-            background: mat-color($accent);
+            background: #fff;
         }
 
         &.animate {

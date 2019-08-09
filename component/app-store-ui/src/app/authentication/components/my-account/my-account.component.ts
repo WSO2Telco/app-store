@@ -12,7 +12,7 @@ import { NgForm } from '@angular/forms';
   styleUrls: ["./my-account.component.scss"]
 })
 export class MyAccountComponent implements OnInit {
-  @ViewChild(NgForm) changePwForm: NgForm;
+  @ViewChild(NgForm, {static:false}) changePwForm: NgForm;
   
   param: ResetPasswordParam;
   confirmPassword:string;

@@ -1,5 +1,5 @@
-$nav-bar-height: 60px;
-$left-side-nav-width: 300px;
+$nav-bar-height: 45px;
+$left-side-nav-width: 220px;
 $icon-sze: 30px;
 
 .prof-icon {
@@ -21,8 +21,8 @@ $icon-sze: 30px;
 }
 
 .logo-container {
-  display: block;
-  width: 100%;
+  display: flex;
+  align-items: center;
 
   .img-container {
     text-align: center;
@@ -53,13 +53,13 @@ mat-sidenav {
 
   .logo-container {
     width: $left-side-nav-width - 16px;
-    text-align: center;
+    // text-align: center;
   }
 
   .tb-logo {
     height: 35px;
-    margin-top: 10px;
-    margin-right: 20px;
+    // margin-top: 10px;
+    margin-right: 10px;
     cursor: pointer;
     &:focus{
       outline: none;
@@ -67,8 +67,7 @@ mat-sidenav {
   }
 
   .app-name {
-    font-size: .7em;
-    margin-right: 20px;
+    font-size: 16px;
   }
 
   .menu-icon-container {
@@ -76,31 +75,18 @@ mat-sidenav {
     height: 100%;
 
     store-hamburger-menu {
-      margin-top: 8px;
       margin-left: 5px;
-
     }
   }
 }
 
 .content-container {
-  margin-top: $nav-bar-height + 80;
+  margin-top: $nav-bar-height + 40;
   padding: 20px;
 }
 
-store-breadcrumbs {
-  display: block;
-  top: $nav-bar-height;
-  position: fixed;
-  left: 0;
-  right: 0;
-  z-index: 500;
-  padding-bottom: 15px;
-
-}
-
 mat-sidenav {
-  margin-top: $nav-bar-height + 15;
+  margin-top: $nav-bar-height;
   box-shadow: none;
   height: 100%;
   overflow: hidden;
@@ -119,10 +105,11 @@ mat-sidenav {
 }
 
 .menu-wrapper {
-  height: 100%;
+  // height: 100%;
 
   store-main-menu {
     display: block;
+    margin-top: 40px;
   }
 }
 
@@ -140,4 +127,28 @@ mat-sidenav {
   right: 0;
   bottom: 0;
   left: 0;
+}
+
+.breadcrumb-wrap{
+  &.left-open{
+    padding-left: 220px;
+  }
+
+  background: #aaa;
+  position: fixed;
+  top: 45px;
+  left: 0;
+  right: 0;
+  z-index: 50;
+
+  .menu-icon-container{
+    float: left;
+  }
+
+  store-breadcrumbs {
+    display: block;
+    top: $nav-bar-height;
+    z-index: 500;
+    float: left;
+  }
 }

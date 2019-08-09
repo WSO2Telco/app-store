@@ -8,7 +8,7 @@ import {
   ApiSummery,
   ApiStatus
 } from "../../apis.models";
-import { Observable } from "rxjs/Observable";
+import { Observable } from "rxjs";
 import { MatTableDataSource } from "@angular/material";
 import { Router } from "@angular/router";
 

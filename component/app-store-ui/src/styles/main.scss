@@ -1,6 +1,6 @@
 @import url("https://fonts.googleapis.com/css?family=Roboto:300,400,500,900");
 @import "~@angular/material/prebuilt-themes/indigo-pink.css";
-@import "~css-star-rating/scss/star-rating.scss";
+// @import "~css-star-rating/scss/star-rating.scss";
 @import "./_mixing.scss";
 
 html,
@@ -41,6 +41,9 @@ body snack-bar-container {
   border-top:1px;
 }
 
+.clearfix {
+  clear: both;
+}
 
 .delay_1{
  @include animation-delay(0.1s);
@@ -73,3 +76,5 @@ body snack-bar-container {
 .delay_1_2{
  @include animation-delay(1.2s);
 }
+
+

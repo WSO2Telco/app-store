@@ -7,28 +7,28 @@ import { AppGuard } from './app.guards';
 const routes: Routes = [
   {
     path: 'home',
-    loadChildren: 'app/home/home.module#HomeModule'
+    loadChildren: () => import('app/home/home.module').then(m => m.HomeModule)
   },
   {
     path: 'legacy',
-    loadChildren: 'app/legacy/legacy.module#LegacyModule'
+    loadChildren: () => import('app/legacy/legacy.module').then(m => m.LegacyModule)
   },
   {
     path: 'apis',
-    loadChildren: 'app/apis/apis.module#ApisModule'
+    loadChildren: () => import('app/apis/apis.module').then(m => m.ApisModule)
   },
   {
     path: 'forum',
-    loadChildren: 'app/forum/forum.module#ForumModule'
+    loadChildren: () => import('app/forum/forum.module').then(m => m.ForumModule)
   },
   {
     path: 'applications',
-    loadChildren: 'app/applications/applications.module#ApplicationsModule',
+    loadChildren: () => import('app/applications/applications.module').then(m => m.ApplicationsModule),
     canActivate: [AppGuard]
   },
   {
     path: 'statistics',
-    loadChildren: 'app/statistics/statistics.module#StatisticsModule',
+    loadChildren: () => import('app/statistics/statistics.module').then(m => m.StatisticsModule),
     canActivate: [AppGuard]
   },
   {

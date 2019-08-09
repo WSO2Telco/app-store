@@ -14,7 +14,7 @@ import { SwaggerUIBundle, SwaggerUIStandalonePreset } from 'swagger-ui-dist';
   styleUrls: ['./api-console.component.scss']
 })
 export class ApiConsoleComponent implements OnInit, AfterViewInit {
-  @ViewChild('swagger') container: ElementRef;
+  @ViewChild('swagger', {static:true}) container: ElementRef;
 
   constructor() {}
 

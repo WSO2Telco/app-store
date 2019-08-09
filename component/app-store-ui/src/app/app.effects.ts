@@ -1,3 +1,7 @@
+
+import {empty as observableEmpty,  Observable } from 'rxjs';
+
+import {switchMap, catchError, map} from 'rxjs/operators';
 import { Injectable } from '@angular/core';
 import { AppService } from './app.service';
 import { Actions, Effect } from '@ngrx/effects';
@@ -6,8 +10,7 @@ import { Action } from '@ngrx/store/src/models';
 import { Country, Operator, Tier } from './app.data.models';
 import { HttpErrorResponse } from '@angular/common/http';
 import { NotificationService } from './shared/services/notification.service';
-import { Observable } from 'rxjs/Observable';
-import 'rxjs/add/operator/map';
+
 
 
 @Injectable()
@@ -21,27 +24,27 @@ export class AppGlobalEffects {
 
     @Effect()
     countries$ = this.actions$
-        .ofType(appActons.LOAD_COUNTRIES)
-        .map((action: appActons.LoadCountriesAction) => action.payload)
-        .switchMap(() => this.appService.getCountries()
-            .map((result: Country[]) => new appActons.LoadCountriesSuccessAction(result))
-            .catch((e: HttpErrorResponse) => {
+        .ofType(appActons.LOAD_COUNTRIES).pipe(
+        map((action: appActons.LoadCountriesAction) => action.payload),
+        switchMap(() => this.appService.getCountries().pipe(
+            map((result: Country[]) => new appActons.LoadCountriesSuccessAction(result)),
+            catchError((e: HttpErrorResponse) => {
                 this.notification.error(e.message);
-                return Observable.empty();
-            })
-        );
+                return observableEmpty();
+            }),)
+        ),);
 
     @Effect()
     operators$ = this.actions$
-        .ofType(appActons.LOAD_OPERATORS)
-        .map((action: appActons.LoadOperatorsAction) => action.payload)
-        .switchMap((payload: Country) => this.appService.getOperators(payload)
-            .map((result: Operator[]) => new appActons.LoadOperatorsSuccessAction(result))
-            .catch((e: HttpErrorResponse) => {
+        .ofType(appActons.LOAD_OPERATORS).pipe(
+        map((action: appActons.LoadOperatorsAction) => action.payload),
+        switchMap((payload: Country) => this.appService.getOperators(payload).pipe(
+            map((result: Operator[]) => new appActons.LoadOperatorsSuccessAction(result)),
+            catchError((e: HttpErrorResponse) => {
                 this.notification.error(e.message);
-                return Observable.empty();
-            })
-        );
+                return observableEmpty();
+            }),)
+        ),);
 }
 
 

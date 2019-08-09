@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { GetTopicsParam, TopicResult, CreateTopicParam } from './forum.data.models';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 import { ApiEndpoints } from '../config/api.endpoints';
 
 @Injectable()
