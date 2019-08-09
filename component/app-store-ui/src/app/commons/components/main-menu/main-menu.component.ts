@@ -73,7 +73,7 @@ export class MainMenuComponent implements OnInit {
           id: 5.5,
           name: "MANAGE ALERT TYPES",
           icon: "add_alert",
-          route: ["statistics/manage-alert-types"]
+          route: ["statistics/manage-alert-typesx"]
         }
       ]
     }
