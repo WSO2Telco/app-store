@@ -4,81 +4,84 @@
   $accent: map-get($theme, accent);
   $foreground: map-get($theme, background);
 
-  .mat-nav-list .mat-list-item {
-    outline: none;
-    background-color:rgba(255, 255, 255, 0.7);
+  .menu-wrapper{
+    .mat-list-item {
+      background-color:transparent;
 
-    &:hover{
-      background-color: #efeff0;
-    }
-
-    &.selected {
-      background: mat-color($accent);
-      color: mat-color($foreground, card);
-      font-weight:900;
-    }
-  }
-
-  .mat-expansion-panel {
-    background-color: rgba(255, 255, 255, 0.7);
-
-    mat-expansion-panel-header{
-        background-color: transparent !important;
-    }
-
-    .mat-nav-list .mat-list-item {
-      &:hover{
-        background-color:white;
-      }
       &.selected {
-        &:hover{
-          background: mat-color($accent);
+        background: none;
+        font-weight:900;
+        color: mat-color($primary);
+        border-left: 3px solid;
+      }
+
+      .mat-expansion-panel-body{
+        border-color: mat-color($accent);
+      }
+    }
+
+    .sub-menu-wrap{
+        .mat-list-item {
+            height: 35px;
+
+            &:hover{
+                background-color:rgba(255, 255, 255, 0.7);
+            }
+            
+            &.selected {
+                margin-left: -3px;
+
+                &:hover{
+                    background: none;
+                }
+            }
+
+            .mat-icon{
+                font-size: 15px;
+                height: 15px;
+                width: 15px;
+            }
         }
-      }
-    }
-  }
-}
 
-.theme-apigate-light {
-  $primary: #2BB673;
-  $accent: #231F20;
-  $foreground: #FAFAFA;
-
-  .mat-nav-list .mat-list-item {
-    outline: none;
-    background-color:none;
-
-    &:hover{
-      background-color:rgba(255, 255, 255, 0.7);
-    }
-
-    &.selected {
-      background: none;
-      color: $foreground;
-      font-weight:900;
-    }
-  }
-
-  mat-expansion-panel {
-    // background-color: rgba(255, 255, 255, 0.7) !important;
-
-    mat-expansion-panel-header{
-        // background-color: transparent !important;
-    }
-
-    .mat-nav-list .mat-list-item {
-      &:hover{
-        background-color:rgba(255, 255, 255, 0.7);
-      }
-      &.selected {
-        &:hover{
-          // background: mat-color($accent);
+        .mat-list-item-content{
+            padding: 0 12px;
         }
+
+        &.sub-selected{
+          .mat-expansion-panel-header{
+              border-left: 2px solid mat-color($primary);;
+          }
+          .mat-expansion-panel-header-title{
+              color: mat-color($primary);
+          }
+
+          .mat-expansion-indicator{
+              &:after{
+                  color: mat-color($primary);
+              }
+          }
       }
     }
-  }
 
-  .mat-expansion-panel{
-    background: transparent;
+    .mat-expansion-panel-body{
+        padding: 0;
+        background: rgba(255, 255, 255, 0.2);
+        margin-left: 8px;
+    }
+
+    .mat-expansion-panel{
+        background: transparent;
+        box-shadow: none;
+
+        .mat-expansion-panel-content{
+            background: #ddd;
+        }
+    }
+
+    .mat-accordion{
+        .mat-expansion-panel{
+            border-radius: 0;
+        }
+    }
   }
 }
