@@ -4,11 +4,6 @@
   $primary: map-get($theme, primary);
   $accent: map-get($theme, accent);
 
-  .intro-container{
-    background-color: mat-color($primary, darker);
-    color:mat-color($background,card);
-  }
-
   .tbl-container {
     mat-header-row{
         // background-color: mat-color($primary, darker);

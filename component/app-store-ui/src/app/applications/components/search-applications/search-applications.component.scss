@@ -5,23 +5,15 @@
 }
 
 .intro-container{
-    .txt{
-        font-size: 1.1em;
-        font-weight: 100;
-        line-height: 1.3em;
-        width:83%;
-        float: left;
-        text-align:right;
-
-        span{
-            font-size:2em;
-            font-weight:600;
-            margin-right:7px;
-        }
+    h1{
+        font-size: 28px;
+        margin: 0;
+        margin-bottom: 20px;
     }
-
-    button{
-        float:right;
+    .intro-text{
+        width: 50%;
+        color: #666;
+        font-size: 13px;
     }
 }
 
