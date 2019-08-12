@@ -4,19 +4,6 @@
     min-width: 300px;
 }
 
-.intro-container{
-    h1{
-        font-size: 28px;
-        margin: 0;
-        margin-bottom: 20px;
-    }
-    .intro-text{
-        width: 50%;
-        color: #666;
-        font-size: 13px;
-    }
-}
-
 .tbl-container{
     @include animation-delay(0.5s);
 

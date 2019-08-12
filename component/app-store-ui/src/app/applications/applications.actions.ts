@@ -23,7 +23,7 @@ export class GetAllApplicationsSuccessAction implements Action {
 
 export class SetSelectedApplicationsAction implements Action {
   readonly type: string = SET_SELECTED_APPLICATION;
-  constructor(public payload: Application) {}
+  constructor(public payload: number) {}
 }
 
 export class GetApplicationSubscriptionsAction implements Action {

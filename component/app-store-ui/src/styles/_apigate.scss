@@ -28,5 +28,29 @@
                 }
             }
         }
+
+        .mat-expansion-panel-header-title{
+            font-size: 12px;
+            font-weight: normal;
+        }
     }
+}
+
+// Component Header
+.intro-container{
+    h1{
+        font-size: 28px;
+        margin: 0;
+        margin-bottom: 20px;
+    }
+    .intro-text{
+        width: 50%;
+        color: #666;
+        font-size: 13px;
+    }
+}
+
+.mat-expansion-panel-header-title {
+    font-size: 16px;
+    font-weight: 500;
 }

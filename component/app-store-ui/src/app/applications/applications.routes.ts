@@ -17,15 +17,20 @@ const routes = [
         component: CreateApplicationComponent
     },
     {
-        path: 'detail',
+        path: ':appId',
+        redirectTo: ':appId/overview',
+        pathMatch: 'full'
+    },
+    {
+        path: ':appId/:tab',
         component: ApplicationDetailMainComponent,
-        children: [
-            { path: '', redirectTo: 'overview', pathMatch: 'full' },
-            { path: 'overview', component: ApplicationOverviewComponent },
-            { path: 'production-keys', component: ApplicationProductionKeysComponent  },
-            { path: 'sandbox-keys', component: ApplicationSandboxKeysComponent },
-            { path: 'subscriptions', component: ApplicationSubscriptionsComponent }
-        ]
+        // children: [
+        //     { path: '', redirectTo: 'overview', pathMatch: 'full' },
+        //     { path: 'overview', component: ApplicationOverviewComponent },
+        //     { path: 'production-keys', component: ApplicationProductionKeysComponent  },
+        //     { path: 'sandbox-keys', component: ApplicationSandboxKeysComponent },
+        //     { path: 'subscriptions', component: ApplicationSubscriptionsComponent }
+        // ]
     }
 ];
 

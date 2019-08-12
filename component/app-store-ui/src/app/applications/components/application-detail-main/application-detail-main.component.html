@@ -1,13 +1,138 @@
 <div fxLayout="column" fxLayoutGap="20px">
-  <mat-grid-list cols="4" rowHeight="50px">
-    <mat-grid-tile *ngFor="let tile of tiles;let t=index" [colspan]="tile.cols" [rowspan]="tile.rows" [ngClass]="tile.class"
-      (click)="nav(tile)">
-      {{tile.text}}
-    </mat-grid-tile>
-  </mat-grid-list>
+  <div class="intro-container">
+    <h1>Pet Store App</h1>
+  </div>
 
   <div class="child-container">
-    <router-outlet></router-outlet>
+    <!-- <router-outlet></router-outlet> -->
+    <mat-accordion>
+      <mat-expansion-panel [expanded]="activatedTab == 'overview'" (opened)="switchTab('overview')">
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            Overview
+          </mat-panel-title>
+          <!-- <mat-panel-description>
+            desc
+          </mat-panel-description> -->
+        </mat-expansion-panel-header>
+    
+        <div class="overview-container">
+          <div class="field-name-container" fxLayout="row">
+            <div class="field" fxFlex>Status</div>
+            <div class="field-val" fxFlex>INACTIVE</div>
+          </div>
+          <div class="field-name-container" fxLayout="row">
+            <div class="field" fxFlex>Per Token Quota</div>
+            <div class="field-val" fxFlex>
+              
+                Default   Allows 20 request(s) per minute.
+                <br><br>
+                This feature allows you to assign an API request quota per access token. 
+                Allocated quota will be shared among all the subscribed APIs of the application.
+            </div>
+          </div>
+          <div class="field-name-container" fxLayout="row">
+            <div class="field" fxFlex>Description</div>
+            <div class="field-val" fxFlex>This feature allows you to assign an API request quota per access token</div>
+          </div>
+    
+        </div>
+      </mat-expansion-panel>
+
+      <mat-expansion-panel [expanded]="activatedTab == 'keys-prod'" (opened)="switchTab('keys-prod')">
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            Production Keys
+          </mat-panel-title>
+        </mat-expansion-panel-header>
+    
+        <store-generate-key-form formTitle="Generate Production Keys"></store-generate-key-form>
+      </mat-expansion-panel>
+
+      <mat-expansion-panel [expanded]="activatedTab == 'keys-sandbox'" (opened)="switchTab('keys-sandbox')">
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            Sandbox Keys
+          </mat-panel-title>
+        </mat-expansion-panel-header>
+    
+        <store-generate-key-form formTitle="Generate Sandbox Keys"></store-generate-key-form>
+      </mat-expansion-panel>
+
+      <mat-expansion-panel [expanded]="activatedTab == 'subscriptions'" (opened)="switchTab('subscriptions')">
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            Subscriptions
+          </mat-panel-title>
+        </mat-expansion-panel-header>
+    
+        <div class="subs-tbl-container animated fadeIn">
+          <mat-table #table [dataSource]="datasource">
+        
+            <ng-container matColumnDef="name">
+              <mat-header-cell *matHeaderCellDef> Api Name </mat-header-cell>
+              <mat-cell *matCellDef="let element"> {{element.apiName}}<br>{{element.apiVersion}} </mat-cell>
+            </ng-container>
+            
+            <ng-container matColumnDef="provider">
+              <mat-header-cell *matHeaderCellDef> Api Provider </mat-header-cell>
+              <mat-cell *matCellDef="let element"> {{element.apiProvider}}</mat-cell>
+            </ng-container>
+            
+            <ng-container matColumnDef="description">
+              <mat-header-cell *matHeaderCellDef> Description </mat-header-cell>
+              <mat-cell *matCellDef="let element"> {{element.description}}</mat-cell>
+            </ng-container>
+        
+            <ng-container matColumnDef="tier">
+              <mat-header-cell *matHeaderCellDef> Subscription Tier </mat-header-cell>
+              <mat-cell *matCellDef="let element"> {{element.subscribedTier}} </mat-cell>
+            </ng-container>
+        
+            <ng-container matColumnDef="hubAdminStatus">
+              <mat-header-cell *matHeaderCellDef> Hub Admin Approval Status </mat-header-cell>
+              <mat-cell *matCellDef="let element"> {{element.subStatus}} </mat-cell>
+            </ng-container>
+        
+            <ng-container matColumnDef="oppAprovalStatus">
+              <mat-header-cell *matHeaderCellDef> Operator Approval Status </mat-header-cell>
+              <mat-cell *matCellDef="let element"> {{element.operators}} </mat-cell>
+            </ng-container>
+        
+            <ng-container matColumnDef="action">
+              <mat-header-cell class="action-container" *matHeaderCellDef > Actions </mat-header-cell>
+              <mat-cell class="action-container" *matCellDef="let element" >
+                <div class="button-row">
+        
+                  <button mat-icon-button matTooltip="Unsubscribe" (click)="onAction(element,'unsubscribe')">
+                    <mat-icon >delete</mat-icon>
+                  </button>
+        
+                </div>
+              </mat-cell>
+            </ng-container>
+        
+        
+            <mat-header-row *matHeaderRowDef="[ 'name','provider','tier','hubAdminStatus','oppAprovalStatus','action']"></mat-header-row>
+            <mat-row *matRowDef="let row; columns: [ 'name','provider','tier','hubAdminStatus','oppAprovalStatus','action'];"></mat-row>
+          </mat-table>
+          <mat-paginator [pageSizeOptions]="[5, 10, 25]"></mat-paginator>
+        </div>
+      </mat-expansion-panel>
+
+        <!-- <mat-expansion-panel (opened)="panelOpenState = true"
+                             (closed)="panelOpenState = false">
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              Self aware panel
+            </mat-panel-title>
+            <mat-panel-description>
+              Currently I am {{panelOpenState ? 'open' : 'closed'}}
+            </mat-panel-description>
+          </mat-expansion-panel-header>
+          <p>I'm visible because I am open</p>
+        </mat-expansion-panel> -->
+      </mat-accordion>
   </div>
 
 </div>

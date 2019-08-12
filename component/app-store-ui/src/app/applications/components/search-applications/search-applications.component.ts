@@ -28,10 +28,7 @@ export class SearchApplicationsComponent implements OnInit {
   onAppAction(app, action) {
     switch (action) {
       case 'view': {
-        this.store.dispatch(
-          new applicationsActions.SetSelectedApplicationsAction(app)
-        );
-        this.router.navigate(['applications/detail']);
+        this.router.navigate([`applications/${app.id}/overview`]);
         break;
       }
 
