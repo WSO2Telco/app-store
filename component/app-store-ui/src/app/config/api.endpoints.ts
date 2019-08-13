@@ -1,3 +1,6 @@
+const baseUrl = new URL(window.location.href);
+const apiContext = baseUrl.protocol + '//' + baseUrl.host + '/api/am/store/v0.13';
+
 export const ApiEndpoints = {
   authentication: {
     login: "./assets/files/login.json",
@@ -6,7 +9,7 @@ export const ApiEndpoints = {
     changePassword: "./assets/files/sign-up.json"
   },
   apis: {
-    search: "./assets/files/apis.json",
+    search: apiContext + '/apis',
     apiOverview: "./assets/files/api-overview.json",
     applications: "./assets/files/application-list.json",
     subscribe: "./assets/files/subscribe.json"

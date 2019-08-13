@@ -31,7 +31,7 @@ export class ApiSearchComponent implements OnInit {
     this.store
       .select(s => s.apis.apiSearchResult)
       .subscribe((res: ApiSearchResult) => {
-        this.apiSearchResult = res.apis;
+        this.apiSearchResult = res.list;
         this.ref.markForCheck();
       });
 
