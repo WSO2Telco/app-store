@@ -20,3 +20,54 @@ mat-grid-tile{
 .child-container{
     min-height : 300px;
 }
+
+.status-label{
+    padding-bottom: 10px;
+
+    .status-dot{
+        display: inline-block;
+        background: #bbb;
+        height: 10px;
+        width: 10px;
+        line-height: 1;
+        border-radius: 10px;
+    }
+
+    .status-lbl{
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        margin-left: 5px;
+        font-size: 12px;
+        font-weight: 500;
+        color: #999;
+    }
+
+    &.inactive{
+        .status-dot{
+            background: #bbb;
+        }
+    }
+
+    &.active{
+        .status-dot{
+            background: #35b569;
+        }
+    }
+}
+
+.intro-container{
+    h1{
+        margin-bottom: 10px;
+    }
+}
+
+.subscription-tab{
+    mat-cell:last-of-type, mat-footer-cell:last-of-type, mat-header-cell:last-of-type,
+    mat-cell:first-of-type, mat-footer-cell:first-of-type, mat-header-cell:first-of-type{
+        padding: 0;
+    }
+
+    .add-btn{
+        padding: 10px 0;
+    }
+}

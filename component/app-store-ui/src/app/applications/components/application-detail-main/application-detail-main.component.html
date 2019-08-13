@@ -1,6 +1,10 @@
 <div fxLayout="column" fxLayoutGap="20px">
   <div class="intro-container">
     <h1>Pet Store App</h1>
+    <div class="status-label" [ngClass]="appStatus"><span class="status-dot"></span> <span class="status-lbl">{{appStatus}}</span></div>
+    <div class="intro-text">
+      Per Token Quota : Default Allows 20 request(s) per minute. 
+    </div>
   </div>
 
   <div class="child-container">
@@ -58,13 +62,16 @@
         <store-generate-key-form formTitle="Generate Sandbox Keys"></store-generate-key-form>
       </mat-expansion-panel>
 
-      <mat-expansion-panel [expanded]="activatedTab == 'subscriptions'" (opened)="switchTab('subscriptions')">
+      <mat-expansion-panel [expanded]="activatedTab == 'subscriptions'" (opened)="switchTab('subscriptions')" class="subscription-tab">
         <mat-expansion-panel-header>
           <mat-panel-title>
             Subscriptions
           </mat-panel-title>
         </mat-expansion-panel-header>
     
+        <div class="add-btn">
+            <button mat-raised-button color="accent">Add Subscription</button>
+        </div>
         <div class="subs-tbl-container animated fadeIn">
           <mat-table #table [dataSource]="datasource">
         

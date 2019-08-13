@@ -20,6 +20,7 @@ import * as applicationsActions from '../../applications.actions';
 export class ApplicationDetailMainComponent implements OnInit {
   appId : number;
   activatedTab : string;
+  appStatus: string = 'active';
 
   //Subscription
   public datasource: MatTableDataSource<Subscription> = new MatTableDataSource();
