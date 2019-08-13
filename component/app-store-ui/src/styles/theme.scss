@@ -14,9 +14,6 @@
 @import '~app/applications/components/search-applications/search-applications.component.scss.theme';
 @import '~app/applications/components/create-application/create-application.component.scss.theme.scss';
 @import '~app/applications/components/application-detail-main/application-detail-main.component.scss.theme.scss';
-@import '~app/applications/components/application-overview/application-overview.component.scss.theme.scss';
-@import '~app/applications/components/application-subscriptions/application-subscriptions.component.scss.theme.scss';
-@import '~app/applications/components/application-production-keys/application-production-keys.component.scss.theme.scss';
 @import '~app/statistics/components/api-usage/api-usage.component.scss.theme.scss';
 @import '~app/forum/components/create-topic/create-topic.component.scss.theme.scss';
 @import '~app/forum/components/view-topic/view-topic.component.scss.theme.scss';
@@ -37,9 +34,6 @@
   @include applications-search-theme($theme);
   @include create-applications-theme($theme);
   @include application-detail-theme($theme);
-  @include application-overview-theme($theme);
-  @include application-subscription-theme($theme);
-  @include application-production-keys-theme($theme);
   @include api-usage-theme($theme);
   @include home-thumbnail-theme($theme);
   @include signup-form-theme($theme);

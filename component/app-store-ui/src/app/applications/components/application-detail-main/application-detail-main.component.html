@@ -69,12 +69,12 @@
           <mat-table #table [dataSource]="datasource">
         
             <ng-container matColumnDef="name">
-              <mat-header-cell *matHeaderCellDef> Api Name </mat-header-cell>
+              <mat-header-cell *matHeaderCellDef> API Name </mat-header-cell>
               <mat-cell *matCellDef="let element"> {{element.apiName}}<br>{{element.apiVersion}} </mat-cell>
             </ng-container>
             
             <ng-container matColumnDef="provider">
-              <mat-header-cell *matHeaderCellDef> Api Provider </mat-header-cell>
+              <mat-header-cell *matHeaderCellDef> API Provider </mat-header-cell>
               <mat-cell *matCellDef="let element"> {{element.apiProvider}}</mat-cell>
             </ng-container>
             
