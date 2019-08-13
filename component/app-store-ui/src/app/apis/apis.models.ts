@@ -11,14 +11,16 @@ export class ApiSearchParam {
         public apiStatus: ApiStatus = ApiStatus.ALL,
         public query: string = '',
         public page: number = 1,
-        public tag: string = ''
+        public tag: string = '',
+        public limit: number = 5,
+        public offset: number = 0
     ) { }
 }
 
 export class ApiSearchResult {
     constructor(
-        public apis: ApiSummery[] = [],
-        public totalLength: number = 0,
+        public list: ApiSummery[] = [],
+        public count: number = 0,
         public isMore: boolean = false,
         public isMonetizationEnabled: boolean = false,
         public error: any = null,
@@ -28,12 +30,13 @@ export class ApiSearchResult {
 
 export class ApiSummery {
     constructor(
+        public id: string = '',
         public name: string = '',
         public provider: string = '',
         public version: string = '',
         public context: string = '',
         public status: string = '',
-        public thumbnailurl: string = '',
+        public thumbnailUri: string = '',
         public visibility: string = '',
         public visibleRoles: string = '',
         public description: string = '',
@@ -42,6 +45,7 @@ export class ApiSummery {
         public apiBusinessOwner: string = '',
         public rates: number = 0,
         public tiers: string[] = null,
+        public scopes: string[] = null,
         public monetizationCategory: string = '') { }
 }
 
