@@ -9,7 +9,7 @@ import { applicationsReducer } from './applications.reducer';
 import { SharedModule } from '../shared/shared.module';
 import { ApplicationsService } from './applications.service';
 import { CreateApplicationComponent } from './components/create-application/create-application.component';
-import { ApplicationDetailMainComponent } from './components/application-detail-main/application-detail-main.component';
+import { ApplicationDetailMainComponent, DialogAppAddSubscription } from './components/application-detail-main/application-detail-main.component';
 import { GenerateKeyFormComponent } from './components/generate-key-form/generate-key-form.component';
 
 @NgModule({
@@ -24,7 +24,11 @@ import { GenerateKeyFormComponent } from './components/generate-key-form/generat
     SearchApplicationsComponent,
     CreateApplicationComponent,
     ApplicationDetailMainComponent,
-    GenerateKeyFormComponent
+    GenerateKeyFormComponent,
+    DialogAppAddSubscription
+  ],
+  entryComponents: [
+    DialogAppAddSubscription
   ],
   providers: [ApplicationsService]
 })

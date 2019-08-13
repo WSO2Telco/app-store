@@ -1,4 +1,4 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, ChangeDetectorRef } from "@angular/core";
 import { ActivatedRoute } from "@angular/router";
 import { Location } from '@angular/common';
 import { MatTableDataSource, MatDialog } from "@angular/material";
@@ -11,6 +11,7 @@ import { NotificationService } from "../../../shared/services/notification.servi
 import { ConfirmDialogComponent } from "../../../commons/components/confirm-dialog/confirm-dialog.component";
 
 import * as applicationsActions from '../../applications.actions';
+import { ApiSearchResult, ApiSummery } from '../../../apis/apis.models';
 
 @Component({
   selector: "store-application-detail-main",
@@ -85,5 +86,37 @@ export class ApplicationDetailMainComponent implements OnInit {
         }
       });
     }
+  }
+
+  newSubscription(){
+    const addSubs = this.dialog.open(DialogAppAddSubscription,{
+      width: '380px'
+    });
+
+    addSubs.afterClosed().subscribe(result => {
+      console.log(`Dialog result: ${result}`);
+    });
+  }
+}
+
+@Component({
+  selector: 'dialog-application-add-subscriptions',
+  templateUrl: 'dialog-add-subscription.html'
+})
+export class DialogAppAddSubscription implements OnInit{
+  apis: ApiSummery[];
+
+  constructor(
+    private store: Store<AppState>,
+    private ref: ChangeDetectorRef
+  ) {}
+
+  ngOnInit(): void {
+    this.store
+      .select(s => s.apis.apiSearchResult)
+      .subscribe((res: ApiSearchResult) => {
+        this.apis = res.apis;
+        this.ref.markForCheck();
+    });
   }
 }

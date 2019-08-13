@@ -70,7 +70,7 @@
         </mat-expansion-panel-header>
     
         <div class="add-btn">
-            <button mat-raised-button color="accent">Add Subscription</button>
+            <button mat-raised-button color="accent" (click)="newSubscription()">Add Subscription</button>
         </div>
         <div class="subs-tbl-container animated fadeIn">
           <mat-table #table [dataSource]="datasource">
@@ -106,7 +106,7 @@
             </ng-container>
         
             <ng-container matColumnDef="action">
-              <mat-header-cell class="action-container" *matHeaderCellDef > Actions </mat-header-cell>
+              <mat-header-cell class="action-container" *matHeaderCellDef ></mat-header-cell>
               <mat-cell class="action-container" *matCellDef="let element" >
                 <div class="button-row">
         
