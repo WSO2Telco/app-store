@@ -1,4 +1,8 @@
 <div class="api-info"  fxLayout="column"  >
+  <div class="api-icon">
+    <img [src]="apiPrefix + api.thumbnailUri" width="100" *ngIf="api.thumbnailUri" />
+    <img src="/assets/images/apigate-a.png" width="100" *ngIf="!api.thumbnailUri" />
+  </div>
   <div class="name-container" fxFlex="65%" fxLayoutAlign="center center">{{api.name}}</div>
   <div class="info-container" fxFlex fxLayout="column"  fxLayoutAlign="center start">
     <span >{{api.version}}</span>
