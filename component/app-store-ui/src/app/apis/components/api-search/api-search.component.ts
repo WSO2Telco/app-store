@@ -6,10 +6,11 @@ import {
   ApiSearchParam,
   ApiSearchResult,
   ApiSummery,
-  ApiStatus
+  ApiStatus,
+  paginationData
 } from "../../apis.models";
 import { Observable } from "rxjs";
-import { MatTableDataSource } from "@angular/material";
+import { MatTableDataSource, PageEvent } from "@angular/material";
 import { Router } from "@angular/router";
 
 @Component({
@@ -19,9 +20,15 @@ import { Router } from "@angular/router";
 })
 export class ApiSearchComponent implements OnInit {
   apiSearchResult: ApiSummery[];
+  apipaginatorData: paginationData[];
   apiStatus: ApiStatus[];
   searchQuery: string;
   apiCategory: ApiStatus;
+  // MatPaginator Inputs
+  pageSize: number = 5;
+  length: number;
+  // MatPaginator Output
+  pageEvent: PageEvent;
 
   constructor(
     private store: Store<AppState>,
@@ -32,6 +39,7 @@ export class ApiSearchComponent implements OnInit {
       .select(s => s.apis.apiSearchResult)
       .subscribe((res: ApiSearchResult) => {
         this.apiSearchResult = res.list;
+        this.length = res.pagination.total;
         this.ref.markForCheck();
       });
 
@@ -41,7 +49,7 @@ export class ApiSearchComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.store.dispatch(new DoApiSearchAction(new ApiSearchParam()));
+    this.store.dispatch(new DoApiSearchAction(new ApiSearchParam(this.apiCategory, '', 5, 0)));
   }
 
   applyFilter(value: string) {
@@ -51,12 +59,13 @@ export class ApiSearchComponent implements OnInit {
   onSearchClick() {
     this.store.dispatch(
       new DoApiSearchAction(
-        new ApiSearchParam(this.apiCategory, this.searchQuery)
+        new ApiSearchParam(this.apiCategory, this.searchQuery, 5, 0)
       )
     );
   }
 
   onApiSelected($event) {
+    debugger
     this.store.dispatch(new SetSelectedApiAction($event));
     this.router.navigate(["/apis/detail"]);
   }
@@ -64,8 +73,13 @@ export class ApiSearchComponent implements OnInit {
   onCategoryChange() {
     this.store.dispatch(
       new DoApiSearchAction(
-        new ApiSearchParam(this.apiCategory, this.searchQuery)
+        new ApiSearchParam(this.apiCategory, this.searchQuery, 5, 0)
       )
     );
+  }
+
+  onPageChanged(e) {
+    let firstCut = e.pageSize * e.pageIndex;
+    this.store.dispatch(new DoApiSearchAction(new ApiSearchParam(this.apiCategory, this.searchQuery, e.pageSize, firstCut)));
   }
 }
