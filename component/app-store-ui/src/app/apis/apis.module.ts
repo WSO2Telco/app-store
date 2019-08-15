@@ -17,12 +17,14 @@ import { ApiOverviewComponent } from './components/api-overview/api-overview.com
 import { ApiConsoleComponent } from './components/api-console/api-console.component';
 import { ApiDocumentationComponent } from './components/api-documentation/api-documentation.component';
 import { ApiForumComponent } from './components/api-forum/api-forum.component';
+import { StarRatingModule } from 'angular-star-rating';
 
 @NgModule({
   imports: [
     CommonModule,
     SharedModule,
     ApisRoutes,
+    StarRatingModule.forRoot(),
     StoreModule.forFeature('apis', apisReducer),
     EffectsModule.forFeature([ApisEffects]),
   ],
