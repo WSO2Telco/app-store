@@ -1,10 +1,10 @@
-  <mat-card class="search-container animated fadeInDown">
-    <mat-card-content>
+<mat-card class="search-container animated fadeInDown">
+  <mat-card-content>
     <div class="search-Container">
       <div fxLayout="row" fxFlex="100%">
 
         <form #searchForm="ngForm" novalidate (ngSubmit)="onSearchClick()" fxFlex>
-          <div class="search-txt">Sear API :</div>
+          <div class="search-txt">Search API :</div>
           <div fxFlex>
             <mat-form-field>
               <mat-select placeholder="Category" name="apiCategory" (change)="onCategoryChange()" [(ngModel)]="apiCategory">
@@ -15,7 +15,7 @@
             </mat-form-field>
 
             <mat-form-field class="search-input">
-              <input matInput placeholder="Search..." name="searchQuery" [(ngModel)]="searchQuery">
+              <input matInput placeholder="Search..." name="searchQuery" matTooltip="You can search in attributes by using an ':' modifier.Eg. 'provider:apigate' will match an API if the provider of the API is exactly 'apigate'. Supported attribute modifiers are [version, context, status, description, subcontext, doc, provider, tag]" [(ngModel)]="searchQuery">
             </mat-form-field>
 
             <button class="search" mat-raised-button color="accent">Search</button>
@@ -33,7 +33,6 @@
   <mat-card-content>
 
     <store-apisearch-result [dataSource]="apiSearchResult" (selectApi)="onApiSelected($event)"></store-apisearch-result>
-
-    <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
+    <mat-paginator [length]="length" [pageSize]="pageSize" [pageSizeOptions]="[5, 10, 25, 100]" (page)="onPageChanged($event)"></mat-paginator>
   </mat-card-content>
 </mat-card>
