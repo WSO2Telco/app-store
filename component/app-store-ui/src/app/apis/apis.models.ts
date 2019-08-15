@@ -10,10 +10,10 @@ export class ApiSearchParam {
     constructor(
         public apiStatus: ApiStatus = ApiStatus.ALL,
         public query: string = '',
-        public page: number = 1,
-        public tag: string = '',
-        public limit: number = 5,
-        public offset: number = 0
+        /* public page: number = 1,
+          public tag: string = '',*/
+        public limit: number,
+        public offset: number
     ) { }
 }
 
@@ -25,7 +25,8 @@ export class ApiSearchResult {
         public isMonetizationEnabled: boolean = false,
         public error: any = null,
         public message: string = null,
-        public isRatingActivated: boolean = false) { }
+        public isRatingActivated: boolean = false,
+        public pagination: paginationData = new paginationData) { }
 }
 
 export class ApiSummery {
@@ -47,6 +48,12 @@ export class ApiSummery {
         public tiers: string[] = null,
         public scopes: string[] = null,
         public monetizationCategory: string = '') { }
+}
+
+export class paginationData {
+    total: number;
+    offset: number;
+    limit: number;
 }
 
 export class ApiOverview {

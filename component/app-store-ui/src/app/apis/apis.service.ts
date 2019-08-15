@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { ApiEndpoints } from '../config/api.endpoints';
 import { Observable } from 'rxjs';
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpParams, HttpHeaders } from '@angular/common/http';
 import {
     ApiSearchParam, ApiSearchResult, Application, ApplicationSearchParam, ApplicationsResult,
     SubscribeParam, SubscribeResult, ApiOverview
@@ -16,11 +16,15 @@ export class ApisService {
 
     search(param: ApiSearchParam): Observable<any> {
         const searchParams = new HttpParams()
-            .append('tag', param.tag)
+            /* .append('tag', param.tag)
+            .append('page', <any>param.page); */
             .append('apiStatus', param.apiStatus)
-            .append('page', <any>param.page)
-            .append('query', param.query);
-        return this.http.get<ApiSearchResult>(ApiEndpoints.apis.search, { params: searchParams });
+            .append('query', param.query)
+            .append('limit', <any>param.limit)
+            .append('offset', <any>param.offset);
+        const headerParams = new HttpHeaders()
+            .append('Content-Type', 'application/json')
+        return this.http.get<ApiSearchResult>(ApiEndpoints.apis.search, { params: searchParams, headers: headerParams });
     }
 
     getUserApplicationsActions(param: ApplicationSearchParam): Observable<ApplicationsResult> {
