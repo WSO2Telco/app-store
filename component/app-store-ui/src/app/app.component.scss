@@ -160,9 +160,12 @@ mat-sidenav {
   left: 0;
   right: 0;
   z-index: 50;
+  transition: 0.25s;
 
   .menu-icon-container{
     float: left;
+    background: #0080b0;
+    cursor: pointer;
   }
 
   store-breadcrumbs {
