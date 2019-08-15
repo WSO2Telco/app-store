@@ -19,16 +19,15 @@ export class BreadcrumbsComponent implements OnInit {
 
   ngOnInit() {
     this._router.events.pipe(
-      filter((event: any) => event instanceof NavigationEnd))
+        filter((event: any) => event instanceof NavigationEnd)
+      )
       .subscribe((event: NavigationEnd) => {
         const tmp = event.url.replace('/', '').split('/');
         if (tmp[0] === 'legacy') {
           tmp.shift();
         }
         this.activeView = tmp;
-
       });
-
   }
 } 
 

@@ -9,8 +9,9 @@ import { applicationsReducer } from './applications.reducer';
 import { SharedModule } from '../shared/shared.module';
 import { ApplicationsService } from './applications.service';
 import { CreateApplicationComponent } from './components/create-application/create-application.component';
-import { ApplicationDetailMainComponent, DialogAppAddSubscription } from './components/application-detail-main/application-detail-main.component';
+import { ApplicationDetailMainComponent } from './components/application-detail-main/application-detail-main.component';
 import { GenerateKeyFormComponent } from './components/generate-key-form/generate-key-form.component';
+import { ApplicationSubscriptionsComponent, DialogAppAddSubscription } from './components/application-subscriptions/application-subscriptions.component';
 
 @NgModule({
   imports: [
@@ -25,7 +26,8 @@ import { GenerateKeyFormComponent } from './components/generate-key-form/generat
     CreateApplicationComponent,
     ApplicationDetailMainComponent,
     GenerateKeyFormComponent,
-    DialogAppAddSubscription
+    DialogAppAddSubscription,
+    ApplicationSubscriptionsComponent
   ],
   entryComponents: [
     DialogAppAddSubscription
