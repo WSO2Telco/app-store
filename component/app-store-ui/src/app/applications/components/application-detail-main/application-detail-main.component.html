@@ -1,13 +1,83 @@
 <div fxLayout="column" fxLayoutGap="20px">
-  <mat-grid-list cols="4" rowHeight="50px">
-    <mat-grid-tile *ngFor="let tile of tiles;let t=index" [colspan]="tile.cols" [rowspan]="tile.rows" [ngClass]="tile.class"
-      (click)="nav(tile)">
-      {{tile.text}}
-    </mat-grid-tile>
-  </mat-grid-list>
+  <div class="intro-container">
+    <h1>Pet Store App</h1>
+    <div class="status-label" [ngClass]="appStatus"><span class="status-dot"></span> <span class="status-lbl">{{appStatus}}</span></div>
+    <div class="intro-text">
+      Per Token Quota : Default Allows 20 request(s) per minute. 
+    </div>
+  </div>
 
   <div class="child-container">
-    <router-outlet></router-outlet>
+    <mat-accordion>
+      <mat-expansion-panel [expanded]="activatedTab == 'overview'" (opened)="switchTab('overview')">
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            Overview
+          </mat-panel-title>
+          <!-- <mat-panel-description>
+            desc
+          </mat-panel-description> -->
+        </mat-expansion-panel-header>
+    
+        <div class="overview-container">
+          <div class="field-name-container" fxLayout="row" fxLayoutGap="20px">
+            <div fxLayout="column" fxFlex="50">
+              <div class="field" fxFlex><strong>Status</strong></div>
+              <div class="field-val" fxFlex>INACTIVE</div>
+              <hr />
+
+              <div class="field" fxFlex><strong>Per Token Quota</strong></div>
+              <div class="field-val" fxFlex>
+                  Default allows 20 request(s) per minute.
+                  <br><br>
+              </div>
+            </div>
+
+            <div fxLayout="column" fxFlex="50">
+                <strong>Description</strong>
+                <p>This feature allows you to assign an API request quota per access token. 
+                    Allocated quota will be shared among all the subscribed APIs of the application.</p>
+              </div>
+          </div>
+          <div class="field-name-container" fxLayout="row">
+            
+          </div>
+    
+        </div>
+      </mat-expansion-panel>
+
+      <mat-expansion-panel [expanded]="activatedTab == 'keys-prod'" (opened)="switchTab('keys-prod')">
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            Production Keys
+          </mat-panel-title>
+        </mat-expansion-panel-header>
+    
+        <store-generate-key-form formTitle="Generate Production Keys"></store-generate-key-form>
+      </mat-expansion-panel>
+
+      <mat-expansion-panel [expanded]="activatedTab == 'keys-sandbox'" (opened)="switchTab('keys-sandbox')">
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            Sandbox Keys
+          </mat-panel-title>
+        </mat-expansion-panel-header>
+    
+        <store-generate-key-form formTitle="Generate Sandbox Keys"></store-generate-key-form>
+      </mat-expansion-panel>
+
+      <mat-expansion-panel [expanded]="activatedTab == 'subscriptions'" (opened)="switchTab('subscriptions')" class="subscription-tab">
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            Subscriptions
+          </mat-panel-title>
+        </mat-expansion-panel-header>
+
+        <store-application-subscriptions></store-application-subscriptions>
+    
+        
+      </mat-expansion-panel>
+    </mat-accordion>
   </div>
 
 </div>

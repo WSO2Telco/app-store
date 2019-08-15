@@ -4,17 +4,11 @@
   $primary: map-get($theme, primary);
 
   .mat-drawer-backdrop.mat-drawer-shown {
-    background-color: mat-color($background, app-bar);
     opacity: 0.7;
   }
 
-  #main-container {
-    // background-color: mat-color($background, app-bar);
-    background-color: #efeff0 !important;
-  }
-
   .mat-drawer-content.mat-sidenav-content{
-    background-color: #efeff0;
+    background-color: #f4f5f7;
 
     .mat-toolbar-single-row{
       height: 45px;
@@ -32,7 +26,8 @@
   }
 
   .mat-drawer{
-    background-color: mat-color($primary, darker);
+    // background-color: mat-color($primary, darker);
+    background-color: #f4f5f7;
   }
 
   mat-sidenav {

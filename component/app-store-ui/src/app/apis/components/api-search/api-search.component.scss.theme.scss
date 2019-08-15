@@ -3,7 +3,7 @@
   $background: map-get($theme, background);
 
   mat-header-row {
-    background-color: mat-color($background, app-bar);
+    // background-color: mat-color($background, app-bar);
   }
 
   mat-row {
