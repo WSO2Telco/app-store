@@ -1,3 +1,7 @@
+.mat-card{
+    box-shadow: none;
+}
+
 .filter-container{
     mat-form-field{
         width: 100%;
@@ -11,9 +15,6 @@
 .mat-header-cell{
     font-size: 14px;
     font-weight: 900;
-}
-
-mat-header-row{
 }
 
 mat-paginator{

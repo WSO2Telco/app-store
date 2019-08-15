@@ -58,19 +58,19 @@
 
 //API Icons
 .api-info{
+    
     .api-icon{
-        width: 100px;
-        height: 100px;
+        width: 60px;
+        height: 60px;
         border-radius: 60px;
         display: block;
         flex: 1 1 100%;
         overflow: hidden;
-
-        align-self: center; // temporary
-
+        border: 1px solid;
+        
         img{
-            width: 100px;
-            height: 100px;
+            width: 60px;
+            height: 60px;
             object-fit: cover;
         }
     }
