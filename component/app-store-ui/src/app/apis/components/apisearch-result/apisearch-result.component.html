@@ -1,12 +1,6 @@
-<div class="result-wrapper" 
-   fxLayout="row" 
-   fxLayoutWrap
-   fxLayoutAlign="center center"
-  >
-  <div class="tile" *ngFor="let api of dataSource" fxFlex >
-    <store-api-info [api]="api" class="api"
-    (click)="onApiSelceted(api)">{{item}}</store-api-info>
-  </div>  
-  
-</div>
+<div class="result-wrapper" fxLayout="row wrap" fxLayout.xs="column wrap">
+  <div class="tile" fxFlex.gt-xs="25%" [fxFlex.gt-md]="regularDistribution" *ngFor="let api of dataSource">
+    <store-api-info [api]="api" class="api" (click)="onApiSelceted(api)">{{item}}</store-api-info>
+  </div>
 
+</div>
