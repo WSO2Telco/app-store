@@ -164,8 +164,11 @@ mat-sidenav {
 
   .menu-icon-container{
     float: left;
-    background: #0080b0;
     cursor: pointer;
+
+    .theme-apigate-blue &{
+      background: #0080b0;
+    }
   }
 
   store-breadcrumbs {
