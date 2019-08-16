@@ -1,3 +1,23 @@
 <div class="overview-container">
- <h3>Production and Sandbox Endpoints</h3>
+    <h2>Production and Sandbox Endpoints</h2>
+    <br>
+    <mat-form-field class="overview-full-width">
+        <input matInput placeholder="Production URLs:" #contextUrl value={{apiOverview.context}} [type]="hide ? 'password' : 'text'">
+        <button mat-icon-button matSuffix (click)="copyToClipboard(contextUrl)" [attr.aria-label]="'Hide password'"
+            [attr.aria-pressed]="hide">
+            <mat-icon>{{hide ? 'file_copy' : 'file_copy'}}</mat-icon>
+        </button>
+    </mat-form-field>
+    <br>
+    <mat-form-field class="overview-full-width">
+        <input matInput placeholder="Sandbox URLs:" #contextUrl value={{apiOverview.context}} [type]="hide ? 'password' : 'text'">
+        <button mat-icon-button matSuffix (click)="copyToClipboard(contextUrl)" [attr.aria-label]="'Hide password'"
+            [attr.aria-pressed]="hide">
+            <mat-icon>{{hide ? 'file_copy' : 'file_copy'}}</mat-icon>
+        </button>
+    </mat-form-field>
+
+    <h2>Description</h2>
+    <p> {{apiOverview.description}}</p>
+
 </div>
