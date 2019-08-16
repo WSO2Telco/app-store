@@ -30,7 +30,6 @@ import { InfiniteScrollDirective } from "./directives/infinite-scroll.directive"
 import { MatChipsModule } from "@angular/material/chips";
 import { MatCheckboxModule } from "@angular/material/checkbox";
 import { MatDialogModule } from "@angular/material/dialog";
-import { StarRatingModule } from 'angular-star-rating';
 import { QuillModule } from 'ngx-quill'
 @NgModule({
   imports: [
@@ -39,7 +38,6 @@ import { QuillModule } from 'ngx-quill'
     MatAutocompleteModule,
     MatChipsModule,
     MatCheckboxModule,
-    StarRatingModule.forRoot(),
   ],
   declarations: [
     NotificationComponent,
@@ -76,7 +74,6 @@ import { QuillModule } from 'ngx-quill'
     InfiniteScrollDirective,
     MatChipsModule,
     MatDialogModule,
-    StarRatingModule,
     QuillModule
   ],
   providers: [NotificationService],

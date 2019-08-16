@@ -1,5 +1,5 @@
 {
-    "apis": [
+    "list": [
         {
             "name": "payment",
             "provider": "admin",
@@ -79,6 +79,50 @@
             "apiBusinessOwner": null,
             "rates": 0.0,
             "tiers": [
+                "Unlimited",
+                "Default",
+                "Requestbased"
+            ],
+            "monetizationCategory": "Free"
+        },
+        {
+            "name": "apigate",
+            "provider": "admin",
+            "version": "v1.0.0",
+            "context": "/payment/v1.0.0",
+            "status": "PUBLISHED",
+            "thumbnailurl": "images/api-default.png",
+            "visibility": "public",
+            "visibleRoles": null,
+            "description": null,
+            "apiOwner": "admin",
+            "isAdvertiseOnly": false,
+            "apiBusinessOwner": null,
+            "rates": 0.0,
+            "tiers": [
+                "Silver",
+                "Unlimited",
+                "Default",
+                "Requestbased"
+            ],
+            "monetizationCategory": "Free"
+        },
+        {
+            "name": "adl",
+            "provider": "admin",
+            "version": "v1.0.0",
+            "context": "/payment/v1.0.0",
+            "status": "PUBLISHED",
+            "thumbnailurl": "images/api-default.png",
+            "visibility": "public",
+            "visibleRoles": null,
+            "description": null,
+            "apiOwner": "admin",
+            "isAdvertiseOnly": false,
+            "apiBusinessOwner": null,
+            "rates": 0.0,
+            "tiers": [
+                "Silver",
                 "Unlimited",
                 "Default",
                 "Requestbased"
