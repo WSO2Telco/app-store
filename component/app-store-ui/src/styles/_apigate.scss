@@ -55,3 +55,23 @@
     font-size: 16px;
     font-weight: 500;
 }
+
+//API Icons
+.api-info{
+    
+    .api-icon{
+        width: 60px;
+        height: 60px;
+        border-radius: 60px;
+        display: block;
+        flex: 1 1 100%;
+        overflow: hidden;
+        border: 1px solid;
+        
+        img{
+            width: 60px;
+            height: 60px;
+            object-fit: cover;
+        }
+    }
+}

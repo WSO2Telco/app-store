@@ -1,5 +1,5 @@
 <div class="result-wrapper" fxLayout="row wrap" fxLayout.xs="column wrap">
-  <div class="tile" fxFlex.gt-xs="25%" [fxFlex.gt-md]="regularDistribution" *ngFor="let api of dataSource">
+  <div class="tile" fxFlex.gt-xs="33.33%" [fxFlex.gt-md]="regularDistribution" *ngFor="let api of dataSource">
     <store-api-info [api]="api" class="api" (click)="onApiSelceted(api)">{{item}}</store-api-info>
   </div>
 

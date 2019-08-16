@@ -65,7 +65,6 @@ export class ApiSearchComponent implements OnInit {
   }
 
   onApiSelected($event) {
-    debugger
     this.store.dispatch(new SetSelectedApiAction($event));
     this.router.navigate(["/apis/detail"]);
   }

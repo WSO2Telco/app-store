@@ -2,6 +2,7 @@ const baseUrl = new URL(window.location.href);
 const apiContext = baseUrl.protocol + '//' + baseUrl.host + '/api/am/store/v0.13';
 
 export const ApiEndpoints = {
+  apiContext : apiContext,
   authentication: {
     login: "./assets/files/login.json",
     logout: "./assets/files/logout.json",
