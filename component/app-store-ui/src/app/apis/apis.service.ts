@@ -38,7 +38,7 @@ export class ApisService {
     }
 
     getApiOverview(param): Observable<ApiOverview> {
-        return this.http.get<ApiOverview>(ApiEndpoints.apis.apiOverview);
+        return this.http.get<ApiOverview>(ApiEndpoints.apis.apiOverview+param);
     }
 
 }
