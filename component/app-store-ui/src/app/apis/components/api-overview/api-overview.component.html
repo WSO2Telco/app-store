@@ -2,18 +2,16 @@
     <h2>Production and Sandbox Endpoints</h2>
     <br>
     <mat-form-field class="overview-full-width">
-        <input matInput placeholder="Production URLs:" #contextUrl value={{apiOverview.context}} [type]="hide ? 'password' : 'text'">
-        <button mat-icon-button matSuffix (click)="copyToClipboard(contextUrl)" [attr.aria-label]="'Hide password'"
-            [attr.aria-pressed]="hide">
-            <mat-icon>{{hide ? 'file_copy' : 'file_copy'}}</mat-icon>
+        <input matInput placeholder="Production URLs:" #prodContextUrl value={{apiOverview.context}}>
+        <button mat-icon-button matSuffix (click)="copyToClipboard(prodContextUrl)" [attr.aria-label]="'Hide password'">
+            <mat-icon>file_copy</mat-icon>
         </button>
     </mat-form-field>
     <br>
     <mat-form-field class="overview-full-width">
-        <input matInput placeholder="Sandbox URLs:" #contextUrl value={{apiOverview.context}} [type]="hide ? 'password' : 'text'">
-        <button mat-icon-button matSuffix (click)="copyToClipboard(contextUrl)" [attr.aria-label]="'Hide password'"
-            [attr.aria-pressed]="hide">
-            <mat-icon>{{hide ? 'file_copy' : 'file_copy'}}</mat-icon>
+        <input matInput placeholder="Sandbox URLs:" #sandboxContextUrl value={{apiOverview.context}}>
+        <button mat-icon-button matSuffix (click)="copyToClipboard(sandboxContextUrl)" [attr.aria-label]="'Hide password'">
+            <mat-icon>file_copy</mat-icon>
         </button>
     </mat-form-field>
 
