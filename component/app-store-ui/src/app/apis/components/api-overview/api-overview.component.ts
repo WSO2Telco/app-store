@@ -1,5 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { ApiOverview } from '../../apis.models';
+import { NotificationService } from '../../../shared/services/notification.service';
 
 @Component({
   selector: 'store-api-overview',
@@ -9,7 +10,15 @@ import { ApiOverview } from '../../apis.models';
 export class ApiOverviewComponent implements OnInit {
   @Input() public apiOverview: ApiOverview;
 
-  constructor() {}
+  constructor(private notification: NotificationService) { }
 
-  ngOnInit() {}
+  ngOnInit() {
+  }
+
+  copyToClipboard(ele) {
+    ele.select();
+    document.execCommand('copy');
+    ele.setSelectionRange(0, 0);
+    this.notification.success('Copy to clipboard');
+  }
 }

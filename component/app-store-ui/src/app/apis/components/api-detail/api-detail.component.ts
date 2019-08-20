@@ -31,7 +31,7 @@ export class ApiDetailComponent implements OnInit, OnDestroy {
     this.subscriptions.apiOverview = this.store.select((s) => s.apis.selectedApiOverview)
       .subscribe((overview) => this.apiOverview = overview);
 
-    this.store.dispatch(new apiActions.GetApiOverviewAction());
+    this.store.dispatch(new apiActions.GetApiOverviewAction(this.api.id));
   }
 
   ngOnDestroy(): void {
