@@ -8,6 +8,7 @@ import { AppState } from '../../../app.data.models';
 import { ToggleLeftPanelAction } from '../../../app.actions';
 import { ApiSummery, ApiOverview } from '../../apis.models';
 import * as apiActions from '../../apis.actions';
+import { ApiEndpoints } from '../../../config/api.endpoints';
 
 @Component({
   selector: 'store-api-detail',
@@ -18,6 +19,7 @@ export class ApiDetailComponent implements OnInit, OnDestroy {
 
   public api: ApiSummery;
   public apiOverview: ApiOverview;
+  public apiPrefix = ApiEndpoints.apiContext;
 
   private subscriptions = {
     selectedApi: null,

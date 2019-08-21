@@ -1,6 +1,16 @@
 <div fxLayout="column" fxLayoutGap="20px">
 
-  <div fxLayout="row" fxLayout.lt-md="column" fxLayoutGap="20px">
+  <div class="intro-container">
+    <div class="pull-right">
+      <img [src]="apiPrefix + api.thumbnailUri" height="100" *ngIf="api.thumbnailUri" />
+    </div>
+    <h1>{{api.name}} <span>v1</span></h1>
+    <div class="status-label" [ngClass]="api.status"><span class="status-dot"></span> <span class="status-lbl">{{api.status}}</span></div>
+    <div class="intro-text">
+      {{api.description}}
+    </div>
+  </div>
+  <!-- <div fxLayout="row" fxLayout.lt-md="column" fxLayoutGap="20px">
     <mat-card class=" breaf-info animated fadeInDown" fxFlex="">
       <mat-card-content>
         <div fxFlex>
@@ -33,7 +43,7 @@
       </mat-card-content>
     </mat-card>
 
-  </div>
+  </div> -->
 
 
 
@@ -46,7 +56,7 @@
 <div class="child-container">
       <mat-accordion class="api-detail-accordion">
 
-        <mat-expansion-panel>
+        <mat-expansion-panel expanded="true">
           <mat-expansion-panel-header>
             <mat-panel-title>
               Overview
@@ -55,7 +65,7 @@
           <store-api-overview [apiOverview]="apiOverview"></store-api-overview>
         </mat-expansion-panel>
 
-        <mat-expansion-panel expanded="true">
+        <mat-expansion-panel>
           <mat-expansion-panel-header>
             <mat-panel-title>
               API Console

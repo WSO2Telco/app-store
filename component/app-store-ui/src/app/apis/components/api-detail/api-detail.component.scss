@@ -33,3 +33,43 @@
 mat-expansion-panel-header {
   @include transition(all 0.2s ease-in);
 }
+
+.status-label{
+  padding-bottom: 10px;
+
+  .status-dot{
+      display: inline-block;
+      background: #bbb;
+      height: 10px;
+      width: 10px;
+      line-height: 1;
+      border-radius: 10px;
+  }
+
+  .status-lbl{
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-left: 5px;
+      font-size: 12px;
+      font-weight: 500;
+      color: #999;
+  }
+
+  &.PROTOTYPED{
+      .status-dot{
+          background: #bbb;
+      }
+  }
+
+  &.PUBLISHED{
+      .status-dot{
+          background: #35b569;
+      }
+  }
+}
+
+.intro-container{
+  h1{
+      margin-bottom: 10px;
+  }
+}
