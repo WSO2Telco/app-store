@@ -4,7 +4,7 @@
     <div class="pull-right">
       <img [src]="apiPrefix + api.thumbnailUri" height="100" *ngIf="api.thumbnailUri" />
     </div>
-    <h1>{{api.name}} <span>v1</span></h1>
+    <h1>{{api.name}} <span class="version" aria-label="API Version">v1</span></h1>
     <div class="status-label" [ngClass]="api.status"><span class="status-dot"></span> <span class="status-lbl">{{api.status}}</span></div>
     <div class="intro-text">
       {{api.description}}
