@@ -37,7 +37,7 @@ export class ApiSummery {
         public version: string = '',
         public context: string = '',
         public status: string = '',
-        public thumbnailUri: string = '',
+        public thumbnailUrl: string = '',
         public visibility: string = '',
         public visibleRoles: string = '',
         public description: string = '',
@@ -71,7 +71,7 @@ export class ApiOverview {
     serverURL: string;
     tiers: Tier[];
     subscribed: boolean;
-    thumbnailurl: string;
+    thumbnailUrl: string;
     bizOwner: string;
     bizOwnerMail: string;
     techOwner: string;

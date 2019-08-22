@@ -80,3 +80,17 @@ mat-expansion-panel-header {
   font-size: 16px;
   font-weight: 500;
 }
+
+.thumb{
+  padding-right: 20px;
+  
+  img{
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+  }
+}
+
+.intro-container{
+  padding: 0 15px;
+}
