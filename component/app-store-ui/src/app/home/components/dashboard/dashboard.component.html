@@ -1,15 +1,22 @@
-<div class="welcome-note">
-  <h1>Apigate API Store</h1>
-  <div class="caption">
-    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce mi turpis, malesuada sit amet nisi at, lobortis gravida lacus. Etiam facilisis dolor ut erat tincidunt aliquam. In ut lobortis erat, pulvinar vehicula libero. Suspendisse potenti. In at elementum nisi. Vestibulum a eros enim. Curabitur sit amet quam varius, maximus eros sit amet, volutpat magna. Donec facilisis massa sit amet nibh interdum, vitae luctus sapien eleifend. Nunc mi ex, ornare sit amet sapien eu, sollicitudin fermentum eros. Duis ullamcorper metus tellus, quis tempor diam semper eu. In ornare, est sed molestie semper, lectus tortor sollicitudin odio, vitae volutpat metus enim sed justo.
-  </div>
+<div>
+    <div class="welcome-note animated fadeIn" fxLayout.gt-md="row" fxLayoutGap="20px">
+        <div fxFlex>
+          <div class="caption">
+            <img src="assets/images/logo.svg" alt="Apigate Logo" width="120" />
+              <h1>API Store</h1>
+              <div class="caption-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque id orci nec mauris condimentum elementum vitae a metus. Curabitur finibus erat dapibus ante faucibus. </div>
+            </div>
+        </div>
+        <div style="height: 300px; width: 480px;" fxFlex="480px">
+          <slideshow [imageUrls]="imageUrlArray" #slideshow [showArrows]="false" [autoPlay]="true" [showCaptions]="false"></slideshow>
+        </div>
+      </div>
 </div>
 
 <div class="result-wrapper" 
    fxLayout="row wrap" 
    fxLayoutWrap
-   fxLayoutAlign="center center"
-  >
+   fxLayoutAlign="center center">
 
  <store-thumbnail 
  *ngFor="let thumb of thumbnailParams;let x=index;"
@@ -17,6 +24,3 @@
   fxFlex class="animated fadeIn delay_{{x+1}}"></store-thumbnail>
 
 </div>
-
-
-

@@ -1,12 +1,12 @@
 <div fxLayout="column" fxLayoutGap="20px">
 
-  <div class="intro-container">
+  <div class="intro-container animated fadeInDown">
     <h1>APIs</h1>
   </div>
 
   <div>
     <div class="pull-right"> 
-      <div class="search-Container">
+      <div class="search-Container animated fadeIn">
         <form #searchForm="ngForm" novalidate (ngSubmit)="onSearchClick()" fxLayout="row" fxLayoutGap="20px">
           <mat-form-field>
             <mat-select placeholder="Category" name="apiCategory" (change)="onCategoryChange()" [(ngModel)]="apiCategory">

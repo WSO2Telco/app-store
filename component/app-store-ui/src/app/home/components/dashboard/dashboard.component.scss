@@ -3,9 +3,28 @@ mat-card{
 }
 
 .welcome-note{
-    padding: 0 20px 50px; 
+    margin-bottom: 20px;
+    background: #fff;
+    align-items: center; 
 
-    h1{
-        font-size:28px;
+    .caption{
+        max-width: 500px;
+        padding: 20px;
+
+        * {
+            font-size: 18px;
+            line-height: 22px;
+            font-weight: 500;
+        }
+
+        h1{
+            font-size:28px;
+            margin-top: 10px;
+        }
+
+        .caption-text{
+            color: #999;
+            margin-top: 40px;
+        }
     }
 }
