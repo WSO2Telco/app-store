@@ -50,6 +50,12 @@
                 <scope>provided</scope>
             </dependency>
             <dependency>
+                <groupId>org.wso2.carbon</groupId>
+                <artifactId>org.wso2.carbon.authenticator.stub</artifactId>
+                <version>4.4.32</version>
+                <scope>provided</scope>
+            </dependency>
+            <dependency>
                 <groupId>com.wso2telco.core</groupId>
                 <artifactId>dbutils</artifactId>
                 <version>${com.wso2telco.core.version}</version>
