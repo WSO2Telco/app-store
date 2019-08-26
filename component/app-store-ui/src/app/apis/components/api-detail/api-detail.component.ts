@@ -9,6 +9,7 @@ import { ToggleLeftPanelAction } from '../../../app.actions';
 import { ApiSummery, ApiOverview } from '../../apis.models';
 import * as apiActions from '../../apis.actions';
 import { ApiEndpoints } from '../../../config/api.endpoints';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'store-api-detail',
@@ -17,8 +18,8 @@ import { ApiEndpoints } from '../../../config/api.endpoints';
 })
 export class ApiDetailComponent implements OnInit, OnDestroy {
 
-  public api: ApiSummery;
-  public apiOverview: ApiOverview;
+  // public api: ApiSummery;
+  public api: ApiOverview;
   public apiPrefix = ApiEndpoints.apiContext;
 
   private subscriptions = {
@@ -26,18 +27,19 @@ export class ApiDetailComponent implements OnInit, OnDestroy {
     apiOverview: null
   };
 
-  constructor(private store: Store<AppState>) { }
+  constructor(private store: Store<AppState>, private route: ActivatedRoute) { }
 
   ngOnInit() {
-    this.subscriptions.selectedApi = this.store.select((s) => s.apis.selectedApi).subscribe((api) => this.api = api);
     this.subscriptions.apiOverview = this.store.select((s) => s.apis.selectedApiOverview)
-      .subscribe((overview) => this.apiOverview = overview);
+      .subscribe((overview) => this.api = overview);
 
-    this.store.dispatch(new apiActions.GetApiOverviewAction(this.api.id));
+    this.route.params.subscribe( p => {
+      let api_id = p['apiId'];
+      if(api_id != '') this.store.dispatch(new apiActions.GetApiOverviewAction(api_id));
+    })
   }
 
   ngOnDestroy(): void {
-    this.subscriptions.selectedApi.unsubscribe();
     this.subscriptions.apiOverview.unsubscribe();
   }
 }

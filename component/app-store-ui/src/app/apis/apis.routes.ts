@@ -8,7 +8,7 @@ const routes = [
         component: ApiSearchComponent
     },
     {
-        path: 'detail/:api_id',
+        path: 'detail/:apiId',
         component: ApiDetailComponent
     }
 ];
