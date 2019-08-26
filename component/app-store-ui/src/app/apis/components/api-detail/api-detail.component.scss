@@ -81,16 +81,22 @@ mat-expansion-panel-header {
   font-weight: 500;
 }
 
-.thumb{
-  padding-right: 20px;
-  
-  img{
-    width: 100px;
-    height: 100px;
-    object-fit: cover;
-  }
+
+.api-thumb{
+  height: 70px;
+  width: 70px;
+  border-radius: 50px;
+  border: 1px solid;
+  margin-right: 15px;
+  object-fit: cover;
+  margin-top: -5px;
 }
 
 .intro-container{
-  padding: 0 15px;
+  // padding: 15px;
+  padding-top: 15px;
+}
+
+.subscribe-btn{
+  margin-top: -25px;
 }

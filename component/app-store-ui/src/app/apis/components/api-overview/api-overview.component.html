@@ -36,10 +36,6 @@
                 </div>
 
                 <div fxLayout="column" fxFlex="50">
-                    <div>
-                        <img [src]="apiPrefix + apiOverview.thumbnailUrl" height="100" *ngIf="apiOverview.thumbnailUrl" />
-                    </div>
-                    <br />
                     <div class="field" fxFlex><strong>Description</strong></div>
                     <div>{{apiOverview.description}} <span *ngIf="!apiOverview.description">N/A</span></div>
                     <br/>

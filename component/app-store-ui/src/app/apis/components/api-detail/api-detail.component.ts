@@ -21,6 +21,7 @@ export class ApiDetailComponent implements OnInit, OnDestroy {
   // public api: ApiSummery;
   public api: ApiOverview;
   public apiPrefix = ApiEndpoints.apiContext;
+  public activeTab = 'overview';
 
   private subscriptions = {
     selectedApi: null,
@@ -41,5 +42,9 @@ export class ApiDetailComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.subscriptions.apiOverview.unsubscribe();
+  }
+
+  switchTab(tab){
+    this.activeTab = tab;
   }
 }

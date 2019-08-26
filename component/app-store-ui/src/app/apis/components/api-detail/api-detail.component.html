@@ -1,17 +1,22 @@
 <div fxLayout="column" fxLayoutGap="20px">
 
   <div class="intro-container">
-    <h1>{{api.name}} <span class="version" aria-label="API Version">v1</span></h1>
-    <div class="status-label" [ngClass]="api.status"><span class="status-dot"></span> <span class="status-lbl">{{api.status}}</span></div>
-    <div class="intro-text">
-      {{api.description}}
+    
+    <div class="pull-left">
+        <img [src]="apiPrefix + api.thumbnailUrl" class="api-thumb" *ngIf="api.thumbnailUrl" />
+        <img src="assets/images/apigate-a.png" class="api-thumb" *ngIf="!api.thumbnailUrl" />
     </div>
+    <h1>{{api.name}} <span class="version" aria-label="API Version">v1</span></h1>
+    <div class="pull-right subscribe-btn">
+      <button mat-flat-button color="accent" (click)="switchTab('subscription')">Subscribe</button>
+    </div>
+    <div class="status-label" [ngClass]="api.status"><span class="status-dot"></span> <span class="status-lbl">{{api.status}}</span></div>
   </div>
 
   <div class="child-container">
     <mat-accordion class="api-detail-accordion">
 
-      <mat-expansion-panel expanded="true">
+      <mat-expansion-panel expanded="true" (opened)="switchTab('overview')">
         <mat-expansion-panel-header>
           <mat-panel-title>
             Overview
@@ -20,7 +25,14 @@
         <store-api-overview [apiOverview]="api"></store-api-overview>
       </mat-expansion-panel>
 
-      <mat-expansion-panel>
+      <mat-expansion-panel [expanded]="activeTab == 'subscription'" (opened)="switchTab('subscription')">
+        <mat-expansion-panel-header>
+          <mat-panel-title>Subscriptions</mat-panel-title>
+        </mat-expansion-panel-header>
+        subscriptions
+      </mat-expansion-panel>
+
+      <mat-expansion-panel (opened)="switchTab('console')">
         <mat-expansion-panel-header>
           <mat-panel-title>
             API Console
@@ -29,7 +41,7 @@
         <store-api-console></store-api-console>
       </mat-expansion-panel>
 
-      <mat-expansion-panel>
+      <mat-expansion-panel (opened)="switchTab('doc')">
         <mat-expansion-panel-header>
           <mat-panel-title>
             Documentation
@@ -38,7 +50,7 @@
         <store-api-documentation></store-api-documentation>
       </mat-expansion-panel>
 
-      <mat-expansion-panel>
+      <mat-expansion-panel (opened)="switchTab('forum')">
         <mat-expansion-panel-header>
           <mat-panel-title>
             Forum
