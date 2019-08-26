@@ -16,3 +16,4 @@ app-store-ui-parent.iml
 /component/app-store-service/target
 /component/app-store-service/src/main/webapp/public
 component/app-store-ui/app-store-ui.iml
+*.iml
