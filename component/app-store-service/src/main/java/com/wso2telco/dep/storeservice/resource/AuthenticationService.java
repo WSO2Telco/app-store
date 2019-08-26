@@ -52,9 +52,8 @@ public class AuthenticationService {
 
         Response response;
         try {
-            if(authenticationRequest.getUsername() == null || "".equals(authenticationRequest.getUsername().trim())) {
-                handleException("Invalid username");
-            }
+            validateUserInput("Username", authenticationRequest.getUsername());
+            validateUserInput("Password", authenticationRequest.getPassword());
 
             APIManagerConfiguration config = HostObjectComponent.getAPIManagerConfiguration();
             String url = config.getFirstProperty(APIConstants.AUTH_MANAGER_URL);
@@ -116,6 +115,14 @@ public class AuthenticationService {
                 .build();
         }
         return response;
+    }
+
+    private static void validateUserInput(String inputName, String inputValue) throws APIManagementException {
+        if (inputValue == null || "".equals(inputValue.trim())) {
+            String errorMsg = inputName + " cannot be empty";
+            log.error(errorMsg);
+            throw new APIManagementException(errorMsg);
+        }
     }
 
     private static void handleException(String msg) throws APIManagementException {

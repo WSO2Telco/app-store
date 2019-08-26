@@ -72,11 +72,14 @@ public class UserService {
     public Response add(UserRequest userRequest) {
         Response response;
         try {
+            validateUserInput("Username", userRequest.getUsername());
+            validateUserInput("Password", userRequest.getPassword());
+
             if(isUserExists(userRequest.getUsername())) {
                 handleException("User name already exists");
-            } else {
-                addUser(userRequest.getUsername(), userRequest.getPassword(), userRequest.getAllFieldsValues());
             }
+
+            addUser(userRequest.getUsername(), userRequest.getPassword(), userRequest.getAllFieldsValues());
 
             response = Response.status(Response.Status.OK)
                 .entity(new AuthenticationResponse(false, "SUCCESS"))
@@ -281,6 +284,14 @@ public class UserService {
             handleException("Error while checking user existence for " + username, e);
         }
         return exists;
+    }
+
+    private static void validateUserInput(String inputName, String inputValue) throws APIManagementException {
+        if (inputValue == null || "".equals(inputValue.trim())) {
+            String errorMsg = inputName + " cannot be empty";
+            log.error(errorMsg);
+            throw new APIManagementException(errorMsg);
+        }
     }
 
     private static void handleException(String msg) throws APIManagementException {
