@@ -6,6 +6,10 @@ import { Application } from '../../applications.data.models';
 import * as applicationsActions from '../../applications.actions';
 import { Router } from '@angular/router';
 
+//Breadcrumbs
+import * as globalActions from "../../../app.actions";
+import { BreadcrumbItem } from "../../../app.data.models";
+
 @Component({
   selector: 'store-search-applications',
   templateUrl: './search-applications.component.html',
@@ -23,6 +27,8 @@ export class SearchApplicationsComponent implements OnInit {
       .subscribe(apps => (this.dataSource.data = apps));
 
     this.store.dispatch(new applicationsActions.GetAllApplicationsAction());
+
+    this.store.dispatch(new globalActions.SetBreadcrumbAction([new BreadcrumbItem("Applications")]));
   }
 
   onAppAction(app, action) {

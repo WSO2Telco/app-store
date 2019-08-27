@@ -5,6 +5,8 @@ import { Topic, GetTopicsParam } from "../../forum.data.models";
 import { MatTableDataSource } from "@angular/material";
 import * as forumActions from "../../forum.actions";
 import { Router } from "@angular/router";
+import * as globalActions from "../../../app.actions";
+import { BreadcrumbItem } from "../../../app.data.models";
 
 @Component({
   selector: "store-forum-main",
@@ -24,6 +26,12 @@ export class ForumMainComponent implements OnInit {
 
     this.store.dispatch(
       new forumActions.GetAllTopicsAction(new GetTopicsParam())
+    );
+
+    this.store.dispatch(
+      new globalActions.SetBreadcrumbAction([
+        new BreadcrumbItem("Forum")
+      ])
     );
   }
 

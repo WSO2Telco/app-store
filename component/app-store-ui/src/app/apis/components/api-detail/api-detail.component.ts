@@ -1,15 +1,14 @@
-import {
-  Component, OnInit, ComponentFactoryResolver, NgZone, AfterViewInit, ApplicationRef,
-  ViewChild, ElementRef, Injector, OnDestroy
-} from '@angular/core';
-import { ApiSubscriptionComponent } from '../api-subscription/api-subscription.component';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { AppState } from '../../../app.data.models';
-import { ToggleLeftPanelAction } from '../../../app.actions';
-import { ApiSummery, ApiOverview } from '../../apis.models';
+import { ApiOverview } from '../../apis.models';
 import * as apiActions from '../../apis.actions';
 import { ApiEndpoints } from '../../../config/api.endpoints';
 import { ActivatedRoute } from '@angular/router';
+
+//Breadcrumbs
+import * as globalActions from "../../../app.actions";
+import { BreadcrumbItem } from "../../../app.data.models";
 
 @Component({
   selector: 'store-api-detail',
@@ -18,7 +17,6 @@ import { ActivatedRoute } from '@angular/router';
 })
 export class ApiDetailComponent implements OnInit, OnDestroy {
 
-  // public api: ApiSummery;
   public api: ApiOverview;
   public apiPrefix = ApiEndpoints.apiContext;
   public activeTab = 'overview';
@@ -31,13 +29,29 @@ export class ApiDetailComponent implements OnInit, OnDestroy {
   constructor(private store: Store<AppState>, private route: ActivatedRoute) { }
 
   ngOnInit() {
+    this.store.dispatch(
+      new globalActions.SetBreadcrumbAction([
+        new BreadcrumbItem("APIs", "apis"),
+        new BreadcrumbItem("API Details")
+      ])
+    );
+
     this.subscriptions.apiOverview = this.store.select((s) => s.apis.selectedApiOverview)
-      .subscribe((overview) => this.api = overview);
+      .subscribe((overview) => {
+        this.api = overview;
+        this.store.dispatch(
+          new globalActions.SetBreadcrumbAction([
+            new BreadcrumbItem("APIs", "apis"),
+            new BreadcrumbItem(overview.name + " - " + overview.version)
+          ])
+        );
+      });
 
     this.route.params.subscribe( p => {
       let api_id = p['apiId'];
       if(api_id != '') this.store.dispatch(new apiActions.GetApiOverviewAction(api_id));
     })
+    
   }
 
   ngOnDestroy(): void {

@@ -6,7 +6,7 @@
         <img [src]="apiPrefix + api.thumbnailUrl" class="api-thumb" *ngIf="api.thumbnailUrl" />
         <img src="assets/images/apigate-a.png" class="api-thumb" *ngIf="!api.thumbnailUrl" />
     </div>
-    <h1>{{api.name}} <span class="version" aria-label="API Version">v1</span></h1>
+    <h1>{{api.name}} <span class="version" aria-label="API Version">{{api.version}}</span></h1>
     <div class="pull-right subscribe-btn">
       <button mat-flat-button color="accent" (click)="switchTab('subscription')">Subscribe</button>
     </div>

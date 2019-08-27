@@ -2,6 +2,11 @@ import { Component, OnInit, ViewChild } from "@angular/core";
 import { ThumbnailParam } from "../../home.data.models";
 import { IImage } from 'ng-simple-slideshow';
 
+//Breadcrumbs
+import * as globalActions from "../../../app.actions";
+import { BreadcrumbItem, AppState } from "../../../app.data.models";
+import { Store } from '@ngrx/store';
+
 @Component({
   selector: "store-dashboard",
   templateUrl: "./dashboard.component.html",
@@ -27,7 +32,9 @@ export class DashboardComponent implements OnInit {
 
   // @ViewChild('slideshow') slideshow: any;
 
-  constructor() {}
+  constructor(private store: Store<AppState>) {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.store.dispatch(new globalActions.SetBreadcrumbAction([new BreadcrumbItem("Home")]));
+  }
 }
