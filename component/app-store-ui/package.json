@@ -35,6 +35,7 @@
     "hapi": "^18.1.0",
     "inert": "^5.1.0",
     "material-design-icons-iconfont": "^5.0.1",
+    "ng-simple-slideshow": "^1.2.9",
     "ngrx-store-localstorage": "^8.0.0",
     "ngx-quill": "^7.1.2",
     "path": "^0.12.7",

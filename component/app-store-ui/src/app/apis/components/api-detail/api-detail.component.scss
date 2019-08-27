@@ -34,11 +34,66 @@ mat-expansion-panel-header {
   @include transition(all 0.2s ease-in);
 }
 
-mat-expansion-panel{
-  margin-bottom: 10px;
+.status-label{
+  padding-bottom: 10px;
+
+  .status-dot{
+      display: inline-block;
+      background: #bbb;
+      height: 10px;
+      width: 10px;
+      line-height: 1;
+      border-radius: 10px;
+  }
+
+  .status-lbl{
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-left: 5px;
+      font-size: 12px;
+      font-weight: 500;
+      color: #999;
+  }
+
+  &.PROTOTYPED{
+      .status-dot{
+          background: #bbb;
+      }
+  }
+
+  &.PUBLISHED{
+      .status-dot{
+          background: #35b569;
+      }
+  }
 }
 
-mat-panel-title{
-  color:white;
-  font-size:1.5em;
+.intro-container{
+  padding-top: 15px;
+
+  h1{
+      margin-bottom: 5px;
+  }
+}
+
+.version{
+  color: #444;
+  margin-left: 5px;
+  font-size: 16px;
+  font-weight: 500;
+}
+
+
+.api-thumb{
+  height: 70px;
+  width: 70px;
+  border-radius: 50px;
+  border: 1px solid;
+  margin-right: 15px;
+  object-fit: cover;
+  margin-top: -10px;
+}
+
+.subscribe-btn{
+  margin-top: -30px;
 }

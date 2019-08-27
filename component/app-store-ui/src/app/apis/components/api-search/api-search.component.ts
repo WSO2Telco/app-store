@@ -9,9 +9,12 @@ import {
   ApiStatus,
   paginationData
 } from "../../apis.models";
-import { Observable } from "rxjs";
-import { MatTableDataSource, PageEvent } from "@angular/material";
+import { PageEvent } from "@angular/material";
 import { Router } from "@angular/router";
+
+//Breadcrumbs
+import * as globalActions from "../../../app.actions";
+import { BreadcrumbItem } from "../../../app.data.models";
 
 @Component({
   selector: "store-api-search",
@@ -50,6 +53,8 @@ export class ApiSearchComponent implements OnInit {
 
   ngOnInit() {
     this.store.dispatch(new DoApiSearchAction(new ApiSearchParam(this.apiCategory, '', 5, 0)));
+    this.store.dispatch(new globalActions.SetBreadcrumbAction([new BreadcrumbItem("APIs")])
+    );
   }
 
   applyFilter(value: string) {
@@ -65,8 +70,8 @@ export class ApiSearchComponent implements OnInit {
   }
 
   onApiSelected($event) {
-    this.store.dispatch(new SetSelectedApiAction($event));
-    this.router.navigate(["/apis/detail"]);
+    // this.store.dispatch(new SetSelectedApiAction($event));
+    this.router.navigate(["/apis/detail/", $event.id]);
   }
 
   onCategoryChange() {

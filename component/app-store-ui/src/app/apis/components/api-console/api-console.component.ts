@@ -24,7 +24,6 @@ export class ApiConsoleComponent implements OnInit, AfterViewInit {
     const ui = SwaggerUIBundle({
       url: 'assets/files/swagger.json',
       domNode: this.container.nativeElement.querySelector('.swagger-container'),
-      deepLinking: true,
       presets: [SwaggerUIBundle.presets.apis, SwaggerUIStandalonePreset],
       plugins: [
         SwaggerUIBundle.plugins.DownloadUrl,
@@ -37,7 +36,7 @@ export class ApiConsoleComponent implements OnInit, AfterViewInit {
           };
         }
       ],
-      docExpansion: 'list',
+      docExpansion: 'none',
       jsonEditor: false,
       defaultModelRendering: 'schema',
       showRequestHeaders: true,

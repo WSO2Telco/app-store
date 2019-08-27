@@ -1,4 +1,4 @@
-<div class="thumbnail-wrapper">
+<!-- <div class="thumbnail-wrapper">
   <mat-card class="thumbnail-card" [routerLink]="param.route">
     <mat-card-content>
      <div class="img-container"
@@ -11,6 +11,19 @@
      <div class="name-container">
       {{param.name}}
      </div>
+    </mat-card-content>
+  </mat-card>
+</div> -->
+<div class="thumbnail-wrapper">
+  <mat-card class="thumbnail-card" [routerLink]="param.route">
+    <mat-card-content>
+      <mat-icon>{{param.icon}}</mat-icon>
+      <div class="name-container">
+      {{param.name}}
+      </div>
+      <div class="description">
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque non porta urna.
+      </div>
     </mat-card-content>
   </mat-card>
 </div>

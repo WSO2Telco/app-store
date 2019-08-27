@@ -1,89 +1,65 @@
 <div fxLayout="column" fxLayoutGap="20px">
 
-  <div fxLayout="row" fxLayout.lt-md="column" fxLayoutGap="20px">
-    <mat-card class=" breaf-info animated fadeInDown" fxFlex="">
-      <mat-card-content>
-        <div fxFlex>
-          <h2 class="api-name mat-headline">{{api.name}}</h2>
-          <h4 class="desc mat-subheading-1">{{api.description}}</h4>
-        </div>
-      </mat-card-content>
-    </mat-card>
-
-    <mat-card class="info-table animated fadeInDown" fxFlex="">
-      <mat-card-content>
-          <div class="info-summery" fxFlex="">
-              <div>
-                <span class="field-name">Version </span>
-                <span class="mat-body-2">{{api.version}}</span>
-              </div>
-              <div>
-                <span class="field-name">Provider </span>
-                <span class="mat-body-2">{{api.provider}}</span>
-              </div>
-              <div>
-                <span class="field-name">Status </span>
-                <span class="mat-body-2"><mat-chip color="accent" selected>{{api.status}}</mat-chip></span>
-              </div>
-              <div>
-                <span class="field-name">Ratings </span>
-                <span class="mat-body-2">{{api.rates}}</span>
-              </div>
-            </div>
-      </mat-card-content>
-    </mat-card>
-
+  <div class="intro-container">
+    
+    <div class="pull-left">
+        <img [src]="apiPrefix + api.thumbnailUrl" class="api-thumb" *ngIf="api.thumbnailUrl" />
+        <img src="assets/images/apigate-a.png" class="api-thumb" *ngIf="!api.thumbnailUrl" />
+    </div>
+    <h1>{{api.name}} <span class="version" aria-label="API Version">{{api.version}}</span></h1>
+    <div class="pull-right subscribe-btn">
+      <button mat-flat-button color="accent" (click)="switchTab('subscription')">Subscribe</button>
+    </div>
+    <div class="status-label" [ngClass]="api.status"><span class="status-dot"></span> <span class="status-lbl">{{api.status}}</span></div>
   </div>
 
+  <div class="child-container">
+    <mat-accordion class="api-detail-accordion">
 
+      <mat-expansion-panel expanded="true" (opened)="switchTab('overview')">
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            Overview
+          </mat-panel-title>
+        </mat-expansion-panel-header>
+        <store-api-overview [apiOverview]="api"></store-api-overview>
+      </mat-expansion-panel>
 
- <!--  <mat-card class="content-card animated fadeIn delay_4" fxFlex>
-    <mat-card-content>
-      <store-api-subscription></store-api-subscription>
-    </mat-card-content>
-  </mat-card> -->
+      <mat-expansion-panel [expanded]="activeTab == 'subscription'" (opened)="switchTab('subscription')">
+        <mat-expansion-panel-header>
+          <mat-panel-title>Subscriptions</mat-panel-title>
+        </mat-expansion-panel-header>
+        <store-api-app-subscriptions></store-api-app-subscriptions>
+      </mat-expansion-panel>
 
-  <mat-card class="animated fadeIn delay_6">
-    <mat-card-content>
-      <mat-accordion class="api-detail-accordion">
+      <mat-expansion-panel (opened)="switchTab('console')">
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            API Console
+          </mat-panel-title>
+        </mat-expansion-panel-header>
+        <store-api-console></store-api-console>
+      </mat-expansion-panel>
 
-        <mat-expansion-panel >
-          <mat-expansion-panel-header>
-            <mat-panel-title>
-              Overview
-            </mat-panel-title>
-          </mat-expansion-panel-header>
-          <store-api-overview [apiOverview]="apiOverview"></store-api-overview>
-        </mat-expansion-panel>
+      <mat-expansion-panel (opened)="switchTab('doc')">
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            Documentation
+          </mat-panel-title>
+        </mat-expansion-panel-header>
+        <store-api-documentation></store-api-documentation>
+      </mat-expansion-panel>
 
-        <mat-expansion-panel expanded="true">
-          <mat-expansion-panel-header>
-            <mat-panel-title>
-              Api Console
-            </mat-panel-title>
-          </mat-expansion-panel-header>
-          <store-api-console></store-api-console>
-        </mat-expansion-panel>
+      <mat-expansion-panel (opened)="switchTab('forum')">
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            Forum
+          </mat-panel-title>
+        </mat-expansion-panel-header>
+        <store-api-forum></store-api-forum>
+      </mat-expansion-panel>
 
-        <mat-expansion-panel>
-          <mat-expansion-panel-header>
-            <mat-panel-title>
-              Documentation
-            </mat-panel-title>
-          </mat-expansion-panel-header>
-          <store-api-documentation></store-api-documentation>
-        </mat-expansion-panel>
+    </mat-accordion>
+  </div>
 
-        <mat-expansion-panel>
-          <mat-expansion-panel-header>
-            <mat-panel-title>
-              Forum
-            </mat-panel-title>
-          </mat-expansion-panel-header>
-          <store-api-forum></store-api-forum>
-        </mat-expansion-panel>
-
-      </mat-accordion>
-    </mat-card-content>
-  </mat-card>
 </div>

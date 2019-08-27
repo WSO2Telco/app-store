@@ -1,8 +1,8 @@
 <div fxLayout="column" fxLayoutGap="20px">
 
   <div class="intro-container">
-    <h1>Applications</h1>
-    <div class="intro-text">
+    <h1 class="animated fadeInDown">Applications</h1>
+    <div class="intro-text animated fadeIn">
       <p>Logical collection of APIs that allows you to use a single access token to invoke a collection of APIs and to subscribe to one API multiple times with different SLA levels.</p>
       <p><strong class="notice">*</strong> The "DefaultApplication" is pre-created and allows unlimited access by default.</p>
     </div>
@@ -10,7 +10,7 @@
 
   <div>
     <div class="pull-right"> 
-        <div class="search-Container">
+        <div class="search-Container animated fadeIn">
           <form #searchForm="ngForm" novalidate (ngSubmit)="onSearchClick()" fxLayout="row" fxLayoutGap="20px">
             <mat-form-field class="search-input" fxFlex="80%">
               <input matInput placeholder="Filter by..." name="searchQuery" [(ngModel)]="searchQuery">

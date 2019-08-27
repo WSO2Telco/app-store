@@ -7,6 +7,10 @@ import { Store } from '@ngrx/store';
 import { AppState } from '../../../app.data.models';
 import * as applicationsActions from '../../applications.actions';
 
+//Breadcrumbs
+import * as globalActions from "../../../app.actions";
+import { BreadcrumbItem } from "../../../app.data.models";
+
 @Component({
   selector: "store-application-detail-main",
   templateUrl: "./application-detail-main.component.html",
@@ -32,6 +36,13 @@ export class ApplicationDetailMainComponent implements OnInit {
         new applicationsActions.SetSelectedApplicationsAction(this.appId)
       );
     })
+
+    this.store.dispatch(
+      new globalActions.SetBreadcrumbAction([
+        new BreadcrumbItem("Applications", "applications"),
+        new BreadcrumbItem("Application Details")
+      ])
+    );
   }
 
   switchTab(tab){

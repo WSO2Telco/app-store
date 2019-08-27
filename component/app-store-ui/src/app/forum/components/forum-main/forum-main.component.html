@@ -1,5 +1,25 @@
 <div fxLayout="column" fxLayoutGap="20px">
-  <div fxLayout="row" fxLayout.lt-md="column" fxLayoutGap="20px">
+
+    <div class="intro-container">
+      <h1 class="animated fadeInDown">Forum</h1>
+      <div class="intro-text animated fadeIn">
+        <p>Forum is an online discussion board where people can hold conversations in the form of posted messages.</p>
+      </div>
+    </div>
+
+    <div>
+      <div class="pull-right"> 
+          <div class="search-Container animated fadeIn">
+            <form #searchForm="ngForm" novalidate (ngSubmit)="onSearchClick()" fxLayout="row" fxLayoutGap="20px">
+              <mat-form-field class="search-input" fxFlex="80%">
+                <input matInput placeholder="Search Forum.." name="searchQuery" [(ngModel)]="searchQuery">
+              </mat-form-field>
+              <button class="search" mat-mini-fab color="accent"><i class="fa fa-search" aria-hidden="true"></i></button>
+            </form>
+          </div>
+      </div>
+    </div>
+  <!-- <div fxLayout="row" fxLayout.lt-md="column" fxLayoutGap="20px">
     <mat-card fxFlex class="intro-container animated fadeInDown mat-elevation-z8">
       <mat-card-content>
         <button mat-fab color="accent" matTooltip="Create new Topic" [routerLink]="['/forum/create-topic']">+</button>
@@ -22,7 +42,7 @@
         </div>
       </mat-card-content>
     </mat-card>
-  </div>
+  </div> -->
 
   <store-topic-result [topics]="topics" (whenDelete)="onTopicDelete($event)" (whenView)="onTopicView($event)" class="animated fadeIn delay_6"></store-topic-result>
  </div> 

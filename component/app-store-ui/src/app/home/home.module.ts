@@ -5,12 +5,14 @@ import { HomeRoutes } from './home.routes';
 import { SharedModule } from '../shared/shared.module';
 import { ThemeComponent } from './components/theme/theme.component';
 import { ThumbnailComponent } from './components/thumbnail/thumbnail.component';
+import { SlideshowModule } from 'ng-simple-slideshow';
 
 @NgModule({
   imports: [
     CommonModule,
     SharedModule,
-    HomeRoutes
+    HomeRoutes,
+    SlideshowModule
   ],
   declarations: [DashboardComponent, ThemeComponent, ThumbnailComponent]
 })

@@ -18,6 +18,7 @@ import { ApiConsoleComponent } from './components/api-console/api-console.compon
 import { ApiDocumentationComponent } from './components/api-documentation/api-documentation.component';
 import { ApiForumComponent } from './components/api-forum/api-forum.component';
 import { StarRatingModule } from 'angular-star-rating';
+import { ApiAppSubscriptionsComponent } from './components/api-app-subscriptions/api-app-subscriptions.component';
 
 @NgModule({
   imports: [
@@ -38,7 +39,8 @@ import { StarRatingModule } from 'angular-star-rating';
     ApiOverviewComponent,
     ApiConsoleComponent,
     ApiDocumentationComponent,
-    ApiForumComponent],
+    ApiForumComponent,
+    ApiAppSubscriptionsComponent],
   providers: [ApisService],
   entryComponents: [ApiSubscriptionComponent]
 })

@@ -5,15 +5,22 @@
   $primary: map-get($theme, primary);
   $accent: map-get($theme, accent);
 
-  .thumbnail-wrapper {
-    .thumbnail-card {
-      background-color: mat-color($primary,darker);
+  // .thumbnail-wrapper {
+  //   .thumbnail-card {
+  //     background-color: mat-color($primary,darker);
 
-    &:hover {
-        .name-container {
-            background-color: mat-color($accent);
-        }
-      }
+  //   &:hover {
+  //       .name-container {
+  //           background-color: mat-color($accent);
+  //       }
+  //     }
+  //   }
+  // }
+
+  .thumbnail-wrapper{
+    mat-icon{
+      color: mat-color($accent);
+      font-size: 30px;
     }
   }
 }

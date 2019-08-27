@@ -1,6 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { ApiOverview } from '../../apis.models';
 import { NotificationService } from '../../../shared/services/notification.service';
+import { ApiEndpoints } from '../../../config/api.endpoints';
 
 @Component({
   selector: 'store-api-overview',
@@ -9,10 +10,12 @@ import { NotificationService } from '../../../shared/services/notification.servi
 })
 export class ApiOverviewComponent implements OnInit {
   @Input() public apiOverview: ApiOverview;
+  public apiPrefix = ApiEndpoints.apiContext;
 
   constructor(private notification: NotificationService) { }
 
   ngOnInit() {
+    // console.log(this.apiOverview);
   }
 
   copyToClipboard(ele) {
