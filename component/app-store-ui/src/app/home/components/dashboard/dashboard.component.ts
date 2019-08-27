@@ -17,7 +17,7 @@ export class DashboardComponent implements OnInit {
     new ThumbnailParam('APIs','/apis','apis', 'extension'),
     new ThumbnailParam('Applications','/applications','apps', 'apps'),
     new ThumbnailParam('Forum','/forum','forum', 'forum'),
-    new ThumbnailParam('Statistics','/statistics','stat', 'insert_chart')
+    new ThumbnailParam('Statistics','/statistics','stat', 'insert_chart', 'http://www.apigate.com')
   ];
 
   imageUrlArray: (string | IImage)[] = [
