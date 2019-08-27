@@ -18,7 +18,7 @@ import { ApiEndpoints } from '../../../config/api.endpoints';
 })
 export class ApiConsoleComponent implements OnInit, AfterViewInit {
   @ViewChild('swagger', { static: true }) container: ElementRef;
-  @Input() public apiOverview: ApiSummery;
+  @Input() public apiId: string;
   apiPrefix = ApiEndpoints.apiContext;
   constructor() { }
 
@@ -27,7 +27,7 @@ export class ApiConsoleComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit() {
     const ui = SwaggerUIBundle({
-      url: this.apiPrefix + '/apis/' + this.apiOverview.id + '/swagger',
+      url: this.apiPrefix + '/apis/' + this.apiId + '/swagger',
       domNode: this.container.nativeElement.querySelector('.swagger-container'),
       presets: [SwaggerUIBundle.presets.apis, SwaggerUIStandalonePreset],
       plugins: [
