@@ -69,6 +69,7 @@ public class UserService {
     private static final Log log = LogFactory.getLog(UserService.class);
 
     @POST
+    @Path("/add")
     public Response add(UserRequest userRequest) {
         Response response;
         try {
