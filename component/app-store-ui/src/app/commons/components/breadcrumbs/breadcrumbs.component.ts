@@ -1,33 +1,32 @@
 
-import {filter} from 'rxjs/operators';
-import { Component, OnInit, Input } from '@angular/core';
-import { Router, NavigationEnd } from '@angular/router';
+import { Component, Input, OnDestroy, ChangeDetectorRef } from '@angular/core';
+import { Store } from '@ngrx/store';
+import { AppState, BreadcrumbItem } from '../../../app.data.models';
 
 @Component({
   selector: 'store-breadcrumbs',
   templateUrl: './breadcrumbs.component.html',
   styleUrls: ['./breadcrumbs.component.scss']
 })
-export class BreadcrumbsComponent implements OnInit {
-  activeView: any;
+export class BreadcrumbsComponent implements OnDestroy {
+  activeView:  BreadcrumbItem[];
 
   @Input()
   public isOpen: boolean;
 
-  constructor(private _router: Router) {
+  constructor(private store: Store<AppState>, private cd: ChangeDetectorRef) {}
+
+  ngAfterViewInit() {
+    this.store.select(s => s.global.breadcrumb).subscribe(m => {
+      if (m) {
+        this.activeView = m;
+        this.cd.detectChanges();
+      }
+    });
   }
 
-  ngOnInit() {
-    this._router.events.pipe(
-        filter((event: any) => event instanceof NavigationEnd)
-      )
-      .subscribe((event: NavigationEnd) => {
-        const tmp = event.url.replace('/', '').split('/');
-        if (tmp[0] === 'legacy') {
-          tmp.shift();
-        }
-        this.activeView = tmp;
-      });
+  ngOnDestroy(): void {
+    this.cd.detach();
   }
 } 
 

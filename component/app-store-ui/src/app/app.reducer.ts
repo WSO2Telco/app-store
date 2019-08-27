@@ -1,4 +1,4 @@
-import { GlobalState } from './app.data.models';
+import { GlobalState, BreadcrumbItem } from './app.data.models';
 import * as globalActions from './app.actions';
 import { ToggleRightPanelAction } from './app.actions';
 
@@ -13,7 +13,8 @@ const initState: GlobalState = {
     mccAndmnc: {
         countries: null,
         operators: []
-    }
+    },
+    breadcrumb: []
 };
 
 export function globalReducer(state: GlobalState = initState, action: globalActions.Actions) {
@@ -69,6 +70,12 @@ export function globalReducer(state: GlobalState = initState, action: globalActi
                     menuBackImage: action.payload
                 })
             });
+        }
+
+        case globalActions.SET_BREADCRUMB:{
+            return Object.assign({},state,{
+                breadcrumb : action.payload
+            })
         }
 
         default:

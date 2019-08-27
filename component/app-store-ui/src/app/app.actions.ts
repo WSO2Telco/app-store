@@ -1,5 +1,5 @@
 import { Action } from '@ngrx/store';
-import { Country, Operator, Tier } from './app.data.models';
+import { Country, Operator, Tier, BreadcrumbItem } from './app.data.models';
 
 export const TOGGLE_RIGHT_NAV_PANEL = 'TOGGLE_RIGHT_NAV_PANEL';
 export const TOGGLE_LEFT_NAV_PANEL = 'TOGGLE_LEFT_NAV_PANEL';
@@ -11,6 +11,7 @@ export const APP_THEME_CHANGE = 'APP_THEME_CHANGE';
 export const APP_THEME_CHANGE_SUCCESS = 'APP_THEME_CHANGE_SUCCESS';
 export const TOGGLE_PARTICLE_ANIMATION = 'TOGGLE_PARTICLE_ANIMATION';
 export const TOGGLE_MENU_BACKGROUND_IMAGE = 'TOGGLE_MENU_BACKGROUND_IMAGE';
+export const SET_BREADCRUMB = 'SET_BREADCRUMB';
 
 
 export class ToggleRightPanelAction implements Action {
@@ -60,6 +61,11 @@ export class ToggleParticleAction implements Action {
 export class ToggleMenuBackgroundAction implements Action {
     type: string = TOGGLE_MENU_BACKGROUND_IMAGE;
     constructor(public payload: boolean) { }
+}
+
+export class SetBreadcrumbAction implements Action {
+    readonly type: string = SET_BREADCRUMB;
+    constructor(public payload: BreadcrumbItem[]) {}
 }
 
 export type Actions

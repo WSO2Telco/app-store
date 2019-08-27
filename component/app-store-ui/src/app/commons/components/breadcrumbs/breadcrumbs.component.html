@@ -1,6 +1,6 @@
-<mat-card id="card-con">
-    <mat-card-content>
-        <span class="url-part animated bounceInDown" [ngClass]="{'fadeInLeft':last,'fadeIn breadcrumb-parent':!last}" *ngFor="let path of activeView; last as last">{{path}}</span>
+<mat-card class="breadcrumb" id="card-con" [class.isOpen]="leftNavOpened" >
+    <mat-card-content >
+        <span class="url-part animated fadeInLeft delay_{{i+2}}" [routerLink]="itm.route" [ngClass]="{'fadeInLeft':last,'fadeIn breadcrumb-parent':!last}" *ngFor="let itm of activeView;index as i; last as last">{{itm.displayName}}</span>
     </mat-card-content>
   </mat-card>
   

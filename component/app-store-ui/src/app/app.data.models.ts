@@ -38,6 +38,7 @@ export interface CountryOperator {
 }
 
 export interface GlobalState {
+  breadcrumb: BreadcrumbItem[];
   layout: {
     rightNavOpened: boolean;
     leftNavOpened: boolean;
@@ -66,4 +67,13 @@ export class MenuItem {
   public route?: string[] = [];
   public subMenu?: MenuItem[] = null;
   public permissionPattern? = "*";
+}
+
+export class BreadcrumbItem
+{
+  constructor(
+    public displayName:string,
+    public route:string = null,
+    public bcClass:string = ""
+  ){}
 }
