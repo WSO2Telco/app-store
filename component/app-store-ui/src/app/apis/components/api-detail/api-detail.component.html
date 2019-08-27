@@ -3,7 +3,7 @@
   <div class="intro-container">
     
     <div class="pull-left">
-        <img [src]="apiPrefix + api.thumbnailUrl" class="api-thumb" *ngIf="api.thumbnailUrl" />
+        <img [src]="apiPrefix + api?.thumbnailUrl" class="api-thumb" *ngIf="api?.thumbnailUrl" />
         <img src="assets/images/apigate-a.png" class="api-thumb" *ngIf="!api.thumbnailUrl" />
     </div>
     <h1>{{api.name}} <span class="version" aria-label="API Version">{{api.version}}</span></h1>
@@ -38,7 +38,7 @@
             API Console
           </mat-panel-title>
         </mat-expansion-panel-header>
-        <store-api-console></store-api-console>
+        <store-api-console [apiId]="api_id"></store-api-console>
       </mat-expansion-panel>
 
       <mat-expansion-panel (opened)="switchTab('doc')">
