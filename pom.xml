@@ -170,7 +170,7 @@
         </pluginManagement>
     </build>
     <properties>
-        <jersey-container-servlet.version>2.17</jersey-container-servlet.version>
+        <jersey-container-servlet.version>2.25</jersey-container-servlet.version>
         <org.apache.httpcomponents.version>4.5.2</org.apache.httpcomponents.version>
         <com.esotericsoftware.yamlbeans.version>1.11</com.esotericsoftware.yamlbeans.version>
         <org.apache.commons.version>2.0</org.apache.commons.version>
