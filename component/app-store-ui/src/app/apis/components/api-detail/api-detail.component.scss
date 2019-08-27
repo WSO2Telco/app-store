@@ -69,8 +69,10 @@ mat-expansion-panel-header {
 }
 
 .intro-container{
+  padding-top: 15px;
+
   h1{
-      margin-bottom: 10px;
+      margin-bottom: 5px;
   }
 }
 
@@ -89,14 +91,9 @@ mat-expansion-panel-header {
   border: 1px solid;
   margin-right: 15px;
   object-fit: cover;
-  margin-top: -5px;
-}
-
-.intro-container{
-  // padding: 15px;
-  padding-top: 15px;
+  margin-top: -10px;
 }
 
 .subscribe-btn{
-  margin-top: -25px;
+  margin-top: -30px;
 }
