@@ -32,7 +32,9 @@ export class ApiAppSubscriptionsComponent implements OnInit {
           //   new applicationsActions.GetApplicationSubscriptionsAction(app)
           // );
         }
-    });
+      });
   }
+
+  newSubscription() { }
 
 }
