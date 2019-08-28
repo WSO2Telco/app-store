@@ -7,6 +7,7 @@ import * as forumActions from "../../forum.actions";
 import { Router } from "@angular/router";
 import * as globalActions from "../../../app.actions";
 import { BreadcrumbItem } from "../../../app.data.models";
+import { Title } from '@angular/platform-browser';
 
 @Component({
   selector: "store-forum-main",
@@ -17,7 +18,7 @@ export class ForumMainComponent implements OnInit {
   public topics: Topic[];
   public searchQuery: string;
 
-  constructor(private store: Store<AppState>, private router: Router) {}
+  constructor(private store: Store<AppState>, private router: Router, private titleService: Title) {}
 
   ngOnInit() {
     this.store.select(s => s.forum.allTopics).subscribe(res => {
@@ -28,11 +29,8 @@ export class ForumMainComponent implements OnInit {
       new forumActions.GetAllTopicsAction(new GetTopicsParam())
     );
 
-    this.store.dispatch(
-      new globalActions.SetBreadcrumbAction([
-        new BreadcrumbItem("Forum")
-      ])
-    );
+    this.store.dispatch(new globalActions.SetBreadcrumbAction([new BreadcrumbItem("Forum")]));
+    this.titleService.setTitle("Forum | Apigate API Store");
   }
 
   onSearchClick() {

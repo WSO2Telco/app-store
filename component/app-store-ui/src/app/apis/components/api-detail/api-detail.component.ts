@@ -9,6 +9,7 @@ import { ActivatedRoute } from '@angular/router';
 //Breadcrumbs
 import * as globalActions from "../../../app.actions";
 import { BreadcrumbItem } from "../../../app.data.models";
+import { Title } from '@angular/platform-browser';
 
 @Component({
   selector: 'store-api-detail',
@@ -26,7 +27,7 @@ export class ApiDetailComponent implements OnInit, OnDestroy {
     apiOverview: null
   };
 
-  constructor(private store: Store<AppState>, private route: ActivatedRoute) { }
+  constructor(private store: Store<AppState>, private route: ActivatedRoute, private titleService: Title) { }
 
   ngOnInit() {
     this.store.dispatch(
@@ -45,6 +46,7 @@ export class ApiDetailComponent implements OnInit, OnDestroy {
             new BreadcrumbItem(overview.name + " - " + overview.version)
           ])
         );
+        this.titleService.setTitle(overview.name + " | Apigate API Store");
       });
 
     this.route.params.subscribe( p => {

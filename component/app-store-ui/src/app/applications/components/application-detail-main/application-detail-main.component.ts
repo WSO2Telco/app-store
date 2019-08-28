@@ -10,6 +10,7 @@ import * as applicationsActions from '../../applications.actions';
 //Breadcrumbs
 import * as globalActions from "../../../app.actions";
 import { BreadcrumbItem } from "../../../app.data.models";
+import { Title } from '@angular/platform-browser';
 
 @Component({
   selector: "store-application-detail-main",
@@ -25,7 +26,8 @@ export class ApplicationDetailMainComponent implements OnInit {
     private route: ActivatedRoute, 
     private store: Store<AppState>,
     private location: Location,
-    public dialog: MatDialog
+    public dialog: MatDialog,
+    private titleService: Title
   ) {}
 
   ngOnInit() {
@@ -43,6 +45,8 @@ export class ApplicationDetailMainComponent implements OnInit {
         new BreadcrumbItem("Application Details")
       ])
     );
+
+    this.titleService.setTitle("App Details | Apigate API Store");
   }
 
   switchTab(tab){

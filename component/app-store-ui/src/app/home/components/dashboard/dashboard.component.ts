@@ -6,6 +6,7 @@ import { IImage } from 'ng-simple-slideshow';
 import * as globalActions from "../../../app.actions";
 import { BreadcrumbItem, AppState } from "../../../app.data.models";
 import { Store } from '@ngrx/store';
+import { Title } from '@angular/platform-browser';
 
 @Component({
   selector: "store-dashboard",
@@ -27,14 +28,14 @@ export class DashboardComponent implements OnInit {
     { url: 'assets/slides/4.png', caption: 'Apigate', href: '#config' },
     { url: 'assets/slides/5.png', caption: 'Apigate', href: '#config' },
     { url: 'assets/slides/6.png', caption: 'Apigate', href: '#config' },
-    // { url: 'https://cdn.vox-cdn.com/uploads/chorus_asset/file/9278671/jbareham_170917_2000_0124.jpg', clickAction: () => alert('custom click function') },
   ];
 
   // @ViewChild('slideshow') slideshow: any;
 
-  constructor(private store: Store<AppState>) {}
+  constructor(private store: Store<AppState>, private titleService: Title) {}
 
   ngOnInit() {
     this.store.dispatch(new globalActions.SetBreadcrumbAction([new BreadcrumbItem("Home")]));
+    this.titleService.setTitle("Apigate API Store");
   }
 }

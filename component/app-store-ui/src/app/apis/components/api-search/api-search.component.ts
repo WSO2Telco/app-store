@@ -15,6 +15,7 @@ import { Router } from "@angular/router";
 //Breadcrumbs
 import * as globalActions from "../../../app.actions";
 import { BreadcrumbItem } from "../../../app.data.models";
+import { Title } from '@angular/platform-browser';
 
 @Component({
   selector: "store-api-search",
@@ -36,7 +37,8 @@ export class ApiSearchComponent implements OnInit {
   constructor(
     private store: Store<AppState>,
     private router: Router,
-    private ref: ChangeDetectorRef
+    private ref: ChangeDetectorRef,
+    private titleService: Title
   ) {
     this.store
       .select(s => s.apis.apiSearchResult)
@@ -53,8 +55,8 @@ export class ApiSearchComponent implements OnInit {
 
   ngOnInit() {
     this.store.dispatch(new DoApiSearchAction(new ApiSearchParam(this.apiCategory, '', 5, 0)));
-    this.store.dispatch(new globalActions.SetBreadcrumbAction([new BreadcrumbItem("APIs")])
-    );
+    this.store.dispatch(new globalActions.SetBreadcrumbAction([new BreadcrumbItem("APIs")]));
+    this.titleService.setTitle("APIs | Apigate API Store");
   }
 
   applyFilter(value: string) {
