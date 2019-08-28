@@ -21,6 +21,7 @@ export class ApiDetailComponent implements OnInit, OnDestroy {
   public api: ApiOverview;
   public apiPrefix = ApiEndpoints.apiContext;
   public activeTab = 'overview';
+  public api_id;
 
   private subscriptions = {
     selectedApi: null,
@@ -50,8 +51,8 @@ export class ApiDetailComponent implements OnInit, OnDestroy {
       });
 
     this.route.params.subscribe( p => {
-      let api_id = p['apiId'];
-      if(api_id != '') this.store.dispatch(new apiActions.GetApiOverviewAction(api_id));
+      this.api_id = p['apiId'];
+      if(this.api_id != '') this.store.dispatch(new apiActions.GetApiOverviewAction(this.api_id));
     })
     
   }
