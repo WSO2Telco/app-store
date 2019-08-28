@@ -1,26 +1,21 @@
 <div>
-    <div class="welcome-note animated fadeIn" fxLayout.gt-md="row" fxLayoutGap="20px">
-        <div fxFlex>
-          <div class="caption">
-            <img src="assets/images/logo.svg" alt="Apigate Logo" width="120" />
-              <h1>API Store</h1>
-              <div class="caption-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque id orci nec mauris condimentum elementum vitae a metus. Curabitur finibus erat dapibus ante faucibus. </div>
-            </div>
-        </div>
-        <div style="height: 300px; width: 480px;" fxFlex="480px">
-          <slideshow [imageUrls]="imageUrlArray" #slideshow [showArrows]="false" [autoPlay]="true" [showCaptions]="false"></slideshow>
-        </div>
+  <div class="welcome-note animated fadeIn" fxLayout.gt-md="row" fxLayoutGap="20px">
+    <div fxFlex>
+      <div class="caption">
+        <img src="assets/images/logo.svg" alt="Apigate Logo" width="120" />
+        <h1>API Store</h1>
+        <div class="caption-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque id orci nec mauris
+          condimentum elementum vitae a metus. Curabitur finibus erat dapibus ante faucibus. </div>
       </div>
+    </div>
+    <div style="height: 300px; width: 480px;" fxFlex="480px">
+      <slideshow [imageUrls]="imageUrlArray" #slideshow [showArrows]="false" [autoPlay]="true" [showCaptions]="false"></slideshow>
+    </div>
+  </div>
 </div>
 
-<div class="result-wrapper" 
-   fxLayout="row wrap" 
-   fxLayoutWrap
-   fxLayoutAlign="center center">
+<div class="result-wrapper" fxLayout="row wrap" fxLayoutWrap fxLayoutAlign="center center">
 
- <store-thumbnail 
- *ngFor="let thumb of thumbnailParams;let x=index;"
- [param]="thumb"
-  fxFlex class="animated fadeIn delay_{{x+1}}"></store-thumbnail>
+  <store-thumbnail *ngFor="let thumb of thumbnailParams;let x=index;" [param]="thumb" fxFlex class="animated fadeIn delay_{{x+1}}"></store-thumbnail>
 
 </div>

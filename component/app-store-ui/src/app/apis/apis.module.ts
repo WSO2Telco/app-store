@@ -27,7 +27,7 @@ import { ApiAppSubscriptionsComponent } from './components/api-app-subscriptions
     ApisRoutes,
     StarRatingModule.forRoot(),
     StoreModule.forFeature('apis', apisReducer),
-    EffectsModule.forFeature([ApisEffects]),
+    EffectsModule.forFeature([ApisEffects])
   ],
   declarations: [
     ApiSearchComponent,
