@@ -77,6 +77,7 @@ export type Actions
     | AppThemeChangeAction
     | AppThemeChangeSuccessAction
     | ToggleParticleAction
-    | ToggleMenuBackgroundAction;
+    | ToggleMenuBackgroundAction
+    | SetBreadcrumbAction;
 
 

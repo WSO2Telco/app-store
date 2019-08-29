@@ -97,3 +97,93 @@ mat-expansion-panel-header {
 .subscribe-btn{
   margin-top: -30px;
 }
+
+.similar-apis{
+  padding: 0 0 20px 0;
+  display: block;
+
+  h2{
+    font-size: 16px;
+    margin: 30px 0 5px 20px;
+  }
+
+  .api-list{
+    display: flex;
+    flex-wrap: wrap;
+  }
+
+  .api-info{
+    padding: 5px;
+    border: 1px solid #444;
+    border-radius: 5px;
+    margin: 0.9%;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+    flex: 1;
+    min-width: 30%;
+    max-width: 30%;
+
+    &:hover{
+      background: #fff;
+      cursor: pointer;
+
+      .info-container{
+        top: 0;
+      }
+
+      .name-container{
+        color: #aaa;
+      }
+    }
+
+    .api-icon{
+      width: 30px;
+      height: 30px;
+      margin-right: 10px;
+      float: left;
+      max-width: 30px;
+
+      img{
+        width: 30px;
+        height: 30px;
+      }
+    }
+
+    .name-container{
+      font-weight: 500;
+      font-size: 13px;
+      flex: 1;
+      word-break: break-all;
+      transition: color 0.5s;
+    }
+
+    .api-detail-wrap{
+      flex: 1;
+      display: flex;
+      align-items: center;
+      position: relative;
+    }
+
+    .info-container{
+      flex: 1;
+      position: absolute;
+      right: 0;
+      top: 200%;
+      bottom: 0;
+      // left: 0;
+      background: #fff;
+      transition: all 0.3s;
+      padding-left: 20px;
+
+      .star-rating{
+        float: left;
+        transform: scale(0.6);
+        margin-left: -15px;
+        margin-top: -4px;
+        margin-right: -15px;
+      }
+    }
+  }
+}
