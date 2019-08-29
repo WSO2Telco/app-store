@@ -6,6 +6,8 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.appstore.core.dto.AuthenticationResponse;
 import org.appstore.core.dto.UserRequest;
+import org.appstore.core.util.InputType;
+import org.appstore.core.util.InputValidator;
 import org.wso2.carbon.apimgt.api.APIManagementException;
 import org.wso2.carbon.apimgt.hostobjects.HostObjectUtils;
 import org.wso2.carbon.apimgt.hostobjects.internal.HostObjectComponent;
@@ -73,8 +75,8 @@ public class UserService {
     public Response add(UserRequest userRequest) {
         Response response;
         try {
-            validateUserInput("Username", userRequest.getUsername());
-            validateUserInput("Password", userRequest.getPassword());
+            InputValidator.validateUserInput("Username", userRequest.getUsername(), InputType.NAME);
+            InputValidator.validateUserInput("Password", userRequest.getPassword(), InputType.PASSWORD);
 
             if(isUserExists(userRequest.getUsername())) {
                 handleException("User name already exists");
@@ -285,14 +287,6 @@ public class UserService {
             handleException("Error while checking user existence for " + username, e);
         }
         return exists;
-    }
-
-    private static void validateUserInput(String inputName, String inputValue) throws APIManagementException {
-        if (inputValue == null || "".equals(inputValue.trim())) {
-            String errorMsg = inputName + " cannot be empty";
-            log.error(errorMsg);
-            throw new APIManagementException(errorMsg);
-        }
     }
 
     private static void handleException(String msg) throws APIManagementException {

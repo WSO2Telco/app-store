@@ -6,6 +6,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.appstore.core.dto.AuthenticationRequest;
 import org.appstore.core.dto.AuthenticationResponse;
+import org.appstore.core.util.InputValidator;
 import org.wso2.carbon.apimgt.api.APIManagementException;
 import org.wso2.carbon.apimgt.hostobjects.internal.HostObjectComponent;
 import org.wso2.carbon.apimgt.hostobjects.internal.ServiceReferenceHolder;
@@ -52,8 +53,8 @@ public class AuthenticationService {
 
         Response response;
         try {
-            validateUserInput("Username", authenticationRequest.getUsername());
-            validateUserInput("Password", authenticationRequest.getPassword());
+            InputValidator.validateUserInput("Username", authenticationRequest.getUsername());
+            InputValidator.validateUserInput("Password", authenticationRequest.getPassword());
 
             APIManagerConfiguration config = HostObjectComponent.getAPIManagerConfiguration();
             String url = config.getFirstProperty(APIConstants.AUTH_MANAGER_URL);
@@ -115,14 +116,6 @@ public class AuthenticationService {
                 .build();
         }
         return response;
-    }
-
-    private static void validateUserInput(String inputName, String inputValue) throws APIManagementException {
-        if (inputValue == null || "".equals(inputValue.trim())) {
-            String errorMsg = inputName + " cannot be empty";
-            log.error(errorMsg);
-            throw new APIManagementException(errorMsg);
-        }
     }
 
     private static void handleException(String msg) throws APIManagementException {
