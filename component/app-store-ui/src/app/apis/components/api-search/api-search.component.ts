@@ -16,6 +16,7 @@ import { Router } from "@angular/router";
 import * as globalActions from "../../../app.actions";
 import { BreadcrumbItem } from "../../../app.data.models";
 import { Title } from '@angular/platform-browser';
+import { ApiEndpoints } from '../../../config/api.endpoints';
 
 @Component({
   selector: "store-api-search",
@@ -33,6 +34,8 @@ export class ApiSearchComponent implements OnInit {
   length: number;
   // MatPaginator Output
   pageEvent: PageEvent;
+  apiPrefix = ApiEndpoints.apiContext;
+  public view:string = "grid";
 
   constructor(
     private store: Store<AppState>,
@@ -57,6 +60,7 @@ export class ApiSearchComponent implements OnInit {
     this.store.dispatch(new DoApiSearchAction(new ApiSearchParam(this.apiCategory, '', 5, 0)));
     this.store.dispatch(new globalActions.SetBreadcrumbAction([new BreadcrumbItem("APIs")]));
     this.titleService.setTitle("APIs | Apigate API Store");
+    this.view = (localStorage.getItem('resultview')) ? localStorage.getItem('resultview') : 'grid';
   }
 
   applyFilter(value: string) {
@@ -87,5 +91,10 @@ export class ApiSearchComponent implements OnInit {
   onPageChanged(e) {
     let firstCut = e.pageSize * e.pageIndex;
     this.store.dispatch(new DoApiSearchAction(new ApiSearchParam(this.apiCategory, this.searchQuery, e.pageSize, firstCut)));
+  }
+
+  switchView(view){
+    this.view = view;
+    localStorage.setItem('resultview', view);
   }
 }

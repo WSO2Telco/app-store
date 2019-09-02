@@ -27,8 +27,47 @@
 </div>
 
 <mat-card class="animated fadeIn delay_6" style="margin-bottom:100px;">
-  <mat-card-content>
-    <store-apisearch-result [dataSource]="apiSearchResult" (selectApi)="onApiSelected($event)"></store-apisearch-result>
+  <mat-card-content> 
+    <div>
+        <div class="pull-right switch-view-icons">
+          <mat-icon [ngClass]="{'active' : view == 'list'}" title="Switch to list view" (click)="switchView('list')">view_list</mat-icon>
+          <mat-icon [ngClass]="{'active' : view == 'grid'}" title="Switch to grid view" (click)="switchView('grid')">view_module</mat-icon>
+        </div>
+        <div class="clearfix"></div>
+    </div>
+    <div class="result-wrapper" [ngClass]="{ 'table-view' : view == 'list', 'grid-view' : view == 'grid'}">
+
+      <div class="api-info tbl-header">
+        <div class="icon-wrap">&nbsp;</div>
+        <div class="api-detail-wrap">
+          <div class="name-container">API Name</div>
+          <div class="info-container">
+            <span >Version</span>
+            <span >Provider</span>
+            <span >Rating</span>
+          </div>
+        </div>
+      </div>
+        
+      <div class="api-info" *ngFor="let api of apiSearchResult" [routerLink]="'/apis/detail/' + api.id">
+        <div class="icon-wrap">
+          <div class="api-icon">
+            <img [src]="apiPrefix + api.thumbnailUri" width="100" *ngIf="api.thumbnailUri" />
+            <img src="assets/images/apigate-a.png" width="100" *ngIf="!api.thumbnailUri" />
+          </div>
+        </div>
+        <div class="api-detail-wrap">
+          <div class="name-container">{{api.name}}</div>
+          <div class="info-container">
+            <span >{{api.version}}</span>
+            <span >{{api.provider}}</span>
+            <span ><star-rating [starType]="'svg'" [rating]="3" [hoverEnabled]="true"></star-rating></span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
     <mat-paginator [length]="length" [pageSize]="pageSize" [pageSizeOptions]="[5, 10, 25, 100]" (page)="onPageChanged($event)"></mat-paginator>
   </mat-card-content>
 </mat-card>
