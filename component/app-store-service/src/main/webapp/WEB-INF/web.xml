@@ -10,11 +10,7 @@
     <servlet-class>org.glassfish.jersey.servlet.ServletContainer</servlet-class>
     <init-param>
       <param-name>jersey.config.server.provider.packages</param-name>
-      <param-value>com.wso2telco.dep.storeservice;com.wso2telco.core.authfilter</param-value>
-    </init-param>
-    <init-param>
-      <param-name>javax.ws.rs.container.ContainerRequestFilter</param-name>
-      <param-value>com.wso2telco.core.authfilter.Authentication</param-value>
+      <param-value>com.wso2telco.dep.storeservice</param-value>
     </init-param>
     <load-on-startup>1</load-on-startup>
   </servlet>

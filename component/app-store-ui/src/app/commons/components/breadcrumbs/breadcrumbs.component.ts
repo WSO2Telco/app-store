@@ -9,12 +9,12 @@ import { AppState, BreadcrumbItem } from '../../../app.data.models';
   styleUrls: ['./breadcrumbs.component.scss']
 })
 export class BreadcrumbsComponent implements OnDestroy {
-  activeView:  BreadcrumbItem[];
+  activeView: BreadcrumbItem[];
 
   @Input()
   public isOpen: boolean;
 
-  constructor(private store: Store<AppState>, private cd: ChangeDetectorRef) {}
+  constructor(private store: Store<AppState>, private cd: ChangeDetectorRef) { }
 
   ngAfterViewInit() {
     this.store.select(s => s.global.breadcrumb).subscribe(m => {
@@ -28,5 +28,7 @@ export class BreadcrumbsComponent implements OnDestroy {
   ngOnDestroy(): void {
     this.cd.detach();
   }
-} 
+
+  leftNavOpened() { }
+}
 
