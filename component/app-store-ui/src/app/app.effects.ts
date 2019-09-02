@@ -1,50 +1,53 @@
 
-import {empty as observableEmpty,  Observable } from 'rxjs';
-
-import {switchMap, catchError, map} from 'rxjs/operators';
 import { Injectable } from '@angular/core';
-import { AppService } from './app.service';
-import { Actions, Effect } from '@ngrx/effects';
-import * as appActons from './app.actions';
-import { Action } from '@ngrx/store/src/models';
-import { Country, Operator, Tier } from './app.data.models';
 import { HttpErrorResponse } from '@angular/common/http';
+
+import { AppService } from './app.service';
+import * as appActons from './app.actions';
+import { Country, Operator, Tier } from './app.data.models';
 import { NotificationService } from './shared/services/notification.service';
+
+import { Actions, createEffect, ofType } from '@ngrx/effects';
+import { mergeMap, map, catchError } from 'rxjs/operators';
+import { EMPTY } from 'rxjs';
 
 
 
 @Injectable()
 export class AppGlobalEffects {
 
-    constructor(
-        private appService: AppService,
-        private actions$: Actions,
-        private notification: NotificationService) { }
+  constructor(
+    private appService: AppService,
+    private actions$: Actions,
+    private notification: NotificationService
+  ) { }
 
+  countries$ = createEffect(() => this.actions$.pipe(
+    ofType(appActons.LOAD_COUNTRIES),
+    mergeMap((action: appActons.LoadCountriesAction) => this.appService.getCountries()
+      .pipe(
+        map((result:  Country[]) => ({ type: appActons.LOAD_COUNTRIES_SUCCESS, payload: result })),
+        catchError((e: HttpErrorResponse) => {
+            this.notification.error(e.message);
+            return EMPTY
+        })
+      )
+    )
+  ));
 
-    // @Effect()
-    // countries$ = this.actions$
-    //     .ofType(appActons.LOAD_COUNTRIES).pipe(
-    //     map((action: appActons.LoadCountriesAction) => action.payload),
-    //     switchMap(() => this.appService.getCountries().pipe(
-    //         map((result: Country[]) => new appActons.LoadCountriesSuccessAction(result)),
-    //         catchError((e: HttpErrorResponse) => {
-    //             this.notification.error(e.message);
-    //             return observableEmpty();
-    //         }),)
-    //     ),);
+  operators$ = createEffect(() => this.actions$.pipe(
+    ofType(appActons.LOAD_OPERATORS),
+    mergeMap((action: appActons.LoadOperatorsAction) => this.appService.getOperators(action.payload)
+      .pipe(
+        map((result:  Operator[]) => ({ type: appActons.LOAD_OPERATORS_SUCCESS, payload: result })),
+        catchError((e: HttpErrorResponse) => {
+            this.notification.error(e.message);
+            return EMPTY
+        })
+      )
+    )
+  ));
 
-    // @Effect()
-    // operators$ = this.actions$
-    //     .ofType(appActons.LOAD_OPERATORS).pipe(
-    //     map((action: appActons.LoadOperatorsAction) => action.payload),
-    //     switchMap((payload: Country) => this.appService.getOperators(payload).pipe(
-    //         map((result: Operator[]) => new appActons.LoadOperatorsSuccessAction(result)),
-    //         catchError((e: HttpErrorResponse) => {
-    //             this.notification.error(e.message);
-    //             return observableEmpty();
-    //         }),)
-    //     ),);
 }
 
 

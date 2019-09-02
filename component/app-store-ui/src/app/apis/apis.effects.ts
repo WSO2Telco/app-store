@@ -1,6 +1,5 @@
 
-import {empty as observableEmpty,  Observable, EMPTY } from 'rxjs';
-
+import { EMPTY } from 'rxjs';
 import {catchError, switchMap, map, mergeMap} from 'rxjs/operators';
 import { Injectable } from '@angular/core';
 import { HttpErrorResponse } from '@angular/common/http';
