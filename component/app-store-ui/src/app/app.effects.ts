@@ -22,29 +22,29 @@ export class AppGlobalEffects {
         private notification: NotificationService) { }
 
 
-    @Effect()
-    countries$ = this.actions$
-        .ofType(appActons.LOAD_COUNTRIES).pipe(
-        map((action: appActons.LoadCountriesAction) => action.payload),
-        switchMap(() => this.appService.getCountries().pipe(
-            map((result: Country[]) => new appActons.LoadCountriesSuccessAction(result)),
-            catchError((e: HttpErrorResponse) => {
-                this.notification.error(e.message);
-                return observableEmpty();
-            }),)
-        ),);
+    // @Effect()
+    // countries$ = this.actions$
+    //     .ofType(appActons.LOAD_COUNTRIES).pipe(
+    //     map((action: appActons.LoadCountriesAction) => action.payload),
+    //     switchMap(() => this.appService.getCountries().pipe(
+    //         map((result: Country[]) => new appActons.LoadCountriesSuccessAction(result)),
+    //         catchError((e: HttpErrorResponse) => {
+    //             this.notification.error(e.message);
+    //             return observableEmpty();
+    //         }),)
+    //     ),);
 
-    @Effect()
-    operators$ = this.actions$
-        .ofType(appActons.LOAD_OPERATORS).pipe(
-        map((action: appActons.LoadOperatorsAction) => action.payload),
-        switchMap((payload: Country) => this.appService.getOperators(payload).pipe(
-            map((result: Operator[]) => new appActons.LoadOperatorsSuccessAction(result)),
-            catchError((e: HttpErrorResponse) => {
-                this.notification.error(e.message);
-                return observableEmpty();
-            }),)
-        ),);
+    // @Effect()
+    // operators$ = this.actions$
+    //     .ofType(appActons.LOAD_OPERATORS).pipe(
+    //     map((action: appActons.LoadOperatorsAction) => action.payload),
+    //     switchMap((payload: Country) => this.appService.getOperators(payload).pipe(
+    //         map((result: Operator[]) => new appActons.LoadOperatorsSuccessAction(result)),
+    //         catchError((e: HttpErrorResponse) => {
+    //             this.notification.error(e.message);
+    //             return observableEmpty();
+    //         }),)
+    //     ),);
 }
 
 

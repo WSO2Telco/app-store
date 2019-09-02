@@ -21,9 +21,9 @@ export class SignUpComponent implements OnInit {
 
   ngOnInit() {
     this.user = new SigUpUserParam();
-    this.actions.ofType(authActions.SIGNUP_USER_SUCCESS).subscribe(s => {
-      this.signupForm.reset();
-    });
+    // this.actions.ofType(authActions.SIGNUP_USER_SUCCESS).subscribe(s => {
+    //   this.signupForm.reset();
+    // });
   }
 
   onSignup(form) {

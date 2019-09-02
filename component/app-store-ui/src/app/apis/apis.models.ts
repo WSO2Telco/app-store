@@ -86,6 +86,7 @@ export class ApiOverview {
     subscriptionAvailableTenants: string;
     isDefaultVersion: string;
     transports: string;
+    apiDefinition: any;
 }
 
 export interface ApisState {

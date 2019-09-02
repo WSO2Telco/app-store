@@ -43,9 +43,9 @@ export class ApiSubscriptionComponent implements OnInit {
     this.store.select((s: AppState) => s.apis.selectedApi.tiers)
       .subscribe((t) => { this.tiers = t; });
 
-    this.actions
-      .ofType(DO_SUBSCRIBE_SUCCESS)
-      .subscribe(() => { this.resetForm(); });
+    // this.actions
+    //   .ofType(DO_SUBSCRIBE_SUCCESS)
+    //   .subscribe(() => { this.resetForm(); });
   }
 
   ngOnInit() {
