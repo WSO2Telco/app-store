@@ -1,7 +1,7 @@
 import { Component, OnInit, ChangeDetectorRef } from "@angular/core";
 import { AppState } from "../../../app.data.models";
 import { Store } from "@ngrx/store";
-import { DoApiSearchAction, SetSelectedApiAction } from "../../apis.actions";
+import { DoApiSearchAction } from "../../apis.actions";
 import {
   ApiSearchParam,
   ApiSearchResult,
@@ -76,7 +76,6 @@ export class ApiSearchComponent implements OnInit {
   }
 
   onApiSelected($event) {
-    // this.store.dispatch(new SetSelectedApiAction($event));
     this.router.navigate(["/apis/detail/", $event.id]);
   }
 

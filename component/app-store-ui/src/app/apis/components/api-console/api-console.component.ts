@@ -8,7 +8,8 @@ import {
 } from '@angular/core';
 
 import { SwaggerUIBundle, SwaggerUIStandalonePreset } from 'swagger-ui-dist';
-import { ApiOverview, ApiSummery } from '../../apis.models';
+import { Store } from '@ngrx/store';
+import { AppState } from '../../../app.data.models';
 import { ApiEndpoints } from '../../../config/api.endpoints';
 
 @Component({
@@ -18,34 +19,40 @@ import { ApiEndpoints } from '../../../config/api.endpoints';
 })
 export class ApiConsoleComponent implements OnInit, AfterViewInit {
   @ViewChild('swagger', { static: true }) container: ElementRef;
-  @Input() public apiId: string;
-  apiPrefix = ApiEndpoints.apiContext;
-  constructor() { }
+  public api;
+
+  constructor(private store: Store<AppState>, ) { }
 
   ngOnInit() {
+    
   }
 
   ngAfterViewInit() {
-    const ui = SwaggerUIBundle({
-      url: this.apiPrefix + '/apis/' + this.apiId + '/swagger',
-      domNode: this.container.nativeElement.querySelector('.swagger-container'),
-      presets: [SwaggerUIBundle.presets.apis, SwaggerUIStandalonePreset],
-      plugins: [
-        SwaggerUIBundle.plugins.DownloadUrl,
-        () => {
-          return {
-            components: {
-              Topbar: () => null,
-              Info: () => null
-            }
-          };
-        }
-      ],
-      docExpansion: 'none',
-      jsonEditor: false,
-      defaultModelRendering: 'schema',
-      showRequestHeaders: true,
-      layout: 'StandaloneLayout'
-    });
+    this.store.select((s) => s.apis.selectedApi)
+    .subscribe((overview) => {
+      let api = overview;
+
+      const ui = SwaggerUIBundle({
+        spec : JSON.parse(api.apiDefinition),
+        domNode: this.container.nativeElement.querySelector('.swagger-container'),
+        presets: [SwaggerUIBundle.presets.apis, SwaggerUIStandalonePreset],
+        plugins: [
+          SwaggerUIBundle.plugins.DownloadUrl,
+          () => {
+            return {
+              components: {
+                Topbar: () => null,
+                Info: () => null
+              }
+            };
+          }
+        ],
+        docExpansion: 'none',
+        jsonEditor: false,
+        defaultModelRendering: 'schema',
+        showRequestHeaders: true,
+        layout: 'StandaloneLayout'
+      });
+    });    
   }
 }

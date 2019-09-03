@@ -86,12 +86,16 @@ export class ApiOverview {
     subscriptionAvailableTenants: string;
     isDefaultVersion: string;
     transports: string;
+    apiDefinition: any;
+    id: string;
+    apiBusinessOwner: any;
+    scopes: any;
+    monetizationCategory: any;
 }
 
 export interface ApisState {
     apiSearchResult: ApiSearchResult;
-    selectedApi: ApiSummery;
-    selectedApiOverview: ApiOverview;
+    selectedApi: ApiOverview;
     apiStatus: ApiStatus[];
     userApplications: Application[];
     selectedOperators: Operator[];

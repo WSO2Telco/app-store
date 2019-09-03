@@ -21,7 +21,7 @@ export class MyAccountComponent implements OnInit {
 
   ngOnInit() {
     this.param = new ResetPasswordParam();
-    this.actions.ofType(authActions.CHANGE_USER_PW_SUCCESS).subscribe((r)=>this.changePwForm.reset());
+    // this.actions.ofType(authActions.CHANGE_USER_PW_SUCCESS).subscribe((r)=>this.changePwForm.reset());
   }
 
   onChangePw(form) {

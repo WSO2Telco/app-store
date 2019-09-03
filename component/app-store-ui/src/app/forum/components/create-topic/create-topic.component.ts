@@ -26,8 +26,8 @@ export class CreateTopicComponent implements OnInit {
   onCreateClick() {
     this.store.dispatch(new forumActions.CreateTopicAction(this.topic));
 
-    this.actions.ofType(forumActions.CREATE_TOPIC_SUCCESS).subscribe(() => {
-      this.router.navigate(['forum']);
-    });
+    // this.actions.ofType(forumActions.CREATE_TOPIC_SUCCESS).subscribe(() => {
+    //   this.router.navigate(['forum']);
+    // });
   }
 }
