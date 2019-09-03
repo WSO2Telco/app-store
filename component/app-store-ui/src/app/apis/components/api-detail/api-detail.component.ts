@@ -4,11 +4,12 @@ import { AppState } from '../../../app.data.models';
 import { ApiOverview } from '../../apis.models';
 import * as apiActions from '../../apis.actions';
 import { ApiEndpoints } from '../../../config/api.endpoints';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 //Breadcrumbs
 import * as globalActions from "../../../app.actions";
 import { BreadcrumbItem } from "../../../app.data.models";
+import { Title } from '@angular/platform-browser';
 
 @Component({
   selector: 'store-api-detail',
@@ -22,12 +23,25 @@ export class ApiDetailComponent implements OnInit, OnDestroy {
   public activeTab = 'overview';
   public api_id;
 
+  //temp
+  similarApis = [
+    { id : '594fcf74-77c7-40ae-96cc-f3b0bdc1a9a3', name: "API 1", version : "1.0", provider : "admin", stars : 5 },
+    { id : '438eecf2-a96b-42a2-9123-17d6c6cf6a5a', name: "APIWithReallyReallyLongName", version : "1.0", provider : "admin", stars : 3.5 },
+    { id : '438eecf2-a96b-42a2-9123-17d6c6cf6a5a', name: "API 3", version : "1.0", provider : "admin", stars : 2 },
+    { id : '438eecf2-a96b-42a2-9123-17d6c6cf6a5a', name: "API 4", version : "1.0", provider : "admin", stars : 2 },
+    { id : '438eecf2-a96b-42a2-9123-17d6c6cf6a5a', name: "API 5", version : "1.0", provider : "admin", stars : 2 },
+  ]
+
   private subscriptions = {
-    selectedApi: null,
     apiOverview: null
   };
 
-  constructor(private store: Store<AppState>, private route: ActivatedRoute) { }
+  constructor(
+    private store: Store<AppState>, 
+    private route: ActivatedRoute, 
+    private titleService: Title,
+    private router: Router
+  ) { }
 
   ngOnInit() {
     this.store.dispatch(
@@ -46,6 +60,7 @@ export class ApiDetailComponent implements OnInit, OnDestroy {
             new BreadcrumbItem(overview.name + " - " + overview.version)
           ])
         );
+        this.titleService.setTitle(overview.name + " | Apigate API Store");
       });
 
     this.route.params.subscribe( p => {
@@ -61,5 +76,10 @@ export class ApiDetailComponent implements OnInit, OnDestroy {
 
   switchTab(tab){
     this.activeTab = tab;
+  }
+
+  similarApiNavigate(id) {
+    window.scroll(0,0);
+    this.router.navigate(["/apis/detail/", id]);
   }
 }

@@ -61,5 +61,29 @@
 
     </mat-accordion>
   </div>
+</div>
 
+<div class="similar-apis">
+  <h2>Similar APIs</h2>
+
+  <div class="api-list">
+
+    <div class="api-info" *ngFor="let simapi of similarApis" (click)="similarApiNavigate(simapi.id)">
+      <div class="api-icon">
+        <img [src]="apiPrefix + api.thumbnailUri" width="100" *ngIf="api.thumbnailUri" />
+        <img src="assets/images/apigate-a.png" width="100" *ngIf="!api.thumbnailUri" />
+      </div>
+      <div class="api-detail-wrap">
+        <div class="name-container">{{simapi.name}}</div>
+        <div class="info-container">
+          <span >Version : {{simapi.version}}</span>
+          <!-- <span >{{api.provider}}</span> -->
+          <span class="star-rating"><star-rating [starType]="'svg'" [rating]="simapi.stars" [hoverEnabled]="true"></star-rating></span>
+        </div>
+        <div class="clearfix"></div>
+      </div>
+    </div> 
+    
+  </div>
+  <div class="clearfix"></div>
 </div>

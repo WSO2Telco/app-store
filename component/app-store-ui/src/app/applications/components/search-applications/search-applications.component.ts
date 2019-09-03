@@ -9,6 +9,7 @@ import { Router } from '@angular/router';
 //Breadcrumbs
 import * as globalActions from "../../../app.actions";
 import { BreadcrumbItem } from "../../../app.data.models";
+import { Title } from '@angular/platform-browser';
 
 @Component({
   selector: 'store-search-applications',
@@ -19,7 +20,7 @@ export class SearchApplicationsComponent implements OnInit {
   dataSource = new MatTableDataSource<Application>();
   searchQuery:string;
 
-  constructor(private store: Store<AppState>, private router: Router) {}
+  constructor(private store: Store<AppState>, private router: Router, private titleService: Title) {}
 
   ngOnInit() {
     this.store
@@ -29,6 +30,7 @@ export class SearchApplicationsComponent implements OnInit {
     this.store.dispatch(new applicationsActions.GetAllApplicationsAction());
 
     this.store.dispatch(new globalActions.SetBreadcrumbAction([new BreadcrumbItem("Applications")]));
+    this.titleService.setTitle("Apps | Apigate API Store");
   }
 
   onAppAction(app, action) {

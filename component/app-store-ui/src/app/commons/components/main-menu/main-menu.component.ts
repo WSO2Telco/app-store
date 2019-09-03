@@ -39,44 +39,44 @@ export class MainMenuComponent implements OnInit {
       icon: "forum",
       route: ["forum"]
     },
-    {
-      id: 5,
-      name: "STATISTICS",
-      icon: "insert_chart",
-      route: [],
-      subMenu: [
-        {
-          id: 5.1,
-          name: "API USAGE",
-          icon: "data_usage",
-          route: ["statistics/api-usage"]
-        },
-        {
-          id: 5.2,
-          name: "TOP USERS",
-          icon: "supervisor_account",
-          route: ["statistics/top-users"]
-        },
-        {
-          id: 5.3,
-          name: "RESOURCE USAGE",
-          icon: "monetization_on",
-          route: ["statistics/resource-usage"]
-        },
-        {
-          id: 5.4,
-          name: "FAULTY INVOCATIONS",
-          icon: "error_outline",
-          route: ["statistics/faulty-invocations"]
-        },
-        {
-          id: 5.5,
-          name: "MANAGE ALERT TYPES",
-          icon: "add_alert",
-          route: ["statistics/manage-alert-typesx"]
-        }
-      ]
-    }
+    // {
+    //   id: 5,
+    //   name: "STATISTICS",
+    //   icon: "insert_chart",
+    //   route: [],
+    //   subMenu: [
+    //     {
+    //       id: 5.1,
+    //       name: "API USAGE",
+    //       icon: "data_usage",
+    //       route: ["statistics/api-usage"]
+    //     },
+    //     {
+    //       id: 5.2,
+    //       name: "TOP USERS",
+    //       icon: "supervisor_account",
+    //       route: ["statistics/top-users"]
+    //     },
+    //     {
+    //       id: 5.3,
+    //       name: "RESOURCE USAGE",
+    //       icon: "monetization_on",
+    //       route: ["statistics/resource-usage"]
+    //     },
+    //     {
+    //       id: 5.4,
+    //       name: "FAULTY INVOCATIONS",
+    //       icon: "error_outline",
+    //       route: ["statistics/faulty-invocations"]
+    //     },
+    //     {
+    //       id: 5.5,
+    //       name: "MANAGE ALERT TYPES",
+    //       icon: "add_alert",
+    //       route: ["statistics/manage-alert-typesx"]
+    //     }
+    //   ]
+    // }
   ];
 
   constructor() {

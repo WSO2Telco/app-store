@@ -1,29 +1,28 @@
-<!-- <div class="thumbnail-wrapper">
-  <mat-card class="thumbnail-card" [routerLink]="param.route">
-    <mat-card-content>
-     <div class="img-container"
-     [ngClass]="param.styleClass"
-     >
-       <div class="overlay">
-
-       </div>
-     </div>
-     <div class="name-container">
-      {{param.name}}
-     </div>
-    </mat-card-content>
-  </mat-card>
-</div> -->
 <div class="thumbnail-wrapper">
-  <mat-card class="thumbnail-card" [routerLink]="param.route">
-    <mat-card-content>
-      <mat-icon>{{param.icon}}</mat-icon>
-      <div class="name-container">
-      {{param.name}}
-      </div>
-      <div class="description">
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque non porta urna.
-      </div>
-    </mat-card-content>
-  </mat-card>
+  <a [routerLink]="param.route">
+    <mat-card class="thumbnail-card" *ngIf="!param.externalUrl">
+      <mat-card-content>
+        <mat-icon>{{param.icon}}</mat-icon>
+        <div class="name-container">
+        {{param.name}}
+        </div>
+        <div class="description">
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque non porta urna.
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </a>
+  <a [href]="param.externalUrl" *ngIf="param.externalUrl">
+    <mat-card class="thumbnail-card">
+      <mat-card-content>
+        <mat-icon>{{param.icon}}</mat-icon>
+        <div class="name-container">
+        {{param.name}}
+        </div>
+        <div class="description">
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque non porta urna.
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </a>
 </div>
