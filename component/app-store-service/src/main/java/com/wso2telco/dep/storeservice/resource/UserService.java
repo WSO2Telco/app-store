@@ -4,7 +4,8 @@ import org.apache.axis2.client.Options;
 import org.apache.axis2.client.ServiceClient;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.appstore.core.dto.AuthenticationResponse;
+import org.appstore.core.dto.ChangePasswordRequest;
+import org.appstore.core.dto.GenericResponse;
 import org.appstore.core.dto.UserRequest;
 import org.appstore.core.util.InputType;
 import org.appstore.core.util.InputValidator;
@@ -23,8 +24,11 @@ import org.wso2.carbon.apimgt.impl.workflow.WorkflowException;
 import org.wso2.carbon.apimgt.impl.workflow.WorkflowExecutor;
 import org.wso2.carbon.apimgt.impl.workflow.WorkflowExecutorFactory;
 import org.wso2.carbon.apimgt.impl.workflow.WorkflowStatus;
+import org.wso2.carbon.authenticator.stub.AuthenticationAdminStub;
+import org.wso2.carbon.authenticator.stub.LoginAuthenticationExceptionException;
 import org.wso2.carbon.base.MultitenantConstants;
 import org.wso2.carbon.context.PrivilegedCarbonContext;
+import org.wso2.carbon.core.util.PermissionUpdateUtil;
 import org.wso2.carbon.identity.user.registration.stub.UserRegistrationAdminServiceException;
 import org.wso2.carbon.identity.user.registration.stub.UserRegistrationAdminServiceStub;
 import org.wso2.carbon.identity.user.registration.stub.dto.UserDTO;
@@ -45,6 +49,9 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.rmi.RemoteException;
 import java.util.Arrays;
 
@@ -85,12 +92,73 @@ public class UserService {
             addUser(userRequest.getUsername(), userRequest.getPassword(), userRequest.getAllFieldsValues());
 
             response = Response.status(Response.Status.OK)
-                .entity(new AuthenticationResponse(false, "SUCCESS"))
+                .entity(new GenericResponse(false, "SUCCESS"))
                 .build();
         } catch (Exception e) {
             response =  Response.status(Response.Status.INTERNAL_SERVER_ERROR)
-                .entity(new AuthenticationResponse(true, e.getMessage()))
+                .entity(new GenericResponse(true, e.getMessage()))
                 .build();
+        }
+        return response;
+    }
+
+    @POST
+    @Path("/change-password")
+    public Response add(ChangePasswordRequest changePasswordReq) {
+        Response response;
+        boolean isTenantFlowStarted = false;
+        try {
+            InputValidator.validateUserInput("Username", changePasswordReq.getUsername(), InputType.NAME);
+            InputValidator.validateUserInput("Password", changePasswordReq.getNewPassword(), InputType.PASSWORD);
+
+            APIManagerConfiguration config = HostObjectComponent.getAPIManagerConfiguration();
+
+            String serverURL = config.getFirstProperty(APIConstants.AUTH_MANAGER_URL);
+            String tenantDomain = MultitenantUtils.getTenantDomain(APIUtil.replaceEmailDomainBack(changePasswordReq.getUsername()));
+
+            if (!isAbleToLogin(changePasswordReq.getUsername(), changePasswordReq.getCurrentPassword(), serverURL, tenantDomain)) {
+                handleException("Current password is incorrect");
+            }
+
+            if (tenantDomain != null && !MultitenantConstants.SUPER_TENANT_DOMAIN_NAME.equals(tenantDomain)) {
+                isTenantFlowStarted = true;
+                PrivilegedCarbonContext.startTenantFlow();
+                PrivilegedCarbonContext.getThreadLocalCarbonContext().setTenantDomain(tenantDomain, true);
+            }
+
+            UserRegistrationConfigDTO signupConfig = SelfSignUpUtil.getSignupConfiguration(tenantDomain);
+            if (signupConfig != null && !"".equals(signupConfig.getSignUpDomain()) && !signupConfig.isSignUpEnabled()) {
+                handleException("Self sign up has been disabled for this tenant domain");
+            }
+
+            if(changePasswordReq.getUsername().equals(signupConfig.getAdminUserName())) {
+                handleException("Unable to change super admin credentials");
+            }
+
+            // check whether admin credentials are correct.
+            boolean validCredentials = checkCredentialsForAuthServer(signupConfig.getAdminUserName(),
+                    signupConfig.getAdminPassword(), serverURL);
+            if (validCredentials) {
+                changeTenantUserPassword(changePasswordReq.getUsername(), signupConfig, serverURL, changePasswordReq.getNewPassword());
+            } else {
+                handleException("Unable to add a user. Please check credentials in the signup-config.xml in the registry");
+            }
+
+            if (!isAbleToLogin(changePasswordReq.getUsername(), changePasswordReq.getNewPassword(), serverURL, tenantDomain)) {
+                handleException("Password change failed");
+            }
+
+            response = Response.status(Response.Status.OK)
+                    .entity(new GenericResponse(false, "SUCCESS"))
+                    .build();
+        } catch (Exception e) {
+            response =  Response.status(Response.Status.INTERNAL_SERVER_ERROR)
+                    .entity(new GenericResponse(true, e.getMessage()))
+                    .build();
+        } finally {
+            if (isTenantFlowStarted) {
+                PrivilegedCarbonContext.endTenantFlow();
+            }
         }
         return response;
     }
@@ -205,13 +273,21 @@ public class UserService {
     }
 
     private static void removeTenantUser(String username, UserRegistrationConfigDTO signupConfig,
-                                         String serverURL) throws RemoteException,
-            UserAdminUserAdminException {
+                                         String serverURL) throws RemoteException, UserAdminUserAdminException {
         UserAdminStub userAdminStub = new UserAdminStub(null, serverURL + "UserAdmin");
-        String adminUsername = signupConfig.getAdminUserName();
-        String adminPassword = signupConfig.getAdminPassword();
+        String tenantAwareUserName = getTenantAwareUserName(username, signupConfig, userAdminStub);
+        userAdminStub.deleteUser(tenantAwareUserName);
+    }
 
-        CarbonUtils.setBasicAccessSecurityHeaders(adminUsername, adminPassword, true,
+    private static void changeTenantUserPassword(String username, UserRegistrationConfigDTO signupConfig, String serverURL,
+                                                 String newPassword) throws RemoteException, UserAdminUserAdminException {
+        UserAdminStub userAdminStub = new UserAdminStub(null, serverURL + "UserAdmin");
+        String tenantAwareUserName = getTenantAwareUserName(username, signupConfig, userAdminStub);
+        userAdminStub.changePassword(tenantAwareUserName, newPassword);
+    }
+
+    private static String getTenantAwareUserName(String username, UserRegistrationConfigDTO signupConfig, UserAdminStub userAdminStub) {
+        CarbonUtils.setBasicAccessSecurityHeaders(signupConfig.getAdminUserName(), signupConfig.getAdminPassword(), true,
                 userAdminStub._getServiceClient());
         String tenantAwareUserName = MultitenantUtils.getTenantAwareUsername(username);
         int index = tenantAwareUserName.indexOf(UserCoreConstants.DOMAIN_SEPARATOR);
@@ -220,8 +296,7 @@ public class UserService {
                 .equalsIgnoreCase(UserCoreConstants.PRIMARY_DEFAULT_DOMAIN_NAME)){
             tenantAwareUserName = tenantAwareUserName.substring(index + 1);
         }
-
-        userAdminStub.deleteUser(tenantAwareUserName);
+        return tenantAwareUserName;
     }
 
     private static UserFieldDTO[] getOrderedUserFieldDTO() {
@@ -287,6 +362,30 @@ public class UserService {
             handleException("Error while checking user existence for " + username, e);
         }
         return exists;
+    }
+
+    private static boolean isAbleToLogin(String username, String password, String serverURL,
+                                         String tenantDomain) throws APIManagementException {
+        boolean loginStatus = false;
+        if (serverURL == null) {
+            handleException("API key manager URL unspecified");
+        }
+        try {
+            AuthenticationAdminStub authAdminStub =
+                    new AuthenticationAdminStub(null, serverURL + "AuthenticationAdmin");
+            //update permission cache before validate user
+            int tenantId = ServiceReferenceHolder.getInstance().getRealmService().getTenantManager()
+                    .getTenantId(tenantDomain);
+            PermissionUpdateUtil.updatePermissionTree(tenantId);
+            String host = new URL(serverURL).getHost();
+            if (authAdminStub.login(username, password, host)) {
+                loginStatus = true;
+            }
+        } catch (MalformedURLException | org.wso2.carbon.user.api.UserStoreException | RemoteException |
+                LoginAuthenticationExceptionException axisFault) {
+            log.error("Error while checking the ability to login", axisFault);
+        }
+        return loginStatus;
     }
 
     private static void handleException(String msg) throws APIManagementException {
