@@ -1,12 +1,11 @@
-import { ApisState, ApiSearchResult, ApiStatus } from './apis.models';
+import { ApisState, ApiSearchResult, ApiStatus, ApiOverview } from './apis.models';
 import { ApisService } from './apis.service';
 import * as apiActions from './apis.actions';
 import { Operator } from '../app.data.models';
 
 const initialState: ApisState = {
     apiSearchResult: new ApiSearchResult(),
-    selectedApi: null,
-    selectedApiOverview: null,
+    selectedApi: new ApiOverview,
     apiStatus: [
         ApiStatus.ALL,
         ApiStatus.PRODUCTION,
@@ -28,7 +27,7 @@ export function apisReducer(state: ApisState = initialState, action: apiActions.
 
         case apiActions.GET_API_OVERVIEW_SUCCESS: {
             return Object.assign({}, state, {
-                selectedApiOverview: action.payload
+                selectedApi: action.payload
             });
         }
 
@@ -47,10 +46,6 @@ export function apisReducer(state: ApisState = initialState, action: apiActions.
         case apiActions.REMOVE_ALL_OPERATOR_FROM_SELECTION: {
             return Object.assign({}, state,
                 { selectedOperators: [] });
-        }
-
-        case apiActions.SET_SELECTED_API: {
-            return Object.assign({}, state, { selectedApi: action.payload });
         }
 
         default:

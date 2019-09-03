@@ -51,7 +51,7 @@ export class ApiDetailComponent implements OnInit, OnDestroy {
       ])
     );
 
-    this.subscriptions.apiOverview = this.store.select((s) => s.apis.selectedApiOverview)
+    this.subscriptions.apiOverview = this.store.select((s) => s.apis.selectedApi)
       .subscribe((overview) => {
         this.api = overview;
         this.store.dispatch(

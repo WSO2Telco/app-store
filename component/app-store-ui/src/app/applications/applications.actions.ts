@@ -1,6 +1,5 @@
 import { Action } from '@ngrx/store';
 import { Application, AppSubscriptionParam, Subscription } from './applications.data.models';
-import { SET_SELECTED_API } from '../apis/apis.actions';
 
 export const GET_ALL_APPLICATIONS = 'GET_ALL_APPLICATIONS';
 export const GET_ALL_APPLICATIONS_SUCCESS = 'GET_ALL_APPLICATIONS_SUCCESS';

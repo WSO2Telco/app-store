@@ -19,41 +19,40 @@ import { ApiEndpoints } from '../../../config/api.endpoints';
 })
 export class ApiConsoleComponent implements OnInit, AfterViewInit {
   @ViewChild('swagger', { static: true }) container: ElementRef;
-  @Input() public apiId: string;
   public api;
-  apiPrefix = ApiEndpoints.apiContext;
+
   constructor(private store: Store<AppState>, ) { }
 
   ngOnInit() {
-    this.store.select((s) => s.apis.selectedApiOverview)
-      .subscribe((overview) => {
-        this.api = overview;
-      });
+    
   }
 
   ngAfterViewInit() {
-    console.log(this.api.apiDefinition);
-    const ui = SwaggerUIBundle({
-      // url: this.apiPrefix + '/apis/' + this.apiId + '/swagger',
-      spec : JSON.parse(this.api.apiDefinition),
-      domNode: this.container.nativeElement.querySelector('.swagger-container'),
-      presets: [SwaggerUIBundle.presets.apis, SwaggerUIStandalonePreset],
-      plugins: [
-        SwaggerUIBundle.plugins.DownloadUrl,
-        () => {
-          return {
-            components: {
-              Topbar: () => null,
-              Info: () => null
-            }
-          };
-        }
-      ],
-      docExpansion: 'none',
-      jsonEditor: false,
-      defaultModelRendering: 'schema',
-      showRequestHeaders: true,
-      layout: 'StandaloneLayout'
-    });
+    this.store.select((s) => s.apis.selectedApi)
+    .subscribe((overview) => {
+      let api = overview;
+
+      const ui = SwaggerUIBundle({
+        spec : JSON.parse(api.apiDefinition),
+        domNode: this.container.nativeElement.querySelector('.swagger-container'),
+        presets: [SwaggerUIBundle.presets.apis, SwaggerUIStandalonePreset],
+        plugins: [
+          SwaggerUIBundle.plugins.DownloadUrl,
+          () => {
+            return {
+              components: {
+                Topbar: () => null,
+                Info: () => null
+              }
+            };
+          }
+        ],
+        docExpansion: 'none',
+        jsonEditor: false,
+        defaultModelRendering: 'schema',
+        showRequestHeaders: true,
+        layout: 'StandaloneLayout'
+      });
+    });    
   }
 }
