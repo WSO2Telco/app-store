@@ -44,9 +44,11 @@ import org.wso2.carbon.utils.CarbonUtils;
 import org.wso2.carbon.utils.multitenancy.MultitenantUtils;
 
 import javax.ws.rs.Consumes;
+import javax.ws.rs.CookieParam;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
+import javax.ws.rs.core.Cookie;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
@@ -104,7 +106,7 @@ public class UserService {
 
     @POST
     @Path("/change-password")
-    public Response add(ChangePasswordRequest changePasswordReq) {
+    public Response add(ChangePasswordRequest changePasswordReq, @CookieParam("sessionCookie") Cookie sessionCookie) {
         Response response;
         boolean isTenantFlowStarted = false;
         try {
@@ -112,7 +114,6 @@ public class UserService {
             InputValidator.validateUserInput("Password", changePasswordReq.getNewPassword(), InputType.PASSWORD);
 
             APIManagerConfiguration config = HostObjectComponent.getAPIManagerConfiguration();
-
             String serverURL = config.getFirstProperty(APIConstants.AUTH_MANAGER_URL);
             String tenantDomain = MultitenantUtils.getTenantDomain(APIUtil.replaceEmailDomainBack(changePasswordReq.getUsername()));
 
@@ -135,14 +136,9 @@ public class UserService {
                 handleException("Unable to change super admin credentials");
             }
 
-            // check whether admin credentials are correct.
-            boolean validCredentials = checkCredentialsForAuthServer(signupConfig.getAdminUserName(),
-                    signupConfig.getAdminPassword(), serverURL);
-            if (validCredentials) {
-                changeTenantUserPassword(changePasswordReq.getUsername(), signupConfig, serverURL, changePasswordReq.getNewPassword());
-            } else {
-                handleException("Unable to add a user. Please check credentials in the signup-config.xml in the registry");
-            }
+            UserAdminStub userAdminStub = new UserAdminStub(null, serverURL + "UserAdmin");
+            String tenantAwareUserName = getTenantAwareUserName(changePasswordReq.getUsername());
+            userAdminStub.changePasswordByUser(tenantAwareUserName, changePasswordReq.getCurrentPassword(), changePasswordReq.getNewPassword());
 
             if (!isAbleToLogin(changePasswordReq.getUsername(), changePasswordReq.getNewPassword(), serverURL, tenantDomain)) {
                 handleException("Password change failed");
@@ -252,7 +248,7 @@ public class UserService {
                     userSignUpWFExecutor.execute(signUpWFDto);
                 } catch (WorkflowException e) {
                     log.error("Unable to execute User SignUp Workflow", e);
-                    removeTenantUser(username, signupConfig, serverURL);
+                    removeTenantUser(username, serverURL);
                     handleException("Unable to execute User SignUp Workflow", e);
                 }
             } else {
@@ -272,23 +268,14 @@ public class UserService {
         }
     }
 
-    private static void removeTenantUser(String username, UserRegistrationConfigDTO signupConfig,
-                                         String serverURL) throws RemoteException, UserAdminUserAdminException {
+    private static void removeTenantUser(String username, String serverURL)
+            throws RemoteException, UserAdminUserAdminException {
         UserAdminStub userAdminStub = new UserAdminStub(null, serverURL + "UserAdmin");
-        String tenantAwareUserName = getTenantAwareUserName(username, signupConfig, userAdminStub);
+        String tenantAwareUserName = getTenantAwareUserName(username);
         userAdminStub.deleteUser(tenantAwareUserName);
     }
 
-    private static void changeTenantUserPassword(String username, UserRegistrationConfigDTO signupConfig, String serverURL,
-                                                 String newPassword) throws RemoteException, UserAdminUserAdminException {
-        UserAdminStub userAdminStub = new UserAdminStub(null, serverURL + "UserAdmin");
-        String tenantAwareUserName = getTenantAwareUserName(username, signupConfig, userAdminStub);
-        userAdminStub.changePassword(tenantAwareUserName, newPassword);
-    }
-
-    private static String getTenantAwareUserName(String username, UserRegistrationConfigDTO signupConfig, UserAdminStub userAdminStub) {
-        CarbonUtils.setBasicAccessSecurityHeaders(signupConfig.getAdminUserName(), signupConfig.getAdminPassword(), true,
-                userAdminStub._getServiceClient());
+    private static String getTenantAwareUserName(String username) {
         String tenantAwareUserName = MultitenantUtils.getTenantAwareUsername(username);
         int index = tenantAwareUserName.indexOf(UserCoreConstants.DOMAIN_SEPARATOR);
         //remove the 'PRIMARY' part from the user name
