@@ -106,11 +106,12 @@ public class UserService {
 
     @POST
     @Path("/change-password")
-    public Response add(ChangePasswordRequest changePasswordReq, @CookieParam("sessionCookie") Cookie sessionCookie) {
+    public Response changePassword(ChangePasswordRequest changePasswordReq, @CookieParam("sessionCookie") Cookie sessionCookie) {
         Response response;
         boolean isTenantFlowStarted = false;
         try {
             InputValidator.validateUserInput("Username", changePasswordReq.getUsername(), InputType.NAME);
+            InputValidator.validateUserInput("Password", changePasswordReq.getCurrentPassword());
             InputValidator.validateUserInput("Password", changePasswordReq.getNewPassword(), InputType.PASSWORD);
 
             APIManagerConfiguration config = HostObjectComponent.getAPIManagerConfiguration();
