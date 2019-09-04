@@ -15,22 +15,35 @@ package org.appstore.core.dto;
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-public class AuthenticationResponse {
+public class ChangePasswordRequest {
 
-    private final boolean error;
+    private String username;
 
-    private final String message;
+    private String currentPassword;
 
-    public AuthenticationResponse(boolean error, String message) {
-        this.error = error;
-        this.message = message;
+    private String newPassword;
+
+    public String getUsername() {
+        return username;
     }
 
-    public boolean isError() {
-        return error;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
-    public String getMessage() {
-        return message;
+    public String getCurrentPassword() {
+        return currentPassword;
+    }
+
+    public void setCurrentPassword(String currentPassword) {
+        this.currentPassword = currentPassword;
+    }
+
+    public String getNewPassword() {
+        return newPassword;
+    }
+
+    public void setNewPassword(String newPassword) {
+        this.newPassword = newPassword;
     }
 }
