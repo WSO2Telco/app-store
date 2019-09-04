@@ -5,7 +5,7 @@ import org.apache.axis2.client.ServiceClient;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.appstore.core.dto.AuthenticationRequest;
-import org.appstore.core.dto.AuthenticationResponse;
+import org.appstore.core.dto.GenericResponse;
 import org.appstore.core.util.InputValidator;
 import org.wso2.carbon.apimgt.api.APIManagementException;
 import org.wso2.carbon.apimgt.hostobjects.internal.HostObjectComponent;
@@ -82,11 +82,11 @@ public class AuthenticationService {
             }
 
             response = Response.status(Response.Status.OK)
-                .entity(new AuthenticationResponse(false, "SUCCESS"))
+                .entity(new GenericResponse(false, "SUCCESS"))
                 .build();
         } catch (Exception e) {
             response =  Response.status(Response.Status.INTERNAL_SERVER_ERROR)
-                .entity(new AuthenticationResponse(true, e.getMessage()))
+                .entity(new GenericResponse(true, e.getMessage()))
                 .build();
         }
         return response;
@@ -108,11 +108,11 @@ public class AuthenticationService {
             authAdminStub.logout();
 
             response = Response.status(Response.Status.OK)
-                .entity(new AuthenticationResponse(false, "SUCCESS"))
+                .entity(new GenericResponse(false, "SUCCESS"))
                 .build();
         } catch (Exception e) {
             response =  Response.status(Response.Status.INTERNAL_SERVER_ERROR)
-                .entity(new AuthenticationResponse(true, e.getMessage()))
+                .entity(new GenericResponse(true, e.getMessage()))
                 .build();
         }
         return response;
