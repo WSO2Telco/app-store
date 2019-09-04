@@ -24,7 +24,7 @@ export class ApiSubscriptionComponent implements OnInit {
   public operators$: Observable<Operator[]>;
   public applications$: Observable<Application[]>;
   public selectedOperators: Operator[];
-  public tiers: string[];
+  public tiers: Tier[];
 
   public countryControl = new FormControl();
   public selectedCountry: Country;
