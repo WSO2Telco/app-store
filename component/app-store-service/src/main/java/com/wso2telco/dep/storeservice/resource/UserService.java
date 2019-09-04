@@ -44,11 +44,9 @@ import org.wso2.carbon.utils.CarbonUtils;
 import org.wso2.carbon.utils.multitenancy.MultitenantUtils;
 
 import javax.ws.rs.Consumes;
-import javax.ws.rs.CookieParam;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
-import javax.ws.rs.core.Cookie;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
@@ -106,7 +104,7 @@ public class UserService {
 
     @POST
     @Path("/change-password")
-    public Response changePassword(ChangePasswordRequest changePasswordReq, @CookieParam("sessionCookie") Cookie sessionCookie) {
+    public Response changePassword(ChangePasswordRequest changePasswordReq) {
         Response response;
         boolean isTenantFlowStarted = false;
         try {
