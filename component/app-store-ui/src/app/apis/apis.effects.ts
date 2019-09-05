@@ -12,7 +12,6 @@ import {
     ApplicationsResult, SubscribeParam, SubscribeResult, ApiOverview
 } from './apis.models';
 import { Actions, ofType, createEffect } from '@ngrx/effects';
-import { ApiSearchSuccessAction } from './apis.actions';
 
 @Injectable()
 export class ApisEffects {
@@ -50,8 +49,8 @@ export class ApisEffects {
   ));
 
   userApplications$ = createEffect(() => this.actions$.pipe(
-    ofType(apiActions.GET_USER_APPLICATIONS),
-    mergeMap((action: apiActions.GetUserApplicationsAction) => this.apiService.getUserApplicationsActions(action.payload)
+    ofType(apiActions.GetUserApplicationsAction),
+    mergeMap(({payload}) => this.apiService.getUserApplicationsActions(payload)
       .pipe(
         map((result: ApplicationsResult) => {
           if (result.error) {
@@ -59,7 +58,7 @@ export class ApisEffects {
               throw result;
           } else {
               const approvedApps = result.applications.filter((app) => app.status === 'APPROVED');
-              return ({ type: apiActions.GET_USER_APPLICATIONS_SUCCESS, payload: approvedApps || [] })
+              return (apiActions.GetUserApplicationsSuccessAction({"payload": approvedApps || []}))
           }
         }),
         catchError((e: HttpErrorResponse) => {
@@ -71,10 +70,10 @@ export class ApisEffects {
   ));
 
   subscribe$ = createEffect(() => this.actions$.pipe(
-    ofType(apiActions.DO_SUBSCRIBE),
-    mergeMap((action: apiActions.DoSubscribeAction) => this.apiService.subscribe(action.payload)
+    ofType(apiActions.DoSubscribeAction),
+    mergeMap(({payload}) => this.apiService.subscribe(payload)
       .pipe(
-        map((result: SubscribeResult) => ({ type: apiActions.DO_SUBSCRIBE_SUCCESS, payload: result })),
+        map((result: SubscribeResult) => (apiActions.DoSubscribeSuccessAction({ "payload" : result}))),
         catchError((e: HttpErrorResponse) => {
             this.notification.error(e.message);
             return EMPTY

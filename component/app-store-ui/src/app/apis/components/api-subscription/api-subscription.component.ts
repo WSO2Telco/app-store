@@ -6,10 +6,7 @@ import { ToggleLeftPanelAction, LoadCountriesAction, LoadOperatorsAction } from 
 import { FormControl, NgForm } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { Application, SubscribeParam } from '../../apis.models';
-import {
-  GetUserApplicationsAction, AddOperatorToSelectionAction,
-  RemoveOperatorFromSelectionAction, RemoveAllOperatorFromSelectionAction, DoSubscribeAction, DO_SUBSCRIBE_SUCCESS
-} from '../../apis.actions';
+import { GetUserApplicationsAction, AddOperatorToSelectionAction, RemoveOperatorFromSelectionAction, RemoveAllOperatorFromSelectionAction, DoSubscribeAction } from '../../apis.actions';
 
 @Component({
   selector: 'store-api-subscription',
@@ -50,27 +47,28 @@ export class ApiSubscriptionComponent implements OnInit {
 
   ngOnInit() {
     this.store.dispatch(new LoadCountriesAction());
-    this.store.dispatch(new GetUserApplicationsAction());
+    this.store.dispatch(GetUserApplicationsAction);
   }
 
   onCountryChange() {
     this.store.dispatch(new LoadOperatorsAction(this.selectedCountry));
-    this.store.dispatch(new RemoveAllOperatorFromSelectionAction());
+    this.store.dispatch(RemoveAllOperatorFromSelectionAction);
   }
 
   onOperatorChange() {
-    this.store.dispatch(new AddOperatorToSelectionAction(this.selectedOperator));
+    this.store.dispatch(AddOperatorToSelectionAction({ "payload" : this.selectedOperator}));
     this.selectedOperator = null;
   }
 
   onOperatorRemove(op: Operator) {
-    this.store.dispatch(new RemoveOperatorFromSelectionAction(op));
+    this.store.dispatch(RemoveOperatorFromSelectionAction({ "payload" : op}));
   }
 
   onSubscribeClick($form) {
     if ($form.valid) {
-      this.store.dispatch(new DoSubscribeAction(
-        new SubscribeParam(this.selectedCountry, this.selectedOperators, this.selectedApplication, this.selectedTier)));
+      this.store.dispatch(DoSubscribeAction(
+        { "payload" : new SubscribeParam(this.selectedCountry, this.selectedOperators, this.selectedApplication, this.selectedTier)}
+        ));
     }
   }
 
@@ -80,6 +78,6 @@ export class ApiSubscriptionComponent implements OnInit {
     this.selectedCountry = null;
     this.selectedOperator = null;
     this.selectedTier = null;
-    this.store.dispatch(new RemoveAllOperatorFromSelectionAction());
+    this.store.dispatch(RemoveAllOperatorFromSelectionAction);
   }
 }
