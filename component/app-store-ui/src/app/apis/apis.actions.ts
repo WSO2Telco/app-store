@@ -1,5 +1,5 @@
-import { Action } from '@ngrx/store';
-import { ApiSearchParam, ApiSearchResult, Application, SubscribeParam, ApiSummery, ApiOverview } from './apis.models';
+import { Action, createAction, props } from '@ngrx/store';
+import { ApiSearchParam, ApiSearchResult, Application, SubscribeParam, ApiOverview } from './apis.models';
 import { Operator } from '../app.data.models';
 
 export const DO_API_SEARCH = 'DO_API_SEARCH';
@@ -16,15 +16,15 @@ export const ADD_OPERATOR_TO_SELECTION = 'ADD_OPERATOR_TO_SELECTION';
 export const REMOVE_OPERATOR_FROM_SELECTION = 'REMOVE_OPERATOR_FROM_SELECTION';
 
 
-export class DoApiSearchAction implements Action {
-    readonly type: string = DO_API_SEARCH;
-    constructor(public payload: ApiSearchParam) { }
-}
+// export class DoApiSearchAction implements Action {
+//     readonly type: string = DO_API_SEARCH;
+//     constructor(public payload: ApiSearchParam) { }
+// }
 
-export class ApiSearchSuccessAction {
-    readonly type: string = DO_API_SEARCH_SUCCESS;
-    constructor(public payload: ApiSearchResult) { }
-}
+// export class ApiSearchSuccessAction {
+//     readonly type: string = DO_API_SEARCH_SUCCESS;
+//     constructor(public payload: ApiSearchResult) { }
+// }
 
 export class GetUserApplicationsAction {
     readonly type: string = GET_USER_APPLICATIONS;
@@ -61,27 +61,28 @@ export class DoSubscribeSuccessAction {
     constructor(public payload: any = null) { }
 }
 
-export class GetApiOverviewAction {
-    readonly type: string = GET_API_OVERVIEW;
-    constructor(public payload: any = null) { }
-}
-export class GetApiOverviewSuccessAction {
-    readonly type: string = GET_API_OVERVIEW_SUCCESS;
-    constructor(public payload: ApiOverview) { }
-}
+// export class GetApiOverviewAction {
+//     readonly type: string = GET_API_OVERVIEW;
+//     constructor(public payload: any = null) { }
+// }
+// export class GetApiOverviewSuccessAction {
+//     readonly type: string = GET_API_OVERVIEW_SUCCESS;
+//     constructor(public payload: ApiOverview) { }
+// }
 
 
 export type Actions
-    = DoApiSearchAction
-    | ApiSearchSuccessAction
-    | GetUserApplicationsAction
+    = GetUserApplicationsAction
     | GetUserApplicationsSuccessAction
     | AddOperatorToSelectionAction
     | RemoveOperatorFromSelectionAction
     | RemoveAllOperatorFromSelectionAction
     | DoSubscribeAction
-    | DoSubscribeSuccessAction
-    | GetApiOverviewAction
-    | GetApiOverviewSuccessAction;
+    | DoSubscribeSuccessAction;
 
 
+export const DoApiSearchAction = createAction('[API] Search', props<{payload: ApiSearchParam}>());
+export const ApiSearchSuccessAction = createAction('[API] Search Success ✓', props<{payload: ApiSearchResult}>());
+
+export const GetApiOverviewAction = createAction('[API] Get API Overview', props<{payload: string}>());
+export const GetApiOverviewSuccessAction = createAction('[API] Get API Overview Success ✓', props<{payload: ApiOverview}>());

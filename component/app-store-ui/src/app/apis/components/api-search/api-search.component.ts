@@ -2,13 +2,7 @@ import { Component, OnInit, ChangeDetectorRef } from "@angular/core";
 import { AppState } from "../../../app.data.models";
 import { Store } from "@ngrx/store";
 import { DoApiSearchAction } from "../../apis.actions";
-import {
-  ApiSearchParam,
-  ApiSearchResult,
-  ApiSummery,
-  ApiStatus,
-  paginationData
-} from "../../apis.models";
+import { ApiSearchParam, ApiSearchResult, ApiSummary, ApiStatus, paginationData } from "../../apis.models";
 import { PageEvent } from "@angular/material";
 import { Router } from "@angular/router";
 
@@ -24,7 +18,7 @@ import { ApiEndpoints } from '../../../config/api.endpoints';
   styleUrls: ["./api-search.component.scss"]
 })
 export class ApiSearchComponent implements OnInit {
-  apiSearchResult: ApiSummery[];
+  apiSearchResult: ApiSummary[];
   apipaginatorData: paginationData[];
   apiStatus: ApiStatus[];
   searchQuery: string;
@@ -57,7 +51,7 @@ export class ApiSearchComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.store.dispatch(new DoApiSearchAction(new ApiSearchParam(this.apiCategory, '', 5, 0)));
+    this.store.dispatch(DoApiSearchAction({ "payload" : new ApiSearchParam(this.apiCategory, '', 5, 0)}));
     this.store.dispatch(new globalActions.SetBreadcrumbAction([new BreadcrumbItem("APIs")]));
     this.titleService.setTitle("APIs | Apigate API Store");
     this.view = (localStorage.getItem('resultview')) ? localStorage.getItem('resultview') : 'grid';
@@ -68,11 +62,7 @@ export class ApiSearchComponent implements OnInit {
   }
 
   onSearchClick() {
-    this.store.dispatch(
-      new DoApiSearchAction(
-        new ApiSearchParam(this.apiCategory, this.searchQuery, 5, 0)
-      )
-    );
+    this.store.dispatch(DoApiSearchAction({ "payload" : new ApiSearchParam(this.apiCategory, this.searchQuery, 5, 0)}));
   }
 
   onApiSelected($event) {
@@ -80,16 +70,12 @@ export class ApiSearchComponent implements OnInit {
   }
 
   onCategoryChange() {
-    this.store.dispatch(
-      new DoApiSearchAction(
-        new ApiSearchParam(this.apiCategory, this.searchQuery, 5, 0)
-      )
-    );
+    this.store.dispatch(DoApiSearchAction({ "payload" : new ApiSearchParam(this.apiCategory, this.searchQuery, 5, 0)}));
   }
 
   onPageChanged(e) {
     let firstCut = e.pageSize * e.pageIndex;
-    this.store.dispatch(new DoApiSearchAction(new ApiSearchParam(this.apiCategory, this.searchQuery, e.pageSize, firstCut)));
+    this.store.dispatch(DoApiSearchAction({ "payload" : new ApiSearchParam(this.apiCategory, this.searchQuery, e.pageSize, firstCut)}));
   }
 
   switchView(view){
