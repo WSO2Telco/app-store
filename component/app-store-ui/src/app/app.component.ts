@@ -3,9 +3,8 @@ import { OnInit, ChangeDetectorRef } from '@angular/core';
 import { LoginMenuAction, LoginResponseData, LoginMenuActionTypes, LoginFormData } from './authentication/authentication.models';
 import { Store } from '@ngrx/store';
 import { AppState } from './app.data.models';
-import { DoLogoutAction } from './authentication/authentication.actions';
+import { DoLogoutAction, DoLoginAction } from './authentication/authentication.actions';
 import { Observable } from 'rxjs';
-import * as loginActions from './authentication/authentication.actions';
 import * as globalActions from './app.actions';
 import { ToggleLeftPanelAction, ToggleParticleAction } from './app.actions';
 import { Router } from '@angular/router';
@@ -67,7 +66,7 @@ export class AppComponent implements OnInit {
       }
 
       case LoginMenuActionTypes.LOGOUT: {
-        this.store.dispatch(new DoLogoutAction());
+        this.store.dispatch(DoLogoutAction());
         break;
       }
 
@@ -88,7 +87,7 @@ export class AppComponent implements OnInit {
   }
 
   onLoginClick(loginData: LoginFormData) {
-    this.store.dispatch(new loginActions.DoLoginAction(loginData));
+    this.store.dispatch(DoLoginAction({"payload": loginData}));
   }
 
   onRightNavClose() {

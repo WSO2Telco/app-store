@@ -1,4 +1,4 @@
-import { Action } from "@ngrx/store";
+import { Action, createAction, props } from "@ngrx/store";
 import { LoginFormData, LoginResponseData } from "./authentication.models";
 import {
   SigUpUserParam,
@@ -20,57 +20,17 @@ export const SIGNUP_USER_SUCCESS = "SIGNUP_USER_SUCCESS";
 export const CHANGE_USER_PW = "CHANGE_USER_PW";
 export const CHANGE_USER_PW_SUCCESS = "CHANGE_USER_PW_SUCCESS";
 
-export class DoLoginAction implements Action {
-  readonly type: string = DO_LOGIN;
 
-  constructor(public payload: LoginFormData) {}
-}
+export const DoLoginAction = createAction('[Auth] Login', props<{payload: LoginFormData}>());
+export const LoginSuccessAction = createAction('[Auth] Login Success ✓', props<{payload: LoginResponseData}>());
 
-export class LoginSuccessAction implements Action {
-  readonly type: string = LOGIN_SUCCESS;
-  constructor(public payload: LoginResponseData) {}
-}
+export const DoLogoutAction = createAction('[Auth] Logout');
+export const DoLogoutSuccessAction = createAction('[Auth] Logout Success ✓');
 
-export class DoLogoutAction implements Action {
-  readonly type: string = DO_LOGOUT;
-  public payload: any;
-}
+export const SetLastAuthRequiredRouteAction = createAction('[Auth] Set Last Auth Required Route', props<{payload: string}>());
 
-export class DoLogoutSuccessAction implements Action {
-  readonly type: string = DO_LOGOUT_SUCCESS;
-  public payload: any;
-}
+export const SignupUserAction = createAction('[Auth] Signup', props<{payload: SigUpUserParam}>());
+export const SignupUserSuccessAction = createAction('[Auth] Signup Success ✓', props<{payload: any}>());
 
-export class SetLastAuthRequiredRouteAction implements Action {
-  readonly type: string = SET_LAST_AUTH_REQUIRED_ROUTE;
-  constructor(public payload: string) {}
-}
-
-export class SignupUserAction implements Action {
-  readonly type: string = SIGNUP_USER;
-  constructor(public payload: SigUpUserParam) {}
-}
-export class SignupUserSuccessAction implements Action {
-  readonly type: string = SIGNUP_USER_SUCCESS;
-  constructor(public payload: any) {}
-}
-
-export class ChangeUserPwAction implements Action {
-  readonly type: string = CHANGE_USER_PW;
-  constructor(public payload: ResetPasswordParam) {}
-}
-
-export class ChangeUserPwSuccessAction implements Action {
-  readonly type: string = CHANGE_USER_PW_SUCCESS;
-  constructor(public payload: any) {}
-}
-
-export type Actions =
-  | DoLoginAction
-  | LoginSuccessAction
-  | DoLogoutAction
-  | DoLogoutSuccessAction
-  | SignupUserAction
-  | SignupUserSuccessAction
-  | ChangeUserPwAction
-  | ChangeUserPwSuccessAction;
+export const ChangeUserPwAction = createAction('[Auth] Change Password', props<{payload: ResetPasswordParam}>());
+export const ChangeUserPwSuccessAction = createAction('[Auth] Change Password Success ✓', props<{payload: any}>());

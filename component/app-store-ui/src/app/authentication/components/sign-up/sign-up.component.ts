@@ -5,6 +5,7 @@ import { Store } from "@ngrx/store";
 import * as authActions from "../../authentication.actions";
 import { Actions } from "@ngrx/effects";
 import { NgForm } from "@angular/forms";
+import { SignupUserAction } from '../../authentication.actions';
 
 @Component({
   selector: "store-sign-up",
@@ -28,7 +29,7 @@ export class SignUpComponent implements OnInit {
 
   onSignup(form) {
     if (form.valid) {
-      this.store.dispatch(new authActions.SignupUserAction(this.user));
+      this.store.dispatch(SignupUserAction({"payload":this.user}));
     }
   }
 }

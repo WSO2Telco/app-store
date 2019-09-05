@@ -2,6 +2,7 @@ import * as loginActions from './authentication.actions';
 import { LoginResponseData, LoginMenuActionTypes } from './authentication.models';
 import { AuthState } from './authentication.models';
 import { SET_LAST_AUTH_REQUIRED_ROUTE } from './authentication.actions';
+import { createReducer, on } from '@ngrx/store';
 
 const defaultMenu = [
     { name: 'Login', action: LoginMenuActionTypes.LOGIN },
@@ -20,31 +21,21 @@ const initState: AuthState = {
     lastAuthRequiredRoute : null
 };
 
+const _authReducer = createReducer(initState,
 
-export function authReducer(state: AuthState = initState, action: loginActions.Actions) {
-    switch (action.type) {
-        case loginActions.LOGIN_SUCCESS: {
-            return Object.assign({}, state,
-                {
-                    loginData: action.payload,
-                    menuData: loggedInMenu
-                });
-        }
+    on(loginActions.LoginSuccessAction, (state, { payload }) => ({
+        ...state, loginData: payload, menuData: loggedInMenu
+    })),
 
-        case loginActions.DO_LOGOUT_SUCCESS: {
-            return Object.assign({}, state, {
-                loginData: null,
-                menuData: defaultMenu
-            });
-        }
-        
-        case loginActions.SET_LAST_AUTH_REQUIRED_ROUTE: {
-            return {...state,lastAuthRequiredRoute:action.payload};
-        }
+    on(loginActions.DoLogoutSuccessAction, (state, {}) => ({
+        ...state, loginData: null, menuData: defaultMenu
+    })),
 
-        default: {
-            return state;
-        }
-    }
+    on(loginActions.SetLastAuthRequiredRouteAction, (state, { payload }) => ({
+        ...state, lastAuthRequiredRoute: payload
+    }))
+);
 
+export function authReducer(state, action) {
+    return _authReducer(state, action);
 }

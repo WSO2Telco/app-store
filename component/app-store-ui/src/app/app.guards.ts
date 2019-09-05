@@ -9,7 +9,7 @@ import { AuthenticationService } from "./authentication/authentication.service";
 import { Store } from "@ngrx/store";
 import { ToggleRightPanelAction } from "./app.actions";
 import { AppState } from "./app.data.models";
-import * as authActions from "./authentication/authentication.actions";
+import { SetLastAuthRequiredRouteAction } from './authentication/authentication.actions';
 
 @Injectable()
 export class AppGuard implements CanActivate {
@@ -24,7 +24,7 @@ export class AppGuard implements CanActivate {
       return true;
     } else {
       this.store.dispatch(
-        new authActions.SetLastAuthRequiredRouteAction(route.routeConfig.path)
+        SetLastAuthRequiredRouteAction({"payload": route.routeConfig.path})
       );
       this.store.dispatch(new ToggleRightPanelAction(true));
       return false;
