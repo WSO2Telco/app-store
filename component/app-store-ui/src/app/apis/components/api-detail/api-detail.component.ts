@@ -10,6 +10,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import * as globalActions from "../../../app.actions";
 import { BreadcrumbItem } from "../../../app.data.models";
 import { Title } from '@angular/platform-browser';
+import { GetApiOverviewAction } from '../../apis.actions';
 
 @Component({
   selector: 'store-api-detail',
@@ -65,7 +66,7 @@ export class ApiDetailComponent implements OnInit, OnDestroy {
 
     this.route.params.subscribe( p => {
       this.api_id = p['apiId'];
-      if(this.api_id != '') this.store.dispatch(new apiActions.GetApiOverviewAction(this.api_id));
+      if(this.api_id != '') this.store.dispatch(GetApiOverviewAction({"payload" : this.api_id}));
     })
     
   }

@@ -6,6 +6,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { ApisService } from './apis.service';
 import { NotificationService } from '../shared/services/notification.service';
 import * as apiActions from './apis.actions';
+import { DoApiSearchAction}  from './apis.actions';
 import {
     ApiSearchParam, ApiSearchResult, ApplicationSearchParam, Application,
     ApplicationsResult, SubscribeParam, SubscribeResult, ApiOverview
@@ -23,10 +24,10 @@ export class ApisEffects {
   ) { }
 
   apiSearch$ = createEffect(() => this.actions$.pipe(
-    ofType(apiActions.DO_API_SEARCH),
-    mergeMap((action: apiActions.DoApiSearchAction) => this.apiService.search(action.payload)
+    ofType(apiActions.DoApiSearchAction),
+    mergeMap(({payload}) => this.apiService.search(payload)
       .pipe(
-        map((result: ApiSearchResult) => ({ type: apiActions.DO_API_SEARCH_SUCCESS, payload: result })),
+        map((result: ApiSearchResult) => (apiActions.ApiSearchSuccessAction({ "payload" : result}))),
         catchError((e: HttpErrorResponse) => {
             this.notification.error(e.message);
             return EMPTY
@@ -36,10 +37,10 @@ export class ApisEffects {
   ));
 
   apiOverview$ = createEffect(() => this.actions$.pipe(
-    ofType(apiActions.GET_API_OVERVIEW),
-    mergeMap((action: apiActions.GetApiOverviewAction) => this.apiService.getApiOverview(action.payload)
+    ofType(apiActions.GetApiOverviewAction),
+    mergeMap(({payload}) => this.apiService.getApiOverview(payload)
       .pipe(
-        map((result: ApiOverview) => ({ type: apiActions.GET_API_OVERVIEW_SUCCESS, payload: result })),
+        map((result: ApiOverview) => (apiActions.GetApiOverviewSuccessAction({"payload" : result}))),
         catchError((e: HttpErrorResponse) => {
             this.notification.error(e.message);
             return EMPTY
