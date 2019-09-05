@@ -78,12 +78,14 @@ public class AuthenticationService {
 
             String host = new URL(url).getHost();
             if (!authAdminStub.login(authenticationRequest.getUsername(), authenticationRequest.getPassword(), host)) {
-                handleException("Login failed. Please recheck the username and password and try again.");
+                response = Response.status(Response.Status.OK)
+                        .entity(new GenericResponse(true, "Login failed. Please recheck the username and password and try again."))
+                        .build();
+            } else {
+                response = Response.status(Response.Status.OK)
+                        .entity(new GenericResponse(false, "SUCCESS"))
+                        .build();
             }
-
-            response = Response.status(Response.Status.OK)
-                .entity(new GenericResponse(false, "SUCCESS"))
-                .build();
         } catch (Exception e) {
             response =  Response.status(Response.Status.INTERNAL_SERVER_ERROR)
                 .entity(new GenericResponse(true, e.getMessage()))
