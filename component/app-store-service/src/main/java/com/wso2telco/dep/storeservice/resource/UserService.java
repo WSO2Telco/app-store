@@ -85,6 +85,17 @@ public class UserService {
             InputValidator.validateUserInput("Username", userRequest.getUsername(), InputType.NAME);
             InputValidator.validateUserInput("Password", userRequest.getPassword(), InputType.PASSWORD);
 
+            String[] allFieldValues = userRequest.getAllFieldsValues().split("\\|");
+            for (int i = 0; i < allFieldValues.length; i++) {
+                if (i == AllFieldValue.FIRST_NAME.getPosition()) {
+                    InputValidator.validateUserInput("First Name", allFieldValues[i], InputType.NAME);
+                } else if (i == AllFieldValue.LAST_NAME.getPosition()) {
+                    InputValidator.validateUserInput("Last Name", allFieldValues[i], InputType.NAME);
+                } else if (i == AllFieldValue.EMAIL.getPosition()) {
+                    InputValidator.validateUserInput("Email", allFieldValues[i], InputType.EMAIL);
+                }
+            }
+
             if(isUserExists(userRequest.getUsername())) {
                 handleException("User name already exists");
             }
@@ -382,6 +393,28 @@ public class UserService {
     private static void handleException(String msg, Throwable throwable) throws APIManagementException {
         log.error(msg);
         throw new APIManagementException(msg, throwable);
+    }
+
+    private enum AllFieldValue {
+        FIRST_NAME(0),
+        LAST_NAME(1),
+        ORGANIZATION(2),
+        COUNTRY(3),
+        EMAIL(4),
+        LAND_PHONE(5),
+        MOBILE_PHONE(6),
+        IM(7),
+        URL(8);
+
+        private final int position;
+
+        AllFieldValue(int position) {
+            this.position = position;
+        }
+
+        public int getPosition() {
+            return position;
+        }
     }
 
 }
