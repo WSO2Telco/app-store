@@ -2,7 +2,7 @@ import { Component, OnInit, ChangeDetectorRef } from "@angular/core";
 import { AppState } from "../../../app.data.models";
 import { Store } from "@ngrx/store";
 import { DoApiSearchAction } from "../../apis.actions";
-import { ApiSearchParam, ApiSearchResult, ApiSummery, ApiStatus, paginationData } from "../../apis.models";
+import { ApiSearchParam, ApiSearchResult, ApiSummary, ApiStatus, paginationData } from "../../apis.models";
 import { PageEvent } from "@angular/material";
 import { Router } from "@angular/router";
 
@@ -18,7 +18,7 @@ import { ApiEndpoints } from '../../../config/api.endpoints';
   styleUrls: ["./api-search.component.scss"]
 })
 export class ApiSearchComponent implements OnInit {
-  apiSearchResult: ApiSummery[];
+  apiSearchResult: ApiSummary[];
   apipaginatorData: paginationData[];
   apiStatus: ApiStatus[];
   searchQuery: string;

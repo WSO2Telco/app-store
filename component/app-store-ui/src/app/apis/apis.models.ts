@@ -19,7 +19,7 @@ export class ApiSearchParam {
 
 export class ApiSearchResult {
     constructor(
-        public list: ApiSummery[] = [],
+        public list: ApiSummary[] = [],
         public count: number = 0,
         public isMore: boolean = false,
         public isMonetizationEnabled: boolean = false,
@@ -29,7 +29,7 @@ export class ApiSearchResult {
         public pagination: paginationData = new paginationData) { }
 }
 
-export class ApiSummery {
+export class ApiSummary {
     constructor(
         public id: string = '',
         public name: string = '',
