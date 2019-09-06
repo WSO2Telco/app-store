@@ -15,31 +15,38 @@
                     <div class="field-val" fxFlex>{{apiOverview.provider}}</div>
                     <hr />
 
-
-                    <div class="field" fxFlex><strong>Production and Sandbox Endpoints</strong></div>
-                    <mat-form-field class="overview-full-width" floatLabel="never">
-                        <input matInput placeholder="Production URLs:" #prodContextUrl value={{apiOverview.context}} readonly="readonly">
-                        <span matPrefix>PROD &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; : &nbsp;</span>
-                        <button mat-icon-button matSuffix (click)="copyToClipboard(prodContextUrl)" [attr.aria-label]="'Hide password'">
-                            <mat-icon>file_copy</mat-icon>
-                        </button>
-                    </mat-form-field>
-                    
-                    <mat-form-field class="overview-full-width" floatLabel="never">
-                        <input matInput placeholder="Sandbox URLs:" #sandboxContextUrl value={{apiOverview.context}} readonly="readonly">
-                        <span matPrefix>SANDBOX : &nbsp;</span>
-                        <button mat-icon-button matSuffix (click)="copyToClipboard(sandboxContextUrl)" [attr.aria-label]="'Hide password'">
-                            <mat-icon>file_copy</mat-icon>
-                        </button>
-                    </mat-form-field>
-
+                    <ng-container *ngFor="let endpoint of apiOverview.endpointURLs">
+                        <div class="field" fxFlex><strong>{{endpoint.environmentName}} URLs</strong></div>
+                        <mat-form-field class="overview-full-width" floatLabel="never">
+                            <input matInput placeholder="HTTP URL" #httpUrl value={{endpoint.environmentURLs.http}} readonly="readonly">
+                            <span matPrefix>HTTP &nbsp; : &nbsp;</span>
+                            <button mat-icon-button matSuffix (click)="copyToClipboard(httpUrl)" [attr.aria-label]="'Hide password'">
+                                <mat-icon>file_copy</mat-icon>
+                            </button>
+                        </mat-form-field>
+                        
+                        <mat-form-field class="overview-full-width" floatLabel="never">
+                            <input matInput placeholder="HTTPS URL" #httpsUrl value={{endpoint.environmentURLs.https}} readonly="readonly">
+                            <span matPrefix>HTTPS : &nbsp;</span>
+                            <button mat-icon-button matSuffix (click)="copyToClipboard(httpsUrl)" [attr.aria-label]="'Hide password'">
+                                <mat-icon>file_copy</mat-icon>
+                            </button>
+                        </mat-form-field>
+                    </ng-container>
                 </div>
 
                 <div fxLayout="column" fxFlex="50">
                     <div class="field" fxFlex><strong>Description</strong></div>
-                    <div>{{apiOverview.description}} <span *ngIf="!apiOverview.description">N/A</span></div>
+                    <div class="description-box">{{apiOverview.description}} <span *ngIf="!apiOverview.description">N/A</span></div>
                     <br/>
                     <div><star-rating [starType]="'svg'" [rating]="apiOverview.rates" [hoverEnabled]="true"></star-rating></div>
+                    <hr/>
+
+                    <ng-container *ngIf="apiOverview.businessInformation">
+                    <div class="field" fxFlex><strong>Contact Details</strong></div>
+                    <div>Technical : {{apiOverview.businessInformation.technicalOwner}} <span *ngIf="apiOverview.businessInformation.technicalOwnerEmail">&lt;<a href="mailto:{{apiOverview.businessInformation.technicalOwnerEmail}}">{{apiOverview.businessInformation.technicalOwnerEmail}}</a>&gt;</span></div>
+                    <div>Business : {{apiOverview.businessInformation.businessOwner}} <span *ngIf="apiOverview.businessInformation.businessOwnerEmail">&lt;<a href="mailto:{{apiOverview.businessInformation.businessOwnerEmail}}">{{apiOverview.businessInformation.businessOwnerEmail}}</a>&gt;</span></div>
+                    </ng-container>
                 </div>
             </div>
             <div class="field-name-container" fxLayout="row">

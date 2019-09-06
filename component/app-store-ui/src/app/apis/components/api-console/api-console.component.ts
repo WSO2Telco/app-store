@@ -47,7 +47,7 @@ export class ApiConsoleComponent implements OnInit, AfterViewInit {
             };
           }
         ],
-        docExpansion: 'none',
+        docExpansion: 'list',
         jsonEditor: false,
         defaultModelRendering: 'schema',
         showRequestHeaders: true,
