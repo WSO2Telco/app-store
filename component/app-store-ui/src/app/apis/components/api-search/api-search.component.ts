@@ -22,7 +22,7 @@ export class ApiSearchComponent implements OnInit {
   apipaginatorData: paginationData[];
   apiStatus: ApiStatus[];
   searchQuery: string;
-  apiCategory: ApiStatus;
+  apiCategory: ApiStatus = ApiStatus.all;
   // MatPaginator Inputs
   pageSize: number = 5;
   length: number;

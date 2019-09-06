@@ -182,3 +182,12 @@ mat-paginator{
         }
     }
 }
+
+.api-filter-message{
+    color: #777;
+
+    span{
+        font-weight: 500;
+        text-transform: capitalize;
+    }
+}

@@ -9,9 +9,9 @@ const initialState: ApisState = {
     apiSearchResult: new ApiSearchResult(),
     selectedApi: new ApiOverview,
     apiStatus: [
-        ApiStatus.ALL,
-        ApiStatus.PRODUCTION,
-        ApiStatus.PROTOTYPED],
+        ApiStatus.all,
+        ApiStatus.published,
+        ApiStatus.prototyped],
     userApplications: [],
     selectedOperators: [],
     isSubscriptionSuccess: false
