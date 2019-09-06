@@ -1,7 +1,6 @@
 import * as loginActions from './authentication.actions';
 import { LoginResponseData, LoginMenuActionTypes } from './authentication.models';
 import { AuthState } from './authentication.models';
-import { SET_LAST_AUTH_REQUIRED_ROUTE } from './authentication.actions';
 import { createReducer, on } from '@ngrx/store';
 
 const defaultMenu = [

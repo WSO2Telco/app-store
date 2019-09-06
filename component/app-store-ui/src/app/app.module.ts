@@ -59,7 +59,6 @@ const metaReducers: Array<MetaReducer<any, any>> = [localStorageSyncReducer];
       headerName: "X-CSRFToken"
     }),
     StoreModule,
-    EffectsModule,
     AppRoutingModule,
     CommonsModule,
     SharedModule,

@@ -3,12 +3,10 @@ import { AuthenticationService } from "./authentication.service";
 import { Injectable } from "@angular/core";
 import { HttpErrorResponse } from "@angular/common/http";
 import { LoginFormData, LoginResponseData } from "./authentication.models";
-import { DoLoginAction, SignupUserAction } from "./authentication.actions";
 import { NotificationService } from "../shared/services/notification.service";
 import { Router } from "@angular/router";
 import { AppState } from "../app.data.models";
 import { Store } from "@ngrx/store";
-import { CHANGE_USER_PW, ChangeUserPwAction } from './authentication.actions';
 
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { mergeMap, map, catchError } from 'rxjs/operators';
