@@ -62,7 +62,7 @@ export class ApiSearchComponent implements OnInit {
   }
 
   onSearchClick() {
-    this.store.dispatch(DoApiSearchAction({ "payload" : new ApiSearchParam(this.apiCategory, this.searchQuery, 5, 0)}));
+    this.store.dispatch(DoApiSearchAction({ "payload" : new ApiSearchParam(this.apiCategory, this.searchQuery, this.pageSize, 0)}));
   }
 
   onApiSelected($event) {
@@ -75,6 +75,7 @@ export class ApiSearchComponent implements OnInit {
 
   onPageChanged(e) {
     let firstCut = e.pageSize * e.pageIndex;
+    this.pageSize = e.pageSize;
     this.store.dispatch(DoApiSearchAction({ "payload" : new ApiSearchParam(this.apiCategory, this.searchQuery, e.pageSize, firstCut)}));
   }
 
