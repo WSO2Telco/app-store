@@ -49,7 +49,7 @@ public class InputValidator {
                 if(Pattern.compile("([~!#$;%^*+={}|\\\\<>\"'/,])").matcher(userInputValue).find()) error = true;
                 break;
             case PASSWORD:
-                if(!Pattern.compile("^[\\S]{5,30}$").matcher(userInputValue).find()) error = true;
+                if(!Pattern.compile("^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d).{6,30}$").matcher(userInputValue).find()) error = true;
                 break;
             case EMAIL:
                 if(!Pattern.compile("^([A-Za-z0-9_\\-.])+@([A-Za-z0-9_\\-.])+\\.([A-Za-z]{2,4})$").matcher(userInputValue).find()) error = true;
