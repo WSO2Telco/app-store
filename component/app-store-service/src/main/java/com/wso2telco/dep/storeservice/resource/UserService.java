@@ -2,8 +2,10 @@ package com.wso2telco.dep.storeservice.resource;
 
 import org.apache.axis2.client.Options;
 import org.apache.axis2.client.ServiceClient;
+import org.apache.axis2.transport.http.HTTPConstants;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.appstore.core.dto.ChangePasswordByUsrRequest;
 import org.appstore.core.dto.ChangePasswordRequest;
 import org.appstore.core.dto.GenericResponse;
 import org.appstore.core.dto.UserRequest;
@@ -29,6 +31,7 @@ import org.wso2.carbon.authenticator.stub.LoginAuthenticationExceptionException;
 import org.wso2.carbon.base.MultitenantConstants;
 import org.wso2.carbon.context.PrivilegedCarbonContext;
 import org.wso2.carbon.core.util.PermissionUpdateUtil;
+import org.wso2.carbon.identity.mgt.stub.UserIdentityManagementAdminServiceStub;
 import org.wso2.carbon.identity.user.registration.stub.UserRegistrationAdminServiceException;
 import org.wso2.carbon.identity.user.registration.stub.UserRegistrationAdminServiceStub;
 import org.wso2.carbon.identity.user.registration.stub.dto.UserDTO;
@@ -42,8 +45,10 @@ import org.wso2.carbon.user.mgt.stub.UserAdminStub;
 import org.wso2.carbon.user.mgt.stub.UserAdminUserAdminException;
 import org.wso2.carbon.utils.CarbonUtils;
 import org.wso2.carbon.utils.multitenancy.MultitenantUtils;
+import sun.misc.BASE64Decoder;
 
 import javax.ws.rs.Consumes;
+import javax.ws.rs.HeaderParam;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
@@ -114,14 +119,89 @@ public class UserService {
     }
 
     @POST
+    @Path("change-password-by-user")
+    public Response changePasswordByUser(ChangePasswordByUsrRequest changePasswordReq, @HeaderParam("authorization") String authString) {
+        Response response;
+        boolean isTenantFlowStarted = false;
+        String sessionCookie = "";
+
+        try {
+            InputValidator.validateUserInput("Current Password", changePasswordReq.getCurrentPassword());
+            InputValidator.validateUserInput("New Password", changePasswordReq.getNewPassword(), InputType.PASSWORD);
+
+            String[] decodedAuthParts = new String(new BASE64Decoder().decodeBuffer(authString.split("\\s+")[1])).split(":");
+            String authUsername = decodedAuthParts[0];
+            String authPassword = decodedAuthParts[1];
+
+            APIManagerConfiguration config = HostObjectComponent.getAPIManagerConfiguration();
+            String serverURL = config.getFirstProperty(APIConstants.AUTH_MANAGER_URL);
+            String tenantDomain = MultitenantUtils.getTenantDomain(APIUtil.replaceEmailDomainBack(authUsername));
+
+            AuthenticationAdminStub authAdminStub = new AuthenticationAdminStub(null, serverURL + "AuthenticationAdmin");
+            Options authOptions = authAdminStub._getServiceClient().getOptions();
+            authOptions.setManageSession(true);
+            int tenantId =  ServiceReferenceHolder.getInstance().getRealmService().getTenantManager().getTenantId(tenantDomain);
+            if(tenantId == org.wso2.carbon.base.MultitenantConstants.INVALID_TENANT_ID) {
+                handleException("Invalid tenant domain");
+            }
+            PermissionUpdateUtil.updatePermissionTree(tenantId);
+            if(authAdminStub.login(authUsername, authPassword, new URL(serverURL).getHost())) {
+                sessionCookie = (String) authAdminStub._getServiceClient().getLastOperationContext().getServiceContext().getProperty(HTTPConstants.COOKIE_STRING);
+            } else {
+                handleException("Incorrect credentials");
+            }
+
+            if (!changePasswordReq.getCurrentPassword().equals(authPassword)) {
+                handleException("Current password is incorrect");
+            }
+
+            if (tenantDomain != null && !MultitenantConstants.SUPER_TENANT_DOMAIN_NAME.equals(tenantDomain)) {
+                isTenantFlowStarted = true;
+                PrivilegedCarbonContext.startTenantFlow();
+                PrivilegedCarbonContext.getThreadLocalCarbonContext().setTenantDomain(tenantDomain, true);
+            }
+
+            UserRegistrationConfigDTO signupConfig = SelfSignUpUtil.getSignupConfiguration(tenantDomain);
+            if (signupConfig != null && !"".equals(signupConfig.getSignUpDomain()) && !signupConfig.isSignUpEnabled()) {
+                handleException("Self sign up has been disabled for this tenant domain");
+            }
+
+            UserIdentityManagementAdminServiceStub identityMgtAdminStub  = new UserIdentityManagementAdminServiceStub(
+                null, serverURL + "UserIdentityManagementAdminService"
+            );
+            Options identityMgtOptions = identityMgtAdminStub._getServiceClient().getOptions();
+            identityMgtOptions.setManageSession(true);
+            identityMgtOptions.setProperty(HTTPConstants.COOKIE_STRING, sessionCookie);
+            identityMgtAdminStub.changeUserPassword(changePasswordReq.getNewPassword(), changePasswordReq.getCurrentPassword());
+
+            if (!isAbleToLogin(authUsername, changePasswordReq.getNewPassword(), serverURL, tenantDomain)) {
+                handleException("Password change failed");
+            }
+
+            response = Response.status(Response.Status.OK)
+                    .entity(new GenericResponse(false, "SUCCESS"))
+                    .build();
+        } catch (Exception e) {
+            response =  Response.status(Response.Status.INTERNAL_SERVER_ERROR)
+                    .entity(new GenericResponse(true, e.getMessage()))
+                    .build();
+        } finally {
+            if (isTenantFlowStarted) {
+                PrivilegedCarbonContext.endTenantFlow();
+            }
+        }
+        return response;
+    }
+
+    @POST
     @Path("/change-password")
     public Response changePassword(ChangePasswordRequest changePasswordReq) {
         Response response;
         boolean isTenantFlowStarted = false;
         try {
             InputValidator.validateUserInput("Username", changePasswordReq.getUsername(), InputType.NAME);
-            InputValidator.validateUserInput("Password", changePasswordReq.getCurrentPassword());
-            InputValidator.validateUserInput("Password", changePasswordReq.getNewPassword(), InputType.PASSWORD);
+            InputValidator.validateUserInput("Current Password", changePasswordReq.getCurrentPassword());
+            InputValidator.validateUserInput("New Password", changePasswordReq.getNewPassword(), InputType.PASSWORD);
 
             APIManagerConfiguration config = HostObjectComponent.getAPIManagerConfiguration();
             String serverURL = config.getFirstProperty(APIConstants.AUTH_MANAGER_URL);
