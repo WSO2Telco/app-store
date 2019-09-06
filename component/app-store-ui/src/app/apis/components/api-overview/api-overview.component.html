@@ -42,10 +42,10 @@
                     <div><star-rating [starType]="'svg'" [rating]="apiOverview.rates" [hoverEnabled]="true"></star-rating></div>
                     <hr/>
 
-                    <ng-container *ngIf="apiOverview.businessInformation">
+                    <ng-container *ngIf="apiOverview.businessInformation?.technicalOwner || apiOverview.businessInformation?.businessOwner">
                     <div class="field" fxFlex><strong>Contact Details</strong></div>
-                    <div>Technical : {{apiOverview.businessInformation.technicalOwner}} <span *ngIf="apiOverview.businessInformation.technicalOwnerEmail">&lt;<a href="mailto:{{apiOverview.businessInformation.technicalOwnerEmail}}">{{apiOverview.businessInformation.technicalOwnerEmail}}</a>&gt;</span></div>
-                    <div>Business : {{apiOverview.businessInformation.businessOwner}} <span *ngIf="apiOverview.businessInformation.businessOwnerEmail">&lt;<a href="mailto:{{apiOverview.businessInformation.businessOwnerEmail}}">{{apiOverview.businessInformation.businessOwnerEmail}}</a>&gt;</span></div>
+                    <div *ngIf="apiOverview.businessInformation?.technicalOwner">Technical : {{apiOverview.businessInformation.technicalOwner}} <span *ngIf="apiOverview.businessInformation.technicalOwnerEmail">&lt;<a href="mailto:{{apiOverview.businessInformation.technicalOwnerEmail}}">{{apiOverview.businessInformation.technicalOwnerEmail}}</a>&gt;</span></div>
+                    <div *ngIf="apiOverview.businessInformation?.businessOwner">Business : {{apiOverview.businessInformation.businessOwner}} <span *ngIf="apiOverview.businessInformation.businessOwnerEmail">&lt;<a href="mailto:{{apiOverview.businessInformation.businessOwnerEmail}}">{{apiOverview.businessInformation.businessOwnerEmail}}</a>&gt;</span></div>
                     </ng-container>
                 </div>
             </div>
