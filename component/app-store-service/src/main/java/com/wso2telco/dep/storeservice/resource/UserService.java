@@ -45,7 +45,9 @@ import org.wso2.carbon.user.mgt.stub.UserAdminStub;
 import org.wso2.carbon.user.mgt.stub.UserAdminUserAdminException;
 import org.wso2.carbon.utils.CarbonUtils;
 import org.wso2.carbon.utils.multitenancy.MultitenantUtils;
-import sun.misc.BASE64Decoder;
+
+import java.nio.charset.StandardCharsets;
+import java.util.Base64;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.HeaderParam;
@@ -129,9 +131,15 @@ public class UserService {
             InputValidator.validateUserInput("Current Password", changePasswordReq.getCurrentPassword());
             InputValidator.validateUserInput("New Password", changePasswordReq.getNewPassword(), InputType.PASSWORD);
 
-            String[] decodedAuthParts = new String(new BASE64Decoder().decodeBuffer(authString.split("\\s+")[1])).split(":");
-            String authUsername = decodedAuthParts[0];
-            String authPassword = decodedAuthParts[1];
+            String authUsername = null;
+            String authPassword = null;
+            try {
+                String[] decodedAuthParts = new String(Base64.getDecoder().decode(authString.split("\\s+")[1]), StandardCharsets.UTF_8).split(":");
+                authUsername = decodedAuthParts[0];
+                authPassword = decodedAuthParts[1];
+            } catch (Exception e) {
+                handleException("User authentication failed");
+            }
 
             APIManagerConfiguration config = HostObjectComponent.getAPIManagerConfiguration();
             String serverURL = config.getFirstProperty(APIConstants.AUTH_MANAGER_URL);
