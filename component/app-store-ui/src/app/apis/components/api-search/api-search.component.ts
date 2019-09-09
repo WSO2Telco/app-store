@@ -70,7 +70,7 @@ export class ApiSearchComponent implements OnInit {
   }
 
   onCategoryChange() {
-    this.store.dispatch(DoApiSearchAction({ "payload" : new ApiSearchParam(this.apiCategory, this.searchQuery, 5, 0)}));
+    this.store.dispatch(DoApiSearchAction({ "payload" : new ApiSearchParam(this.apiCategory, this.searchQuery, this.pageSize, 0)}));
   }
 
   onPageChanged(e) {
