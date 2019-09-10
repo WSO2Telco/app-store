@@ -122,9 +122,7 @@ export interface ApplicationsResult {
 }
 
 export class ApplicationSearchParam {
-    constructor(
-        public action: string
-    ) { }
+    apiId: string
 }
 
 export class SubscribeParam {

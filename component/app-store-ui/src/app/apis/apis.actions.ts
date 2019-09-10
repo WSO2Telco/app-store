@@ -8,7 +8,7 @@ export const ApiSearchSuccessAction = createAction('[API] Search Success ✓', p
 export const GetApiOverviewAction = createAction('[API] Get API Overview', props<{payload: string}>());
 export const GetApiOverviewSuccessAction = createAction('[API] Get API Overview Success ✓', props<{payload: ApiOverview}>());
 
-export const GetUserApplicationsAction = createAction('[API] Get User Apps', props<{payload: ApplicationSearchParam}>());
+export const GetUserApplicationsAction = createAction('[API] Get User Apps', props<{payload: any}>());
 export const GetUserApplicationsSuccessAction = createAction('[API] Get User Apps Success ✓', props<{payload: Application[]}>());
 
 export const DoSubscribeAction = createAction('[API] Do Subscribe', props<{payload: SubscribeParam}>());

@@ -4,7 +4,7 @@ import { Store } from "@ngrx/store";
 import { DoApiSearchAction } from "../../apis.actions";
 import { ApiSearchParam, ApiSearchResult, ApiSummary, ApiStatus, paginationData } from "../../apis.models";
 import { PageEvent } from "@angular/material";
-import { Router } from "@angular/router";
+import { Router, ActivatedRoute } from "@angular/router";
 
 //Breadcrumbs
 import * as globalActions from "../../../app.actions";
@@ -25,6 +25,7 @@ export class ApiSearchComponent implements OnInit {
   apiCategory: ApiStatus = ApiStatus.all;
   // MatPaginator Inputs
   pageSize: number = 5;
+  offsetSize: number = 0;
   length: number;
   // MatPaginator Output
   pageEvent: PageEvent;
@@ -35,7 +36,8 @@ export class ApiSearchComponent implements OnInit {
     private store: Store<AppState>,
     private router: Router,
     private ref: ChangeDetectorRef,
-    private titleService: Title
+    private titleService: Title,
+    private route: ActivatedRoute
   ) {
     this.store
       .select(s => s.apis.apiSearchResult)
@@ -48,6 +50,13 @@ export class ApiSearchComponent implements OnInit {
     this.store
       .select(s => s.apis.apiStatus)
       .subscribe(res => (this.apiStatus = res));
+
+    this.route.queryParams.subscribe(params => {
+      this.offsetSize = parseInt(params['page']) || 0;
+      this.pageSize = parseInt(params['perPage']) || 5;
+
+      console.log(this.offsetSize+"pg"+this.pageSize);
+    });
   }
 
   ngOnInit() {
@@ -74,9 +83,9 @@ export class ApiSearchComponent implements OnInit {
   }
 
   onPageChanged(e) {
-    let firstCut = e.pageSize * e.pageIndex;
+    let offset = e.pageSize * e.pageIndex;
     this.pageSize = e.pageSize;
-    this.store.dispatch(DoApiSearchAction({ "payload" : new ApiSearchParam(this.apiCategory, this.searchQuery, e.pageSize, firstCut)}));
+    this.store.dispatch(DoApiSearchAction({ "payload" : new ApiSearchParam(this.apiCategory, this.searchQuery, e.pageSize, offset)}));
   }
 
   switchView(view){

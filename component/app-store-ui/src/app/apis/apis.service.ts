@@ -27,9 +27,9 @@ export class ApisService {
         return this.http.get<ApiSearchResult>(ApiEndpoints.apis.search, { params: searchParams, headers: headerParams });
     }
 
-    getUserApplicationsActions(param: ApplicationSearchParam): Observable<ApplicationsResult> {
+    getUserApplicationsActions(appId: string): Observable<ApplicationsResult> {
         const searchParams = new HttpParams()
-            .append('action', param.action);
+            .append('apiId', appId);
         return this.http.get<ApplicationsResult>(ApiEndpoints.apis.applications, { params: searchParams });
     }
 
