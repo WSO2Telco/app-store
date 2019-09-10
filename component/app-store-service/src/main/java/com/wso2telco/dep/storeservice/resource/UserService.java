@@ -9,6 +9,8 @@ import org.appstore.core.dto.ChangePasswordByUsrRequest;
 import org.appstore.core.dto.ChangePasswordRequest;
 import org.appstore.core.dto.GenericResponse;
 import org.appstore.core.dto.UserRequest;
+import org.appstore.core.exception.ApiException;
+import org.appstore.core.exception.InvalidInputException;
 import org.appstore.core.util.InputType;
 import org.appstore.core.util.InputValidator;
 import org.wso2.carbon.apimgt.api.APIManagementException;
@@ -38,7 +40,6 @@ import org.wso2.carbon.identity.user.registration.stub.dto.UserDTO;
 import org.wso2.carbon.identity.user.registration.stub.dto.UserFieldDTO;
 import org.wso2.carbon.user.core.UserCoreConstants;
 import org.wso2.carbon.user.core.UserRealm;
-import org.wso2.carbon.user.core.UserStoreException;
 import org.wso2.carbon.user.core.UserStoreManager;
 import org.wso2.carbon.user.core.service.RealmService;
 import org.wso2.carbon.user.mgt.stub.UserAdminStub;
@@ -112,6 +113,10 @@ public class UserService {
             response = Response.status(Response.Status.OK)
                 .entity(new GenericResponse(false, "SUCCESS"))
                 .build();
+        } catch (ApiException | InvalidInputException e) {
+            response =  Response.status(Response.Status.OK)
+                    .entity(new GenericResponse(true, e.getMessage()))
+                    .build();
         } catch (Exception e) {
             response =  Response.status(Response.Status.INTERNAL_SERVER_ERROR)
                 .entity(new GenericResponse(true, e.getMessage()))
@@ -189,6 +194,10 @@ public class UserService {
             response = Response.status(Response.Status.OK)
                     .entity(new GenericResponse(false, "SUCCESS"))
                     .build();
+        } catch (ApiException | InvalidInputException e) {
+            response = Response.status(Response.Status.OK)
+                    .entity(new GenericResponse(true, e.getMessage()))
+                    .build();
         } catch (Exception e) {
             response =  Response.status(Response.Status.INTERNAL_SERVER_ERROR)
                     .entity(new GenericResponse(true, e.getMessage()))
@@ -245,6 +254,10 @@ public class UserService {
             response = Response.status(Response.Status.OK)
                     .entity(new GenericResponse(false, "SUCCESS"))
                     .build();
+        } catch (ApiException | InvalidInputException e) {
+            response =  Response.status(Response.Status.OK)
+                    .entity(new GenericResponse(true, e.getMessage()))
+                    .build();
         } catch (Exception e) {
             response =  Response.status(Response.Status.INTERNAL_SERVER_ERROR)
                     .entity(new GenericResponse(true, e.getMessage()))
@@ -257,7 +270,7 @@ public class UserService {
         return response;
     }
 
-    private void addUser(String username, String password, String fields) throws APIManagementException {
+    private void addUser(String username, String password, String fields) throws Exception {
 
         APIManagerConfiguration config = HostObjectComponent.getAPIManagerConfiguration();
 
@@ -354,11 +367,9 @@ public class UserService {
                         + "the signup-config.xml in the registry";
                 handleException(customErrorMsg);
             }
-
-        } catch (RemoteException e) {
-            handleException(e.getMessage(), e);
-        } catch (UserRegistrationAdminServiceException | WorkflowException | UserAdminUserAdminException e) {
-            handleException("Error while adding the user: " + username + ". " + e.getMessage(), e);
+        } catch (UserRegistrationAdminServiceException | WorkflowException |
+                UserAdminUserAdminException | RemoteException | APIManagementException e) {
+            throw new Exception("Error while adding the user: " + username + ". " + e.getMessage(), e);
         } finally {
             if (isTenantFlowStarted) {
                 PrivilegedCarbonContext.endTenantFlow();
@@ -427,7 +438,7 @@ public class UserService {
         return status;
     }
 
-    private static boolean isUserExists(String username) throws APIManagementException, org.wso2.carbon.user.api.UserStoreException {
+    private static boolean isUserExists(String username) throws ApiException, APIManagementException {
         String tenantDomain = MultitenantUtils.getTenantDomain(APIUtil.replaceEmailDomainBack(username));
         UserRegistrationConfigDTO signupConfig = SelfSignUpUtil.getSignupConfiguration(tenantDomain);
         //add user storage info
@@ -443,14 +454,14 @@ public class UserService {
             if (manager.isExistingUser(tenantAwareUserName)) {
                 exists = true;
             }
-        } catch (UserStoreException e) {
+        } catch (org.wso2.carbon.user.api.UserStoreException e) {
             handleException("Error while checking user existence for " + username, e);
         }
         return exists;
     }
 
     private static boolean isAbleToLogin(String username, String password, String serverURL,
-                                         String tenantDomain) throws APIManagementException {
+                                         String tenantDomain) throws ApiException {
         boolean loginStatus = false;
         if (serverURL == null) {
             handleException("API key manager URL unspecified");
@@ -473,14 +484,14 @@ public class UserService {
         return loginStatus;
     }
 
-    private static void handleException(String msg) throws APIManagementException {
+    private static void handleException(String msg) throws ApiException {
         log.error(msg);
-        throw new APIManagementException(msg);
+        throw new ApiException(msg);
     }
 
-    private static void handleException(String msg, Throwable throwable) throws APIManagementException {
+    private static void handleException(String msg, Throwable throwable) throws ApiException {
         log.error(msg);
-        throw new APIManagementException(msg, throwable);
+        throw new ApiException(msg, throwable);
     }
 
     private enum AllFieldValue {
