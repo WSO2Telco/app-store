@@ -17,7 +17,9 @@ const loggedInMenu = [
 const initState: AuthState = {
     loginData: null,
     menuData: defaultMenu,
-    lastAuthRequiredRoute : null
+    lastAuthRequiredRoute: null,
+    registeredAppData: null,
+    tokenDetails: null
 };
 
 
@@ -37,9 +39,17 @@ export function authReducer(state: AuthState = initState, action: loginActions.A
                 menuData: defaultMenu
             });
         }
-        
+
         case loginActions.SET_LAST_AUTH_REQUIRED_ROUTE: {
-            return {...state,lastAuthRequiredRoute:action.payload};
+            return { ...state, lastAuthRequiredRoute: action.payload };
+        }
+
+        case loginActions.CLIENT_REG_APPLICATIONS_SUCCESS: {
+            return Object.assign({}, state, { registeredAppData: action.payload });
+        }
+
+        case loginActions.TOKEN_GENERATION_SUCCESS: {
+            return Object.assign({}, state, { tokenDetails: action.payload });
         }
 
         default: {
