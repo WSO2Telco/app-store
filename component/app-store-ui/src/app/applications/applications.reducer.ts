@@ -3,7 +3,7 @@ import * as applicationsActions from './applications.actions';
 
 const initialState: ApplicationsState = {
   allApplications: null,
-  selectedApplication : null,
+  selectedApplication: null,
   appSubscriptions: null
 };
 

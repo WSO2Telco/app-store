@@ -20,42 +20,41 @@ export class ApplicationsEffects {
     private notification: NotificationService
   ) {}
 
-  // @Effect()
-  // countries$ = this.actions$
-  //   .ofType(applicationsActions.GET_ALL_APPLICATIONS).pipe(
-  //   map(
-  //     (action: applicationsActions.GetAllApplicationsAction) => action.payload
-  //   ),
-  //   switchMap(param =>
-  //     this.service
-  //       .getAllApplications(param).pipe(
-  //       map(
-  //         (result: Application[]) =>
-  //           new applicationsActions.GetAllApplicationsSuccessAction(result)
-  //       ),
-  //       catchError((e: HttpErrorResponse) => {
-  //         this.notification.error(e.message);
-  //         return observableEmpty();
-  //       }),)
-  //   ),);
+  @Effect()
+  countries$ = this.actions$
+    .ofType(applicationsActions.GET_ALL_APPLICATIONS).pipe(
+    map(
+      (action: applicationsActions.GetAllApplicationsAction) => action.payload
+    ),
+    switchMap(param =>
+      this.service
+        .getAllApplications(param).pipe(
+        map(
+          (result: Application[]) =>
+            new applicationsActions.GetAllApplicationsSuccessAction(result)
+        ),
+        catchError((e: HttpErrorResponse) => {
+          this.notification.error(e.message);
+          return observableEmpty();
+        }),)
+    ),);
 
-
-  // @Effect()
-  // appSubscriptions$ = this.actions$
-  //   .ofType(applicationsActions.GET_APPLICATION_SUBSCRIPTIONS).pipe(
-  //   map(
-  //     (action: applicationsActions.GetApplicationSubscriptionsAction) => action.payload
-  //   ),
-  //   switchMap(param =>
-  //     this.service
-  //       .getApplicationSubscriptions(param).pipe(
-  //       map(
-  //         (result: Subscription[]) =>
-  //           new applicationsActions.GetApplicationSubscriptionsSuccessAction(result)
-  //       ),
-  //       catchError((e: HttpErrorResponse) => {
-  //         this.notification.error(e.message);
-  //         return observableEmpty();
-  //       }),)
-  //   ),);
+  @Effect()
+  appSubscriptions$ = this.actions$
+    .ofType(applicationsActions.GET_APPLICATION_SUBSCRIPTIONS).pipe(
+    map(
+      (action: applicationsActions.GetApplicationSubscriptionsAction) => action.payload
+    ),
+    switchMap(param =>
+      this.service
+        .getApplicationSubscriptions(param).pipe(
+        map(
+          (result: Subscription[]) =>
+            new applicationsActions.GetApplicationSubscriptionsSuccessAction(result)
+        ),
+        catchError((e: HttpErrorResponse) => {
+          this.notification.error(e.message);
+          return observableEmpty();
+        }),)
+    ),);
 }

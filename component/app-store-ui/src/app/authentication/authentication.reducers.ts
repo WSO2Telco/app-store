@@ -1,7 +1,7 @@
 import * as loginActions from './authentication.actions';
 import { LoginResponseData, LoginMenuActionTypes } from './authentication.models';
 import { AuthState } from './authentication.models';
-import { createReducer, on } from '@ngrx/store';
+import { SET_LAST_AUTH_REQUIRED_ROUTE } from './authentication.actions';
 
 const defaultMenu = [
     { name: 'Login', action: LoginMenuActionTypes.LOGIN },
@@ -17,24 +17,44 @@ const loggedInMenu = [
 const initState: AuthState = {
     loginData: null,
     menuData: defaultMenu,
-    lastAuthRequiredRoute : null
+    lastAuthRequiredRoute: null,
+    registeredAppData: null,
+    tokenDetails: null
 };
 
-const _authReducer = createReducer(initState,
 
-    on(loginActions.LoginSuccessAction, (state, { payload }) => ({
-        ...state, loginData: payload, menuData: loggedInMenu
-    })),
+export function authReducer(state: AuthState = initState, action: loginActions.Actions) {
+    switch (action.type) {
+        case loginActions.LOGIN_SUCCESS: {
+            return Object.assign({}, state,
+                {
+                    loginData: action.payload,
+                    menuData: loggedInMenu
+                });
+        }
 
-    on(loginActions.DoLogoutSuccessAction, (state, {}) => ({
-        ...state, loginData: null, menuData: defaultMenu
-    })),
+        case loginActions.DO_LOGOUT_SUCCESS: {
+            return Object.assign({}, state, {
+                loginData: null,
+                menuData: defaultMenu
+            });
+        }
 
-    on(loginActions.SetLastAuthRequiredRouteAction, (state, { payload }) => ({
-        ...state, lastAuthRequiredRoute: payload
-    }))
-);
+        case loginActions.SET_LAST_AUTH_REQUIRED_ROUTE: {
+            return { ...state, lastAuthRequiredRoute: action.payload };
+        }
 
-export function authReducer(state, action) {
-    return _authReducer(state, action);
+        case loginActions.CLIENT_REG_APPLICATIONS_SUCCESS: {
+            return Object.assign({}, state, { registeredAppData: action.payload });
+        }
+
+        case loginActions.TOKEN_GENERATION_SUCCESS: {
+            return Object.assign({}, state, { tokenDetails: action.payload });
+        }
+
+        default: {
+            return state;
+        }
+    }
+
 }

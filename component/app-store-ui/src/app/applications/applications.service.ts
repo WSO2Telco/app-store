@@ -1,5 +1,5 @@
 
-import {map} from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 import { HttpClient, HttpParams, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { ApiEndpoints } from '../config/api.endpoints';
@@ -17,10 +17,10 @@ export class ApplicationsService {
     })
   };
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
   getAllApplications(param: GetApplicationsParam) {
-    return this.http.get<Application[]>(
+    return this.http.get(
       ApiEndpoints.applications.getAllApplications,
       this.httpOptions
     );

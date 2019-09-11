@@ -1,16 +1,33 @@
+
+import { empty as observableEmpty, Observable } from 'rxjs';
+
+import { catchError, switchMap, map, mergeMap } from 'rxjs/operators';
+import { Actions, Effect } from "@ngrx/effects";
 import * as loginActions from "./authentication.actions";
 import { AuthenticationService } from "./authentication.service";
 import { Injectable } from "@angular/core";
-import { HttpErrorResponse } from "@angular/common/http";
-import { LoginFormData, LoginResponseData } from "./authentication.models";
+import {
+  HttpErrorResponse
+} from "@angular/common/http";
+import {
+  LoginFormData,
+  LoginResponseData,
+  LogoutResponseData,
+  ClientRegParam,
+  TokenGenerationParam
+} from "./authentication.models";
+import {
+  DoLoginAction,
+  SignupUserAction,
+  SignupUserSuccessAction
+} from "./authentication.actions";
+import { MatSnackBar } from "@angular/material/snack-bar";
 import { NotificationService } from "../shared/services/notification.service";
-import { Router } from "@angular/router";
+import { Router, ActivatedRoute } from "@angular/router";
 import { AppState } from "../app.data.models";
 import { Store } from "@ngrx/store";
-
-import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { mergeMap, map, catchError } from 'rxjs/operators';
-import { EMPTY } from 'rxjs';
+import { CHANGE_USER_PW, ChangeUserPwAction } from './authentication.actions';
+import { ResetPasswordParam } from "./authentication.data.models";
 
 @Injectable()
 export class AuthenticationEffects {
@@ -30,71 +47,120 @@ export class AuthenticationEffects {
       });
   }
 
-  login$ = createEffect(() => this.actions$.pipe(
-    ofType(loginActions.DoLoginAction),
-    mergeMap(({payload}) => this.authService.login(new LoginFormData(payload.username, payload.password))
-      .pipe(
-        map((response:LoginResponseData) => {
-          if (response.error) {
-              throw response;
-          } else {
-            this.router.navigate([this.lastAuthRequiredRoute || "home"]);
-            return loginActions.LoginSuccessAction({ "payload" : response});
-          }
-        }),
-        catchError((e: HttpErrorResponse) => {
-            this.notification.error(e.message);
-            return EMPTY
-        })
-      )
-    )
-  ));
+  @Effect()
+  login$ = this.actions$
+    .ofType(loginActions.DO_LOGIN).pipe(
+      map((action: DoLoginAction) => action.payload),
+      switchMap((payload: any) =>
+        this.authService
+          .login(new LoginFormData(payload.username, payload.password)).pipe(
+            mergeMap((response: LoginResponseData) => {
+              if (response.error) {
+                this.notification.error("Invalid username or password");
+                // throw response;
+              } else {
+                const p = new ClientRegParam();
+                this.router.navigate([this.lastAuthRequiredRoute || "home"]);
+                return [
+                  new loginActions.LoginSuccessAction(response),
+                  new loginActions.ClientRegistrationAction(p)];
+              }
+            }),
+            catchError((e: HttpErrorResponse) => {
+              this.notification.error(e.message);
+              return observableEmpty();
+            }))
+      ));
 
-  logout$ = createEffect(() => this.actions$.pipe(
-    ofType(loginActions.DoLogoutAction),
-    mergeMap(() => this.authService.logout()
-      .pipe(
-        map(() => {
+  @Effect()
+  clientRegister$ = this.actions$
+    .ofType(loginActions.CLIENT_REG_APPLICATIONS).pipe(
+      map(
+        (action: loginActions.ClientRegistrationAction) => action.payload
+      ),
+      switchMap(param =>
+        this.authService
+          .clientAppRegistration(param).pipe(
+            mergeMap((result: any) => {
+              if (!result.error) {
+                const p = new TokenGenerationParam();
+                this.notification.success("successfully created");
+                return [
+                  new loginActions.ClientRegistrationSuccessAction(result),
+                  new loginActions.TokenGenerationAction(p)]
+              } else {
+                throw Error("Operation Failed");
+              }
+            }),
+            catchError((e: HttpErrorResponse) => {
+              this.notification.error(e.message);
+              return observableEmpty();
+            }))
+      ));
+
+  @Effect()
+  tokenGeneration$ = this.actions$
+    .ofType(loginActions.TOKEN_GENERATION).pipe(
+      map(
+        (action: loginActions.TokenGenerationAction) => action.payload
+      ),
+      switchMap(param =>
+        this.authService
+          .tokenGeneration(param).pipe(
+            map((result: any) => {
+              if (!result.error) {
+                return new loginActions.TokenGenerationSuccessAction(result)
+              } else {
+                throw Error("Operation Failed");
+              }
+            }),
+            catchError((e: HttpErrorResponse) => {
+              this.notification.error(e.message);
+              return observableEmpty();
+            }))
+      ));
+
+  @Effect()
+  logout$ = this.actions$.ofType(loginActions.DO_LOGOUT).pipe(switchMap(() =>
+    this.authService
+      .logout().pipe(
+        map((response: LogoutResponseData) => {
           this.router.navigate(["home"]);
-          return loginActions.DoLogoutSuccessAction();
+          return new loginActions.DoLogoutSuccessAction();
         }),
         catchError((e: HttpErrorResponse) => {
-            this.notification.error(e.message);
-            return EMPTY
-        })
-      )
-    )
+          this.notification.error(e.message);
+          return observableEmpty();
+        }))
   ));
 
-  signup$ = createEffect(() => this.actions$.pipe(
-    ofType(loginActions.SignupUserAction),
-    mergeMap(({payload}) => this.authService.signup(payload)
-      .pipe(
-        map((response) => {
-          this.notification.success('User added successfully. You can now sign into the API store using the new user account'); 
-          return loginActions.SignupUserSuccessAction({"payload":response});
-        }),
-        catchError((e: HttpErrorResponse) => {
-            this.notification.error(e.message);
-            return EMPTY
-        })
-      )
-    )
-  ));
+  @Effect()
+  signup$ = this.actions$
+    .ofType(loginActions.SIGNUP_USER).pipe(
+      map((action: SignupUserAction) => action.payload),
+      switchMap((payload: any) => this.authService.signup(payload)),
+      map(response => {
+        this.notification.success('User added successfully. You can now sign into the API store using the new user account');
+        return new loginActions.SignupUserSuccessAction(response);
+      }),
+      catchError((e: HttpErrorResponse) => {
+        this.notification.error(e.message);
+        return observableEmpty();
+      }));
 
-  changePassword$ = createEffect(() => this.actions$.pipe(
-    ofType(loginActions.ChangeUserPwAction),
-    mergeMap(({payload}) => this.authService.changePassword(payload)
-      .pipe(
-        map((response) => {
-          this.notification.success('User password changed successfully. You can now sign in to the API store using the new password.'); 
-          return loginActions.ChangeUserPwSuccessAction({"payload":response});
-        }),
-        catchError((e: HttpErrorResponse) => {
-            this.notification.error(e.message);
-            return EMPTY
-        })
-      )
-    )
-  ));
+  @Effect()
+  changePassword$ = this.actions$
+    .ofType(loginActions.CHANGE_USER_PW).pipe(
+      map((action: ChangeUserPwAction) => action.payload),
+      switchMap((payload: ResetPasswordParam) => this.authService.changePassword(payload)),
+      map(response => {
+        this.notification.success('User password changed successfully. You can now sign in to the API store using the new password.');
+        return new loginActions.ChangeUserPwSuccessAction(response);
+      }),
+      catchError((e: HttpErrorResponse) => {
+        this.notification.error(e.message);
+        return observableEmpty();
+      }));
+
+
 }
