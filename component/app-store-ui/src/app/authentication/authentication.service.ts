@@ -41,12 +41,10 @@ export class AuthenticationService {
     }
 
     logout(): Observable<LogoutResponseData> {
-        const body: HttpParams = new HttpParams()
-            .set('action', 'logout');
 
         const httpOptions = {
             headers: new HttpHeaders({
-                'Content-Type': 'application/x-www-form-urlencoded'
+                'Content-Type': 'application/json'
             })
         };
 
