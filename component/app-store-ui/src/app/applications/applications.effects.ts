@@ -39,7 +39,6 @@ export class ApplicationsEffects {
         }),)
     ),);
 
-
   @Effect()
   appSubscriptions$ = this.actions$
     .ofType(applicationsActions.GET_APPLICATION_SUBSCRIPTIONS).pipe(
