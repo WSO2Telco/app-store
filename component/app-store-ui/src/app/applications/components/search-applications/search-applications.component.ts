@@ -31,7 +31,7 @@ export class SearchApplicationsComponent implements OnInit {
 
  //   this.store.dispatch(new applicationsActions.ClientRegistrationAction(this.clientData));
 
-    this.store.dispatch(new applicationsActions.GetAllApplicationsAction());
+    this.store.dispatch(applicationsActions.GetAllApplicationsAction({"payload":0}));
 
     this.store.dispatch(new globalActions.SetBreadcrumbAction([new BreadcrumbItem("Applications")]));
     this.titleService.setTitle("Apps | Apigate API Store");

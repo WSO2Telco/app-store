@@ -14,7 +14,7 @@ export const ApiEndpoints = {
   apis: {
     search: apiContext + '/apis',
     apiOverview: apiContext + '/apis/',
-    applications: "./assets/files/application-list.json",
+    applications: apiContext + '/subscriptions',
     subscribe: "./assets/files/subscribe.json"
   },
   global: {

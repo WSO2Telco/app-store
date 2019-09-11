@@ -5,7 +5,7 @@ import { MatDialog, MatTableDataSource } from '@angular/material';
 import { AppState } from '../../../app.data.models';
 import { Subscription } from "../../applications.data.models";
 import { ConfirmDialogComponent } from "../../../commons/components/confirm-dialog/confirm-dialog.component";
-import { ApiSearchResult, ApiSummery } from '../../../apis/apis.models';
+import { ApiSearchResult, ApiSummary } from '../../../apis/apis.models';
 import { NotificationService } from "../../../shared/services/notification.service";
 import * as applicationsActions from '../../applications.actions';
 
@@ -33,9 +33,7 @@ export class ApplicationSubscriptionsComponent implements OnInit {
       .select(s => s.applications.selectedApplication)
       .subscribe(app => {
         if (app) {
-          this.store.dispatch(
-            new applicationsActions.GetApplicationSubscriptionsAction(app)
-          );
+          this.store.dispatch(applicationsActions.GetApplicationSubscriptionsAction({"payload": app}));
         }
     });
   }
@@ -80,7 +78,7 @@ export class ApplicationSubscriptionsComponent implements OnInit {
   templateUrl: 'dialog-add-subscription.html'
 })
 export class DialogAppAddSubscription implements OnInit{
-  apis: ApiSummery[];
+  apis: ApiSummary[];
 
   constructor(
     private store: Store<AppState>,

@@ -1,94 +1,19 @@
-import { Action } from '@ngrx/store';
-import { ApiSearchParam, ApiSearchResult, Application, SubscribeParam, ApiSummery, ApiOverview } from './apis.models';
+import { createAction, props } from '@ngrx/store';
+import { ApiSearchParam, ApiSearchResult, Application, SubscribeParam, ApiOverview, ApplicationSearchParam } from './apis.models';
 import { Operator } from '../app.data.models';
 
-export const DO_API_SEARCH = 'DO_API_SEARCH';
-export const DO_API_SEARCH_SUCCESS = 'DO_API_SEARCH_SUCCESS';
-export const SET_SELECTED_API = 'SET_SELECTED_API';
-export const GET_USER_APPLICATIONS = 'GET_USER_APPLICATIONS';
-export const GET_USER_APPLICATIONS_SUCCESS = 'GET_USER_APPLICATIONS_SUCCESS';
-export const REMOVE_ALL_OPERATOR_FROM_SELECTION = 'REMOVE_ALL_OPERATOR_FROM_SELECTION';
-export const DO_SUBSCRIBE = 'DO_SUBSCRIBE';
-export const DO_SUBSCRIBE_SUCCESS = 'DO_SUBSCRIBE_SUCCESS';
-export const GET_API_OVERVIEW = 'GET_API_OVERVIEW';
-export const GET_API_OVERVIEW_SUCCESS = 'GET_API_OVERVIEW_SUCCESS';
+export const DoApiSearchAction = createAction('[API] Search', props<{payload: ApiSearchParam}>());
+export const ApiSearchSuccessAction = createAction('[API] Search Success ✓', props<{payload: ApiSearchResult}>());
 
-export const ADD_OPERATOR_TO_SELECTION = 'ADD_OPERATOR_TO_SELECTION';
-export const REMOVE_OPERATOR_FROM_SELECTION = 'REMOVE_OPERATOR_FROM_SELECTION';
+export const GetApiOverviewAction = createAction('[API] Get API Overview', props<{payload: string}>());
+export const GetApiOverviewSuccessAction = createAction('[API] Get API Overview Success ✓', props<{payload: ApiOverview}>());
 
+export const GetUserApplicationsAction = createAction('[API] Get User Apps', props<{payload: any}>());
+export const GetUserApplicationsSuccessAction = createAction('[API] Get User Apps Success ✓', props<{payload: Application[]}>());
 
-export class DoApiSearchAction implements Action {
-    readonly type: string = DO_API_SEARCH;
-    constructor(public payload: ApiSearchParam) { }
-}
+export const DoSubscribeAction = createAction('[API] Do Subscribe', props<{payload: SubscribeParam}>());
+export const DoSubscribeSuccessAction = createAction('[API] Do Subscribe Success ✓', props<{payload: any}>());
 
-export class ApiSearchSuccessAction {
-    readonly type: string = DO_API_SEARCH_SUCCESS;
-    constructor(public payload: ApiSearchResult) { }
-}
-
-export class GetUserApplicationsAction {
-    readonly type: string = GET_USER_APPLICATIONS;
-    constructor(public payload: any = null) { }
-}
-
-export class GetUserApplicationsSuccessAction {
-    readonly type: string = GET_USER_APPLICATIONS_SUCCESS;
-    constructor(public payload: Application[]) { }
-}
-
-export class AddOperatorToSelectionAction {
-    readonly type: string = ADD_OPERATOR_TO_SELECTION;
-    constructor(public payload: Operator) { }
-}
-
-export class RemoveOperatorFromSelectionAction {
-    readonly type: string = REMOVE_OPERATOR_FROM_SELECTION;
-    constructor(public payload: Operator) { }
-}
-
-export class RemoveAllOperatorFromSelectionAction {
-    readonly type: string = REMOVE_ALL_OPERATOR_FROM_SELECTION;
-    constructor(public payload: any = null) { }
-}
-
-export class DoSubscribeAction {
-    readonly type: string = DO_SUBSCRIBE;
-    constructor(public payload: SubscribeParam) { }
-}
-
-export class DoSubscribeSuccessAction {
-    readonly type: string = DO_SUBSCRIBE_SUCCESS;
-    constructor(public payload: any = null) { }
-}
-
-export class SetSelectedApiAction {
-    readonly type: string = SET_SELECTED_API;
-    constructor(public payload: ApiSummery) { }
-}
-
-export class GetApiOverviewAction {
-    readonly type: string = GET_API_OVERVIEW;
-    constructor(public payload: any = null) { }
-}
-export class GetApiOverviewSuccessAction {
-    readonly type: string = GET_API_OVERVIEW_SUCCESS;
-    constructor(public payload: ApiOverview) { }
-}
-
-
-export type Actions
-    = DoApiSearchAction
-    | ApiSearchSuccessAction
-    | GetUserApplicationsAction
-    | GetUserApplicationsSuccessAction
-    | AddOperatorToSelectionAction
-    | RemoveOperatorFromSelectionAction
-    | RemoveAllOperatorFromSelectionAction
-    | DoSubscribeAction
-    | DoSubscribeSuccessAction
-    | SetSelectedApiAction
-    | GetApiOverviewAction
-    | GetApiOverviewSuccessAction;
-
-
+export const AddOperatorToSelectionAction = createAction('[API] Add Operator To Selection', props<{payload: Operator}>());
+export const RemoveOperatorFromSelectionAction = createAction('[API] Remove Operator From Selection', props<{payload: Operator}>());
+export const RemoveAllOperatorFromSelectionAction = createAction('[API] Remove All Operators From Selection', props<{payload: any}>());

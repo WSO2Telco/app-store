@@ -1,10 +1,10 @@
 import { Component, OnInit, ViewChild } from "@angular/core";
-import { ResetPasswordParam } from "../../authentication.data.models";
+import { ResetPasswordParam } from "../../authentication.models";
 import { AppState } from "../../../app.data.models";
 import { Store } from "@ngrx/store";
-import * as authActions from "../../authentication.actions";
 import { Actions } from '@ngrx/effects';
 import { NgForm } from '@angular/forms';
+import { ChangeUserPwAction } from '../../authentication.actions';
 
 @Component({
   selector: "store-my-account",
@@ -21,10 +21,10 @@ export class MyAccountComponent implements OnInit {
 
   ngOnInit() {
     this.param = new ResetPasswordParam();
-    this.actions.ofType(authActions.CHANGE_USER_PW_SUCCESS).subscribe((r)=>this.changePwForm.reset());
+    // this.actions.ofType(authActions.CHANGE_USER_PW_SUCCESS).subscribe((r)=>this.changePwForm.reset());
   }
 
   onChangePw(form) {
-    this.store.dispatch(new authActions.ChangeUserPwAction(this.param));
+    this.store.dispatch(ChangeUserPwAction({"payload" : this.param}));
   }
 }

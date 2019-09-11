@@ -38,6 +38,7 @@ export class TokenData {
     scope: string;
     token_type: string;
     expires_in: number
+    error: any;
 }
 
 export interface RegClientData {
@@ -50,6 +51,7 @@ export interface RegClientData {
     jsonString: string;
     jsonAppAttribute: string;
     tokenType: string;
+    error: any;
 }
 
 export enum LoginMenuActionTypes {
@@ -72,4 +74,17 @@ export class LoginResponseData {
 
 export class LogoutResponseData {
     constructor(data: any) { }
+}
+
+export class SigUpUserParam {
+    firstName: string;
+    lastName: string;
+    email: string;
+    username: string;
+    password: string;
+}
+
+export class ResetPasswordParam{
+    currentPassword:string;
+    newPassword:string;
 }

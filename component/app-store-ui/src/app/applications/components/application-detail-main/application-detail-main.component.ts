@@ -35,7 +35,7 @@ export class ApplicationDetailMainComponent implements OnInit {
       this.appId = params['appId'];
       this.activatedTab = params['tab'];
       this.store.dispatch(
-        new applicationsActions.SetSelectedApplicationsAction(this.appId)
+        applicationsActions.SetSelectedApplicationsAction({"payload":this.appId})
       );
     })
 

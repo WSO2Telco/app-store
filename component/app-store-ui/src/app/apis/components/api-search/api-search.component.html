@@ -9,14 +9,14 @@
       <div class="search-Container animated fadeIn">
         <form #searchForm="ngForm" novalidate (ngSubmit)="onSearchClick()" fxLayout="row" fxLayoutGap="20px">
           <mat-form-field>
-            <mat-select placeholder="Category" name="apiCategory" (change)="onCategoryChange()" [(ngModel)]="apiCategory">
+            <mat-select placeholder="Category" name="apiCategory" (selectionChange)="onCategoryChange()" [(ngModel)]="apiCategory">
               <mat-option *ngFor="let cat of apiStatus" [value]="cat">
                 {{ cat }}
               </mat-option>
             </mat-select>
           </mat-form-field>
           <mat-form-field class="search-input" fxFlex="80%">
-            <input matInput placeholder="Filter by..." name="searchQuery" matTooltip="You can search in attributes by using an ':' modifier.Eg. 'provider:apigate' will match an API if the provider of the API is exactly 'apigate'. Supported attribute modifiers are [version, context, status, description, subcontext, doc, provider, tag]" [(ngModel)]="searchQuery">
+            <input matInput placeholder="Filter by..." name="searchQuery" matTooltip="You can search in attributes by using an ':' modifier.Eg. 'provider:apigate' will match an API if the provider of the API is exactly 'apigate'. Supported attribute modifiers are [version, context, description, subcontext, doc, provider, tag]" [(ngModel)]="searchQuery">
           </mat-form-field>
           <button class="search" mat-mini-fab color="accent"><i class="fa fa-search" aria-hidden="true"></i></button>
         </form>
@@ -33,6 +33,7 @@
           <mat-icon [ngClass]="{'active' : view == 'list'}" title="Switch to list view" (click)="switchView('list')">view_list</mat-icon>
           <mat-icon [ngClass]="{'active' : view == 'grid'}" title="Switch to grid view" (click)="switchView('grid')">view_module</mat-icon>
         </div>
+        <div *ngIf="apiCategory!='all'" class="api-filter-message">Filtered to <span>{{apiCategory}}</span> APIs</div>
         <div class="clearfix"></div>
     </div>
     <div class="result-wrapper" [ngClass]="{ 'table-view' : view == 'list', 'grid-view' : view == 'grid'}">

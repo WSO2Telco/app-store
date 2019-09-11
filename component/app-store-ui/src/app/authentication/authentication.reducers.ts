@@ -1,7 +1,7 @@
 import * as loginActions from './authentication.actions';
-import { LoginResponseData, LoginMenuActionTypes } from './authentication.models';
+import { LoginMenuActionTypes } from './authentication.models';
 import { AuthState } from './authentication.models';
-import { SET_LAST_AUTH_REQUIRED_ROUTE } from './authentication.actions';
+import { createReducer, on } from '@ngrx/store';
 
 const defaultMenu = [
     { name: 'Login', action: LoginMenuActionTypes.LOGIN },
@@ -23,38 +23,29 @@ const initState: AuthState = {
 };
 
 
-export function authReducer(state: AuthState = initState, action: loginActions.Actions) {
-    switch (action.type) {
-        case loginActions.LOGIN_SUCCESS: {
-            return Object.assign({}, state,
-                {
-                    loginData: action.payload,
-                    menuData: loggedInMenu
-                });
-        }
+const _authReducer = createReducer(initState,
 
-        case loginActions.DO_LOGOUT_SUCCESS: {
-            return Object.assign({}, state, {
-                loginData: null,
-                menuData: defaultMenu
-            });
-        }
+    on(loginActions.LoginSuccessAction, (state, { payload }) => ({
+        ...state, loginData: payload, menuData: loggedInMenu
+    })),
 
-        case loginActions.SET_LAST_AUTH_REQUIRED_ROUTE: {
-            return { ...state, lastAuthRequiredRoute: action.payload };
-        }
+    on(loginActions.DoLogoutSuccessAction, (state, {}) => ({
+        ...state, loginData: null, menuData: defaultMenu
+    })),
 
-        case loginActions.CLIENT_REG_APPLICATIONS_SUCCESS: {
-            return Object.assign({}, state, { registeredAppData: action.payload });
-        }
+    on(loginActions.SetLastAuthRequiredRouteAction, (state, { payload }) => ({
+        ...state, lastAuthRequiredRoute: payload
+    })),
 
-        case loginActions.TOKEN_GENERATION_SUCCESS: {
-            return Object.assign({}, state, { tokenDetails: action.payload });
-        }
+    on(loginActions.ClientRegistrationSuccessAction, (state, { payload }) => ({
+        ...state, registeredAppData: payload
+    })),
 
-        default: {
-            return state;
-        }
-    }
+    on(loginActions.TokenGenerationSuccessAction, (state, { payload }) => ({
+        ...state, tokenDetails: payload
+    }))
+);
 
+export function authReducer(state, action) {
+    return _authReducer(state, action);
 }

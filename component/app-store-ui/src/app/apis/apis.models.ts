@@ -1,25 +1,26 @@
 import { Operator, Country, Tier } from '../app.data.models';
 
 export enum ApiStatus {
-    ALL = 'ALL',
-    PROTOTYPED = 'PROTOTYPED',
-    PRODUCTION = 'PRODUCTION'
+    all = 'all',
+    prototyped = 'prototyped',
+    published = 'published'
 }
 
 export class ApiSearchParam {
     constructor(
-        public apiStatus: ApiStatus = ApiStatus.ALL,
+        public apiStatus: ApiStatus = ApiStatus.all,
         public query: string = '',
-        /* public page: number = 1,
-          public tag: string = '',*/
         public limit: number,
         public offset: number
-    ) { }
+    ) {
+        if(this.apiStatus != ApiStatus.all) 
+        this.query = `status:${this.apiStatus} ${this.query}`;
+    }
 }
 
 export class ApiSearchResult {
     constructor(
-        public list: ApiSummery[] = [],
+        public list: ApiSummary[] = [],
         public count: number = 0,
         public isMore: boolean = false,
         public isMonetizationEnabled: boolean = false,
@@ -29,7 +30,7 @@ export class ApiSearchResult {
         public pagination: paginationData = new paginationData) { }
 }
 
-export class ApiSummery {
+export class ApiSummary {
     constructor(
         public id: string = '',
         public name: string = '',
@@ -86,12 +87,16 @@ export class ApiOverview {
     subscriptionAvailableTenants: string;
     isDefaultVersion: string;
     transports: string;
+    apiDefinition: any;
+    id: string;
+    apiBusinessOwner: any;
+    scopes: any;
+    monetizationCategory: any;
 }
 
 export interface ApisState {
     apiSearchResult: ApiSearchResult;
-    selectedApi: ApiSummery;
-    selectedApiOverview: ApiOverview;
+    selectedApi: ApiOverview;
     apiStatus: ApiStatus[];
     userApplications: Application[];
     selectedOperators: Operator[];
@@ -117,9 +122,7 @@ export interface ApplicationsResult {
 }
 
 export class ApplicationSearchParam {
-    constructor(
-        public action: string
-    ) { }
+    apiId: string
 }
 
 export class SubscribeParam {

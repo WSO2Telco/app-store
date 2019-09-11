@@ -1,15 +1,15 @@
 
-import {empty as observableEmpty,  Observable } from 'rxjs';
-
-import {catchError, switchMap, map} from 'rxjs/operators';
 import { Injectable } from "@angular/core";
 import { ForumService } from "./forum.service";
-import { Effect, Actions } from "@ngrx/effects";
 import { HttpErrorResponse } from "@angular/common/http";
 import * as forumActions from "./forum.actions";
 import { GET_ALL_TOPICS, CreateTopicAction, GetTopicDetailSuccessAction } from './forum.actions';
 import { TopicResult } from "./forum.data.models";
 import { NotificationService } from "../shared/services/notification.service";
+
+import { Actions, createEffect, ofType } from '@ngrx/effects';
+import { mergeMap, map, catchError } from 'rxjs/operators';
+import { EMPTY } from 'rxjs';
 
 @Injectable()
 export class ForumEffects {
@@ -19,51 +19,40 @@ export class ForumEffects {
     private actions$: Actions
   ) {}
 
-  @Effect()
-  allTopics$ = this.actions$
-    .ofType(forumActions.GET_ALL_TOPICS).pipe(
-    map((action: forumActions.GetAllTopicsAction) => action.payload),
-    switchMap(param =>
-      this.service
-        .getAllTopics(param).pipe(
-        map(
-          (result: TopicResult) =>
-            new forumActions.GetAllTopicsSuccessAction(result.data)
-        ),
+  apiSearch$ = createEffect(() => this.actions$.pipe(
+    ofType(forumActions.GET_ALL_TOPICS),
+    mergeMap((action: forumActions.GetAllTopicsAction) => this.service.getAllTopics(action.payload)
+      .pipe(
+        map((result: TopicResult) => ({ type: forumActions.GET_ALL_TOPICS_SUCCESS, payload: result.data })),
         catchError((e: HttpErrorResponse) => {
-          this.notification.error(e.message);
-          return observableEmpty();
-        }),)
-    ),);
+            this.notification.error(e.message);
+            return EMPTY
+        })
+      )
+    )
+  ));
 
-  @Effect()
-  deleteTopic$ = this.actions$
-    .ofType(forumActions.DELETE_TOPIC).pipe(
-    map((action: forumActions.DeleteTopicAction) => action.payload),
-    switchMap(param =>
-      this.service
-        .deleteTopic(param).pipe(
-        map((result: any) => {
-          if (!result.error) {
-            return new forumActions.GetAllTopicsAction();
-          } else {
-            throw Error("Operation Failed");
-          }
+  deleteTopic$ = createEffect(() => this.actions$.pipe(
+    ofType(forumActions.DELETE_TOPIC),
+    mergeMap((action: forumActions.DeleteTopicAction) => this.service.deleteTopic(action.payload)
+      .pipe(
+        map((result:any) => {
+          if (!result.error) return new forumActions.GetAllTopicsAction();
+          else throw Error("Operation Failed");
         }),
         catchError((e: HttpErrorResponse) => {
-          this.notification.error(e.message);
-          return observableEmpty();
-        }),)
-    ),);
+            this.notification.error(e.message);
+            return EMPTY
+        })
+      )
+    )
+  ));
 
-  @Effect()
-  createTopic$ = this.actions$
-    .ofType(forumActions.CREATE_TOPIC).pipe(
-    map((action: forumActions.CreateTopicAction) => action.payload),
-    switchMap(param =>
-      this.service
-        .createTopic(param).pipe(
-        map((result: any) => {
+  createTopic$ = createEffect(() => this.actions$.pipe(
+    ofType(forumActions.CREATE_TOPIC),
+    mergeMap((action: forumActions.CreateTopicAction) => this.service.createTopic(action.payload)
+      .pipe(
+        map((result:any) => {
           if (!result.error) {
             this.notification.success("Forum topic successfully created");
             return new forumActions.CreateTopicSuccessAction();
@@ -72,19 +61,18 @@ export class ForumEffects {
           }
         }),
         catchError((e: HttpErrorResponse) => {
-          this.notification.error(e.message);
-          return observableEmpty();
-        }),)
-    ),);
+            this.notification.error(e.message);
+            return EMPTY
+        })
+      )
+    )
+  ));
 
-  @Effect()
-  topicDetails$ = this.actions$
-    .ofType(forumActions.GET_TOPIC_DETAILS).pipe(
-    map((action: forumActions.GetTopicDetailAction) => action.payload),
-    switchMap(param =>
-      this.service
-        .getOneTopic(param).pipe(
-        map((result: any) => {
+  topicDetails$ = createEffect(() => this.actions$.pipe(
+    ofType(forumActions.GET_TOPIC_DETAILS),
+    mergeMap((action: forumActions.GetTopicDetailAction) => this.service.getOneTopic(action.payload)
+      .pipe(
+        map((result:any) => {
           if (!result.error) {
             return new forumActions.GetTopicDetailSuccessAction(result.data);
           } else {
@@ -92,8 +80,10 @@ export class ForumEffects {
           }
         }),
         catchError((e: HttpErrorResponse) => {
-          this.notification.error(e.message);
-          return observableEmpty();
-        }),)
-    ),);
+            this.notification.error(e.message);
+            return EMPTY
+        })
+      )
+    )
+  ));
 }

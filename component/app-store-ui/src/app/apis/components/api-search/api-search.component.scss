@@ -104,7 +104,7 @@ mat-paginator{
 
         .name-container {
             flex: 1;
-            display: flex;
+            display: inline-block;
             align-items: center;
             font-weight: 500;
             font-size: 18px;
@@ -167,6 +167,8 @@ mat-paginator{
             .name-container{
                 display: inline-block;
                 width: 50%;
+                overflow: hidden;
+                text-overflow: ellipsis;
             }
 
             .info-container {
@@ -180,5 +182,14 @@ mat-paginator{
             display: inline-block;
             text-align: center;
         }
+    }
+}
+
+.api-filter-message{
+    color: #777;
+
+    span{
+        font-weight: 500;
+        text-transform: capitalize;
     }
 }

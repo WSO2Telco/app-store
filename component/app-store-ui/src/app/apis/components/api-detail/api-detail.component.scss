@@ -73,6 +73,8 @@ mat-expansion-panel-header {
 
   h1{
       margin-bottom: 5px;
+      max-width: 75%;
+      overflow-wrap: break-word;
   }
 }
 

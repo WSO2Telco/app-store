@@ -1,16 +1,10 @@
 import { Component, OnInit, ChangeDetectorRef } from "@angular/core";
 import { AppState } from "../../../app.data.models";
 import { Store } from "@ngrx/store";
-import { DoApiSearchAction, SetSelectedApiAction } from "../../apis.actions";
-import {
-  ApiSearchParam,
-  ApiSearchResult,
-  ApiSummery,
-  ApiStatus,
-  paginationData
-} from "../../apis.models";
+import { DoApiSearchAction } from "../../apis.actions";
+import { ApiSearchParam, ApiSearchResult, ApiSummary, ApiStatus, paginationData } from "../../apis.models";
 import { PageEvent } from "@angular/material";
-import { Router } from "@angular/router";
+import { Router, ActivatedRoute } from "@angular/router";
 
 //Breadcrumbs
 import * as globalActions from "../../../app.actions";
@@ -24,13 +18,14 @@ import { ApiEndpoints } from '../../../config/api.endpoints';
   styleUrls: ["./api-search.component.scss"]
 })
 export class ApiSearchComponent implements OnInit {
-  apiSearchResult: ApiSummery[];
+  apiSearchResult: ApiSummary[];
   apipaginatorData: paginationData[];
   apiStatus: ApiStatus[];
   searchQuery: string;
-  apiCategory: ApiStatus;
+  apiCategory: ApiStatus = ApiStatus.all;
   // MatPaginator Inputs
   pageSize: number = 5;
+  offsetSize: number = 0;
   length: number;
   // MatPaginator Output
   pageEvent: PageEvent;
@@ -41,7 +36,8 @@ export class ApiSearchComponent implements OnInit {
     private store: Store<AppState>,
     private router: Router,
     private ref: ChangeDetectorRef,
-    private titleService: Title
+    private titleService: Title,
+    private route: ActivatedRoute
   ) {
     this.store
       .select(s => s.apis.apiSearchResult)
@@ -54,10 +50,17 @@ export class ApiSearchComponent implements OnInit {
     this.store
       .select(s => s.apis.apiStatus)
       .subscribe(res => (this.apiStatus = res));
+
+    this.route.queryParams.subscribe(params => {
+      this.offsetSize = parseInt(params['page']) || 0;
+      this.pageSize = parseInt(params['perPage']) || 5;
+
+      console.log(this.offsetSize+"pg"+this.pageSize);
+    });
   }
 
   ngOnInit() {
-    this.store.dispatch(new DoApiSearchAction(new ApiSearchParam(this.apiCategory, '', 5, 0)));
+    this.store.dispatch(DoApiSearchAction({ "payload" : new ApiSearchParam(this.apiCategory, '', 5, 0)}));
     this.store.dispatch(new globalActions.SetBreadcrumbAction([new BreadcrumbItem("APIs")]));
     this.titleService.setTitle("APIs | Apigate API Store");
     this.view = (localStorage.getItem('resultview')) ? localStorage.getItem('resultview') : 'grid';
@@ -68,29 +71,21 @@ export class ApiSearchComponent implements OnInit {
   }
 
   onSearchClick() {
-    this.store.dispatch(
-      new DoApiSearchAction(
-        new ApiSearchParam(this.apiCategory, this.searchQuery, 5, 0)
-      )
-    );
+    this.store.dispatch(DoApiSearchAction({ "payload" : new ApiSearchParam(this.apiCategory, this.searchQuery, this.pageSize, 0)}));
   }
 
   onApiSelected($event) {
-    // this.store.dispatch(new SetSelectedApiAction($event));
     this.router.navigate(["/apis/detail/", $event.id]);
   }
 
   onCategoryChange() {
-    this.store.dispatch(
-      new DoApiSearchAction(
-        new ApiSearchParam(this.apiCategory, this.searchQuery, 5, 0)
-      )
-    );
+    this.store.dispatch(DoApiSearchAction({ "payload" : new ApiSearchParam(this.apiCategory, this.searchQuery, this.pageSize, 0)}));
   }
 
   onPageChanged(e) {
-    let firstCut = e.pageSize * e.pageIndex;
-    this.store.dispatch(new DoApiSearchAction(new ApiSearchParam(this.apiCategory, this.searchQuery, e.pageSize, firstCut)));
+    let offset = e.pageSize * e.pageIndex;
+    this.pageSize = e.pageSize;
+    this.store.dispatch(DoApiSearchAction({ "payload" : new ApiSearchParam(this.apiCategory, this.searchQuery, e.pageSize, offset)}));
   }
 
   switchView(view){

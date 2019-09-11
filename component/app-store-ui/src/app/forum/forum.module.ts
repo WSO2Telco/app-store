@@ -11,6 +11,7 @@ import { forumReducer } from "./forum.reducer";
 import { ForumEffects } from "./forum.effects";
 import { CreateTopicComponent } from './components/create-topic/create-topic.component';
 import { ViewTopicComponent } from './components/view-topic/view-topic.component';
+import { CKEditorModule } from 'ckeditor4-angular';
 
 @NgModule({
   imports: [
@@ -18,7 +19,8 @@ import { ViewTopicComponent } from './components/view-topic/view-topic.component
     SharedModule,
     ForumRoutes,
     StoreModule.forFeature("forum", forumReducer),
-    EffectsModule.forFeature([ForumEffects])
+    EffectsModule.forFeature([ForumEffects]),
+    CKEditorModule
   ],
   declarations: [ForumMainComponent, TopicResultComponent, CreateTopicComponent, ViewTopicComponent],
   providers: [ForumService]

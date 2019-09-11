@@ -1,59 +1,49 @@
-import { ApisState, ApiSearchResult, ApiStatus } from './apis.models';
+import { ApisState, ApiSearchResult, ApiStatus, ApiOverview } from './apis.models';
 import { ApisService } from './apis.service';
-import * as apiActions from './apis.actions';
+import { ApiSearchSuccessAction, GetApiOverviewSuccessAction, GetUserApplicationsSuccessAction, 
+    AddOperatorToSelectionAction, RemoveOperatorFromSelectionAction, RemoveAllOperatorFromSelectionAction } from './apis.actions';
 import { Operator } from '../app.data.models';
+import { createReducer, on } from '@ngrx/store';
 
 const initialState: ApisState = {
     apiSearchResult: new ApiSearchResult(),
-    selectedApi: null,
-    selectedApiOverview: null,
+    selectedApi: new ApiOverview,
     apiStatus: [
-        ApiStatus.ALL,
-        ApiStatus.PRODUCTION,
-        ApiStatus.PROTOTYPED],
+        ApiStatus.all,
+        ApiStatus.published,
+        ApiStatus.prototyped],
     userApplications: [],
     selectedOperators: [],
     isSubscriptionSuccess: false
 };
 
-export function apisReducer(state: ApisState = initialState, action: apiActions.Actions) {
-    switch (action.type) {
-        case apiActions.DO_API_SEARCH_SUCCESS: {
-            return Object.assign({}, state, { apiSearchResult: action.payload });
-        }
+const _apisReducer = createReducer(initialState,
 
-        case apiActions.GET_USER_APPLICATIONS_SUCCESS: {
-            return Object.assign({}, state, { userApplications: action.payload });
-        }
+    on(ApiSearchSuccessAction, (state, { payload }) => ({
+        ...state, apiSearchResult: payload
+    })),
 
-        case apiActions.GET_API_OVERVIEW_SUCCESS: {
-            return Object.assign({}, state, {
-                selectedApiOverview: action.payload
-            });
-        }
+    on(GetApiOverviewSuccessAction, (state, { payload }) => ({
+        ...state, selectedApi: payload
+    })),
 
-        case apiActions.ADD_OPERATOR_TO_SELECTION: {
-            return Object.assign({}, state, {
-                selectedOperators:
-                    [...state.selectedOperators.filter((op: Operator) => op.mnc !== action.payload.mnc), action.payload]
-            });
-        }
+    on(GetUserApplicationsSuccessAction, (state, { payload }) => ({
+        ...state, userApplications: payload
+    })),
 
-        case apiActions.REMOVE_OPERATOR_FROM_SELECTION: {
-            return Object.assign({}, state,
-                { selectedOperators: state.selectedOperators.filter((op: Operator) => op.mnc !== action.payload.mnc) });
-        }
+    on(AddOperatorToSelectionAction, (state, { payload }) => ({
+        ...state, selectedOperators: [...state.selectedOperators.filter((op: Operator) => op.mnc !== payload.mnc), payload]
+    })),
 
-        case apiActions.REMOVE_ALL_OPERATOR_FROM_SELECTION: {
-            return Object.assign({}, state,
-                { selectedOperators: [] });
-        }
+    on(RemoveOperatorFromSelectionAction, (state, { payload }) => ({
+        ...state, selectedOperators: state.selectedOperators.filter((op: Operator) => op.mnc !== payload.mnc)
+    })),
 
-        case apiActions.SET_SELECTED_API: {
-            return Object.assign({}, state, { selectedApi: action.payload });
-        }
+    on(RemoveAllOperatorFromSelectionAction, (state, { payload }) => ({
+        ...state, selectedOperators: []
+    }))
+);
 
-        default:
-            return state;
-    }
+export function apisReducer(state, action) {
+    return _apisReducer(state, action);
 }
