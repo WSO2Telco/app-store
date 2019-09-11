@@ -1,7 +1,7 @@
 
-import {empty as observableEmpty,  Observable } from 'rxjs';
+import { empty as observableEmpty, Observable } from 'rxjs';
 
-import {catchError, switchMap, map} from 'rxjs/operators';
+import { catchError, switchMap, map, mergeMap } from 'rxjs/operators';
 import { Actions, Effect } from "@ngrx/effects";
 import * as loginActions from "./authentication.actions";
 import { AuthenticationService } from "./authentication.service";
@@ -12,7 +12,9 @@ import {
 import {
   LoginFormData,
   LoginResponseData,
-  LogoutResponseData
+  LogoutResponseData,
+  ClientRegParam,
+  TokenGenerationParam
 } from "./authentication.models";
 import {
   DoLoginAction,
@@ -48,65 +50,117 @@ export class AuthenticationEffects {
   @Effect()
   login$ = this.actions$
     .ofType(loginActions.DO_LOGIN).pipe(
-    map((action: DoLoginAction) => action.payload),
-    switchMap((payload: any) =>
-      this.authService
-        .login(new LoginFormData(payload.username, payload.password)).pipe(
-        map((response: LoginResponseData) => {
-          if (response.error) {
-            throw response;
-          } else {
-            this.router.navigate([this.lastAuthRequiredRoute || "home"]);
-            return new loginActions.LoginSuccessAction(response);
-          }
-        }),
-        catchError((e: HttpErrorResponse) => {
-          this.notification.error(e.message);
-          return observableEmpty();
-        }),)
-    ),);
+      map((action: DoLoginAction) => action.payload),
+      switchMap((payload: any) =>
+        this.authService
+          .login(new LoginFormData(payload.username, payload.password)).pipe(
+            mergeMap((response: LoginResponseData) => {
+              if (response.error) {
+                this.notification.error("Invalid username or password");
+                // throw response;
+              } else {
+                const p = new ClientRegParam();
+                this.router.navigate([this.lastAuthRequiredRoute || "home"]);
+                return [
+                  new loginActions.LoginSuccessAction(response),
+                  new loginActions.ClientRegistrationAction(p)];
+              }
+            }),
+            catchError((e: HttpErrorResponse) => {
+              this.notification.error(e.message);
+              return observableEmpty();
+            }))
+      ));
+
+  @Effect()
+  clientRegister$ = this.actions$
+    .ofType(loginActions.CLIENT_REG_APPLICATIONS).pipe(
+      map(
+        (action: loginActions.ClientRegistrationAction) => action.payload
+      ),
+      switchMap(param =>
+        this.authService
+          .clientAppRegistration(param).pipe(
+            mergeMap((result: any) => {
+              if (!result.error) {
+                const p = new TokenGenerationParam();
+                this.notification.success("successfully created");
+                return [
+                  new loginActions.ClientRegistrationSuccessAction(result),
+                  new loginActions.TokenGenerationAction(p)]
+              } else {
+                throw Error("Operation Failed");
+              }
+            }),
+            catchError((e: HttpErrorResponse) => {
+              this.notification.error(e.message);
+              return observableEmpty();
+            }))
+      ));
+
+  @Effect()
+  tokenGeneration$ = this.actions$
+    .ofType(loginActions.TOKEN_GENERATION).pipe(
+      map(
+        (action: loginActions.TokenGenerationAction) => action.payload
+      ),
+      switchMap(param =>
+        this.authService
+          .tokenGeneration(param).pipe(
+            map((result: any) => {
+              if (!result.error) {
+                return new loginActions.TokenGenerationSuccessAction(result)
+              } else {
+                throw Error("Operation Failed");
+              }
+            }),
+            catchError((e: HttpErrorResponse) => {
+              this.notification.error(e.message);
+              return observableEmpty();
+            }))
+      ));
 
   @Effect()
   logout$ = this.actions$.ofType(loginActions.DO_LOGOUT).pipe(switchMap(() =>
     this.authService
       .logout().pipe(
-      map((response: LogoutResponseData) => {
-        this.router.navigate(["home"]);
-        return new loginActions.DoLogoutSuccessAction();
-      }),
-      catchError((e: HttpErrorResponse) => {
-        this.notification.error(e.message);
-        return observableEmpty();
-      }),)
+        map((response: LogoutResponseData) => {
+          this.router.navigate(["home"]);
+          return new loginActions.DoLogoutSuccessAction();
+        }),
+        catchError((e: HttpErrorResponse) => {
+          this.notification.error(e.message);
+          return observableEmpty();
+        }))
   ));
 
   @Effect()
   signup$ = this.actions$
     .ofType(loginActions.SIGNUP_USER).pipe(
-    map((action: SignupUserAction) => action.payload),
-    switchMap((payload: any) => this.authService.signup(payload)),
-    map(response => {
-      this.notification.success('User added successfully. You can now sign into the API store using the new user account'); 
-      return new loginActions.SignupUserSuccessAction(response);
-    }),
-    catchError((e: HttpErrorResponse) => {
-      this.notification.error(e.message);
-      return observableEmpty();
-    }),);
+      map((action: SignupUserAction) => action.payload),
+      switchMap((payload: any) => this.authService.signup(payload)),
+      map(response => {
+        this.notification.success('User added successfully. You can now sign into the API store using the new user account');
+        return new loginActions.SignupUserSuccessAction(response);
+      }),
+      catchError((e: HttpErrorResponse) => {
+        this.notification.error(e.message);
+        return observableEmpty();
+      }));
 
-    @Effect()
-    changePassword$ = this.actions$
-      .ofType(loginActions.CHANGE_USER_PW).pipe(
+  @Effect()
+  changePassword$ = this.actions$
+    .ofType(loginActions.CHANGE_USER_PW).pipe(
       map((action: ChangeUserPwAction) => action.payload),
       switchMap((payload: ResetPasswordParam) => this.authService.changePassword(payload)),
       map(response => {
-        this.notification.success('User password changed successfully. You can now sign in to the API store using the new password.'); 
+        this.notification.success('User password changed successfully. You can now sign in to the API store using the new password.');
         return new loginActions.ChangeUserPwSuccessAction(response);
       }),
       catchError((e: HttpErrorResponse) => {
         this.notification.error(e.message);
         return observableEmpty();
-      }),);
+      }));
 
 
 }

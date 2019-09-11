@@ -10,7 +10,7 @@ import { Router } from '@angular/router';
 import * as globalActions from "../../../app.actions";
 import { BreadcrumbItem } from "../../../app.data.models";
 import { Title } from '@angular/platform-browser';
-
+import { ClientRegParam } from '../../../authentication/authentication.models';
 @Component({
   selector: 'store-search-applications',
   templateUrl: './search-applications.component.html',
@@ -18,14 +18,18 @@ import { Title } from '@angular/platform-browser';
 })
 export class SearchApplicationsComponent implements OnInit {
   dataSource = new MatTableDataSource<Application>();
-  searchQuery:string;
+  searchQuery: string;
+  public clientData: ClientRegParam;
 
   constructor(private store: Store<AppState>, private router: Router, private titleService: Title) {}
 
   ngOnInit() {
+    this.clientData = new ClientRegParam();
     this.store
       .select(s => s.applications.allApplications)
       .subscribe(apps => (this.dataSource.data = apps));
+
+ //   this.store.dispatch(new applicationsActions.ClientRegistrationAction(this.clientData));
 
     this.store.dispatch(new applicationsActions.GetAllApplicationsAction());
 
@@ -45,5 +49,5 @@ export class SearchApplicationsComponent implements OnInit {
     }
   }
 
-  onSearchClick(){}
+  onSearchClick() { }
 }
