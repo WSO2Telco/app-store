@@ -9,7 +9,7 @@ import { ApiEndpoints } from '../config/api.endpoints';
 import { LoginFormData, LoginResponseData, LogoutResponseData, ClientRegParam, RegClientData, TokenGenerationParam, TokenData } from './authentication.models';
 import { AppState } from '../app.data.models';
 import { Store } from '@ngrx/store';
-import { SigUpUserParam, ResetPasswordParam } from './authentication.data.models';
+import { SigUpUserParam, ResetPasswordParam } from './authentication.models';
 
 @Injectable()
 export class AuthenticationService {

@@ -33,9 +33,7 @@ export class ApplicationSubscriptionsComponent implements OnInit {
       .select(s => s.applications.selectedApplication)
       .subscribe(app => {
         if (app) {
-          this.store.dispatch(
-            new applicationsActions.GetApplicationSubscriptionsAction(app)
-          );
+          this.store.dispatch(applicationsActions.GetApplicationSubscriptionsAction({"payload": app}));
         }
     });
   }

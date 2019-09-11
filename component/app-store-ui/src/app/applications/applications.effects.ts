@@ -1,16 +1,13 @@
-
-import {empty as observableEmpty,  Observable } from 'rxjs';
-
-import {switchMap, catchError, map} from 'rxjs/operators';
-import { ApplicationsService } from './applications.service';
 import { Injectable } from '@angular/core';
-import { Actions, Effect } from '@ngrx/effects';
+import { Actions, Effect, createEffect, ofType } from '@ngrx/effects';
+
+import { EMPTY } from 'rxjs';
+import { mergeMap, catchError, map} from 'rxjs/operators';
+import { ApplicationsService } from './applications.service';
 import * as applicationsActions from './applications.actions';
 import { Application, Subscription } from './applications.data.models';
 import { NotificationService } from '../shared/services/notification.service';
-
 import { HttpErrorResponse } from '@angular/common/http';
-import { GET_APPLICATION_SUBSCRIPTIONS, GetApplicationSubscriptionsSuccessAction } from './applications.actions';
 
 @Injectable()
 export class ApplicationsEffects {
@@ -20,41 +17,29 @@ export class ApplicationsEffects {
     private notification: NotificationService
   ) {}
 
-  @Effect()
-  countries$ = this.actions$
-    .ofType(applicationsActions.GET_ALL_APPLICATIONS).pipe(
-    map(
-      (action: applicationsActions.GetAllApplicationsAction) => action.payload
-    ),
-    switchMap(param =>
-      this.service
-        .getAllApplications(param).pipe(
-        map(
-          (result: Application[]) =>
-            new applicationsActions.GetAllApplicationsSuccessAction(result)
-        ),
+  countries$ = createEffect(() => this.actions$.pipe(
+    ofType(applicationsActions.GetAllApplicationsAction),
+    mergeMap(({payload}) => this.service.getAllApplications(payload)
+      .pipe(
+        map((response:Application[]) => applicationsActions.GetAllApplicationsSuccessAction({ "payload" : response})),
         catchError((e: HttpErrorResponse) => {
-          this.notification.error(e.message);
-          return observableEmpty();
-        }),)
-    ),);
+            this.notification.error(e.message);
+            return EMPTY
+        })
+      )
+    )
+  ));
 
-  @Effect()
-  appSubscriptions$ = this.actions$
-    .ofType(applicationsActions.GET_APPLICATION_SUBSCRIPTIONS).pipe(
-    map(
-      (action: applicationsActions.GetApplicationSubscriptionsAction) => action.payload
-    ),
-    switchMap(param =>
-      this.service
-        .getApplicationSubscriptions(param).pipe(
-        map(
-          (result: Subscription[]) =>
-            new applicationsActions.GetApplicationSubscriptionsSuccessAction(result)
-        ),
+  appSubscriptions$ = createEffect(() => this.actions$.pipe(
+    ofType(applicationsActions.GetApplicationSubscriptionsAction),
+    mergeMap(({payload}) => this.service.getApplicationSubscriptions(payload)
+      .pipe(
+        map((response:Subscription[]) => applicationsActions.GetApplicationSubscriptionsSuccessAction({ "payload" : response})),
         catchError((e: HttpErrorResponse) => {
-          this.notification.error(e.message);
-          return observableEmpty();
-        }),)
-    ),);
+            this.notification.error(e.message);
+            return EMPTY
+        })
+      )
+    )
+  ))
 }

@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from "@angular/core";
-import { SigUpUserParam } from "../../authentication.data.models";
+import { SigUpUserParam } from "../../authentication.models";
 import { AppState } from "../../../app.data.models";
 import { Store } from "@ngrx/store";
 import * as authActions from "../../authentication.actions";

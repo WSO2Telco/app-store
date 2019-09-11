@@ -1,6 +1,5 @@
 import { Action } from "@ngrx/store";
 import { GetTopicsParam, Topic, CreateTopicParam, TopicDetail } from "./forum.data.models";
-import { Actions } from "../applications/applications.actions";
 
 export const GET_ALL_TOPICS = "GET_ALL_TOPICS";
 export const GET_ALL_TOPICS_SUCCESS = "GET_ALL_TOPICS_SUCCESS";

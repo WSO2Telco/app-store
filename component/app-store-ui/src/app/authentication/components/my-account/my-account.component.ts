@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from "@angular/core";
-import { ResetPasswordParam } from "../../authentication.data.models";
+import { ResetPasswordParam } from "../../authentication.models";
 import { AppState } from "../../../app.data.models";
 import { Store } from "@ngrx/store";
 import { Actions } from '@ngrx/effects';

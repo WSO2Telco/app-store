@@ -1,42 +1,10 @@
-import { Action } from '@ngrx/store';
-import { Application, AppSubscriptionParam, Subscription } from './applications.data.models';
+import { props, createAction } from '@ngrx/store';
+import { Application, Subscription, GetApplicationsParam } from './applications.data.models';
 
-export const GET_ALL_APPLICATIONS = 'GET_ALL_APPLICATIONS';
-export const GET_ALL_APPLICATIONS_SUCCESS = 'GET_ALL_APPLICATIONS_SUCCESS';
+export const GetAllApplicationsAction = createAction('[App] Get All Apps', props<{payload: any}>());
+export const GetAllApplicationsSuccessAction = createAction('[App] Get All Apps Success ✓', props<{payload: Application[]}>());
 
-export const SET_SELECTED_APPLICATION = 'SET_SELECTED_APPLICATION';
+export const SetSelectedApplicationsAction = createAction('[App] Set Selected App', props<{payload: any}>());
 
-export const GET_APPLICATION_SUBSCRIPTIONS = 'GET_APPLICATION_SUBSCRIPTIONS';
-export const GET_APPLICATION_SUBSCRIPTIONS_SUCCESS = 'GET_APPLICATION_SUBSCRIPTIONS_SUCCESS';
-
-export class GetAllApplicationsAction implements Action {
-  readonly type: string = GET_ALL_APPLICATIONS;
-  constructor(public payload: any = null) { }
-}
-
-export class GetAllApplicationsSuccessAction implements Action {
-  readonly type: string = GET_ALL_APPLICATIONS_SUCCESS;
-  constructor(public payload: Application[]) { }
-}
-
-export class SetSelectedApplicationsAction implements Action {
-  readonly type: string = SET_SELECTED_APPLICATION;
-  constructor(public payload: number) { }
-}
-
-export class GetApplicationSubscriptionsAction implements Action {
-  readonly type: string = GET_APPLICATION_SUBSCRIPTIONS;
-  constructor(public payload: Application) { }
-}
-
-export class GetApplicationSubscriptionsSuccessAction implements Action {
-  readonly type: string = GET_APPLICATION_SUBSCRIPTIONS_SUCCESS;
-  constructor(public payload: Subscription[]) { }
-}
-
-export type Actions =
-  | GetAllApplicationsAction
-  | GetAllApplicationsSuccessAction
-  | SetSelectedApplicationsAction
-  | GetApplicationSubscriptionsAction
-  | GetApplicationSubscriptionsSuccessAction;
+export const GetApplicationSubscriptionsAction = createAction('[App] Get App Subscriptions', props<{payload: Application}>());
+export const GetApplicationSubscriptionsSuccessAction = createAction('[App] Get App Subscriptions Success ✓', props<{payload: Subscription[]}>());
