@@ -1,21 +1,22 @@
+<div fxLayout="column" fxLayoutGap="20px">
 
-<mat-card class="forum-title-container animated fadeInDown" >
-    <mat-card-content>
-            Create New Topic
-    </mat-card-content>
-</mat-card>
-<mat-card class="forum-container animated fadeIn delay_6" >
-    <mat-card-content>
-            <form #topicForm="ngForm" novalidate (ngSubmit)="onCreateClick()" fxLayout="column" fxLayoutGap="20px">
-                <mat-form-field fxFlex>
-                    <input matInput placeholder="Subject" name="subject" [(ngModel)]="topic.subject">
-                </mat-form-field>
-                <quill-editor [style]="{height: '250px'}"></quill-editor>
-               <!--  <div fxFlex [froalaEditor]=""  [(froalaModel)]="topic.description"></div> -->
-                <div class="btn-wrapper" fxLayout="row"  fxLayoutAlign="end center" >
-                    <button type="button"  mat-raised-button >Cancel</button>
-                    <button type="submit"  mat-raised-button color="accent">Create</button>
-                </div>
-            </form>    
-    </mat-card-content>
-</mat-card>
+    <div class="intro-container">
+      <h1 class="animated fadeInDown">Create New Topic</h1>
+    </div>
+
+    <mat-card class="forum-container animated fadeIn delay_6" >
+        <mat-card-content>
+                <form #topicForm="ngForm" novalidate (ngSubmit)="onCreateClick()" fxLayout="column" fxLayoutGap="20px">
+                    <mat-form-field fxFlex>
+                        <input matInput placeholder="Topic Title" name="subject" [(ngModel)]="topic.subject">
+                    </mat-form-field>
+                    <ckeditor></ckeditor>
+                    <div class="btn-wrapper" fxLayout="row"  fxLayoutAlign="end center" >
+                        <button type="button"  mat-raised-button >Cancel</button>
+                        <button type="submit"  mat-raised-button color="accent">Create</button>
+                    </div>
+                </form>    
+        </mat-card-content>
+    </mat-card>
+
+</div>

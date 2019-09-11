@@ -30,7 +30,7 @@ import { InfiniteScrollDirective } from "./directives/infinite-scroll.directive"
 import { MatChipsModule } from "@angular/material/chips";
 import { MatCheckboxModule } from "@angular/material/checkbox";
 import { MatDialogModule } from "@angular/material/dialog";
-import { QuillModule } from 'ngx-quill'
+
 @NgModule({
   imports: [
     CommonModule,
@@ -73,8 +73,7 @@ import { QuillModule } from 'ngx-quill'
     MatSlideToggleModule,
     InfiniteScrollDirective,
     MatChipsModule,
-    MatDialogModule,
-    QuillModule
+    MatDialogModule
   ],
   providers: [NotificationService],
   entryComponents: [NotificationComponent]
