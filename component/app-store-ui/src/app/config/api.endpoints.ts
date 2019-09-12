@@ -9,7 +9,7 @@ export const ApiEndpoints = {
     signup: "./assets/files/sign-up.json",
     changePassword: "./assets/files/sign-up.json",
     clientRegistration: baseUrl.protocol + '//' + baseUrl.host + '/client-registration/v0.13/register',
-    tokenGeneration: baseUrl.protocol + '//' + baseUrl.host+ '/token',
+    tokenGeneration: baseUrl.protocol + '//' + baseUrl.host+ '/oauth2/token',
   },
   apis: {
     search: apiContext + '/apis',

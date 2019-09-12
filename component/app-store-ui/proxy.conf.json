@@ -2,5 +2,17 @@
   "/api": {
     "target": "https://localhost:9443",
     "secure": false
+  },
+  "/app-store": {
+    "target": "https://localhost:9443",
+    "secure": false
+  },
+  "/client-registration": {
+    "target": "https://localhost:9443",
+    "secure": false
+  },
+  "/oauth2": {
+    "target": "https://localhost:9443",
+    "secure": false
   }
 }
