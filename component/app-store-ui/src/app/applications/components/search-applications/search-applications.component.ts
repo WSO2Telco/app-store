@@ -40,7 +40,7 @@ export class SearchApplicationsComponent implements OnInit {
   onAppAction(app, action) {
     switch (action) {
       case 'view': {
-        this.router.navigate([`applications/${app.id}/overview`]);
+        this.router.navigate([`applications/${app.applicationId}/overview`]);
         break;
       }
 

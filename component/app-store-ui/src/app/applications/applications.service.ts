@@ -1,43 +1,26 @@
 
 import { map } from 'rxjs/operators';
-import { HttpClient, HttpParams, HttpHeaders } from '@angular/common/http';
+import { HttpClient} from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { ApiEndpoints } from '../config/api.endpoints';
-import {
-  GetApplicationsParam,
-  Application,
-  Subscription
-} from './applications.data.models';
-import { TokenData } from '../authentication/authentication.models';
-import { Store } from '@ngrx/store';
-import { AppState } from '../app.data.models';
+import { GetApplicationsParam, Application, Subscription,
+  ApplicationListResult, ApplicationDetails } from './applications.data.models';
+import { Observable } from 'rxjs';
 
 @Injectable()
 export class ApplicationsService {
 
-  private tokenData:TokenData;
   private httpOptions;
 
-  constructor(private http: HttpClient, private store: Store<AppState>) {
-    this.store.select((s) => s.authentication.tokenDetails).subscribe((token) => {
-      this.tokenData = token;
-    })
+  constructor(private http: HttpClient) {}
 
-    this.httpOptions = {
-      headers: new HttpHeaders({
-        'Content-Type' : 'application/json',
-        'Accept'       : 'application/json',
-        'Authorization': `Bearer ${this.tokenData.access_token}`,
-      })
-    };
-    // ToDo : Move this to separate interceptor
+  getAllApplications(param: GetApplicationsParam): Observable<ApplicationListResult> {
+    return this.http.get<ApplicationListResult>(ApiEndpoints.applications.getAllApplications);
   }
 
-  getAllApplications(param: GetApplicationsParam) {
-    return this.http.get(
-      ApiEndpoints.applications.getAllApplications,
-      this.httpOptions
-    );
+  getApplicationsDetails(appId: string): Observable<ApplicationDetails>{
+    const endpoint = `${ApiEndpoints.applications.getAllApplications}/${appId}`;
+    return this.http.get<ApplicationDetails>(endpoint);
   }
 
   getApplicationSubscriptions(param: Application) {

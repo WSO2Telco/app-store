@@ -14,13 +14,13 @@ export class GetApplicationsParam {
 }
 
 export class ApplicationListResult {
-  count : number = null;
-  next: string = null;
-  previous: string = null;
+  count : number;
+  next: string;
+  previous: string;
   list: Application[];
 }
 
-export interface Application {
+export class Application {
   applicationId: string;
   attributes: any;
   description: string;
@@ -60,4 +60,25 @@ export interface AppSubscriptionParam {
   error: string;
   apis: Subscription[];
   depType: string;
+}
+
+export class ApplicationDetails {
+  groupId: string
+  callbackUrl: string;
+  subscriber: string;
+  throttlingTier: string;
+  applicationId: string;
+  description: string;
+  status: string;
+  name: string;
+  keys: ApplicationDetailsKeys[];
+}
+
+export class ApplicationDetailsKeys {
+  consumerKey: string;
+  consumerSecret: string;
+  keyState: string;
+  keyType: string;
+  supportedGrantTypes: any;
+  token: any;
 }

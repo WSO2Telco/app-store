@@ -5,7 +5,7 @@ import { EMPTY } from 'rxjs';
 import { mergeMap, catchError, map} from 'rxjs/operators';
 import { ApplicationsService } from './applications.service';
 import * as applicationsActions from './applications.actions';
-import { Application, Subscription } from './applications.data.models';
+import { Application, Subscription, ApplicationListResult, ApplicationDetails } from './applications.data.models';
 import { NotificationService } from '../shared/services/notification.service';
 import { HttpErrorResponse } from '@angular/common/http';
 
@@ -17,11 +17,24 @@ export class ApplicationsEffects {
     private notification: NotificationService
   ) {}
 
-  countries$ = createEffect(() => this.actions$.pipe(
+  getAllApps$ = createEffect(() => this.actions$.pipe(
     ofType(applicationsActions.GetAllApplicationsAction),
     mergeMap(({payload}) => this.service.getAllApplications(payload)
       .pipe(
-        map((response:Application[]) => applicationsActions.GetAllApplicationsSuccessAction({ "payload" : response})),
+        map((response:ApplicationListResult) => applicationsActions.GetAllApplicationsSuccessAction({ "payload" : response})),
+        catchError((e: HttpErrorResponse) => {
+            this.notification.error(e.message);
+            return EMPTY
+        })
+      )
+    )
+  ));
+
+  getAppDetails$ = createEffect(() => this.actions$.pipe(
+    ofType(applicationsActions.GetApplicationDetailsAction),
+    mergeMap(({payload}) => this.service.getApplicationsDetails(payload)
+      .pipe(
+        map((response:ApplicationDetails) => applicationsActions.GetApplicationDetailsSuccessAction({ "payload" : response})),
         catchError((e: HttpErrorResponse) => {
             this.notification.error(e.message);
             return EMPTY

@@ -18,7 +18,7 @@ import { Title } from '@angular/platform-browser';
   styleUrls: ["./application-detail-main.component.scss"]
 })
 export class ApplicationDetailMainComponent implements OnInit {
-  appId : number;
+  appId : string;
   activatedTab : string;
   appStatus: string = 'active';
 
@@ -35,7 +35,7 @@ export class ApplicationDetailMainComponent implements OnInit {
       this.appId = params['appId'];
       this.activatedTab = params['tab'];
       this.store.dispatch(
-        applicationsActions.SetSelectedApplicationsAction({"payload":this.appId})
+        applicationsActions.GetApplicationDetailsAction({"payload":this.appId})
       );
     })
 
