@@ -26,6 +26,7 @@ export const ApiEndpoints = {
     getAllApplications: apiContext + '/applications',
     getSubscriptions: "./assets/files/subscriptions.json",
   },
+  subscriptions : apiContext + '/subscriptions',
   forum: {
     getAllTopics: "./assets/files/all-tpics.json",
     getOneTopic: "./assets/files/one-thread.json",

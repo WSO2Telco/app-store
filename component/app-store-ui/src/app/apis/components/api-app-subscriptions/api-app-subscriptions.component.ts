@@ -23,7 +23,7 @@ export class ApiAppSubscriptionsComponent implements OnInit {
   ngOnInit() {
     this.store
       .select(s => s.applications.appSubscriptions)
-      .subscribe(res => (this.datasource.data = res));
+      .subscribe(res => (this.datasource.data = res.list));
 
     this.store
       .select(s => s.apis.selectedApi)

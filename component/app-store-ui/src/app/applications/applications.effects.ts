@@ -5,7 +5,7 @@ import { EMPTY } from 'rxjs';
 import { mergeMap, catchError, map} from 'rxjs/operators';
 import { ApplicationsService } from './applications.service';
 import * as applicationsActions from './applications.actions';
-import { Application, Subscription, ApplicationListResult, ApplicationDetails } from './applications.data.models';
+import { Application, Subscription, ApplicationListResult, ApplicationDetails, SubscriptionResult } from './applications.data.models';
 import { NotificationService } from '../shared/services/notification.service';
 import { HttpErrorResponse } from '@angular/common/http';
 
@@ -47,7 +47,7 @@ export class ApplicationsEffects {
     ofType(applicationsActions.GetApplicationSubscriptionsAction),
     mergeMap(({payload}) => this.service.getApplicationSubscriptions(payload)
       .pipe(
-        map((response:Subscription[]) => applicationsActions.GetApplicationSubscriptionsSuccessAction({ "payload" : response})),
+        map((response:SubscriptionResult) => applicationsActions.GetApplicationSubscriptionsSuccessAction({ "payload" : response})),
         catchError((e: HttpErrorResponse) => {
             this.notification.error(e.message);
             return EMPTY

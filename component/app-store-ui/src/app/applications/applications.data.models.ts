@@ -6,7 +6,7 @@ export enum Tiers {
 export interface ApplicationsState {
   allApplications: ApplicationListResult;
   selectedApplication: Application;
-  appSubscriptions: Subscription[];
+  appSubscriptions: SubscriptionResult;
 }
 
 export class GetApplicationsParam {
@@ -44,16 +44,28 @@ export class TabTile {
   class: string;
 }
 
+export class SubscriptionResult {
+  count : number;
+  next: string;
+  previous: string;
+  list: Subscription[];
+}
+
 export class Subscription {
-  apiName: string;
-  apiVersion: string;
-  apiProvider: string;
-  description: string;
-  subscribedTier: string;
+  // apiName: string;
+  // apiVersion: string;
+  // apiProvider: string;
+  // description: string;
+  // subscribedTier: string;
+  // status: string;
+  // subStatus: string;
+  // thumburl: string;
+  // operators: string;
+  apiIdentifier: string;
+  applicationId: string;
   status: string;
-  subStatus: string;
-  thumburl: string;
-  operators: string;
+  subscriptionId: string;
+  tier: string;
 }
 
 export interface AppSubscriptionParam {

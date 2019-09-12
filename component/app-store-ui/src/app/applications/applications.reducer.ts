@@ -1,10 +1,10 @@
-import { ApplicationsState } from './applications.data.models';
+import { ApplicationsState, Application } from './applications.data.models';
 import * as applicationsActions from './applications.actions';
 import { createReducer, on } from '@ngrx/store';
 
 const initialState: ApplicationsState = {
   allApplications: null,
-  selectedApplication: null,
+  selectedApplication: new Application,
   appSubscriptions: null
 };
 
@@ -16,6 +16,10 @@ const _applicationsReducer = createReducer(initialState,
   })),
 
   on(applicationsActions.SetSelectedApplicationsAction, (state, { payload }) => ({
+    ...state, selectedApplication: payload
+  })),
+
+  on(applicationsActions.GetApplicationDetailsSuccessAction, (state, { payload }) => ({
     ...state, selectedApplication: payload
   })),
 
