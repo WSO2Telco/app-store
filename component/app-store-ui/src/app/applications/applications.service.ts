@@ -8,16 +8,30 @@ import {
   Application,
   Subscription
 } from './applications.data.models';
+import { TokenData } from '../authentication/authentication.models';
+import { Store } from '@ngrx/store';
+import { AppState } from '../app.data.models';
 
 @Injectable()
 export class ApplicationsService {
-  private httpOptions = {
-    headers: new HttpHeaders({
-      'Content-Type': 'application/json'
-    })
-  };
 
-  constructor(private http: HttpClient) { }
+  private tokenData:TokenData;
+  private httpOptions;
+
+  constructor(private http: HttpClient, private store: Store<AppState>) {
+    this.store.select((s) => s.authentication.tokenDetails).subscribe((token) => {
+      this.tokenData = token;
+    })
+
+    this.httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type' : 'application/json',
+        'Accept'       : 'application/json',
+        'Authorization': `Bearer ${this.tokenData.access_token}`,
+      })
+    };
+    // ToDo : Move this to separate interceptor
+  }
 
   getAllApplications(param: GetApplicationsParam) {
     return this.http.get(

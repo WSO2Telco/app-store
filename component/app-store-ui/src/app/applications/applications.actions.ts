@@ -1,8 +1,8 @@
 import { props, createAction } from '@ngrx/store';
-import { Application, Subscription, GetApplicationsParam } from './applications.data.models';
+import { Application, Subscription, ApplicationListResult } from './applications.data.models';
 
 export const GetAllApplicationsAction = createAction('[App] Get All Apps', props<{payload: any}>());
-export const GetAllApplicationsSuccessAction = createAction('[App] Get All Apps Success ✓', props<{payload: Application[]}>());
+export const GetAllApplicationsSuccessAction = createAction('[App] Get All Apps Success ✓', props<{payload: ApplicationListResult}>());
 
 export const SetSelectedApplicationsAction = createAction('[App] Set Selected App', props<{payload: any}>());
 

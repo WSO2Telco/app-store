@@ -4,7 +4,7 @@ export enum Tiers {
 }
 
 export interface ApplicationsState {
-  allApplications: Application[];
+  allApplications: ApplicationListResult;
   selectedApplication: Application;
   appSubscriptions: Subscription[];
 }
@@ -13,16 +13,22 @@ export class GetApplicationsParam {
   page: number;
 }
 
+export class ApplicationListResult {
+  count : number = null;
+  next: string = null;
+  previous: string = null;
+  list: Application[];
+}
+
 export interface Application {
-  name: string;
-  tier: string;
-  id: number;
-  callbackUrl: string;
-  status: string;
+  applicationId: string;
+  attributes: any;
   description: string;
-  apiCount: number;
-  groupId: number;
-  isBlacklisted: boolean;
+  groupId: any;
+  name: string;
+  status: string;
+  subscriber: string;
+  throttlingTier: string;
 }
 
 export class CreateApplicationParam {

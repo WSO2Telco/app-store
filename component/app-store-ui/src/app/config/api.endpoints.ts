@@ -23,7 +23,7 @@ export const ApiEndpoints = {
     tiers: "./assets/files/tiers.json"
   },
   applications: {
-    getAllApplications: "./assets/files/applications.json",
+    getAllApplications: apiContext + '/applications',
     getSubscriptions: "./assets/files/subscriptions.json",
   },
   forum: {

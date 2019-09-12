@@ -27,7 +27,7 @@ export class SearchApplicationsComponent implements OnInit {
     this.clientData = new ClientRegParam();
     this.store
       .select(s => s.applications.allApplications)
-      .subscribe(apps => (this.dataSource.data = apps));
+      .subscribe(apps => (this.dataSource.data = apps.list));
 
  //   this.store.dispatch(new applicationsActions.ClientRegistrationAction(this.clientData));
 
