@@ -4,8 +4,8 @@ const apiContext = baseUrl.protocol + '//' + baseUrl.host + '/api/am/store/v0.13
 export const ApiEndpoints = {
   apiContext: apiContext,
   authentication: {
-    login: baseUrl.protocol + '//' + baseUrl.host +"/app-store/public/api/auth/login",
-    logout: "./assets/files/logout.json",
+    login: baseUrl.protocol + '//' + baseUrl.host + "/app-store/public/api/auth/login",
+    logout: baseUrl.protocol + '//' + baseUrl.host + "/app-store/public/api/auth/logout",
     signup: "./assets/files/sign-up.json",
     changePassword: "./assets/files/sign-up.json",
     clientRegistration: baseUrl.protocol + '//' + baseUrl.host + '/client-registration/v0.13/register',
