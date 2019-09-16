@@ -29,6 +29,7 @@ export class Application {
   status: string;
   subscriber: string;
   throttlingTier: string;
+  tokenType: string;
 }
 
 export class CreateApplicationParam {
