@@ -1,6 +1,6 @@
 import { BrowserModule } from "@angular/platform-browser";
 import { NgModule } from "@angular/core";
-import { HttpClientXsrfModule } from "@angular/common/http";
+import { HttpClientXsrfModule, HTTP_INTERCEPTORS, HttpClientModule } from "@angular/common/http";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 
 import {
@@ -29,6 +29,7 @@ import { localStorageSync } from "ngrx-store-localstorage";
 import { applicationsReducer } from "./applications/applications.reducer";
 import { AppGuard } from "./app.guards";
 import { forumReducer } from "./forum/forum.reducer";
+import { ApiInterceptor } from './shared/api.interceptor';
 
 const reducers: ActionReducerMap<AppState> = {
   global: globalReducer,
@@ -54,6 +55,7 @@ const metaReducers: Array<MetaReducer<any, any>> = [localStorageSyncReducer];
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
+    HttpClientModule,
     HttpClientXsrfModule.withOptions({
       cookieName: "csrftoken",
       headerName: "X-CSRFToken"
@@ -70,7 +72,15 @@ const metaReducers: Array<MetaReducer<any, any>> = [localStorageSyncReducer];
       maxAge: 25 //  Retains last 25 states
     })
   ],
-  providers: [AppService, AppGuard],
+  providers: [
+    AppService,
+    AppGuard,
+    { 
+      provide: HTTP_INTERCEPTORS, 
+      useClass: ApiInterceptor, 
+      multi: true
+    }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule {}

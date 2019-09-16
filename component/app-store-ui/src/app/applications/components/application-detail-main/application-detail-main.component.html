@@ -1,9 +1,9 @@
 <div fxLayout="column" fxLayoutGap="20px">
   <div class="intro-container">
-    <h1>Pet Store App</h1>
-    <div class="status-label" [ngClass]="appStatus"><span class="status-dot"></span> <span class="status-lbl">{{appStatus}}</span></div>
+    <h1>{{appData.name}}</h1>
+    <div class="status-label" [ngClass]="appData.status"><span class="status-dot"></span> <span class="status-lbl">{{appData.status}}</span></div>
     <div class="intro-text">
-      Per Token Quota : Default Allows 20 request(s) per minute. 
+      {{appData.description}}
     </div>
   </div>
 
@@ -23,20 +23,27 @@
           <div class="field-name-container" fxLayout="row" fxLayoutGap="20px">
             <div fxLayout="column" fxFlex="50">
               <div class="field" fxFlex><strong>Status</strong></div>
-              <div class="field-val" fxFlex>INACTIVE</div>
+              <div class="field-val" fxFlex>{{appData.status}}</div>
+              <hr />
+
+              <div class="field" fxFlex><strong>Token Type</strong></div>
+              <div class="field-val" fxFlex>{{appData.tokenType}}</div>
+              <hr />
+
+              <div class="field" fxFlex><strong>Subscriber</strong></div>
+              <div class="field-val" fxFlex>{{appData.subscriber}}</div>
               <hr />
 
               <div class="field" fxFlex><strong>Per Token Quota</strong></div>
               <div class="field-val" fxFlex>
-                  Default allows 20 request(s) per minute.
+                {{appData.throttlingTier}}
                   <br><br>
               </div>
             </div>
 
             <div fxLayout="column" fxFlex="50">
                 <strong>Description</strong>
-                <p>This feature allows you to assign an API request quota per access token. 
-                    Allocated quota will be shared among all the subscribed APIs of the application.</p>
+                {{appData.description}}
               </div>
           </div>
           <div class="field-name-container" fxLayout="row">

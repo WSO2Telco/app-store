@@ -4,25 +4,32 @@ export enum Tiers {
 }
 
 export interface ApplicationsState {
-  allApplications: Application[];
+  allApplications: ApplicationListResult;
   selectedApplication: Application;
-  appSubscriptions: Subscription[];
+  appSubscriptions: SubscriptionResult;
 }
 
 export class GetApplicationsParam {
   page: number;
 }
 
-export interface Application {
-  name: string;
-  tier: string;
-  id: number;
-  callbackUrl: string;
-  status: string;
+export class ApplicationListResult {
+  count : number;
+  next: string;
+  previous: string;
+  list: Application[];
+}
+
+export class Application {
+  applicationId: string;
+  attributes: any;
   description: string;
-  apiCount: number;
-  groupId: number;
-  isBlacklisted: boolean;
+  groupId: any;
+  name: string;
+  status: string;
+  subscriber: string;
+  throttlingTier: string;
+  tokenType: string;
 }
 
 export class CreateApplicationParam {
@@ -38,20 +45,53 @@ export class TabTile {
   class: string;
 }
 
+export class SubscriptionResult {
+  count : number;
+  next: string;
+  previous: string;
+  list: Subscription[];
+}
+
 export class Subscription {
-  apiName: string;
-  apiVersion: string;
-  apiProvider: string;
-  description: string;
-  subscribedTier: string;
+  // apiName: string;
+  // apiVersion: string;
+  // apiProvider: string;
+  // description: string;
+  // subscribedTier: string;
+  // status: string;
+  // subStatus: string;
+  // thumburl: string;
+  // operators: string;
+  apiIdentifier: string;
+  applicationId: string;
   status: string;
-  subStatus: string;
-  thumburl: string;
-  operators: string;
+  subscriptionId: string;
+  tier: string;
 }
 
 export interface AppSubscriptionParam {
   error: string;
   apis: Subscription[];
   depType: string;
+}
+
+export class ApplicationDetails {
+  groupId: string
+  callbackUrl: string;
+  subscriber: string;
+  throttlingTier: string;
+  applicationId: string;
+  description: string;
+  status: string;
+  name: string;
+  keys: ApplicationDetailsKeys[];
+}
+
+export class ApplicationDetailsKeys {
+  consumerKey: string;
+  consumerSecret: string;
+  keyState: string;
+  keyType: string;
+  supportedGrantTypes: any;
+  token: any;
 }

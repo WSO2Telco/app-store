@@ -92,6 +92,15 @@ export class ApiOverview {
     apiBusinessOwner: any;
     scopes: any;
     monetizationCategory: any;
+    endpointURLs:any [];
+    businessInformation: BusinessInfo;
+}
+
+export class BusinessInfo {
+    technicalOwner:string = null;
+    technicalOwnerEmail:string = null;
+    businessOwner:string = null;
+    businessOwnerEmail:string = null;
 }
 
 export interface ApisState {

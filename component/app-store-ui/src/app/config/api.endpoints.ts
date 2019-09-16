@@ -9,7 +9,7 @@ export const ApiEndpoints = {
     signup: "./assets/files/sign-up.json",
     changePassword: "./assets/files/sign-up.json",
     clientRegistration: baseUrl.protocol + '//' + baseUrl.host + '/client-registration/v0.13/register',
-    tokenGeneration: baseUrl.protocol + '//' + baseUrl.host + '/token',
+    tokenGeneration: baseUrl.protocol + '//' + baseUrl.host+ '/oauth2/token',
   },
   apis: {
     search: apiContext + '/apis',
@@ -23,9 +23,10 @@ export const ApiEndpoints = {
     tiers: "./assets/files/tiers.json"
   },
   applications: {
-    getAllApplications: "./assets/files/applications.json",
+    getAllApplications: apiContext + '/applications',
     getSubscriptions: "./assets/files/subscriptions.json",
   },
+  subscriptions : apiContext + '/subscriptions',
   forum: {
     getAllTopics: "./assets/files/all-tpics.json",
     getOneTopic: "./assets/files/one-thread.json",

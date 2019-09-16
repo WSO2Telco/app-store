@@ -22,20 +22,18 @@ export class ApplicationSubscriptionsComponent implements OnInit {
     private store: Store<AppState>,
     public dialog: MatDialog,
     private notification: NotificationService
-  ) { }
-
-  ngOnInit() {
-    this.store
-      .select(s => s.applications.appSubscriptions)
-      .subscribe(res => (this.datasource.data = res));
-
+  ) {
     this.store
       .select(s => s.applications.selectedApplication)
       .subscribe(app => {
         if (app) {
-          this.store.dispatch(applicationsActions.GetApplicationSubscriptionsAction({"payload": app}));
+          this.store.dispatch(applicationsActions.GetApplicationSubscriptionsAction({"payload": app.applicationId}));
         }
     });
+  }
+
+  ngOnInit() {
+    this.store.select(s => s.applications.appSubscriptions).subscribe(res => (this.datasource.data = res.list));
   }
 
   //subscription

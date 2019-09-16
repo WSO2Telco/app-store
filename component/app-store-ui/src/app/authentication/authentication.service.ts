@@ -81,15 +81,20 @@ export class AuthenticationService {
         return this.http.post<RegClientData>(
             ApiEndpoints.authentication.clientRegistration, param,
             httpOptions
-        );
+        ).pipe(
+            map((data: RegClientData) =>
+                this.clientAuthData = data
+            )
+        );;
     }
 
 
     tokenGeneration(param: TokenGenerationParam) {
-        param.grant_type = 'password';
-        param.scope = 'apim:subscribe';
-        param.username = 'admin';
-        param.password = 'admin';
+        const body = new HttpParams()
+        .set('grant_type', 'password')
+        .set('scope', 'apim:subscribe')
+        .set('username', 'admin')
+        .set('password', 'admin');
 
         const httpOptions = {
             headers: new HttpHeaders({
@@ -97,10 +102,7 @@ export class AuthenticationService {
                 'Authorization': 'Basic ' + btoa(this.clientAuthData.clientId + ':' + this.clientAuthData.clientSecret)
             })
         };
-        return this.http.post<TokenData>(
-            ApiEndpoints.authentication.tokenGeneration, param,
-            httpOptions
-        );
+        return this.http.post<TokenData>(ApiEndpoints.authentication.tokenGeneration, body.toString(), httpOptions);
     }
 
 }

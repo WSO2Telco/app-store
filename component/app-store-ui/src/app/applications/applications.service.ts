@@ -1,35 +1,28 @@
 
 import { map } from 'rxjs/operators';
-import { HttpClient, HttpParams, HttpHeaders } from '@angular/common/http';
+import { HttpClient} from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { ApiEndpoints } from '../config/api.endpoints';
-import {
-  GetApplicationsParam,
-  Application,
-  Subscription
-} from './applications.data.models';
+import { GetApplicationsParam, Application, Subscription,
+  ApplicationListResult, ApplicationDetails, SubscriptionResult } from './applications.data.models';
+import { Observable } from 'rxjs';
 
 @Injectable()
 export class ApplicationsService {
-  private httpOptions = {
-    headers: new HttpHeaders({
-      'Content-Type': 'application/json'
-    })
-  };
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {}
 
-  getAllApplications(param: GetApplicationsParam) {
-    return this.http.get(
-      ApiEndpoints.applications.getAllApplications,
-      this.httpOptions
-    );
+  getAllApplications(param: GetApplicationsParam): Observable<ApplicationListResult> {
+    return this.http.get<ApplicationListResult>(ApiEndpoints.applications.getAllApplications);
   }
 
-  getApplicationSubscriptions(param: Application) {
-    return this.http.get<Subscription[]>(
-      ApiEndpoints.applications.getSubscriptions,
-      this.httpOptions
-    ).pipe(map((res: any) => res.apis));
+  getApplicationsDetails(appId: string): Observable<ApplicationDetails>{
+    const endpoint = `${ApiEndpoints.applications.getAllApplications}/${appId}`;
+    return this.http.get<ApplicationDetails>(endpoint);
+  }
+
+  getApplicationSubscriptions(appId: string): Observable<SubscriptionResult> {
+    const endpoint = `${ApiEndpoints.subscriptions}/?applicationId=${appId}`;
+    return this.http.get<SubscriptionResult>(endpoint);
   }
 }

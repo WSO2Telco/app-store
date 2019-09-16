@@ -11,6 +11,7 @@ import * as applicationsActions from '../../applications.actions';
 import * as globalActions from "../../../app.actions";
 import { BreadcrumbItem } from "../../../app.data.models";
 import { Title } from '@angular/platform-browser';
+import { Application } from '../../applications.data.models';
 
 @Component({
   selector: "store-application-detail-main",
@@ -18,9 +19,11 @@ import { Title } from '@angular/platform-browser';
   styleUrls: ["./application-detail-main.component.scss"]
 })
 export class ApplicationDetailMainComponent implements OnInit {
-  appId : number;
+  appId : string;
   activatedTab : string;
   appStatus: string = 'active';
+
+  appData:Application = null;
 
   constructor(
     private route: ActivatedRoute, 
@@ -28,30 +31,35 @@ export class ApplicationDetailMainComponent implements OnInit {
     private location: Location,
     public dialog: MatDialog,
     private titleService: Title
-  ) {}
+  ) {
+    
+  }
 
   ngOnInit() {
+    this.store.select((s) => s.applications.selectedApplication).subscribe((app) => {
+      this.appData = app;
+
+      this.store.dispatch(
+        new globalActions.SetBreadcrumbAction([
+          new BreadcrumbItem("Applications", "applications"),
+          new BreadcrumbItem(app.name)
+        ])
+      );
+  
+      this.titleService.setTitle(`${app.name} | Apigate API Store`);
+    })
+    
     this.route.params.subscribe( params => {
       this.appId = params['appId'];
       this.activatedTab = params['tab'];
       this.store.dispatch(
-        applicationsActions.SetSelectedApplicationsAction({"payload":this.appId})
+        applicationsActions.GetApplicationDetailsAction({"payload":this.appId})
       );
     })
-
-    this.store.dispatch(
-      new globalActions.SetBreadcrumbAction([
-        new BreadcrumbItem("Applications", "applications"),
-        new BreadcrumbItem("Application Details")
-      ])
-    );
-
-    this.titleService.setTitle("App Details | Apigate API Store");
   }
 
   switchTab(tab){
-    //  this.router.navigate([`/applications/${this.appId}/${tile.route}`]);
     this.activatedTab = tab;
-     this.location.replaceState(`/applications/${this.appId}/${tab}`);
+    this.location.replaceState(`/applications/${this.appId}/${tab}`);
   }
 }
