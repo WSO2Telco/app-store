@@ -6,8 +6,10 @@ import * as loginActions from "./authentication.actions";
 import { AuthenticationService } from "./authentication.service";
 import { Injectable } from "@angular/core";
 import { HttpErrorResponse } from "@angular/common/http";
-import { LoginFormData, LoginResponseData, ClientRegParam,
-  TokenGenerationParam, RegClientData, TokenData } from "./authentication.models";
+import {
+  LoginFormData, LoginResponseData, ClientRegParam,
+  TokenGenerationParam, RegClientData, TokenData
+} from "./authentication.models";
 import { NotificationService } from "../shared/services/notification.service";
 import { Router } from "@angular/router";
 import { AppState } from "../app.data.models";
@@ -33,22 +35,22 @@ export class AuthenticationEffects {
 
   login$ = createEffect(() => this.actions$.pipe(
     ofType(loginActions.DoLoginAction),
-    mergeMap(({payload}) => this.authService.login(new LoginFormData(payload.username, payload.password))
+    mergeMap(({ payload }) => this.authService.login(new LoginFormData(payload.username, payload.password))
       .pipe(
-        map((response:LoginResponseData) => {
+        map((response: LoginResponseData) => {
           if (response.error) {
             this.notification.error("Invalid username or password");
             throw response;
           } else {
             const p = new ClientRegParam();
             this.router.navigate([this.lastAuthRequiredRoute || "home"]);
-            this.store.dispatch(loginActions.ClientRegistrationAction({"payload":p}));
-            return loginActions.LoginSuccessAction({ "payload" : response});
+            this.store.dispatch(loginActions.ClientRegistrationAction({ "payload": p }));
+            return loginActions.LoginSuccessAction({ "payload": response });
           }
         }),
         catchError((e: HttpErrorResponse) => {
-            this.notification.error(e.message);
-            return EMPTY
+          this.notification.error(e.message);
+          return EMPTY
         })
       )
     )
@@ -56,21 +58,21 @@ export class AuthenticationEffects {
 
   clientRegister$ = createEffect(() => this.actions$.pipe(
     ofType(loginActions.ClientRegistrationAction),
-    mergeMap(({payload}) => this.authService.clientAppRegistration(payload)
+    mergeMap(({ payload }) => this.authService.clientAppRegistration(payload)
       .pipe(
-        map((response:RegClientData) => {
+        map((response: RegClientData) => {
           if (!response.error) {
             const p = new TokenGenerationParam();
             this.notification.success("successfully created");
-            this.store.dispatch(loginActions.TokenGenerationAction({"payload":p}));
-            return loginActions.ClientRegistrationSuccessAction({ "payload" : response})
+            this.store.dispatch(loginActions.TokenGenerationAction({ "payload": p }));
+            return loginActions.ClientRegistrationSuccessAction({ "payload": response })
           } else {
             throw Error("Operation Failed");
           }
         }),
         catchError((e: HttpErrorResponse) => {
-            this.notification.error(e.message);
-            return EMPTY
+          this.notification.error(e.message);
+          return EMPTY
         })
       )
     )
@@ -78,18 +80,19 @@ export class AuthenticationEffects {
 
   tokenGeneration$ = createEffect(() => this.actions$.pipe(
     ofType(loginActions.TokenGenerationAction),
-    mergeMap(({payload}) => this.authService.tokenGeneration(payload)
+    mergeMap(({ payload }) => this.authService.tokenGeneration(payload)
       .pipe(
-        map((response:TokenData) => {
+        map((response: TokenData) => {
           if (!response.error) {
-            return loginActions.TokenGenerationSuccessAction({ "payload" : response})
+            return loginActions.TokenGenerationSuccessAction({ "payload": response });
+
           } else {
             throw Error("Operation Failed");
           }
         }),
         catchError((e: HttpErrorResponse) => {
-            this.notification.error(e.message);
-            return EMPTY
+          this.notification.error(e.message);
+          return EMPTY
         })
       )
     )
@@ -104,8 +107,8 @@ export class AuthenticationEffects {
           return loginActions.DoLogoutSuccessAction();
         }),
         catchError((e: HttpErrorResponse) => {
-            this.notification.error(e.message);
-            return EMPTY
+          this.notification.error(e.message);
+          return EMPTY
         })
       )
     )
@@ -113,15 +116,15 @@ export class AuthenticationEffects {
 
   signup$ = createEffect(() => this.actions$.pipe(
     ofType(loginActions.SignupUserAction),
-    mergeMap(({payload}) => this.authService.signup(payload)
+    mergeMap(({ payload }) => this.authService.signup(payload)
       .pipe(
         map((response) => {
-          this.notification.success('User added successfully. You can now sign into the API store using the new user account'); 
-          return loginActions.SignupUserSuccessAction({"payload":response});
+          this.notification.success('User added successfully. You can now sign into the API store using the new user account');
+          return loginActions.SignupUserSuccessAction({ "payload": response });
         }),
         catchError((e: HttpErrorResponse) => {
-            this.notification.error(e.message);
-            return EMPTY
+          this.notification.error(e.message);
+          return EMPTY
         })
       )
     )
@@ -129,15 +132,15 @@ export class AuthenticationEffects {
 
   changePassword$ = createEffect(() => this.actions$.pipe(
     ofType(loginActions.ChangeUserPwAction),
-    mergeMap(({payload}) => this.authService.changePassword(payload)
+    mergeMap(({ payload }) => this.authService.changePassword(payload)
       .pipe(
         map((response) => {
-          this.notification.success('User password changed successfully. You can now sign in to the API store using the new password.'); 
-          return loginActions.ChangeUserPwSuccessAction({"payload":response});
+          this.notification.success('User password changed successfully. You can now sign in to the API store using the new password.');
+          return loginActions.ChangeUserPwSuccessAction({ "payload": response });
         }),
         catchError((e: HttpErrorResponse) => {
-            this.notification.error(e.message);
-            return EMPTY
+          this.notification.error(e.message);
+          return EMPTY
         })
       )
     )
