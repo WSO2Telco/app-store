@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Actions, Effect, createEffect, ofType } from '@ngrx/effects';
 
 import { EMPTY } from 'rxjs';
-import { mergeMap, catchError, map} from 'rxjs/operators';
+import { mergeMap, catchError, map } from 'rxjs/operators';
 import { ApplicationsService } from './applications.service';
 import * as applicationsActions from './applications.actions';
 import { Application, Subscription, ApplicationListResult, ApplicationDetails, SubscriptionResult } from './applications.data.models';
@@ -15,16 +15,16 @@ export class ApplicationsEffects {
     private actions$: Actions,
     private service: ApplicationsService,
     private notification: NotificationService
-  ) {}
+  ) { }
 
   getAllApps$ = createEffect(() => this.actions$.pipe(
     ofType(applicationsActions.GetAllApplicationsAction),
-    mergeMap(({payload}) => this.service.getAllApplications(payload)
+    mergeMap(() => this.service.getAllApplications()
       .pipe(
-        map((response:ApplicationListResult) => applicationsActions.GetAllApplicationsSuccessAction({ "payload" : response})),
+        map((response: ApplicationListResult) => applicationsActions.GetAllApplicationsSuccessAction({ "payload": response })),
         catchError((e: HttpErrorResponse) => {
-            this.notification.error(e.message);
-            return EMPTY
+          this.notification.error(e.message);
+          return EMPTY
         })
       )
     )
@@ -32,12 +32,12 @@ export class ApplicationsEffects {
 
   getAppDetails$ = createEffect(() => this.actions$.pipe(
     ofType(applicationsActions.GetApplicationDetailsAction),
-    mergeMap(({payload}) => this.service.getApplicationsDetails(payload)
+    mergeMap(({ payload }) => this.service.getApplicationsDetails(payload)
       .pipe(
-        map((response:ApplicationDetails) => applicationsActions.GetApplicationDetailsSuccessAction({ "payload" : response})),
+        map((response: ApplicationDetails) => applicationsActions.GetApplicationDetailsSuccessAction({ "payload": response })),
         catchError((e: HttpErrorResponse) => {
-            this.notification.error(e.message);
-            return EMPTY
+          this.notification.error(e.message);
+          return EMPTY
         })
       )
     )
@@ -45,12 +45,12 @@ export class ApplicationsEffects {
 
   appSubscriptions$ = createEffect(() => this.actions$.pipe(
     ofType(applicationsActions.GetApplicationSubscriptionsAction),
-    mergeMap(({payload}) => this.service.getApplicationSubscriptions(payload)
+    mergeMap(({ payload }) => this.service.getApplicationSubscriptions(payload)
       .pipe(
-        map((response:SubscriptionResult) => applicationsActions.GetApplicationSubscriptionsSuccessAction({ "payload" : response})),
+        map((response: SubscriptionResult) => applicationsActions.GetApplicationSubscriptionsSuccessAction({ "payload": response })),
         catchError((e: HttpErrorResponse) => {
-            this.notification.error(e.message);
-            return EMPTY
+          this.notification.error(e.message);
+          return EMPTY
         })
       )
     )
