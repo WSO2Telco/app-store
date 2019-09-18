@@ -23,3 +23,53 @@
         margin: 10px 0px;
     }
 }
+
+#forum-post{
+    h1{
+        font-weight: 500;
+        font-size: 22px;
+    }
+
+    .description{
+        font-size: 14px;
+        margin: 15px 0;
+        line-height: 1.5;
+    }
+
+    .post-author{
+        color: #666;
+
+        strong{
+            font-weight: 500;
+        }
+    }
+
+    .replies{
+        background: #fafafa;
+        padding: 15px;
+        margin-left: -16px;
+        margin-right: -16px;
+
+        h2{
+            font-size: 18px;
+            font-weight: 500;
+            background: #eee;
+            margin: -16px;
+            padding: 15px;
+            margin-bottom: 0px;
+        }
+    }
+
+    .reply-item {
+        padding: 15px 0;
+        border-bottom: 1px solid #ddd;
+        font-size: 14px;
+    }
+
+    .rep-by {
+        font-weight: 500;
+        font-size: 12px;
+        color: #999;
+        margin-bottom: 5px;
+    }
+}
