@@ -1,72 +1,16 @@
-import { Action } from "@ngrx/store";
-import { GetTopicsParam, Topic, CreateTopicParam, TopicDetail } from "./forum.data.models";
+import { createAction, props } from "@ngrx/store";
+import { Topic, CreateTopicParam, TopicDetail, GetTopicsParam } from "./forum.data.models";
 
-export const GET_ALL_TOPICS = "GET_ALL_TOPICS";
-export const GET_ALL_TOPICS_SUCCESS = "GET_ALL_TOPICS_SUCCESS";
+export const GetAllTopicsAction = createAction('[Forum] Get All Topics', props<{payload: GetTopicsParam}>());
+export const GetAllTopicsSuccessAction = createAction('[Forum] Get All Topics Success ✓', props<{payload: Topic[]}>());
 
-export const GET_TOPIC_DETAILS = "GET_TOPIC_DETAILS";
-export const GET_TOPIC_DETAILS_SUCCESS = "GET_TOPIC_DETAILS_SUCCESS";
+export const DeleteTopicAction = createAction('[Forum] Delete Topic', props<{payload: string}>());
+export const DeleteTopicSuccessAction = createAction('[Forum]  Delete Topic Success ✓');
 
-export const DELETE_TOPIC = "DELETE_TOPIC";
-export const DELETE_TOPIC_SUCCESS = "DELETE_TOPIC_SUCCESS";
+export const CreateTopicAction = createAction('[Forum] Create Topic', props<{payload: CreateTopicParam}>());
+export const CreateTopicSuccessAction = createAction('[Forum] Create Topic Success ✓');
 
-export const CREATE_TOPIC = "CREATE_TOPIC";
-export const CREATE_TOPIC_SUCCESS = "CREATE_TOPIC_SUCCESS";
+export const SetSelectedTopicAction = createAction('[Forum] Set Selected Topic', props<{payload: Topic}>());
 
-export const SET_SELECTED_TOPIC = "SET_SELECTED_TOPIC";
-
-export class GetAllTopicsAction implements Action {
-  readonly type: string = GET_ALL_TOPICS;
-  constructor(public payload: GetTopicsParam=null) {}
-}
-
-export class GetAllTopicsSuccessAction implements Action {
-  readonly type: string = GET_ALL_TOPICS_SUCCESS;
-  constructor(public payload: Topic[]) {}
-}
-
-export class DeleteTopicAction implements Action {
-  readonly type: string = DELETE_TOPIC;
-  constructor(public payload: string) {}
-}
-
-export class DeleteTopicActionSuccessAction implements Action {
-  readonly type: string = DELETE_TOPIC_SUCCESS;
-  constructor(public payload: any = null) {}
-}
-
-export class CreateTopicAction implements Action {
-  readonly type: string = CREATE_TOPIC;
-  constructor(public payload: CreateTopicParam) {}
-}
-
-export class CreateTopicSuccessAction implements Action {
-  readonly type: string = CREATE_TOPIC_SUCCESS;
-  constructor(public payload: any = null) {}
-}
-
-export class SetSelectedTopicAction implements Action {
-  readonly type: string = SET_SELECTED_TOPIC;
-  constructor(public payload: Topic) {}
-}
-
-export class GetTopicDetailAction implements Action {
-  readonly type: string = GET_TOPIC_DETAILS;
-  constructor(public payload: string) {}
-}
-
-export class GetTopicDetailSuccessAction implements Action {
-  readonly type: string = GET_TOPIC_DETAILS_SUCCESS;
-  constructor(public payload: TopicDetail) {}
-}
-
-export type Actions =
-  | GetAllTopicsAction
-  | GetAllTopicsSuccessAction
-  | DeleteTopicAction
-  | DeleteTopicActionSuccessAction
-  | CreateTopicAction
-  | CreateTopicSuccessAction
-  | SetSelectedTopicAction
-  | GetTopicDetailAction
-  | GetTopicDetailSuccessAction;
+export const GetTopicDetailAction = createAction('[Forum] Get Topic Detail', props<{payload: string}>());
+export const GetTopicDetailSuccessAction = createAction('[Forum] Get Topic Detail Success ✓', props<{payload: TopicDetail}>());

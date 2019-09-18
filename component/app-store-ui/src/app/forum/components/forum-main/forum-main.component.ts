@@ -26,7 +26,7 @@ export class ForumMainComponent implements OnInit {
     });
 
     this.store.dispatch(
-      new forumActions.GetAllTopicsAction(new GetTopicsParam())
+      forumActions.GetAllTopicsAction({payload: new GetTopicsParam()})
     );
 
     this.store.dispatch(globalActions.SetBreadcrumbAction({payload:[new BreadcrumbItem("Forum")]}));
@@ -35,19 +35,19 @@ export class ForumMainComponent implements OnInit {
 
   onSearchClick() {
     this.store.dispatch(
-      new forumActions.GetAllTopicsAction({
-        ...new GetTopicsParam(),
-        search: this.searchQuery
-      })
+      forumActions.GetAllTopicsAction({payload:
+        {
+          ...new GetTopicsParam(),
+          search: this.searchQuery
+        }})
     );
   }
 
   onTopicDelete(id) {
-    this.store.dispatch(new forumActions.DeleteTopicAction(id));
+    this.store.dispatch(forumActions.DeleteTopicAction({payload:id}));
   }
 
   onTopicView(topic) {
-    this.store.dispatch(new forumActions.SetSelectedTopicAction(topic));
     this.router.navigate(["forum/view-topic"]);
   }
 }
