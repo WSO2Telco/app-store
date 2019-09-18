@@ -4,7 +4,9 @@ import { Store } from '@ngrx/store';
 import { MatTableDataSource } from '@angular/material';
 import { Application } from '../../applications.data.models';
 import * as applicationsActions from '../../applications.actions';
+import * as authActions from '../../../authentication/authentication.actions'
 import { Router } from '@angular/router';
+import { Actions, ofType } from '@ngrx/effects';
 
 //Breadcrumbs
 import * as globalActions from "../../../app.actions";
@@ -21,17 +23,24 @@ export class SearchApplicationsComponent implements OnInit {
   searchQuery: string;
   public clientData: ClientRegParam;
 
-  constructor(private store: Store<AppState>, private router: Router, private titleService: Title) {}
+  constructor(private store: Store<AppState>, private router: Router, private titleService: Title, private actions$: Actions, ) { }
 
   ngOnInit() {
     this.clientData = new ClientRegParam();
+
+    this.actions$.pipe(ofType(authActions.TokenGenerationSuccessAction)).subscribe(p => {
+      this.store.dispatch(applicationsActions.GetAllApplicationsAction())
+    })
+
+    this.actions$.pipe(ofType(applicationsActions.GetAllApplicationsSuccessAction)).subscribe(p => {
+      this.store
+        .select(s => s.applications.allApplications)
+        .subscribe(apps => this.dataSource.data = apps.list);
+    })
+
     this.store
       .select(s => s.applications.allApplications)
-      .subscribe(apps => (this.dataSource.data = apps.list));
-
- //   this.store.dispatch(new applicationsActions.ClientRegistrationAction(this.clientData));
-
-    this.store.dispatch(applicationsActions.GetAllApplicationsAction({"payload":0}));
+      .subscribe(apps => this.dataSource.data = apps.list);
 
     this.store.dispatch(globalActions.SetBreadcrumbAction({payload:[new BreadcrumbItem("Applications")]}));
     this.titleService.setTitle("Apps | Apigate API Store");

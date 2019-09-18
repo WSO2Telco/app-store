@@ -16,8 +16,6 @@ export class ApisService {
 
     search(param: ApiSearchParam): Observable<any> {
         const searchParams = new HttpParams()
-            /* .append('tag', param.tag)
-            .append('page', <any>param.page); */
             .append('apiStatus', param.apiStatus)
             .append('query', param.query)
             .append('limit', <any>param.limit)

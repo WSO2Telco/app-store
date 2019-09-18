@@ -55,7 +55,6 @@ export class ApiSearchComponent implements OnInit {
       this.offsetSize = parseInt(params['page']) || 0;
       this.pageSize = parseInt(params['perPage']) || 5;
 
-      console.log(this.offsetSize+"pg"+this.pageSize);
     });
   }
 
