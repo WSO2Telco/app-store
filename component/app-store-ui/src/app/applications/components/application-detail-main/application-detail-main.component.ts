@@ -40,10 +40,10 @@ export class ApplicationDetailMainComponent implements OnInit {
       this.appData = app;
 
       this.store.dispatch(
-        new globalActions.SetBreadcrumbAction([
+        globalActions.SetBreadcrumbAction({payload:[
           new BreadcrumbItem("Applications", "applications"),
           new BreadcrumbItem(app.name)
-        ])
+        ]})
       );
   
       this.titleService.setTitle(`${app.name} | Apigate API Store`);

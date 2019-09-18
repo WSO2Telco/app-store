@@ -6,7 +6,7 @@ import { AppState } from './app.data.models';
 import { DoLogoutAction, DoLoginAction } from './authentication/authentication.actions';
 import { Observable } from 'rxjs';
 import * as globalActions from './app.actions';
-import { ToggleLeftPanelAction, ToggleParticleAction } from './app.actions';
+import { ToggleLeftPanelAction} from './app.actions';
 import { Router } from '@angular/router';
 
 @Component({
@@ -34,8 +34,6 @@ export class AppComponent implements OnInit {
       .subscribe(val => this.rightNavOpened = val);
 
     this.store.select((s) => s.global.layout.appTheme).subscribe((theme) => this.selectedTheme = theme);
-    this.store.select((s) => s.global.layout.particleAnimation).subscribe((flag) => this.particleAnimation = flag);
-    this.store.select((s) => s.global.layout.menuBackImage).subscribe((flag) => this.menuBackImage = flag);
 
     this.store.select(store => store.global.layout.leftNavOpened)
       .subscribe(val => {
@@ -46,14 +44,12 @@ export class AppComponent implements OnInit {
     this.store.select(store => store.authentication.loginData)
       .subscribe((loginData) => {
         if (loginData) {
-          this.store.dispatch(new globalActions.ToggleRightPanelAction(false));
+          this.store.dispatch(globalActions.ToggleRightPanelAction({"payload": false}));
         }
       });
 
     setTimeout(() => {
-      this.store.dispatch(new ToggleLeftPanelAction(true));
-      this.store.dispatch(new ToggleParticleAction(false));
-      this.store.dispatch(new globalActions.ToggleMenuBackgroundAction(false));
+      this.store.dispatch(ToggleLeftPanelAction({"payload": true}));
     }, 200);
 
   }
@@ -61,7 +57,7 @@ export class AppComponent implements OnInit {
   onMenuSelect(event: LoginMenuAction) {
     switch (event.type) {
       case LoginMenuActionTypes.LOGIN: {
-        this.store.dispatch(new globalActions.ToggleRightPanelAction(true));
+        this.store.dispatch(globalActions.ToggleRightPanelAction({"payload": true}));
         break;
       }
 
@@ -91,10 +87,10 @@ export class AppComponent implements OnInit {
   }
 
   onRightNavClose() {
-    this.store.dispatch(new globalActions.ToggleRightPanelAction(false));
+    this.store.dispatch(globalActions.ToggleRightPanelAction({"payload": false}));
   }
 
   onHambergerMenuClick(event) {
-    this.store.dispatch(new globalActions.ToggleLeftPanelAction(event));
+    this.store.dispatch(globalActions.ToggleLeftPanelAction({"payload": event}));
   }
 }

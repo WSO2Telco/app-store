@@ -30,12 +30,10 @@ export class DashboardComponent implements OnInit {
     { url: 'assets/slides/6.png', caption: 'Apigate', href: '#config' },
   ];
 
-  // @ViewChild('slideshow') slideshow: any;
-
   constructor(private store: Store<AppState>, private titleService: Title) {}
 
   ngOnInit() {
-    this.store.dispatch(new globalActions.SetBreadcrumbAction([new BreadcrumbItem("Home")]));
+    this.store.dispatch(globalActions.SetBreadcrumbAction({payload:[new BreadcrumbItem("Home")]}));
     this.titleService.setTitle("Apigate API Store");
   }
 }

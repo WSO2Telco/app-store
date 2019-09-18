@@ -42,7 +42,7 @@ export class SearchApplicationsComponent implements OnInit {
       .select(s => s.applications.allApplications)
       .subscribe(apps => this.dataSource.data = apps.list);
 
-    this.store.dispatch(new globalActions.SetBreadcrumbAction([new BreadcrumbItem("Applications")]));
+    this.store.dispatch(globalActions.SetBreadcrumbAction({payload:[new BreadcrumbItem("Applications")]}));
     this.titleService.setTitle("Apps | Apigate API Store");
   }
 

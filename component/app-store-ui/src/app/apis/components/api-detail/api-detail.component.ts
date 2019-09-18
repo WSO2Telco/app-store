@@ -46,20 +46,20 @@ export class ApiDetailComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.store.dispatch(
-      new globalActions.SetBreadcrumbAction([
+      globalActions.SetBreadcrumbAction({payload:[
         new BreadcrumbItem("APIs", "apis"),
         new BreadcrumbItem("API Details")
-      ])
+      ]})
     );
 
     this.subscriptions.apiOverview = this.store.select((s) => s.apis.selectedApi)
       .subscribe((overview) => {
         this.api = overview;
         this.store.dispatch(
-          new globalActions.SetBreadcrumbAction([
+          globalActions.SetBreadcrumbAction({payload:[
             new BreadcrumbItem("APIs", "apis"),
             new BreadcrumbItem(overview.name + " - " + overview.version)
-          ])
+          ]})
         );
         this.titleService.setTitle(overview.name + " | Apigate API Store");
       });

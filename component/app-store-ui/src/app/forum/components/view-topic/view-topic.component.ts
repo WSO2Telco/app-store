@@ -30,7 +30,7 @@ export class ViewTopicComponent implements OnInit {
       this.selectedTopic = topic;
       if (this.selectedTopic) {
         this.store.dispatch(
-          new forumActions.GetTopicDetailAction(this.selectedTopic.topicId)
+          forumActions.GetTopicDetailAction({payload : this.selectedTopic.topicId})
         );
       }
     });

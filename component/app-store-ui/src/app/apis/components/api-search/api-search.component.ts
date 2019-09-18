@@ -60,7 +60,7 @@ export class ApiSearchComponent implements OnInit {
 
   ngOnInit() {
     this.store.dispatch(DoApiSearchAction({ "payload" : new ApiSearchParam(this.apiCategory, '', 5, 0)}));
-    this.store.dispatch(new globalActions.SetBreadcrumbAction([new BreadcrumbItem("APIs")]));
+    this.store.dispatch(globalActions.SetBreadcrumbAction({payload:[new BreadcrumbItem("APIs")]}));
     this.titleService.setTitle("APIs | Apigate API Store");
     this.view = (localStorage.getItem('resultview')) ? localStorage.getItem('resultview') : 'grid';
   }

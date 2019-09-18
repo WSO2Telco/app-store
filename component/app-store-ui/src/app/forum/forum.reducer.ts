@@ -1,30 +1,27 @@
 import { ForumState, TopicDetail } from "./forum.data.models";
 import * as forumActions from "./forum.actions";
+import { createReducer, on } from '@ngrx/store';
 
 const initState: ForumState = {
   allTopics: null,
-  selectedTopic: null,
   topicDetail:null
 };
 
-export function forumReducer(
-  state: ForumState = initState,
-  action: forumActions.Actions
-) {
-  switch (action.type) {
-    case forumActions.GET_ALL_TOPICS_SUCCESS: {
-      return Object.assign({},state,{allTopics: action.payload });
-    }
-    
-    case forumActions.SET_SELECTED_TOPIC: {
-      return Object.assign({},state,{selectedTopic: action.payload });
-    }
- 
-    case forumActions.GET_TOPIC_DETAILS_SUCCESS: {
-      return Object.assign({},state,{topicDetail: action.payload });
-    }
+const _forumReducer = createReducer(initState,
 
-    default:
-      return state;
-  }
+  on(forumActions.GetAllTopicsSuccessAction, (state, { payload }) => ({
+      ...state, allTopics: payload
+  })),
+
+  // on(forumActions.SetSelectedTopicAction, (state, { payload }) => ({
+  //   ...state, selectedTopic: payload
+  // })),
+
+  on(forumActions.GetTopicDetailSuccessAction, (state, { payload }) => ({
+    ...state, topicDetail: payload
+  }))
+)
+
+export function forumReducer(state, action) {
+  return _forumReducer(state, action);
 }

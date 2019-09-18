@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { AppState } from '../../../app.data.models';
-import { AppThemeChangeAction, ToggleParticleAction, ToggleMenuBackgroundAction } from '../../../app.actions';
+import { AppThemeChangeAction } from '../../../app.actions';
 
 @Component({
   selector: 'store-theme',
@@ -42,19 +42,9 @@ export class ThemeComponent implements OnInit {
 
   ngOnInit() {
     this.store.select((s) => s.global.layout.appTheme).subscribe((theme) => this.selectedTheme = theme);
-    this.store.select((s) => s.global.layout.particleAnimation).subscribe((flag) => this.particleAnimation = flag);
-    this.store.select((s) => s.global.layout.menuBackImage).subscribe((flag) => this.meunBackImage = flag);
   }
 
   onChange(e) {
-    this.store.dispatch(new AppThemeChangeAction(e.value));
-  }
-
-  onAnimationToggle(e) {
-    this.store.dispatch(new ToggleParticleAction(e.checked));
-  }
-
-  onBackgroundToggle(e) {
-    this.store.dispatch(new ToggleMenuBackgroundAction(e.checked));
+    this.store.dispatch(AppThemeChangeAction({payload: e.value}));
   }
 }

@@ -28,7 +28,7 @@ export class CreateTopicComponent implements OnInit {
   ngOnInit() {
     this.topic = new CreateTopicParam();
 
-    this.store.dispatch(new globalActions.SetBreadcrumbAction([new BreadcrumbItem("Forum", "forum"), new BreadcrumbItem("Create New Topic")]));
+    this.store.dispatch(globalActions.SetBreadcrumbAction({payload:[new BreadcrumbItem("Forum", "forum"), new BreadcrumbItem("Create New Topic")]}));
     this.titleService.setTitle("Create New Topic | Apigate API Store");
   }
 
