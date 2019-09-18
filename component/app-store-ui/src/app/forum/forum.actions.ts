@@ -10,7 +10,7 @@ export const DeleteTopicSuccessAction = createAction('[Forum]  Delete Topic Succ
 export const CreateTopicAction = createAction('[Forum] Create Topic', props<{payload: CreateTopicParam}>());
 export const CreateTopicSuccessAction = createAction('[Forum] Create Topic Success ✓');
 
-export const SetSelectedTopicAction = createAction('[Forum] Set Selected Topic', props<{payload: Topic}>());
+// export const SetSelectedTopicAction = createAction('[Forum] Set Selected Topic', props<{payload: string}>());
 
 export const GetTopicDetailAction = createAction('[Forum] Get Topic Detail', props<{payload: string}>());
 export const GetTopicDetailSuccessAction = createAction('[Forum] Get Topic Detail Success ✓', props<{payload: TopicDetail}>());

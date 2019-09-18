@@ -73,7 +73,7 @@ export class ForumEffects {
       .pipe(
         map((result:any) => {
           if (!result.error) {
-            return forumActions.GetTopicDetailSuccessAction(result.data);
+            return forumActions.GetTopicDetailSuccessAction({payload:result.data});
           } else {
             throw Error("Operation Failed");
           }

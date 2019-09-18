@@ -1,6 +1,5 @@
 export interface ForumState {
   allTopics: Topic[];
-  selectedTopic: Topic;
   topicDetail:TopicDetail;
 }
 

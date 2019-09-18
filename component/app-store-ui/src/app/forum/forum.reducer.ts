@@ -4,7 +4,6 @@ import { createReducer, on } from '@ngrx/store';
 
 const initState: ForumState = {
   allTopics: null,
-  selectedTopic: null,
   topicDetail:null
 };
 
@@ -14,9 +13,9 @@ const _forumReducer = createReducer(initState,
       ...state, allTopics: payload
   })),
 
-  on(forumActions.SetSelectedTopicAction, (state, { payload }) => ({
-    ...state, selectedTopic: payload
-  })),
+  // on(forumActions.SetSelectedTopicAction, (state, { payload }) => ({
+  //   ...state, selectedTopic: payload
+  // })),
 
   on(forumActions.GetTopicDetailSuccessAction, (state, { payload }) => ({
     ...state, topicDetail: payload
