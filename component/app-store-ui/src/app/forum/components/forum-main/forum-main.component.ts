@@ -29,7 +29,7 @@ export class ForumMainComponent implements OnInit {
       new forumActions.GetAllTopicsAction(new GetTopicsParam())
     );
 
-    this.store.dispatch(new globalActions.SetBreadcrumbAction([new BreadcrumbItem("Forum")]));
+    this.store.dispatch(globalActions.SetBreadcrumbAction({payload:[new BreadcrumbItem("Forum")]}));
     this.titleService.setTitle("Forum | Apigate API Store");
   }
 

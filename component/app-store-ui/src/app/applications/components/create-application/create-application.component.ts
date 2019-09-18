@@ -38,7 +38,7 @@ export class CreateApplicationComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.store.dispatch(new globalActions.SetBreadcrumbAction([new BreadcrumbItem("Applications")]));
+    this.store.dispatch(globalActions.SetBreadcrumbAction({payload:[new BreadcrumbItem("Applications")]}));
     this.titleService.setTitle("Create New App | Apigate API Store");
 
     this.formCreateApp = this.fb.group({

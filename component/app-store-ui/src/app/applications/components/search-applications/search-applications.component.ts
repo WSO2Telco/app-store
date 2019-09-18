@@ -33,7 +33,7 @@ export class SearchApplicationsComponent implements OnInit {
 
     this.store.dispatch(applicationsActions.GetAllApplicationsAction({"payload":0}));
 
-    this.store.dispatch(new globalActions.SetBreadcrumbAction([new BreadcrumbItem("Applications")]));
+    this.store.dispatch(globalActions.SetBreadcrumbAction({payload:[new BreadcrumbItem("Applications")]}));
     this.titleService.setTitle("Apps | Apigate API Store");
   }
 

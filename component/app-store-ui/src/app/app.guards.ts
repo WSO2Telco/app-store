@@ -20,13 +20,13 @@ export class AppGuard implements CanActivate {
 
   canActivate(route: ActivatedRouteSnapshot) {
     if (this._authenticationService.isLoggedIn()) {
-      this.store.dispatch(new ToggleRightPanelAction(false));
+      this.store.dispatch(ToggleRightPanelAction({payload:false}));
       return true;
     } else {
       this.store.dispatch(
         SetLastAuthRequiredRouteAction({"payload": route.routeConfig.path})
       );
-      this.store.dispatch(new ToggleRightPanelAction(true));
+      this.store.dispatch(ToggleRightPanelAction({payload:true}));
       return false;
     }
   }
