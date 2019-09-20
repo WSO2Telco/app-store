@@ -5,7 +5,7 @@ import { Injectable } from '@angular/core';
 import { ApiEndpoints } from '../config/api.endpoints';
 import {
   GetApplicationsParam, Application, Subscription,
-  ApplicationListResult, ApplicationDetails, SubscriptionResult
+  ApplicationListResult, ApplicationDetails, SubscriptionResult, CreateApplicationParam, CreateAppResponseData
 } from './applications.data.models';
 import { Observable } from 'rxjs';
 import { TokenData } from '../authentication/authentication.models';
@@ -41,4 +41,18 @@ export class ApplicationsService {
     const endpoint = `${ApiEndpoints.subscriptions}/?applicationId=${appId}`;
     return this.http.get<SubscriptionResult>(endpoint);
   }
+
+  createApplication(param: CreateApplicationParam): Observable<CreateAppResponseData> {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        'Authorization': 'Basic ' + this.accessToken.access_token
+      })
+    };
+
+    return this.http.post(ApiEndpoints.applications.createApplication, param, httpOptions).pipe(
+      map((data: any) => new CreateAppResponseData())
+      );
+  }
+
 }

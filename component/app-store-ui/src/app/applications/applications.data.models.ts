@@ -14,7 +14,7 @@ export class GetApplicationsParam {
 }
 
 export class ApplicationListResult {
-  count : number;
+  count: number;
   next: string;
   previous: string;
   list: Application[];
@@ -35,6 +35,7 @@ export class Application {
 export class CreateApplicationParam {
   name: string;
   description: string;
+  throttlingTier: string = "Unlimited";
 }
 
 export class TabTile {
@@ -46,10 +47,14 @@ export class TabTile {
 }
 
 export class SubscriptionResult {
-  count : number;
+  count: number;
   next: string;
   previous: string;
   list: Subscription[];
+}
+
+export class CreateAppResponseData {
+  message: string;
 }
 
 export class Subscription {
