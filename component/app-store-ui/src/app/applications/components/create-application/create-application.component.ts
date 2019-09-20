@@ -9,6 +9,8 @@ import { AppState } from '../../../app.data.models';
 import { Store } from '@ngrx/store';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
+import * as applicationActions from "../../../applications/applications.actions";
+
 @Component({
   selector: 'store-create-application',
   templateUrl: './create-application.component.html',
@@ -16,23 +18,15 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 })
 export class CreateApplicationComponent implements OnInit {
 
-  application:CreateApplicationParam = new CreateApplicationParam();
-  quota = [
-    { title : "Unlimited", value: 'unlimited' },
-    { title : "50 Per Min", value: '50' },
-    { title : "20 Per Min", value: '20' },
-    { title : "10 Per Min", value: '10' },
-  ];
+  application: CreateApplicationParam = new CreateApplicationParam();
 
-  tokenType = [
-    { title : "OAuth", value: 'oauth' },
-    { title : "JWT", value: 'jwt' }
-  ];
   formCreateApp: FormGroup;
   submitted = false;
+  public appDescription: string;
+  public appName: string;
 
   constructor(
-    private store: Store<AppState>, 
+    private store: Store<AppState>,
     private titleService: Title,
     private fb: FormBuilder
   ) { }
@@ -42,26 +36,29 @@ export class CreateApplicationComponent implements OnInit {
     this.titleService.setTitle("Create New App | Apigate API Store");
 
     this.formCreateApp = this.fb.group({
-      appName: ['', [Validators.required, Validators.maxLength(70),  Validators.pattern("[a-zA-Z\s]+$")]],
-      appDescription: ['', Validators.required],
-      appQuota: ['unlimited', Validators.required],
-      appTokenType: ['oauth', Validators.required]
+      appName: ['', [Validators.required, Validators.maxLength(70), Validators.pattern("[a-zA-Z\s]+$")]],
+      appDescription: ['', Validators.required]
     });
+
+
   }
 
-  get f() { return this.formCreateApp.controls;  }
+  get f() { return this.formCreateApp.controls; }
 
   onSubmit() {
-      this.submitted = true;
-      if (this.formCreateApp.invalid) {
-          return;
-      }
-      alert('SUCCESS!! :-)\n\n' + JSON.stringify(this.formCreateApp.value, null, 4));
+    this.submitted = true;
+    if (this.formCreateApp.invalid) {
+      return;
+    } else {
+     this.application.name = this.appName;
+     this.application.description = this.appDescription; 
+     this.store.dispatch(applicationActions.CreateApplicationsAction({"payload" :this.application}))
+    } 
   }
 
   onReset() {
-      this.submitted = false;
-      this.formCreateApp.reset();
+    this.submitted = false;
+    this.formCreateApp.reset();
   }
 
 }
