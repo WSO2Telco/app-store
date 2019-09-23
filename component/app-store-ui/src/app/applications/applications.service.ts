@@ -1,6 +1,6 @@
 
 import { map } from 'rxjs/operators';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { ApiEndpoints } from '../config/api.endpoints';
 import {
@@ -23,13 +23,13 @@ export class ApplicationsService {
     })
   }
 
-  getAllApplications(): Observable<ApplicationListResult> {
-    const httpOptions = {
-      headers: new HttpHeaders({
-        'Authorization': 'Basic ' + this.accessToken.access_token
-      })
-    };
-    return this.http.get<ApplicationListResult>(ApiEndpoints.applications.getAllApplications, httpOptions);
+  getAllApplications(param: GetApplicationsParam): Observable<ApplicationListResult> {
+    const searchParams = new HttpParams()
+      .append('limit', <any>param.limit)
+      .append('offset', <any>param.offset);
+    const httpOptions = new HttpHeaders()
+      .append('Authorization', 'Basic ' + this.accessToken.access_token)
+    return this.http.get<ApplicationListResult>(ApiEndpoints.applications.getAllApplications, { params: searchParams, headers: httpOptions });
   }
 
   getApplicationsDetails(appId: string): Observable<ApplicationDetails> {
@@ -52,7 +52,7 @@ export class ApplicationsService {
 
     return this.http.post(ApiEndpoints.applications.createApplication, param, httpOptions).pipe(
       map((data: any) => new CreateAppResponseData())
-      );
+    );
   }
 
 }
