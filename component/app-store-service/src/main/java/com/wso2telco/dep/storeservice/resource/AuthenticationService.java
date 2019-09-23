@@ -2,8 +2,6 @@ package com.wso2telco.dep.storeservice.resource;
 
 import org.apache.axis2.client.Options;
 import org.apache.axis2.client.ServiceClient;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.appstore.core.dto.AuthenticationRequest;
 import org.appstore.core.dto.GenericResponse;
 import org.appstore.core.util.InputValidator;
@@ -24,6 +22,8 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.net.URL;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Copyright (c) 2016, WSO2.Telco Inc. (http://www.wso2telco.com) All Rights Reserved.
@@ -45,7 +45,7 @@ import java.net.URL;
 @Produces(MediaType.APPLICATION_JSON)
 public class AuthenticationService {
 
-    private static final Log log = LogFactory.getLog(AuthenticationService.class);
+    private static final Logger logger = Logger.getLogger(AuthenticationService.class.getName());
 
     @POST
     @Path("/login")
@@ -77,19 +77,23 @@ public class AuthenticationService {
             PermissionUpdateUtil.updatePermissionTree(tenantId);
 
             String host = new URL(url).getHost();
+            logger.log(Level.INFO, "login user : " + authenticationRequest.getUsername());
             if (!authAdminStub.login(authenticationRequest.getUsername(), authenticationRequest.getPassword(), host)) {
                 response = Response.status(Response.Status.OK)
                         .entity(new GenericResponse(true, "Login failed. Please recheck the username and password and try again."))
                         .build();
+                logger.log(Level.WARNING, "Invalid username or password, Login failed");
             } else {
                 response = Response.status(Response.Status.OK)
                         .entity(new GenericResponse(false, "SUCCESS"))
                         .build();
+                logger.log(Level.INFO, authenticationRequest.getUsername() + " successfully logged in");
             }
         } catch (Exception e) {
             response =  Response.status(Response.Status.INTERNAL_SERVER_ERROR)
                 .entity(new GenericResponse(true, e.getMessage()))
                 .build();
+            logger.log(Level.WARNING, "Login failed, internal error occurred", e);
         }
         return response;
     }
@@ -112,16 +116,18 @@ public class AuthenticationService {
             response = Response.status(Response.Status.OK)
                 .entity(new GenericResponse(false, "SUCCESS"))
                 .build();
+            logger.log(Level.INFO, "successfully logged out");
         } catch (Exception e) {
             response =  Response.status(Response.Status.INTERNAL_SERVER_ERROR)
                 .entity(new GenericResponse(true, e.getMessage()))
                 .build();
+            logger.log(Level.WARNING, "Logging out failed, internal error occurred", e);
         }
         return response;
     }
 
     private static void handleException(String msg) throws APIManagementException {
-        log.error(msg);
+        logger.log(Level.WARNING, msg);
         throw new APIManagementException(msg);
     }
 }
