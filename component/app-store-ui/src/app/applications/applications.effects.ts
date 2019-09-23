@@ -5,7 +5,7 @@ import { EMPTY } from 'rxjs';
 import { mergeMap, catchError, map } from 'rxjs/operators';
 import { ApplicationsService } from './applications.service';
 import * as applicationsActions from './applications.actions';
-import { Application, Subscription, ApplicationListResult, ApplicationDetails, SubscriptionResult } from './applications.data.models';
+import { Application, Subscription, ApplicationListResult, ApplicationDetails, SubscriptionResult, CreateApplicationParam, CreateAppResponseData } from './applications.data.models';
 import { NotificationService } from '../shared/services/notification.service';
 import { HttpErrorResponse } from '@angular/common/http';
 
@@ -55,4 +55,26 @@ export class ApplicationsEffects {
       )
     )
   ))
+
+  createApps$ = createEffect(() => this.actions$.pipe(
+    ofType(applicationsActions.CreateApplicationsAction),
+    mergeMap(({ payload }) => this.service.createApplication(payload)
+      .pipe(
+       /*  map((response: CreateAppResponseData) => applicationsActions.CreateApplicationSuccessAction({ "payload": response })), */
+       map((response: CreateAppResponseData) => {
+        if (response.message) {
+          this.notification.error(response.message);
+          throw response;
+        } else {
+          this.notification.success("Application created successfully");
+          return applicationsActions.CreateApplicationSuccessAction({ "payload": response });
+        }
+      }),
+        catchError((e: HttpErrorResponse) => {
+          this.notification.error(e.message);
+          return EMPTY
+        })
+      )
+    )
+  ));
 }

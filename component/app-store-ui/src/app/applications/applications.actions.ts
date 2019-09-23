@@ -1,5 +1,5 @@
 import { props, createAction } from '@ngrx/store';
-import { Application, Subscription, ApplicationListResult, ApplicationDetails, SubscriptionResult } from './applications.data.models';
+import { Application, Subscription, ApplicationListResult, ApplicationDetails, SubscriptionResult, CreateApplicationParam, CreateAppResponseData } from './applications.data.models';
 
 export const GetAllApplicationsAction = createAction('[App] Get All Apps');
 export const GetAllApplicationsSuccessAction = createAction('[App] Get All Apps Success ✓', props<{payload: ApplicationListResult}>());
@@ -11,3 +11,6 @@ export const GetApplicationDetailsSuccessAction = createAction('[App] Get App De
 
 export const GetApplicationSubscriptionsAction = createAction('[App] Get App Subscriptions', props<{payload: string}>());
 export const GetApplicationSubscriptionsSuccessAction = createAction('[App] Get App Subscriptions Success ✓', props<{payload: SubscriptionResult}>());
+
+export const CreateApplicationsAction = createAction('[App] Create App', props<{payload: CreateApplicationParam}>());
+export const CreateApplicationSuccessAction = createAction('[App] Create App Success ✓', props<{payload: CreateAppResponseData}>());
