@@ -26,13 +26,15 @@ export class ViewTopicComponent implements OnInit {
       }
     });
 
-    this.store.select(s => s.forum.selectedTopic).subscribe(topic => {
-      this.selectedTopic = topic;
-      if (this.selectedTopic) {
-        this.store.dispatch(
-          forumActions.GetTopicDetailAction({payload : this.selectedTopic.topicId})
-        );
-      }
-    });
+    // this.store.select(s => s.forum.selectedTopic).subscribe(topic => {
+    //   this.selectedTopic = topic;
+    //   if (this.selectedTopic) {
+    //     this.store.dispatch(
+    //       forumActions.GetTopicDetailAction({payload : this.selectedTopic.topicId})
+    //     );
+    //   }
+    // });
+
+    this.store.dispatch(forumActions.GetTopicDetailAction({payload:"topic123"}));
   }
 }
