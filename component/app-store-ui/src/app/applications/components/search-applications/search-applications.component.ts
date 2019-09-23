@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AppState } from '../../../app.data.models';
 import { Store } from '@ngrx/store';
 import { MatTableDataSource } from '@angular/material';
-import { Application } from '../../applications.data.models';
+import { Application, GetApplicationsParam } from '../../applications.data.models';
 import * as applicationsActions from '../../applications.actions';
 import * as authActions from '../../../authentication/authentication.actions'
 import { Router } from '@angular/router';
@@ -22,6 +22,8 @@ export class SearchApplicationsComponent implements OnInit {
   dataSource = new MatTableDataSource<Application>();
   searchQuery: string;
   public clientData: ClientRegParam;
+  length: number;
+  pageSize: number = 5;
 
   constructor(private store: Store<AppState>, private router: Router, private titleService: Title, private actions$: Actions, ) { }
 
@@ -29,7 +31,7 @@ export class SearchApplicationsComponent implements OnInit {
     this.clientData = new ClientRegParam();
 
     this.actions$.pipe(ofType(authActions.TokenGenerationSuccessAction)).subscribe(p => {
-      this.store.dispatch(applicationsActions.GetAllApplicationsAction())
+      this.store.dispatch(applicationsActions.GetAllApplicationsAction({ "payload": new GetApplicationsParam(0, 5, 0) }))
     })
 
     this.actions$.pipe(ofType(applicationsActions.GetAllApplicationsSuccessAction)).subscribe(p => {
@@ -40,7 +42,9 @@ export class SearchApplicationsComponent implements OnInit {
 
     this.store
       .select(s => s.applications.allApplications)
-      .subscribe(apps => this.dataSource.data = apps.list);
+      .subscribe((apps) => {
+        this.dataSource.data = apps.list
+      });
 
     this.store.dispatch(globalActions.SetBreadcrumbAction({payload:[new BreadcrumbItem("Applications")]}));
     this.titleService.setTitle("Apps | Apigate API Store");
@@ -59,4 +63,10 @@ export class SearchApplicationsComponent implements OnInit {
   }
 
   onSearchClick() { }
+
+  onPageChanged(e) {
+    let offset = e.pageSize * e.pageIndex;
+    this.pageSize = e.pageSize;
+    this.store.dispatch(applicationsActions.GetAllApplicationsAction({ "payload": new GetApplicationsParam(0, this.pageSize, offset) }))
+  }
 }
