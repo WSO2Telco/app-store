@@ -113,13 +113,12 @@ public class UserService {
             response = Response.status(Response.Status.OK)
                 .entity(new GenericResponse(false, "SUCCESS"))
                 .build();
-            logger.log(Level.INFO, "user added successfully : {" + userRequest.getUsername() + ", "
-                    + userRequest.getPassword() + ", " + userRequest.getAllFieldsValues() + "}");
+            logger.log(Level.INFO, "user added successfully : " + userRequest.getUsername());
         } catch (ApiException | InvalidInputException e) {
             response =  Response.status(Response.Status.OK)
                     .entity(new GenericResponse(true, e.getMessage()))
                     .build();
-            logger.log(Level.WARNING, "Error occurred while adding user", e);
+            logger.log(Level.WARNING, "Error occurred while adding user");
         } catch (Exception e) {
             response =  Response.status(Response.Status.INTERNAL_SERVER_ERROR)
                 .entity(new GenericResponse(true, e.getMessage()))
@@ -204,7 +203,7 @@ public class UserService {
             response = Response.status(Response.Status.OK)
                     .entity(new GenericResponse(true, e.getMessage()))
                     .build();
-            logger.log(Level.WARNING, "Error occurred changing password", e);
+            logger.log(Level.WARNING, "Error occurred changing password");
         } catch (Exception e) {
             response =  Response.status(Response.Status.INTERNAL_SERVER_ERROR)
                     .entity(new GenericResponse(true, e.getMessage()))
@@ -267,7 +266,7 @@ public class UserService {
             response =  Response.status(Response.Status.OK)
                     .entity(new GenericResponse(true, e.getMessage()))
                     .build();
-            logger.log(Level.WARNING, "Error occurred while changing password", e);
+            logger.log(Level.WARNING, "Error occurred while changing password");
         } catch (Exception e) {
             response =  Response.status(Response.Status.INTERNAL_SERVER_ERROR)
                     .entity(new GenericResponse(true, e.getMessage()))
