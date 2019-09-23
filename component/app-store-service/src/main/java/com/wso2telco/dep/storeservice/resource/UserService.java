@@ -3,8 +3,6 @@ package com.wso2telco.dep.storeservice.resource;
 import org.apache.axis2.client.Options;
 import org.apache.axis2.client.ServiceClient;
 import org.apache.axis2.transport.http.HTTPConstants;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.appstore.core.dto.ChangePasswordByUsrRequest;
 import org.appstore.core.dto.ChangePasswordRequest;
 import org.appstore.core.dto.GenericResponse;
@@ -62,6 +60,8 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.rmi.RemoteException;
 import java.util.Arrays;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Copyright (c) 2016, WSO2.Telco Inc. (http://www.wso2telco.com) All Rights Reserved.
@@ -83,7 +83,7 @@ import java.util.Arrays;
 @Produces(MediaType.APPLICATION_JSON)
 public class UserService {
 
-    private static final Log log = LogFactory.getLog(UserService.class);
+    private static final Logger logger = Logger.getLogger(UserService.class.getName());
 
     @POST
     @Path("/add")
@@ -113,14 +113,18 @@ public class UserService {
             response = Response.status(Response.Status.OK)
                 .entity(new GenericResponse(false, "SUCCESS"))
                 .build();
+            logger.log(Level.INFO, "user added successfully : {" + userRequest.getUsername() + ", "
+                    + userRequest.getPassword() + ", " + userRequest.getAllFieldsValues() + "}");
         } catch (ApiException | InvalidInputException e) {
             response =  Response.status(Response.Status.OK)
                     .entity(new GenericResponse(true, e.getMessage()))
                     .build();
+            logger.log(Level.WARNING, "Error occurred while adding user", e);
         } catch (Exception e) {
             response =  Response.status(Response.Status.INTERNAL_SERVER_ERROR)
                 .entity(new GenericResponse(true, e.getMessage()))
                 .build();
+            logger.log(Level.WARNING, "Internal server error occurred while adding user", e);
         }
         return response;
     }
@@ -194,14 +198,18 @@ public class UserService {
             response = Response.status(Response.Status.OK)
                     .entity(new GenericResponse(false, "SUCCESS"))
                     .build();
+
+            logger.log(Level.INFO, "Password changed successfully for user : " + authUsername);
         } catch (ApiException | InvalidInputException e) {
             response = Response.status(Response.Status.OK)
                     .entity(new GenericResponse(true, e.getMessage()))
                     .build();
+            logger.log(Level.WARNING, "Error occurred changing password", e);
         } catch (Exception e) {
             response =  Response.status(Response.Status.INTERNAL_SERVER_ERROR)
                     .entity(new GenericResponse(true, e.getMessage()))
                     .build();
+            logger.log(Level.WARNING, "Internal server error occurred while changing password", e);
         } finally {
             if (isTenantFlowStarted) {
                 PrivilegedCarbonContext.endTenantFlow();
@@ -254,14 +262,17 @@ public class UserService {
             response = Response.status(Response.Status.OK)
                     .entity(new GenericResponse(false, "SUCCESS"))
                     .build();
+            logger.log(Level.INFO, "Password changed successfully for user : " + changePasswordReq.getUsername());
         } catch (ApiException | InvalidInputException e) {
             response =  Response.status(Response.Status.OK)
                     .entity(new GenericResponse(true, e.getMessage()))
                     .build();
+            logger.log(Level.WARNING, "Error occurred while changing password", e);
         } catch (Exception e) {
             response =  Response.status(Response.Status.INTERNAL_SERVER_ERROR)
                     .entity(new GenericResponse(true, e.getMessage()))
                     .build();
+            logger.log(Level.WARNING, "Internal server error occurred while changing password", e);
         } finally {
             if (isTenantFlowStarted) {
                 PrivilegedCarbonContext.endTenantFlow();
@@ -348,7 +359,7 @@ public class UserService {
                             .getTenantId(tenantDomain);
                     signUpWFDto.setTenantId(tenantId);
                 } catch (org.wso2.carbon.user.api.UserStoreException e) {
-                    log.error("Error while loading Tenant ID for given tenant domain :" + tenantDomain, e);
+                    logger.log(Level.WARNING,"Error while loading Tenant ID for given tenant domain :" + tenantDomain, e);
                 }
 
                 signUpWFDto.setExternalWorkflowReference(userSignUpWFExecutor.generateUUID());
@@ -358,7 +369,7 @@ public class UserService {
                 try {
                     userSignUpWFExecutor.execute(signUpWFDto);
                 } catch (WorkflowException e) {
-                    log.error("Unable to execute User SignUp Workflow", e);
+                    logger.log(Level.WARNING,"Unable to execute User SignUp Workflow", e);
                     removeTenantUser(username, serverURL);
                     handleException("Unable to execute User SignUp Workflow", e);
                 }
@@ -412,7 +423,7 @@ public class UserService {
             Arrays.sort(userFields, new HostObjectUtils.RequiredUserFieldComparator());
             Arrays.sort(userFields, new HostObjectUtils.UserFieldComparator());
         } catch (Exception e) {
-            log.error("Error while retrieving User registration Fields", e);
+            logger.log(Level.WARNING, "Error while retrieving User registration Fields", e);
         }
         return userFields;
     }
@@ -428,10 +439,10 @@ public class UserService {
             userAdminStub.getRolesOfCurrentUser();
             status = true;
         } catch (RemoteException e) {
-            log.error(e);
+            logger.log(Level.WARNING, e.getMessage(), e);
             status = false;
         } catch (UserAdminUserAdminException e) {
-            log.error("Error in checking admin credentials. Please check credentials in "
+            logger.log(Level.WARNING, "Error in checking admin credentials. Please check credentials in "
                     + "the signup-config.xml in the registry. ", e);
             status = false;
         }
@@ -479,18 +490,18 @@ public class UserService {
             }
         } catch (MalformedURLException | org.wso2.carbon.user.api.UserStoreException | RemoteException |
                 LoginAuthenticationExceptionException axisFault) {
-            log.error("Error while checking the ability to login", axisFault);
+            logger.log(Level.WARNING,"Error while checking the ability to login", axisFault);
         }
         return loginStatus;
     }
 
     private static void handleException(String msg) throws ApiException {
-        log.error(msg);
+        logger.log(Level.WARNING, msg);
         throw new ApiException(msg);
     }
 
     private static void handleException(String msg, Throwable throwable) throws ApiException {
-        log.error(msg);
+        logger.log(Level.WARNING, msg);
         throw new ApiException(msg, throwable);
     }
 
