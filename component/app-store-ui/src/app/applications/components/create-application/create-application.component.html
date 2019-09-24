@@ -13,38 +13,20 @@
       
         <div class="add-app-container" fxLayout="column">
           <mat-form-field class="narrow">
-            <input matInput formControlName="appName" placeholder="Application Name">
+            <input matInput formControlName="appName" [(ngModel)]="appName" placeholder="Application Name">
     
               <mat-error *ngIf="f.appName.errors?.required">Application name is required</mat-error>
               <mat-error *ngIf="f.appName.errors?.maxlength && !f.appName.errors?.pattern">Only 70 characters are allowed</mat-error>
               <mat-error *ngIf="f.appName.errors?.pattern">Do not enter special characters</mat-error>
           </mat-form-field>
     
-          <mat-form-field class="narrow">
-            <mat-label>Per Token Quota</mat-label>
-            <mat-select formControlName="appQuota">
-              <mat-option *ngFor="let q of quota" [value]="q.value">
-                {{q.title}}
-              </mat-option>
-            </mat-select>
-          </mat-form-field>
-    
           <mat-form-field >
-            <textarea rows="5" matInput formControlName="appDescription" placeholder="Description"></textarea>
+            <textarea rows="5" matInput formControlName="appDescription" [(ngModel)]="appDescription" placeholder="Description"></textarea>
             <mat-error *ngIf="submitted && f.appDescription.errors">Description is required</mat-error>
-          </mat-form-field>
-
-          <mat-form-field class="narrow">
-            <mat-label>Token Type</mat-label>
-            <mat-select formControlName="appTokenType">
-              <mat-option *ngFor="let t of tokenType" [value]="t.value">
-                {{t.title}}
-              </mat-option>
-            </mat-select>
           </mat-form-field>
     
           <div fxFlex="100%"  fxLayoutGap="10px" >
-              <button mat-raised-button type="button" [routerLink]="['/applications']" >Cancel</button>
+              <button mat-raised-button type="button" [routerLink]="['/applications']" color="red" >Cancel</button>
               <button mat-raised-button type="submit" color="accent">Create</button>
             </div>
         </div>
