@@ -13,7 +13,8 @@ export class GetApplicationsParam {
   constructor(
     public page: number,
     public limit: number,
-    public offset: number
+    public offset: number,
+    public query: string
   ) { }
 }
 
