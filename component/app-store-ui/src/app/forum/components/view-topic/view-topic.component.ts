@@ -30,6 +30,6 @@ export class ViewTopicComponent implements OnInit {
   }
 
   getFirstLetter(name:string): string {
-    return (name != '') ? name.charAt(0) : "";
+    return (name != '') ? name.charAt(0) : null;
   }
 }
