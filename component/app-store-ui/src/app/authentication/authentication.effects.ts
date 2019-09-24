@@ -63,7 +63,6 @@ export class AuthenticationEffects {
         map((response: RegClientData) => {
           if (!response.error) {
             const p = new TokenGenerationParam();
-            this.notification.success("successfully created");
             this.store.dispatch(loginActions.TokenGenerationAction({ "payload": p }));
             return loginActions.ClientRegistrationSuccessAction({ "payload": response })
           } else {

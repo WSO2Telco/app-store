@@ -10,7 +10,12 @@ export interface ApplicationsState {
 }
 
 export class GetApplicationsParam {
-  page: number;
+  constructor(
+    public page: number,
+    public limit: number,
+    public offset: number,
+    public query: string
+  ) { }
 }
 
 export class ApplicationListResult {

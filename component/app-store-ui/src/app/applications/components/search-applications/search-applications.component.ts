@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AppState } from '../../../app.data.models';
 import { Store } from '@ngrx/store';
 import { MatTableDataSource } from '@angular/material';
-import { Application } from '../../applications.data.models';
+import { Application, GetApplicationsParam } from '../../applications.data.models';
 import * as applicationsActions from '../../applications.actions';
 import * as authActions from '../../../authentication/authentication.actions'
 import { Router } from '@angular/router';
@@ -20,29 +20,41 @@ import { ClientRegParam } from '../../../authentication/authentication.models';
 })
 export class SearchApplicationsComponent implements OnInit {
   dataSource = new MatTableDataSource<Application>();
-  searchQuery: string;
+  searchQuery: string = '';
   public clientData: ClientRegParam;
+  length: number;
+  pageSize: number = 5;
 
   constructor(private store: Store<AppState>, private router: Router, private titleService: Title, private actions$: Actions, ) { }
 
   ngOnInit() {
     this.clientData = new ClientRegParam();
 
-    this.actions$.pipe(ofType(authActions.TokenGenerationSuccessAction)).subscribe(p => {
-      this.store.dispatch(applicationsActions.GetAllApplicationsAction())
+    /* this.actions$.pipe(ofType(authActions.TokenGenerationSuccessAction)).subscribe(p => {
+      this.store.dispatch(applicationsActions.GetAllApplicationsAction({ "payload": new GetApplicationsParam(0, 5, 0, '') }))
+    }) */
+
+    this.store.select((s) => s.authentication.tokenDetails).subscribe((auth) => {
+      if (auth) {
+        this.store.dispatch(applicationsActions.GetAllApplicationsAction({ "payload": new GetApplicationsParam(0, 5, 0, '') }))
+      }
     })
 
     this.actions$.pipe(ofType(applicationsActions.GetAllApplicationsSuccessAction)).subscribe(p => {
-      this.store
-        .select(s => s.applications.allApplications)
-        .subscribe(apps => this.dataSource.data = apps.list);
+      if (p) {
+        this.store
+          .select(s => s.applications.allApplications)
+          .subscribe(apps => this.dataSource.data = apps.list);
+      }
     })
 
-    this.store
+    /* this.store
       .select(s => s.applications.allApplications)
-      .subscribe(apps => this.dataSource.data = apps.list);
+      .subscribe((apps) => {
+        this.dataSource.data = apps.list
+      }); */
 
-    this.store.dispatch(globalActions.SetBreadcrumbAction({payload:[new BreadcrumbItem("Applications")]}));
+    this.store.dispatch(globalActions.SetBreadcrumbAction({ payload: [new BreadcrumbItem("Applications")] }));
     this.titleService.setTitle("Apps | Apigate API Store");
   }
 
@@ -58,5 +70,13 @@ export class SearchApplicationsComponent implements OnInit {
     }
   }
 
-  onSearchClick() { }
+  onSearchClick() {
+    this.store.dispatch(applicationsActions.GetAllApplicationsAction({ "payload": new GetApplicationsParam(0, this.pageSize, 0, this.searchQuery) }))
+  }
+
+  onPageChanged(e) {
+    let offset = e.pageSize * e.pageIndex;
+    this.pageSize = e.pageSize;
+    this.store.dispatch(applicationsActions.GetAllApplicationsAction({ "payload": new GetApplicationsParam(0, this.pageSize, offset, this.searchQuery) }))
+  }
 }

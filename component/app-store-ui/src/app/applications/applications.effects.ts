@@ -19,7 +19,7 @@ export class ApplicationsEffects {
 
   getAllApps$ = createEffect(() => this.actions$.pipe(
     ofType(applicationsActions.GetAllApplicationsAction),
-    mergeMap(() => this.service.getAllApplications()
+    mergeMap(({payload}) => this.service.getAllApplications(payload)
       .pipe(
         map((response: ApplicationListResult) => applicationsActions.GetAllApplicationsSuccessAction({ "payload": response })),
         catchError((e: HttpErrorResponse) => {
