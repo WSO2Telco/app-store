@@ -26,7 +26,8 @@ export class ApplicationsService {
   getAllApplications(param: GetApplicationsParam): Observable<ApplicationListResult> {
     const searchParams = new HttpParams()
       .append('limit', <any>param.limit)
-      .append('offset', <any>param.offset);
+      .append('offset', <any>param.offset)
+      .append('query', <any>param.query);
     const httpOptions = new HttpHeaders()
       .append('Authorization', 'Basic ' + this.accessToken.access_token)
     return this.http.get<ApplicationListResult>(ApiEndpoints.applications.getAllApplications, { params: searchParams, headers: httpOptions });
