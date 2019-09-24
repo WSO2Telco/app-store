@@ -14,11 +14,19 @@
       <hr />
       <div>
         <div *ngFor="let rep of replies;let x=index;" class="reply-item">
-          <div class="rep-by"><strong>admin</strong> on Tue Mar 13 2018, 10:45:30</div>
-          {{rep?.reply}}
+          <div class="rep-by">
+            <span class="avatar">a</span>
+            <div>
+              <strong>admin</strong> <br/>
+              on Tue Mar 13 2018, 10:45:30
+            </div>
+          </div>
+          <div class="reply-content">
+            {{rep?.reply}}
+          </div>
         </div>
       </div>
-      <hr />
+
       <div class="post-reply">
         <mat-form-field>
           <mat-label>Comment</mat-label>
