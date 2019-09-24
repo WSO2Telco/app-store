@@ -1,8 +1,13 @@
 @import "~@angular/material/theming";
 @mixin view-topic-theme($theme) {
   $primary: map-get($theme, primary);
+  $accent: map-get($theme, accent);
 
   .view-topic-container{
     background-color: mat-color($primary,darker);
+  }
+
+  .avatar{
+    background: mat-color($accent,darker);;
   }
 }

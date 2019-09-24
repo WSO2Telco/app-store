@@ -11,14 +11,13 @@
 
     <div class="replies">
       <h2>{{replies?.length}} Responses</h2>
-      <hr />
       <div>
         <div *ngFor="let rep of replies;let x=index;" class="reply-item">
           <div class="rep-by">
-            <span class="avatar">a</span>
+            <span class="avatar" [innerHtml]="getFirstLetter(rep.createdBy)"></span>
             <div>
-              <strong>admin</strong> <br/>
-              on Tue Mar 13 2018, 10:45:30
+              <strong>{{rep.createdBy}}</strong> <br/>
+              {{rep.time | date : 'on EEEE, MMM d yyyy, hh:mm a' }}
             </div>
           </div>
           <div class="reply-content">
@@ -28,33 +27,16 @@
       </div>
 
       <div class="post-reply">
-        <mat-form-field>
-          <mat-label>Comment</mat-label>
-            <textarea rows="10" cols="250" matInput></textarea>
-        </mat-form-field>
+        <div>
+          <textarea rows="5" cols="50"></textarea>
+        </div>
+        <button mat-flat-button color="accent">Comment</button>
       </div>
 
     </div>
   </mat-card>
 
   <div fxFlex.gt-sm="30">
-    <h2>Recent Forum Discussions</h2>
+    <!-- <h2>Recent Forum Discussions</h2> -->
   </div>
 </div>
-
-<!-- <mat-card class="view-topic-container animated fadeInDown" >
-  <mat-card-content>
-        <div class="subject">{{topic.subject}}</div>
-        <div class="description" [innerHTML]="topic.description"></div>
-  </mat-card-content>
-</mat-card> -->
-<!-- <div class="rep-title">Replies</div>
-
-<div class="reply-container animated fadeIn delay_{{x+2}}}" *ngFor="let rep of replies;let x=index;">
-  <mat-card >
-    <mat-card-content>
-          <div class="subject">{{rep.reply}}</div>
-    </mat-card-content>
-  </mat-card>
-  <div class="rep-by">Posted By admin on Tue Mar 13 2018, 10:45:30</div>
-</div> -->

@@ -73,12 +73,21 @@
     }
 }
 
+.post-reply{
+    padding: 20px 0 0 10px;
+
+    textarea{
+        border: 1px solid;
+        border-radius: 3px;
+        margin-bottom: 10px;
+    }
+}
+
 .avatar{
     display: flex;
     padding: 5px;
     width: 20px;
     height: 20px;
-    background: #00AEEF;
     text-align: center;
     color: #fff;
     font-size: 17px;
@@ -88,6 +97,7 @@
     align-items: center;
     align-content: center;
     justify-content: center;
+    text-transform: uppercase
 }
 
 .reply-content{
