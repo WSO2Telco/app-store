@@ -26,13 +26,10 @@ export class ViewTopicComponent implements OnInit {
       }
     });
 
-    this.store.select(s => s.forum.selectedTopic).subscribe(topic => {
-      this.selectedTopic = topic;
-      if (this.selectedTopic) {
-        this.store.dispatch(
-          forumActions.GetTopicDetailAction({payload : this.selectedTopic.topicId})
-        );
-      }
-    });
+    this.store.dispatch(forumActions.GetTopicDetailAction({payload:"topic123"}));
+  }
+
+  getFirstLetter(name:string): string {
+    return (name != '') ? name.charAt(0) : null;
   }
 }

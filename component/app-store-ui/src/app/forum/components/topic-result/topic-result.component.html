@@ -3,17 +3,17 @@
 
     <ng-container matColumnDef="topic">
       <mat-header-cell *matHeaderCellDef=""> Topic </mat-header-cell>
-      <mat-cell *matCellDef="let element"> {{element.subject}} </mat-cell>
+      <mat-cell *matCellDef="let element" (click)="onTopicAction(element,'view')"> {{element.subject}} </mat-cell>
     </ng-container>
 
     <ng-container matColumnDef="by">
       <mat-header-cell *matHeaderCellDef=""> Created By </mat-header-cell>
-      <mat-cell *matCellDef="let element"> {{element.topicOwner}} </mat-cell>
+      <mat-cell *matCellDef="let element" (click)="onTopicAction(element,'view')"> {{element.topicOwner}} </mat-cell>
     </ng-container>
     
     <ng-container matColumnDef="replies">
       <mat-header-cell *matHeaderCellDef=""> Replies </mat-header-cell>
-      <mat-cell *matCellDef="let element"> {{element.replyCount}} </mat-cell>
+      <mat-cell *matCellDef="let element" (click)="onTopicAction(element,'view')"> {{element.replyCount}} </mat-cell>
     </ng-container>
     
     <ng-container matColumnDef="action">

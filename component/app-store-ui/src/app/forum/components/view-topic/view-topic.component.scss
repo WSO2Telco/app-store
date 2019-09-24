@@ -45,15 +45,13 @@
     }
 
     .replies{
-        background: #fafafa;
-        padding: 15px;
-        margin-left: -16px;
-        margin-right: -16px;
+        padding: 15px 0;
+        overflow: hidden;
+        width: 75%;
 
         h2{
             font-size: 18px;
             font-weight: 500;
-            background: #eee;
             margin: -16px;
             padding: 15px;
             margin-bottom: 0px;
@@ -62,7 +60,6 @@
 
     .reply-item {
         padding: 15px 0;
-        border-bottom: 1px solid #ddd;
         font-size: 14px;
     }
 
@@ -71,5 +68,59 @@
         font-size: 12px;
         color: #999;
         margin-bottom: 5px;
+        display: flex;
+        
+    }
+}
+
+.post-reply{
+    padding: 20px 0 0 10px;
+
+    textarea{
+        border: 1px solid;
+        border-radius: 3px;
+        margin-bottom: 10px;
+    }
+}
+
+.avatar{
+    display: flex;
+    padding: 5px;
+    width: 20px;
+    height: 20px;
+    text-align: center;
+    color: #fff;
+    font-size: 17px;
+    border-radius: 20px;
+    line-height: 1;
+    margin-right: 5px;
+    align-items: center;
+    align-content: center;
+    justify-content: center;
+    text-transform: uppercase
+}
+
+.reply-content{
+    position: relative;
+    background: #f0f0f0;
+    padding: 10px;
+    margin-left: 5px;
+    border-radius: 5px;
+    border-top-left-radius: 0;
+    margin-top: 10px;
+
+    &:after {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 10px;
+        width: 0;
+        height: 0;
+        border: 10px solid transparent;
+        border-bottom-color: #f0f0f0;
+        border-top: 0;
+        border-left: 0;
+        margin-left: -10px;
+        margin-top: -10px;
     }
 }

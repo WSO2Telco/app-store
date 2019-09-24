@@ -1,12 +1,6 @@
-import {
-  Component,
-  OnInit,
-  Input,
-  OnChanges,
-  SimpleChanges,
-  Output,
-  EventEmitter
-} from "@angular/core";
+import { Component, OnInit, Input, OnChanges, SimpleChanges, Output, EventEmitter } from "@angular/core";
+import { AppState } from "../../../app.data.models";
+import { Store } from "@ngrx/store";
 import { MatTableDataSource } from "@angular/material";
 import { Topic } from "../../forum.data.models";
 
@@ -15,22 +9,18 @@ import { Topic } from "../../forum.data.models";
   templateUrl: "./topic-result.component.html",
   styleUrls: ["./topic-result.component.scss"]
 })
-export class TopicResultComponent implements OnInit, OnChanges {
-  @Input() topics: Topic[];
-
+export class TopicResultComponent implements OnInit {
   @Output() whenDelete: EventEmitter<string> = new EventEmitter<string>();
   @Output() whenView: EventEmitter<Topic> = new EventEmitter<Topic>();
 
   dataSource = new MatTableDataSource<Topic>();
 
-  constructor() {}
+  constructor(private store: Store<AppState>) {}
 
-  ngOnInit() {}
-
-  ngOnChanges(changes: SimpleChanges): void {
-    if (this.topics) {
-      this.dataSource.data = this.topics;
-    }
+  ngOnInit() {
+    this.store.select(s => s.forum.allTopics).subscribe(res => {
+      this.dataSource.data = res;
+    });
   }
 
   onTopicAction(element, action) {

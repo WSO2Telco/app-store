@@ -18,7 +18,6 @@ export class BreadcrumbsComponent implements OnDestroy {
 
   ngAfterViewInit() {
     this.store.select(s => s.global.breadcrumb).subscribe(m => {
-      console.log(m);
       if (m) {
         this.activeView = m;
         this.cd.detectChanges();
