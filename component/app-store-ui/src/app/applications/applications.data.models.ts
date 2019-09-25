@@ -60,18 +60,10 @@ export class SubscriptionResult {
 
 export class CreateAppResponseData {
   message: string;
+  description:string;
 }
 
 export class Subscription {
-  // apiName: string;
-  // apiVersion: string;
-  // apiProvider: string;
-  // description: string;
-  // subscribedTier: string;
-  // status: string;
-  // subStatus: string;
-  // thumburl: string;
-  // operators: string;
   apiIdentifier: string;
   applicationId: string;
   status: string;
