@@ -60,7 +60,6 @@ export class ApplicationsEffects {
     ofType(applicationsActions.CreateApplicationsAction),
     mergeMap(({ payload }) => this.service.createApplication(payload)
       .pipe(
-       /*  map((response: CreateAppResponseData) => applicationsActions.CreateApplicationSuccessAction({ "payload": response })), */
        map((response: CreateAppResponseData) => {
         if (response.message) {
           this.notification.error(response.message);
@@ -71,7 +70,7 @@ export class ApplicationsEffects {
         }
       }),
         catchError((e: HttpErrorResponse) => {
-          this.notification.error(e.message);
+          this.notification.error(e.error.description);
           return EMPTY
         })
       )
