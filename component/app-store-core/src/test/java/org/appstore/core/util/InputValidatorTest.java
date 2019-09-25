@@ -265,31 +265,36 @@ public class InputValidatorTest {
 
     @Test(expectedExceptions = InvalidInputException.class, expectedExceptionsMessageRegExp = "Invalid input for Test Input")
     public void testValidateUserInput_shouldThrowException_forNotHavingAtLeastSixCharactersInPasswordValues() throws InvalidInputException {
-        InputValidator.validateUserInput("Test Input", "Pass1", InputType.PASSWORD);
+        InputValidator.validateUserInput("Test Input", "Pas@1", InputType.PASSWORD);
     }
 
     @Test(expectedExceptions = InvalidInputException.class, expectedExceptionsMessageRegExp = "Invalid input for Test Input")
     public void testValidateUserInput_shouldThrowException_forHavingMoreThanThirtyCharactersInPasswordValues() throws InvalidInputException {
         InputValidator.validateUserInput(
                 "Test Input",
-                "Password123Password123Password1",
+                "Password123Password123Password@",
                 InputType.PASSWORD
         );
     }
 
     @Test(expectedExceptions = InvalidInputException.class, expectedExceptionsMessageRegExp = "Invalid input for Test Input")
     public void testValidateUserInput_shouldThrowException_forNotHavingCapitalLetterInPasswordValues() throws InvalidInputException {
-        InputValidator.validateUserInput("Test Input", "password123", InputType.PASSWORD);
+        InputValidator.validateUserInput("Test Input", "password@123", InputType.PASSWORD);
     }
 
     @Test(expectedExceptions = InvalidInputException.class, expectedExceptionsMessageRegExp = "Invalid input for Test Input")
     public void testValidateUserInput_shouldThrowException_forNotHavingSimpleLetterInPasswordValues() throws InvalidInputException {
-        InputValidator.validateUserInput("Test Input", "PASSWORD123", InputType.PASSWORD);
+        InputValidator.validateUserInput("Test Input", "PASSWORD@123", InputType.PASSWORD);
     }
 
     @Test(expectedExceptions = InvalidInputException.class, expectedExceptionsMessageRegExp = "Invalid input for Test Input")
     public void testValidateUserInput_shouldThrowException_forNotHavingNumberInPasswordValues() throws InvalidInputException {
-        InputValidator.validateUserInput("Test Input", "Password", InputType.PASSWORD);
+        InputValidator.validateUserInput("Test Input", "Password@", InputType.PASSWORD);
+    }
+
+    @Test(expectedExceptions = InvalidInputException.class, expectedExceptionsMessageRegExp = "Invalid input for Test Input")
+    public void testValidateUserInput_shouldThrowException_forNotHavingSpecialCharacterInPasswordValues() throws InvalidInputException {
+        InputValidator.validateUserInput("Test Input", "Password123", InputType.PASSWORD);
     }
 
     @Test(expectedExceptions = InvalidInputException.class, expectedExceptionsMessageRegExp = "Test Input cannot be empty")
@@ -309,7 +314,7 @@ public class InputValidatorTest {
 
     @Test
     public void testValidateUserInput_shouldPass_forValidPasswordValues() {
-        String[] validInputs = {"Password123", "Password@123", "123Password"};
+        String[] validInputs = {"Password@123", "123@Password", "#Password123", "P@$$w0rd"};
         for (String validInput : validInputs) {
             try {
                 InputValidator.validateUserInput("Test Input", validInput, InputType.PASSWORD);
