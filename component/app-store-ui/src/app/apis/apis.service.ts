@@ -31,6 +31,12 @@ export class ApisService {
         return this.http.get<ApplicationsResult>(ApiEndpoints.apis.applications, { params: searchParams });
     }
 
+    getUserSubscriptions(appId: string): Observable<any> {
+        const searchParams = new HttpParams()
+            .append('apiId', appId);
+        return this.http.get<any>(ApiEndpoints.subscriptions, { params: searchParams });
+    }
+
     subscribe(param: SubscribeParam): Observable<SubscribeResult> {
         return this.http.get<SubscribeResult>(ApiEndpoints.apis.subscribe);
     }

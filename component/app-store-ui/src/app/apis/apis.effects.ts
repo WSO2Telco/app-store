@@ -69,6 +69,26 @@ export class ApisEffects {
     )
   ));
 
+  userSubscriptions$ = createEffect(() => this.actions$.pipe(
+    ofType(apiActions.GetUserSubscriptionsAction),
+    mergeMap(({payload}) => this.apiService.getUserSubscriptions(payload)
+      .pipe(
+        map((result: ApplicationsResult) => {
+          if (result.error) {
+              result.message = 'Load subscriptions error';
+              throw result;
+          } else {
+              return (apiActions.GetUserSubscriptionsSuccessAction({"payload": result}))
+          }
+        }),
+        catchError((e: HttpErrorResponse) => {
+            this.notification.error(e.message);
+            return EMPTY
+        })
+      )
+    )
+  ));
+
   subscribe$ = createEffect(() => this.actions$.pipe(
     ofType(apiActions.DoSubscribeAction),
     mergeMap(({payload}) => this.apiService.subscribe(payload)

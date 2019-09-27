@@ -11,6 +11,9 @@ export const GetApiOverviewSuccessAction = createAction('[API] Get API Overview 
 export const GetUserApplicationsAction = createAction('[API] Get User Apps', props<{payload: any}>());
 export const GetUserApplicationsSuccessAction = createAction('[API] Get User Apps Success ✓', props<{payload: Application[]}>());
 
+export const GetUserSubscriptionsAction = createAction('[API] Get User Subscriptions', props<{payload: string}>());
+export const GetUserSubscriptionsSuccessAction = createAction('[API] Get User Subscriptions Success ✓', props<{payload: any}>());
+
 export const DoSubscribeAction = createAction('[API] Do Subscribe', props<{payload: SubscribeParam}>());
 export const DoSubscribeSuccessAction = createAction('[API] Do Subscribe Success ✓', props<{payload: any}>());
 
