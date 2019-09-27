@@ -8,6 +8,7 @@ import { ConfirmDialogComponent } from "../../../commons/components/confirm-dial
 import { ApiSearchResult, ApiSummary } from '../../../apis/apis.models';
 import { NotificationService } from "../../../shared/services/notification.service";
 import * as applicationsActions from '../../applications.actions';
+import { Actions, ofType } from '@ngrx/effects';
 
 @Component({
   selector: 'store-application-subscriptions',
@@ -21,19 +22,25 @@ export class ApplicationSubscriptionsComponent implements OnInit {
   constructor(
     private store: Store<AppState>,
     public dialog: MatDialog,
-    private notification: NotificationService
+    private notification: NotificationService,
+    private actions$: Actions
   ) {
+
     this.store
       .select(s => s.applications.selectedApplication)
       .subscribe(app => {
         if (app) {
-          this.store.dispatch(applicationsActions.GetApplicationSubscriptionsAction({"payload": app.applicationId}));
+          this.store.dispatch(applicationsActions.GetApplicationSubscriptionsAction({ "payload": app.applicationId }));
         }
-    });
+      });
   }
 
   ngOnInit() {
-    this.store.select(s => s.applications.appSubscriptions).subscribe(res => (this.datasource.data = res.list));
+    this.actions$.pipe(ofType(applicationsActions.GetApplicationSubscriptionsSuccessAction)).subscribe(p => {
+      if (p) {
+        this.store.select(s => s.applications.appSubscriptions).subscribe(res => (this.datasource.data = res.list));
+      }
+    });
   }
 
   //subscription
@@ -59,8 +66,8 @@ export class ApplicationSubscriptionsComponent implements OnInit {
     }
   }
 
-  newSubscription(){
-    const addSubs = this.dialog.open(DialogAppAddSubscription,{
+  newSubscription() {
+    const addSubs = this.dialog.open(DialogAppAddSubscription, {
       width: '380px'
     });
 
@@ -75,13 +82,13 @@ export class ApplicationSubscriptionsComponent implements OnInit {
   selector: 'dialog-application-add-subscriptions',
   templateUrl: 'dialog-add-subscription.html'
 })
-export class DialogAppAddSubscription implements OnInit{
+export class DialogAppAddSubscription implements OnInit {
   apis: ApiSummary[];
 
   constructor(
     private store: Store<AppState>,
     private ref: ChangeDetectorRef
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.store
@@ -89,6 +96,6 @@ export class DialogAppAddSubscription implements OnInit{
       .subscribe((res: ApiSearchResult) => {
         this.apis = res.list;
         this.ref.markForCheck();
-    });
+      });
   }
 }
