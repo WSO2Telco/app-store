@@ -23,12 +23,13 @@ export class ApiAppSubscriptionsComponent implements OnInit {
   ngOnInit() {
     this.store
       .select(s => s.applications.appSubscriptions)
-      .subscribe(res => (this.datasource.data = res.list));
+      .subscribe(res => {
+        if(res && res.list) this.datasource.data = res.list
+      });
 
     this.store
       .select(s => s.apis.selectedApi)
       .subscribe(app => {
-        console.log(app.id);
         if (app) {
           // this.store.dispatch(GetUserApplicationsAction({ "payload" : app.id}));
         }
