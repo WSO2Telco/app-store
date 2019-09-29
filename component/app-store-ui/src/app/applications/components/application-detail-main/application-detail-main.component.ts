@@ -11,7 +11,8 @@ import * as applicationsActions from '../../applications.actions';
 import * as globalActions from "../../../app.actions";
 import { BreadcrumbItem } from "../../../app.data.models";
 import { Title } from '@angular/platform-browser';
-import { Application } from '../../applications.data.models';
+import { Application, ApplicationDetails } from '../../applications.data.models';
+import { Actions, ofType } from '@ngrx/effects';
 
 @Component({
   selector: "store-application-detail-main",
@@ -19,46 +20,53 @@ import { Application } from '../../applications.data.models';
   styleUrls: ["./application-detail-main.component.scss"]
 })
 export class ApplicationDetailMainComponent implements OnInit {
-  appId : string;
-  activatedTab : string;
+  appId: string;
+  activatedTab: string;
   appStatus: string = 'active';
 
-  appData:Application = null;
+  appData: ApplicationDetails = null;
 
   constructor(
-    private route: ActivatedRoute, 
+    private route: ActivatedRoute,
     private store: Store<AppState>,
     private location: Location,
     public dialog: MatDialog,
-    private titleService: Title
+    private titleService: Title,
+    private actions$: Actions,
   ) {
-    
-  }
 
-  ngOnInit() {
-    this.store.select((s) => s.applications.selectedApplication).subscribe((app) => {
-      this.appData = app;
-
-      this.store.dispatch(
-        globalActions.SetBreadcrumbAction({payload:[
-          new BreadcrumbItem("Applications", "applications"),
-          new BreadcrumbItem(app.name)
-        ]})
-      );
-  
-      this.titleService.setTitle(`${app.name} | Apigate API Store`);
-    })
-    
-    this.route.params.subscribe( params => {
+    this.route.params.subscribe(params => {
       this.appId = params['appId'];
       this.activatedTab = params['tab'];
       this.store.dispatch(
-        applicationsActions.GetApplicationDetailsAction({"payload":this.appId})
+        applicationsActions.GetApplicationDetailsAction({ "payload": this.appId })
       );
     })
+
+    this.actions$.pipe(ofType(applicationsActions.GetApplicationDetailsSuccessAction)).subscribe(p => {
+      if (p) {
+        this.appData = p.payload
+        this.store.dispatch(
+          globalActions.SetBreadcrumbAction({
+            payload: [
+              new BreadcrumbItem("Applications", "applications"),
+              new BreadcrumbItem(this.appData.name)
+            ]
+          })
+        );
+
+        this.titleService.setTitle(`${this.appData.name} | Apigate API Store`);
+      }
+    })
+
   }
 
-  switchTab(tab){
+  ngOnInit() {
+
+
+  }
+
+  switchTab(tab) {
     this.activatedTab = tab;
     this.location.replaceState(`/applications/${this.appId}/${tab}`);
   }

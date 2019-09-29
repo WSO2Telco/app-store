@@ -3,32 +3,33 @@
   <div class="intro-container">
     <h1 class="animated fadeInDown">Create App</h1>
     <div class="intro-text animated fadeIn">
-      <p>Applications allow you to use a single access token to invoke a collection of APIs and to subscribe to one API multiple times with different SLA levels.</p>
+      <p>Applications allow you to use a single access token to invoke a collection of APIs and to subscribe to one API
+        multiple times with different SLA levels.</p>
     </div>
   </div>
 
   <mat-card class="info-table animated fadeInDown" fxFlex="">
     <mat-card-content>
-      <form fxLayout="column" fxLayoutGap="20px" fxLayoutWrap class="sub-form" #appForm="ngForm" novalidate [formGroup]="formCreateApp" (ngSubmit)="onSubmit()">
-      
+      <form fxLayout="column" fxLayoutGap="20px" fxLayoutWrap class="sub-form" #appForm="ngForm" novalidate [formGroup]="formCreateApp"
+        #formDirective="ngForm" (ngSubmit)="onSubmit(formCreateApp,formDirective)">
+
         <div class="add-app-container" fxLayout="column">
           <mat-form-field class="narrow">
             <input matInput formControlName="appName" [(ngModel)]="appName" placeholder="Application Name">
-    
-              <mat-error *ngIf="f.appName.errors?.required">Application name is required</mat-error>
-              <mat-error *ngIf="f.appName.errors?.maxlength && !f.appName.errors?.pattern">Only 70 characters are allowed</mat-error>
-              <mat-error *ngIf="f.appName.errors?.pattern">Do not enter special characters</mat-error>
+            <mat-error *ngIf="f.appName.errors?.required">Application name is required</mat-error>
+            <mat-error *ngIf="f.appName.errors?.maxlength && !f.appName.errors?.pattern">Only 70 characters are allowed</mat-error>
+            <mat-error *ngIf="f.appName.errors?.pattern">Do not enter special characters</mat-error>
           </mat-form-field>
-    
-          <mat-form-field >
+
+          <mat-form-field>
             <textarea rows="5" matInput formControlName="appDescription" [(ngModel)]="appDescription" placeholder="Description"></textarea>
             <mat-error *ngIf="submitted && f.appDescription.errors">Description is required</mat-error>
           </mat-form-field>
-    
-          <div fxFlex="100%"  fxLayoutGap="10px" >
-              <button mat-raised-button type="button" [routerLink]="['/applications']" color="red" >Cancel</button>
-              <button mat-raised-button type="submit" color="accent">Create</button>
-            </div>
+
+          <div fxFlex="100%" fxLayoutGap="10px">
+            <button mat-raised-button type="button" [routerLink]="['/applications']" color="red">Cancel</button>
+            <button mat-raised-button type="submit" color="accent">Create</button>
+          </div>
         </div>
 
       </form>
