@@ -5,7 +5,7 @@ export enum Tiers {
 
 export interface ApplicationsState {
   allApplications: ApplicationListResult;
-  selectedApplication: Application;
+  selectedApplication: ApplicationDetails;
   appSubscriptions: SubscriptionResult;
 }
 
