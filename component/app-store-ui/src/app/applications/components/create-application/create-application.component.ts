@@ -7,9 +7,10 @@ import { BreadcrumbItem } from "../../../app.data.models";
 import { Title } from '@angular/platform-browser';
 import { AppState } from '../../../app.data.models';
 import { Store } from '@ngrx/store';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators, FormGroupDirective } from '@angular/forms';
 
 import * as applicationActions from "../../../applications/applications.actions";
+import { Actions, ofType } from '@ngrx/effects';
 
 @Component({
   selector: 'store-create-application',
@@ -28,11 +29,12 @@ export class CreateApplicationComponent implements OnInit {
   constructor(
     private store: Store<AppState>,
     private titleService: Title,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private actions$: Actions,
   ) { }
 
   ngOnInit() {
-    this.store.dispatch(globalActions.SetBreadcrumbAction({payload:[new BreadcrumbItem("Applications")]}));
+    this.store.dispatch(globalActions.SetBreadcrumbAction({ payload: [new BreadcrumbItem("Applications")] }));
     this.titleService.setTitle("Create New App | Apigate API Store");
 
     this.formCreateApp = this.fb.group({
@@ -45,15 +47,21 @@ export class CreateApplicationComponent implements OnInit {
 
   get f() { return this.formCreateApp.controls; }
 
-  onSubmit() {
+  onSubmit(fData: any, formDirective: FormGroupDirective) {
     this.submitted = true;
     if (this.formCreateApp.invalid) {
       return;
     } else {
-     this.application.name = this.appName;
-     this.application.description = this.appDescription; 
-     this.store.dispatch(applicationActions.CreateApplicationsAction({"payload" :this.application}))
-    } 
+      this.application.name = this.appName;
+      this.application.description = this.appDescription;
+      this.store.dispatch(applicationActions.CreateApplicationsAction({ "payload": this.application }))
+
+      this.actions$.pipe(ofType(applicationActions.CreateApplicationSuccessAction)).subscribe(p => {
+        this.submitted = false;
+        formDirective.resetForm();
+        this.formCreateApp.reset();
+      })
+    }
   }
 
   onReset() {

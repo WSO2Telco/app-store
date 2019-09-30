@@ -1,7 +1,7 @@
 <div fxLayout="column" fxLayoutGap="20px">
   <div class="intro-container">
     <h1>{{appData.name}}</h1>
-    <div class="status-label" [ngClass]="appData.status"><span class="status-dot"></span> <span class="status-lbl">{{appData.status}}</span></div>
+    <div class="status-label" [ngClass]="appData?.status"><span class="status-dot"></span> <span class="status-lbl">{{appData?.status}}</span></div>
     <div class="intro-text">
       {{appData.description}}
     </div>
@@ -15,7 +15,7 @@
             Overview
           </mat-panel-title>
         </mat-expansion-panel-header>
-    
+
         <div class="overview-container">
           <div class="field-name-container" fxLayout="row" fxLayoutGap="20px">
             <div fxLayout="column" fxFlex="50">
@@ -34,53 +34,54 @@
               <div class="field" fxFlex><strong>Per Token Quota</strong></div>
               <div class="field-val" fxFlex>
                 {{appData.throttlingTier}}
-                  <br><br>
+                <br><br>
               </div>
             </div>
 
             <div fxLayout="column" fxFlex="50">
-                <strong>Description</strong>
-                {{appData.description}}
-              </div>
+              <strong>Description</strong>
+              {{appData.description}}
+            </div>
           </div>
           <div class="field-name-container" fxLayout="row">
-            
+
           </div>
-    
+
         </div>
       </mat-expansion-panel>
+      <ng-container *ngIf="appData.status == 'APPROVED'">
+        <mat-expansion-panel [expanded]="activatedTab == 'keys-prod'" (opened)="switchTab('keys-prod')">
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              Production Keys
+            </mat-panel-title>
+          </mat-expansion-panel-header>
 
-      <mat-expansion-panel [expanded]="activatedTab == 'keys-prod'" (opened)="switchTab('keys-prod')">
-        <mat-expansion-panel-header>
-          <mat-panel-title>
-            Production Keys
-          </mat-panel-title>
-        </mat-expansion-panel-header>
-    
-        <store-generate-key-form formTitle="Generate Production Keys"></store-generate-key-form>
-      </mat-expansion-panel>
+          <store-generate-key-form formTitle="Generate Production Keys"></store-generate-key-form>
+        </mat-expansion-panel>
 
-      <mat-expansion-panel [expanded]="activatedTab == 'keys-sandbox'" (opened)="switchTab('keys-sandbox')">
-        <mat-expansion-panel-header>
-          <mat-panel-title>
-            Sandbox Keys
-          </mat-panel-title>
-        </mat-expansion-panel-header>
-    
-        <store-generate-key-form formTitle="Generate Sandbox Keys"></store-generate-key-form>
-      </mat-expansion-panel>
+        <mat-expansion-panel [expanded]="activatedTab == 'keys-sandbox'" (opened)="switchTab('keys-sandbox')">
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              Sandbox Keys
+            </mat-panel-title>
+          </mat-expansion-panel-header>
 
-      <mat-expansion-panel [expanded]="activatedTab == 'subscriptions'" (opened)="switchTab('subscriptions')" class="subscription-tab">
-        <mat-expansion-panel-header>
-          <mat-panel-title>
-            Subscriptions
-          </mat-panel-title>
-        </mat-expansion-panel-header>
+          <store-generate-key-form formTitle="Generate Sandbox Keys"></store-generate-key-form>
+        </mat-expansion-panel>
 
-        <store-application-subscriptions></store-application-subscriptions>
-    
-        
-      </mat-expansion-panel>
+        <mat-expansion-panel [expanded]="activatedTab == 'subscriptions'" (opened)="switchTab('subscriptions')" class="subscription-tab">
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              Subscriptions
+            </mat-panel-title>
+          </mat-expansion-panel-header>
+
+          <store-application-subscriptions></store-application-subscriptions>
+
+
+        </mat-expansion-panel>
+      </ng-container>
     </mat-accordion>
   </div>
 
