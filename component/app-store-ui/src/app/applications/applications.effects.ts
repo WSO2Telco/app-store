@@ -5,7 +5,7 @@ import { EMPTY } from 'rxjs';
 import { mergeMap, catchError, map } from 'rxjs/operators';
 import { ApplicationsService } from './applications.service';
 import * as applicationsActions from './applications.actions';
-import { Application, Subscription, ApplicationListResult, ApplicationDetails, SubscriptionResult, CreateApplicationParam, CreateAppResponseData } from './applications.data.models';
+import { Application, Subscription, ApplicationListResult, ApplicationDetails, SubscriptionResult, CreateApplicationParam, CreateAppResponseData, GeneratedKey } from './applications.data.models';
 import { NotificationService } from '../shared/services/notification.service';
 import { HttpErrorResponse } from '@angular/common/http';
 
@@ -71,6 +71,19 @@ export class ApplicationsEffects {
       }),
         catchError((e: HttpErrorResponse) => {
           this.notification.error(e.error.description);
+          return EMPTY
+        })
+      )
+    )
+  ));
+
+  appKeysGenerate$ = createEffect(() => this.actions$.pipe(
+    ofType(applicationsActions.GenerateAppKey),
+    mergeMap(({ appId, payload }) => this.service.generateAppKey(appId, payload)
+      .pipe(
+        map((response: GeneratedKey) => applicationsActions.GenerateAppKeySuccess({ "payload": response, "env": response.keyType })),
+        catchError((e: HttpErrorResponse) => {
+          this.notification.error(e.message);
           return EMPTY
         })
       )

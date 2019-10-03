@@ -1,9 +1,9 @@
 <div fxLayout="column" fxLayoutGap="20px">
   <div class="intro-container">
-    <h1>{{appData.name}}</h1>
+    <h1>{{appData?.name}}</h1>
     <div class="status-label" [ngClass]="appData?.status"><span class="status-dot"></span> <span class="status-lbl">{{appData?.status}}</span></div>
     <div class="intro-text">
-      {{appData.description}}
+      {{appData?.description}}
     </div>
   </div>
 
@@ -20,27 +20,27 @@
           <div class="field-name-container" fxLayout="row" fxLayoutGap="20px">
             <div fxLayout="column" fxFlex="50">
               <div class="field" fxFlex><strong>Status</strong></div>
-              <div class="field-val" fxFlex>{{appData.status}}</div>
+              <div class="field-val" fxFlex>{{appData?.status}}</div>
               <hr />
 
               <div class="field" fxFlex><strong>Token Type</strong></div>
-              <div class="field-val" fxFlex>{{appData.tokenType}}</div>
+              <div class="field-val" fxFlex>{{appData?.tokenType}}</div>
               <hr />
 
               <div class="field" fxFlex><strong>Subscriber</strong></div>
-              <div class="field-val" fxFlex>{{appData.subscriber}}</div>
+              <div class="field-val" fxFlex>{{appData?.subscriber}}</div>
               <hr />
 
               <div class="field" fxFlex><strong>Per Token Quota</strong></div>
               <div class="field-val" fxFlex>
-                {{appData.throttlingTier}}
+                {{appData?.throttlingTier}}
                 <br><br>
               </div>
             </div>
 
             <div fxLayout="column" fxFlex="50">
               <strong>Description</strong>
-              {{appData.description}}
+              {{appData?.description}}
             </div>
           </div>
           <div class="field-name-container" fxLayout="row">
@@ -49,7 +49,7 @@
 
         </div>
       </mat-expansion-panel>
-      <ng-container *ngIf="appData.status == 'APPROVED'">
+      <ng-container *ngIf="appData?.status == 'APPROVED'">
         <mat-expansion-panel [expanded]="activatedTab == 'keys-prod'" (opened)="switchTab('keys-prod')">
           <mat-expansion-panel-header>
             <mat-panel-title>
@@ -57,7 +57,7 @@
             </mat-panel-title>
           </mat-expansion-panel-header>
 
-          <store-generate-key-form formTitle="Generate Production Keys"></store-generate-key-form>
+          <store-generate-key-form keyEnv="prod"></store-generate-key-form>
         </mat-expansion-panel>
 
         <mat-expansion-panel [expanded]="activatedTab == 'keys-sandbox'" (opened)="switchTab('keys-sandbox')">
@@ -67,7 +67,7 @@
             </mat-panel-title>
           </mat-expansion-panel-header>
 
-          <store-generate-key-form formTitle="Generate Sandbox Keys"></store-generate-key-form>
+          <store-generate-key-form keyEnv="sandbox"></store-generate-key-form>
         </mat-expansion-panel>
 
         <mat-expansion-panel [expanded]="activatedTab == 'subscriptions'" (opened)="switchTab('subscriptions')" class="subscription-tab">

@@ -9,6 +9,7 @@ import { ApiSearchResult, ApiSummary } from '../../../apis/apis.models';
 import { NotificationService } from "../../../shared/services/notification.service";
 import * as applicationsActions from '../../applications.actions';
 import { Actions, ofType } from '@ngrx/effects';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'store-application-subscriptions',
@@ -23,17 +24,9 @@ export class ApplicationSubscriptionsComponent implements OnInit {
     private store: Store<AppState>,
     public dialog: MatDialog,
     private notification: NotificationService,
-    private actions$: Actions
-  ) {
-
-    this.store
-      .select(s => s.applications.selectedApplication)
-      .subscribe(app => {
-        if (app) {
-          this.store.dispatch(applicationsActions.GetApplicationSubscriptionsAction({ "payload": app.applicationId }));
-        }
-      });
-  }
+    private actions$: Actions,
+    private route: ActivatedRoute,
+  ) { }
 
   ngOnInit() {
     this.actions$.pipe(ofType(applicationsActions.GetApplicationSubscriptionsSuccessAction)).subscribe(p => {
@@ -41,6 +34,11 @@ export class ApplicationSubscriptionsComponent implements OnInit {
         this.store.select(s => s.applications.appSubscriptions).subscribe(res => (this.datasource.data = res.list));
       }
     });
+
+    this.route.params.subscribe(params => {
+      let appId = params['appId'];
+      this.store.dispatch(applicationsActions.GetApplicationSubscriptionsAction({ "payload": appId }));
+    })
   }
 
   //subscription

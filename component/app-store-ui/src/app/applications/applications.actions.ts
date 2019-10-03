@@ -1,5 +1,5 @@
 import { props, createAction } from '@ngrx/store';
-import { Application, Subscription, ApplicationListResult, ApplicationDetails, SubscriptionResult, CreateApplicationParam, CreateAppResponseData, GetApplicationsParam } from './applications.data.models';
+import { Application, Subscription, ApplicationListResult, ApplicationDetails, SubscriptionResult, CreateApplicationParam, CreateAppResponseData, GetApplicationsParam, ApplicationDetailsKeys, GeneratedKey, GenerateKeyPayload } from './applications.data.models';
 
 export const GetAllApplicationsAction = createAction('[App] Get All Apps', props<{payload: GetApplicationsParam}>());
 export const GetAllApplicationsSuccessAction = createAction('[App] Get All Apps Success ✓', props<{payload: ApplicationListResult}>());
@@ -14,3 +14,6 @@ export const GetApplicationSubscriptionsSuccessAction = createAction('[App] Get 
 
 export const CreateApplicationsAction = createAction('[App] Create App', props<{payload: CreateApplicationParam}>());
 export const CreateApplicationSuccessAction = createAction('[App] Create App Success ✓', props<{payload: CreateAppResponseData}>());
+
+export const GenerateAppKey = createAction('[App] Generate App Key', props<{appId:string, payload: GenerateKeyPayload}>());
+export const GenerateAppKeySuccess = createAction('[App] Generate App Key Success ✓', props<{payload: GeneratedKey, env:string}>());

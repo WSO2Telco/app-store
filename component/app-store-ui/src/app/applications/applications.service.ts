@@ -5,7 +5,7 @@ import { Injectable } from '@angular/core';
 import { ApiEndpoints } from '../config/api.endpoints';
 import {
   GetApplicationsParam, Application, Subscription,
-  ApplicationListResult, ApplicationDetails, SubscriptionResult, CreateApplicationParam, CreateAppResponseData
+  ApplicationListResult, ApplicationDetails, SubscriptionResult, CreateApplicationParam, CreateAppResponseData, GeneratedKey
 } from './applications.data.models';
 import { Observable } from 'rxjs';
 import { TokenData } from '../authentication/authentication.models';
@@ -30,11 +30,11 @@ export class ApplicationsService {
       .append('query', <any>param.query);
     const httpOptions = new HttpHeaders()
       .append('Authorization', 'Basic ' + this.accessToken.access_token)
-    return this.http.get<ApplicationListResult>(ApiEndpoints.applications.getAllApplications, { params: searchParams, headers: httpOptions });
+    return this.http.get<ApplicationListResult>(ApiEndpoints.applications.applications, { params: searchParams, headers: httpOptions });
   }
 
   getApplicationsDetails(appId: string): Observable<ApplicationDetails> {
-    const endpoint = `${ApiEndpoints.applications.getAllApplications}/${appId}`;
+    const endpoint = `${ApiEndpoints.applications.applications}/${appId}`;
     return this.http.get<ApplicationDetails>(endpoint);
   }
 
@@ -51,9 +51,21 @@ export class ApplicationsService {
       })
     };
 
-    return this.http.post(ApiEndpoints.applications.createApplication, param, httpOptions).pipe(
+    return this.http.post(ApiEndpoints.applications.applications, param, httpOptions).pipe(
       map((data: any) => new CreateAppResponseData())
     );
+  }
+
+  generateAppKey(appId, payload): Observable<GeneratedKey> {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        'Authorization': 'Basic ' + this.accessToken.access_token
+      })
+    };
+
+    let endpoint = `${ApiEndpoints.applications.generateKeys}?applicationId=${appId}`;
+    return this.http.post<GeneratedKey>(endpoint, payload, httpOptions);
   }
 
 }

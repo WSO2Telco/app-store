@@ -97,3 +97,26 @@ export class ApplicationDetailsKeys {
   supportedGrantTypes: any;
   token: any;
 }
+
+export class GenerateKeyPayload{
+  validityTime:number;
+  keyType: string;
+  accessAllowDomains:string[];
+  scopes:string[];
+  supportedGrantTypes:string[];
+}
+
+export class GeneratedKey {
+  consumerSecret: string;
+  consumerKey: string;
+  keyState: string;
+  keyType: string;
+  supportedGrantTypes: string[];
+  token: GeneratedKeyToken;
+}
+
+export class GeneratedKeyToken {
+  validityTime: number;
+  accessToken: string;
+  tokenScopes: string[]
+}
