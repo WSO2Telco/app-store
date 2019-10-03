@@ -77,11 +77,9 @@ export class LogoutResponseData {
 }
 
 export class SigUpUserParam {
-    firstName: string;
-    lastName: string;
-    email: string;
     username: string;
     password: string;
+    allFieldsValues:string;
 }
 
 export class ResetPasswordParam{

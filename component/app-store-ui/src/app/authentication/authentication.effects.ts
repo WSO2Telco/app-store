@@ -118,8 +118,12 @@ export class AuthenticationEffects {
     mergeMap(({ payload }) => this.authService.signup(payload)
       .pipe(
         map((response) => {
-          this.notification.success('User added successfully. You can now sign into the API store using the new user account');
-          return loginActions.SignupUserSuccessAction({ "payload": response });
+          if (response.error) {
+            this.notification.error(response.message);
+          } else {
+            this.notification.success('User added successfully. You can now sign into the API store using the new user account');
+            return loginActions.SignupUserSuccessAction({ "payload": response });
+          }
         }),
         catchError((e: HttpErrorResponse) => {
           this.notification.error(e.message);
