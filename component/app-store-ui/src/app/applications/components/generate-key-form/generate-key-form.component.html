@@ -7,12 +7,12 @@
         <br>
         <br> Application can use the following grant types to generate Access Tokens. Based on the application requirement, you
         can enable or disable grant types for this application.</div>
-      <div class="key-prop" *ngFor="let t of grantTyles">
-        <mat-checkbox class="ck-gt" value="t.value" [(ngModel)]="t.checked" >{{t.name}}</mat-checkbox>
+      <div class="key-grant-type" *ngFor="let t of grantTypes">
+        <mat-checkbox class="ck-gt" value="t.value" [(ngModel)]="t.checked" [disabled]="(t.value == 'implicit' || t.value == 'authorization_code') && (!keyPayload.callbackUrl || keyPayload.callbackUrl.length <= 0)">{{t.name}}</mat-checkbox>
       </div>
     </section>
     <mat-form-field>
-      <input type="url" matInput placeholder="Callback URL" [(ngModel)]="callback" />
+      <input type="url" matInput placeholder="Callback URL" [(ngModel)]="keyPayload.callbackUrl" (keyup)="callbackUpdate(keyPayload.callbackUrl)" />
     </mat-form-field>
     <mat-form-field>
       <input matInput placeholder="Access token validity period" [(ngModel)]="validity" />

@@ -94,29 +94,31 @@ export class ApplicationDetailsKeys {
   consumerSecret: string;
   keyState: string;
   keyType: string;
-  supportedGrantTypes: any;
+  supportedGrantTypes: string[];
   token: any;
+  callbackUrl: string;
 }
 
 export class GenerateKeyPayload{
-  validityTime:number;
+  validityTime:number = 3600;
   keyType: string;
-  accessAllowDomains:string[];
-  scopes:string[];
+  accessAllowDomains:string[] = ["ALL"];
+  scopes:string[] = [ "am_application_scope", "default" ];
   supportedGrantTypes:string[];
+  callbackUrl:string;
 }
 
-export class GeneratedKey {
-  consumerSecret: string;
-  consumerKey: string;
-  keyState: string;
-  keyType: string;
-  supportedGrantTypes: string[];
-  token: GeneratedKeyToken;
-}
+// export class GeneratedKey {
+//   consumerSecret: string;
+//   consumerKey: string;
+//   keyState: string;
+//   keyType: string;
+//   supportedGrantTypes: string[];
+//   token: GeneratedKeyToken;
+// }
 
-export class GeneratedKeyToken {
-  validityTime: number;
-  accessToken: string;
-  tokenScopes: string[]
-}
+// export class GeneratedKeyToken {
+//   validityTime: number;
+//   accessToken: string;
+//   tokenScopes: string[]
+// }

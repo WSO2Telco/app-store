@@ -5,7 +5,7 @@ import { Injectable } from '@angular/core';
 import { ApiEndpoints } from '../config/api.endpoints';
 import {
   GetApplicationsParam, Application, Subscription,
-  ApplicationListResult, ApplicationDetails, SubscriptionResult, CreateApplicationParam, CreateAppResponseData, GeneratedKey
+  ApplicationListResult, ApplicationDetails, SubscriptionResult, CreateApplicationParam, CreateAppResponseData,
 } from './applications.data.models';
 import { Observable } from 'rxjs';
 import { TokenData } from '../authentication/authentication.models';
@@ -28,19 +28,15 @@ export class ApplicationsService {
       .append('limit', <any>param.limit)
       .append('offset', <any>param.offset)
       .append('query', <any>param.query);
-    const httpOptions = new HttpHeaders()
-      .append('Authorization', 'Basic ' + this.accessToken.access_token)
-    return this.http.get<ApplicationListResult>(ApiEndpoints.applications.applications, { params: searchParams, headers: httpOptions });
+    return this.http.get<ApplicationListResult>(ApiEndpoints.applications.applications, { params: searchParams });
   }
 
   getApplicationsDetails(appId: string): Observable<ApplicationDetails> {
-    const endpoint = `${ApiEndpoints.applications.applications}/${appId}`;
-    return this.http.get<ApplicationDetails>(endpoint);
+    return this.http.get<ApplicationDetails>(`${ApiEndpoints.applications.applications}/${appId}`);
   }
 
   getApplicationSubscriptions(appId: string): Observable<SubscriptionResult> {
-    const endpoint = `${ApiEndpoints.subscriptions}/?applicationId=${appId}`;
-    return this.http.get<SubscriptionResult>(endpoint);
+    return this.http.get<SubscriptionResult>(`${ApiEndpoints.subscriptions}/?applicationId=${appId}`);
   }
 
   createApplication(param: CreateApplicationParam): Observable<CreateAppResponseData> {
@@ -56,16 +52,15 @@ export class ApplicationsService {
     );
   }
 
-  generateAppKey(appId, payload): Observable<GeneratedKey> {
-    const httpOptions = {
-      headers: new HttpHeaders({
-        'Content-Type': 'application/json',
-        'Authorization': 'Basic ' + this.accessToken.access_token
-      })
-    };
+  generateAppKey(appId, payload): Observable<any> {
+    return this.http.post<any>(`${ApiEndpoints.applications.generateKeys}?applicationId=${appId}`, payload);
+  }
 
-    let endpoint = `${ApiEndpoints.applications.generateKeys}?applicationId=${appId}`;
-    return this.http.post<GeneratedKey>(endpoint, payload, httpOptions);
+  updateAppKey(appId, keyObject): Observable<any> {
+    var payload = (({ supportedGrantTypes, callbackUrl }) => ({ supportedGrantTypes, callbackUrl }))(keyObject);
+    var endpoint = `${ApiEndpoints.applications.applications}/${appId}/keys/${keyObject.keyType}`;
+
+    return this.http.put<any>(endpoint, payload);
   }
 
 }

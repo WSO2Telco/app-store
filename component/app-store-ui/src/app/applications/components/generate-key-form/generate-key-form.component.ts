@@ -1,13 +1,19 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, ChangeDetectorRef, OnDestroy } from '@angular/core';
 import { ApplicationsService } from '../../applications.service';
 import { ActivatedRoute } from '@angular/router';
+import { Store } from '@ngrx/store';
+import { AppState } from '../../../app.data.models';
+import { ApplicationDetailsKeys, GenerateKeyPayload } from '../../applications.data.models';
+import { take } from 'rxjs/operators';
+import { GenerateAppKey, GenerateAppKeySuccess } from '../../applications.actions';
+import { Actions, ofType } from '@ngrx/effects';
 
 @Component({
   selector: 'store-generate-key-form',
   templateUrl: './generate-key-form.component.html',
   styleUrls: ['./generate-key-form.component.scss']
 })
-export class GenerateKeyFormComponent implements OnInit {
+export class GenerateKeyFormComponent implements OnInit, OnDestroy {
 
   @Input() keyEnv: string;
   public envLabel:string;
@@ -15,8 +21,11 @@ export class GenerateKeyFormComponent implements OnInit {
   public validity:string;
 
   private appId:string = null;
+  private newKeyGenerated:boolean = false;
+  public keyObject:ApplicationDetailsKeys;
+  public keyPayload:GenerateKeyPayload = new GenerateKeyPayload();
 
-  grantTyles = [
+  grantTypes = [
     {
       name: 'Refresh Token',
       value: 'refresh_token',
@@ -60,36 +69,61 @@ export class GenerateKeyFormComponent implements OnInit {
   ];
   constructor(
     private appService: ApplicationsService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private store: Store<AppState>,
+    private cd:ChangeDetectorRef,
+    private actions$: Actions
   ) {
     this.route.params.subscribe(params => {
       this.appId = params['appId'];
     })
   }
 
+  private storeSelect;
+
   ngOnInit() {
-    this.envLabel = (this.keyEnv == 'prod') ? "Production" : "Sandbox";
+    this.envLabel = (this.keyEnv == 'PRODUCTION') ? "Production" : "Sandbox";
+    this.keyPayload.keyType = this.keyEnv;
+
+    this.storeSelect = this.store.select((s) => s.applications.selectedApplication.keys).pipe(take(1)).subscribe((appDetails) => {
+      this.keyObject = appDetails.find(i => i.keyType == this.keyEnv);
+      if(this.keyObject){
+        this.grantTypes.forEach((t, i) => {
+          this.grantTypes[i].checked = this.keyObject.supportedGrantTypes.includes(t.value)
+        })
+        this.keyPayload.callbackUrl = this.keyObject.callbackUrl;
+      }
+      this.cd.detectChanges();
+    });
+
+    this.actions$.pipe(ofType(GenerateAppKeySuccess)).pipe(take(1)).subscribe(p => {
+      this.newKeyGenerated = true;
+    })
+  }
+
+  ngOnDestroy(){
+    this.storeSelect.unsubscribe();
+    this.cd.detach();
   }
 
   generateKey(){
-    let supportedGrantTypes = this.grantTyles.filter(opt => opt.checked).map(opt => opt.value);
-    let env = (this.keyEnv == 'prod') ? "PRODUCTION" : "SANDBOX";
+    let supportedGrantTypes = this.grantTypes.filter(opt => opt.checked).map(opt => opt.value);
+    this.keyPayload.supportedGrantTypes = supportedGrantTypes;
 
-    let payload = {
-      "validityTime": "3600",
-      "keyType": env,
-      "accessAllowDomains": [ "ALL" ],
-      "scopes": [ "am_application_scope", "default" ],
-      "supportedGrantTypes": supportedGrantTypes
+    if(this.keyObject || this.newKeyGenerated){
+      this.appService.updateAppKey(this.appId, this.keyPayload).subscribe(response => {});
+    }
+    else{
+      this.store.dispatch(GenerateAppKey({ 'appId' : this.appId, 'payload' : this.keyPayload}))
     }
 
-    if(this.callback != ''){
-      payload['callbackUrl'] = this.callback;
+  }
+
+  callbackUpdate(value){
+    if(!value || value == '') {
+      this.grantTypes.forEach((t, i) => {
+        if(t.value == 'implicit' || t.value == 'authorization_code') this.grantTypes[i].checked = false;
+      })
     }
-
-    this.appService.generateAppKey(this.appId, payload).subscribe(response => {
-      console.log(response);
-    });
-
   }
 }

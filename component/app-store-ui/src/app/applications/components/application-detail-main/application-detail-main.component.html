@@ -57,7 +57,7 @@
             </mat-panel-title>
           </mat-expansion-panel-header>
 
-          <store-generate-key-form keyEnv="prod"></store-generate-key-form>
+          <store-generate-key-form keyEnv="PRODUCTION"></store-generate-key-form>
         </mat-expansion-panel>
 
         <mat-expansion-panel [expanded]="activatedTab == 'keys-sandbox'" (opened)="switchTab('keys-sandbox')">
@@ -67,7 +67,7 @@
             </mat-panel-title>
           </mat-expansion-panel-header>
 
-          <store-generate-key-form keyEnv="sandbox"></store-generate-key-form>
+          <store-generate-key-form keyEnv="SANDBOX"></store-generate-key-form>
         </mat-expansion-panel>
 
         <mat-expansion-panel [expanded]="activatedTab == 'subscriptions'" (opened)="switchTab('subscriptions')" class="subscription-tab">
