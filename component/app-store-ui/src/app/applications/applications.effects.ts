@@ -76,4 +76,20 @@ export class ApplicationsEffects {
       )
     )
   ));
+
+  appKeysGenerate$ = createEffect(() => this.actions$.pipe(
+    ofType(applicationsActions.GenerateAppKey),
+    mergeMap(({ appId, payload }) => this.service.generateAppKey(appId, payload)
+      .pipe(
+        map((e) => {
+          this.notification.success("Key generated successfully !!");
+          return applicationsActions.GenerateAppKeySuccess()
+        }),
+        catchError((e: HttpErrorResponse) => {
+          this.notification.error(e.message);
+          return EMPTY
+        })
+      )
+    )
+  ));
 }

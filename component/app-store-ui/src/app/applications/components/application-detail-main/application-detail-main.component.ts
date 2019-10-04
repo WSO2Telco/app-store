@@ -1,8 +1,8 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, ChangeDetectorRef } from "@angular/core";
 import { ActivatedRoute } from "@angular/router";
 import { Location } from '@angular/common';
 import { MatDialog } from "@angular/material";
-import { Store } from '@ngrx/store';
+import { Store, createSelector, select } from '@ngrx/store';
 
 import { AppState } from '../../../app.data.models';
 import * as applicationsActions from '../../applications.actions';
@@ -13,6 +13,9 @@ import { BreadcrumbItem } from "../../../app.data.models";
 import { Title } from '@angular/platform-browser';
 import { Application, ApplicationDetails } from '../../applications.data.models';
 import { Actions, ofType } from '@ngrx/effects';
+import { Observable } from 'rxjs';
+import { take } from 'rxjs/operators';
+import { ApplicationsService } from '../../applications.service';
 
 @Component({
   selector: "store-application-detail-main",
@@ -24,7 +27,7 @@ export class ApplicationDetailMainComponent implements OnInit {
   activatedTab: string;
   appStatus: string = 'active';
 
-  appData: ApplicationDetails = null;
+  appData:ApplicationDetails;
 
   constructor(
     private route: ActivatedRoute,
@@ -33,6 +36,7 @@ export class ApplicationDetailMainComponent implements OnInit {
     public dialog: MatDialog,
     private titleService: Title,
     private actions$: Actions,
+    private cd:ChangeDetectorRef
   ) {
 
     this.route.params.subscribe(params => {
@@ -43,7 +47,7 @@ export class ApplicationDetailMainComponent implements OnInit {
       );
     })
 
-    this.actions$.pipe(ofType(applicationsActions.GetApplicationDetailsSuccessAction)).subscribe(p => {
+    this.actions$.pipe(ofType(applicationsActions.GetApplicationDetailsSuccessAction)).pipe(take(1)).subscribe(p => {
       if (p) {
         this.appData = p.payload
         this.store.dispatch(
@@ -56,14 +60,18 @@ export class ApplicationDetailMainComponent implements OnInit {
         );
 
         this.titleService.setTitle(`${this.appData.name} | Apigate API Store`);
+        this.cd.detectChanges();
       }
+    })
+
+    this.actions$.pipe(ofType(applicationsActions.GenerateAppKeySuccess)).pipe(take(1)).subscribe(p => {
+      this.store.dispatch(applicationsActions.GetApplicationDetailsAction({ "payload": this.appId }));
     })
 
   }
 
   ngOnInit() {
-
-
+    
   }
 
   switchTab(tab) {

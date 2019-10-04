@@ -23,7 +23,8 @@ export class ApiInterceptor implements HttpInterceptor {
             request = request.clone({
                 withCredentials : true,
                 setHeaders: {
-                    Authorization: `Bearer ${token}`
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
                 }
             });
         }

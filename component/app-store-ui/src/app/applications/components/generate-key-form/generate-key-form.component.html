@@ -1,5 +1,5 @@
 <div class="gen-key-container">
-  <div class="title">{{formTitle}}</div>
+  <div class="title">Generate {{envLabel}} Keys</div>
   <div fxLayout="column">
     <section class="grant-type-section" fxFlex>
       <div class="gt-title">
@@ -7,16 +7,18 @@
         <br>
         <br> Application can use the following grant types to generate Access Tokens. Based on the application requirement, you
         can enable or disable grant types for this application.</div>
-      <mat-checkbox class="ck-gt" *ngFor="let t of grantTyles">{{t.name}}</mat-checkbox>
+      <div class="key-grant-type" *ngFor="let t of grantTypes">
+        <mat-checkbox class="ck-gt" value="t.value" [(ngModel)]="t.checked" [disabled]="(t.value == 'implicit' || t.value == 'authorization_code') && (!keyPayload.callbackUrl || keyPayload.callbackUrl.length <= 0)">{{t.name}}</mat-checkbox>
+      </div>
     </section>
     <mat-form-field>
-      <input type="url" matInput placeholder="Callback URL">
+      <input type="url" matInput placeholder="Callback URL" [(ngModel)]="keyPayload.callbackUrl" (keyup)="callbackUpdate(keyPayload.callbackUrl)" />
     </mat-form-field>
     <mat-form-field>
-      <input matInput placeholder="Access token validity period">
+      <input matInput placeholder="Access token validity period" [(ngModel)]="validity" />
     </mat-form-field>
     <div fxLayoutAlign="end center">
-      <button mat-raised-button class="generate"  color="accent">Generate</button>
+      <button mat-raised-button class="generate"  color="accent" (click)="generateKey()">Generate</button>
     </div>
   </div>
 

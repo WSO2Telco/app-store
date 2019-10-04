@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, ChangeDetectorRef } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { AppState } from '../../../app.data.models';
 import { ApiOverview } from '../../apis.models';
@@ -41,7 +41,8 @@ export class ApiDetailComponent implements OnInit, OnDestroy {
     private store: Store<AppState>, 
     private route: ActivatedRoute, 
     private titleService: Title,
-    private router: Router
+    private router: Router,
+    private cd: ChangeDetectorRef
   ) { }
 
   ngOnInit() {
@@ -62,6 +63,7 @@ export class ApiDetailComponent implements OnInit, OnDestroy {
           ]})
         );
         this.titleService.setTitle(overview.name + " | Apigate API Store");
+        this.cd.detectChanges();
       });
 
     this.route.params.subscribe( p => {
@@ -73,6 +75,7 @@ export class ApiDetailComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.subscriptions.apiOverview.unsubscribe();
+    this.cd.detach();
   }
 
   switchTab(tab){
