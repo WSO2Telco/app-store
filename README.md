@@ -1,6 +1,9 @@
-# ApiStore
+# AppStore
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 1.6.2.
+This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 8.3.2 and Angular 8
+
+## Setting up Dev Environment
+install nodejs and require Node v10.15.3 or higher, together with NPM 6.4.1 or higher.
 
 ## Development server
 
