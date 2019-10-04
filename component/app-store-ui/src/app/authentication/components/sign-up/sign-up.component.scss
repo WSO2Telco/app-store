@@ -1,14 +1,21 @@
-.title{
-    margin-bottom: 20px;
-    color:white;
-
-    mat-card-content{
-        font-size: 2em;
+.title-card{
+    padding: 10px 20px;
+    h2{
+        margin-bottom: 0px;
     }
 }
 
-.form-card{
+.add-app-container{
+    max-width: 500px;
+
     mat-form-field{
-        margin-bottom: 15px;
+        padding: 10px 0;
+        // max-width: 400px;
+
+        &.narrow{
+            max-width: 300px;
+        }
     }
+
+    
 }
