@@ -86,6 +86,7 @@ export class ApplicationDetails {
   description: string;
   status: string;
   name: string;
+  tokenType:string;
   keys: ApplicationDetailsKeys[];
 }
 

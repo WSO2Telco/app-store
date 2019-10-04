@@ -6,7 +6,7 @@ export const ApiEndpoints = {
   authentication: {
     login: baseUrl.protocol + '//' + baseUrl.host + "/app-store/public/api/auth/login",
     logout: baseUrl.protocol + '//' + baseUrl.host + "/app-store/public/api/auth/logout",
-    signup: "./assets/files/sign-up.json",
+    signup:  baseUrl.protocol + '//' + baseUrl.host + "/app-store/public/api/user/add",
     changePassword: "./assets/files/sign-up.json",
     clientRegistration: baseUrl.protocol + '//' + baseUrl.host + '/client-registration/v0.13/register',
     tokenGeneration: baseUrl.protocol + '//' + baseUrl.host + '/oauth2/token',

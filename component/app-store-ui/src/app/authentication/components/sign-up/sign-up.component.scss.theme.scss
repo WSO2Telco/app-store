@@ -1,11 +1,11 @@
-@import "~@angular/material/theming";
+@import '~@angular/material/theming';
 @mixin signup-form-theme($theme) {
+  $background: map-get($theme, background);
   $primary: map-get($theme, primary);
-  $back: map-get($theme, background);
-
-  .signup-container {
-    .title {
-      background-color: mat-color($primary, darker);
-    }
+  
+  .title-card{
+    background-color: mat-color($primary, darker);
+    color:mat-color($background,card);
   }
+
 }
