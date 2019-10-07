@@ -72,7 +72,18 @@ export class AuthenticationService {
     } */
 
     changePassword(param: ResetPasswordParam) {
-        return this.http.get(ApiEndpoints.authentication.changePassword);
+       // return this.http.get(ApiEndpoints.authentication.changePassword);
+        const httpOptions = {
+            headers: new HttpHeaders({
+                'Content-Type': 'application/json',
+                'Authorization': 'Basic YWRtaW46YWRtaW4='
+            })
+        };
+
+        return this.http.post(ApiEndpoints.authentication.changePassword, param, httpOptions).pipe(
+            map((data: any) =>
+                new LoginResponseData(data.error, data.message)
+            ));
     }
 
     isLoggedIn() {
