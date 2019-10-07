@@ -22,21 +22,19 @@ export class SearchApplicationsComponent implements OnInit {
   dataSource = new MatTableDataSource<Application>();
   searchQuery: string = '';
   public clientData: ClientRegParam;
-  length: number;
-  pageSize: number = 5;
+  length: number = 0;
+  pageSize: number = 10;
+  pageIndex:number = 0;
+  appResult;
 
   constructor(private store: Store<AppState>, private router: Router, private titleService: Title, private actions$: Actions, ) { }
 
   ngOnInit() {
     this.clientData = new ClientRegParam();
 
-    /* this.actions$.pipe(ofType(authActions.TokenGenerationSuccessAction)).subscribe(p => {
-      this.store.dispatch(applicationsActions.GetAllApplicationsAction({ "payload": new GetApplicationsParam(0, 5, 0, '') }))
-    }) */
-
     this.store.select((s) => s.authentication.tokenDetails).subscribe((auth) => {
       if (auth) {
-        this.store.dispatch(applicationsActions.GetAllApplicationsAction({ "payload": new GetApplicationsParam(0, 5, 0, '') }))
+        this.store.dispatch(applicationsActions.GetAllApplicationsAction({ "payload": new GetApplicationsParam(0, 10, 0, '') }))
       }
     })
 
@@ -44,15 +42,13 @@ export class SearchApplicationsComponent implements OnInit {
       if (p) {
         this.store
           .select(s => s.applications.allApplications)
-          .subscribe(apps => this.dataSource.data = apps.list);
+          .subscribe(apps => {
+            this.dataSource.data = apps.list;
+            this.appResult = apps;
+            console.log(this.appResult);
+          });
       }
     })
-
-    /* this.store
-      .select(s => s.applications.allApplications)
-      .subscribe((apps) => {
-        this.dataSource.data = apps.list
-      }); */
 
     this.store.dispatch(globalActions.SetBreadcrumbAction({ payload: [new BreadcrumbItem("Applications")] }));
     this.titleService.setTitle("Apps | Apigate API Store");
@@ -75,8 +71,13 @@ export class SearchApplicationsComponent implements OnInit {
   }
 
   onPageChanged(e) {
-    let offset = e.pageSize * e.pageIndex;
-    this.pageSize = e.pageSize;
-    this.store.dispatch(applicationsActions.GetAllApplicationsAction({ "payload": new GetApplicationsParam(0, this.pageSize, offset, this.searchQuery) }))
+    
+  }
+
+  paginate(direction){
+    if(direction == 'next') this.pageIndex++;
+    if(direction == 'prev') this.pageIndex--;
+    let offset = this.pageSize * this.pageIndex;
+    this.store.dispatch(applicationsActions.GetAllApplicationsAction({ "payload": new GetApplicationsParam(this.pageIndex, this.pageSize, offset, this.searchQuery) }))
   }
 }

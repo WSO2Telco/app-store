@@ -73,7 +73,26 @@
       <mat-header-row *matHeaderRowDef="[ 'name','tier','wfStatus','subscription','action']"></mat-header-row>
       <mat-row *matRowDef="let row; columns: [ 'name','tier','wfStatus','subscription','action'];" (click)="onAppAction(row,'view')"></mat-row>
     </mat-table>
-    <mat-paginator [length]="length" [pageSize]="pageSize" [pageSizeOptions]="[5, 10, 25, 100]" (page)="onPageChanged($event)"></mat-paginator>
+    <!-- <mat-paginator length="false" [pageSize]="pageSize" [pageSizeOptions]="[5, 10, 25, 100]" (page)="onPageChanged($event)"></mat-paginator> -->
+
+    <div align="right">
+      <button mat-icon-button type="button"
+              class="mat-paginator-navigation-previous"
+              (click)="paginate('prev')"
+              [disabled]="!appResult?.previous">
+        <svg class="mat-paginator-icon" viewBox="0 0 24 24" focusable="false">
+          <path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/>
+        </svg>
+      </button>
+      <button mat-icon-button type="button"
+              class="mat-paginator-navigation-next"
+              (click)="paginate('next')"
+              [disabled]="!appResult?.next">
+        <svg class="mat-paginator-icon" viewBox="0 0 24 24" focusable="false">
+          <path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/>
+        </svg>
+      </button>
+    </div>
   </div>
     
 </div>
