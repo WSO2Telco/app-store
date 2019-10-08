@@ -86,3 +86,9 @@ export class ResetPasswordParam{
     currentPassword:string;
     newPassword:string;
 }
+
+export class ResetPasswordResponseData {
+    constructor(
+        public error: boolean = false,
+        public message: string = '') { }
+}

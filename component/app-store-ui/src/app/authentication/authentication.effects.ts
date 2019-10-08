@@ -138,8 +138,12 @@ export class AuthenticationEffects {
     mergeMap(({ payload }) => this.authService.changePassword(payload)
       .pipe(
         map((response) => {
-          this.notification.success('User password changed successfully. You can now sign in to the API store using the new password.');
-          return loginActions.ChangeUserPwSuccessAction({ "payload": response });
+          if (response.error) {
+            this.notification.error(response.message);
+          } else {
+            this.notification.success('User password changed successfully. You can now sign in to the API store using the new password.');
+            return loginActions.ChangeUserPwSuccessAction({ "payload": 'response' });
+          }
         }),
         catchError((e: HttpErrorResponse) => {
           this.notification.error(e.message);
