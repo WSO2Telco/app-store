@@ -22,7 +22,6 @@ export class UpdatePwErrorStateMatcher implements ErrorStateMatcher {
   styleUrls: ["./my-account.component.scss"]
 })
 export class MyAccountComponent implements OnInit {
-  //@ViewChild(NgForm, { static: false }) changePwForm: NgForm;
   updatePwForm: FormGroup;
   matcher = new UpdatePwErrorStateMatcher();
   param: ResetPasswordParam;
@@ -31,17 +30,16 @@ export class MyAccountComponent implements OnInit {
   constructor(private store: Store<AppState>, private actions: Actions,private formBuilder: FormBuilder) {
     this.updatePwForm = this.formBuilder.group({
       currentpassword: ['', [Validators.required]],
-      password: ['', [Validators.required]],
+      password: ['', [Validators.required,Validators.pattern('(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[$@$!%*?&])[A-Za-z\d$@$!%*?&].{8,}')]],
       confirmPassword: ['']
     }, { validator: this.checkPasswords });
    }
 
   ngOnInit() {
     this.param = new ResetPasswordParam();
-    // this.actions.ofType(authActions.CHANGE_USER_PW_SUCCESS).subscribe((r)=>this.changePwForm.reset());
   }
 
-  checkPasswords(group: FormGroup) { // here we have the 'passwords' group
+  checkPasswords(group: FormGroup) { 
   let pass = group.controls.password.value;
   let confirmPass = group.controls.confirmPassword.value;
 
@@ -52,17 +50,18 @@ export class MyAccountComponent implements OnInit {
     if (this.updatePwForm.valid) {
       this.param.currentPassword = this.updatePwForm.value.currentpassword;
       this.param.newPassword = this.updatePwForm.value.password;
-      console.log(this.param)
       this.store.dispatch(ChangeUserPwAction({ "payload": this.param }));
 
       this.actions.pipe(ofType(ChangeUserPwSuccessAction)).subscribe(p => {
-      /*   this.submitted = false;
-        formDirective.resetForm(); */
         formDirective.resetForm();
         this.updatePwForm.reset();
       })
     } else { 
       console.log('error');
     }
+  }
+
+  onReset() {
+    this.updatePwForm.reset();
   }
 }

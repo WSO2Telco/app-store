@@ -24,6 +24,9 @@
                     <mat-error *ngIf="updatePwForm.hasError('required', 'password')">
                         Please enter your newpassword
                     </mat-error>
+                    <mat-error *ngIf="updatePwForm.hasError('pattern', 'password')">
+                       Invalid Password format
+                    </mat-error>
                 </mat-form-field>
 
 
@@ -36,7 +39,8 @@
                     </mat-error>
                 </mat-form-field>
 
-                <div fxFlex="100%" style="padding-top: 30px" fxLayoutAlign="end">
+                <div fxFlex="100%" style="padding-top: 30px" fxLayoutAlign="end" fxLayoutGap="10px">
+                    <button mat-raised-button type="button" (click)="onReset()" color="warn">Cancel</button>
                     <button type="submit" mat-raised-button color="accent">Change</button>
                 </div>
 
