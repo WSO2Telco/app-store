@@ -11,17 +11,18 @@ import { AppState } from '../app.data.models';
 export class ApiInterceptor implements HttpInterceptor {
     private tokenData: TokenData;
 
-    constructor( private store: Store<AppState> ) {
+    constructor(private store: Store<AppState>) {
         this.store.select((s) => s.authentication.tokenDetails).subscribe((token) => {
             this.tokenData = token;
         })
     }
 
     intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-        if (this.tokenData) {
-            let token = this.tokenData.access_token ;
+        let url = request.url;
+        if (this.tokenData && !url.includes('change-password-by-user')) {
+            let token = this.tokenData.access_token;
             request = request.clone({
-                withCredentials : true,
+                withCredentials: true,
                 setHeaders: {
                     'Content-Type': 'application/json',
                     'Authorization': `Bearer ${token}`
