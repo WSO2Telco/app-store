@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
 
 import { ApiEndpoints } from '../config/api.endpoints';
 
-import { LoginFormData, LoginResponseData, LogoutResponseData, ClientRegParam, RegClientData, TokenGenerationParam, TokenData } from './authentication.models';
+import { LoginFormData, LoginResponseData, LogoutResponseData, ClientRegParam, RegClientData, TokenGenerationParam, TokenData, ResetPasswordResponseData } from './authentication.models';
 import { AppState } from '../app.data.models';
 import { Store } from '@ngrx/store';
 import { SigUpUserParam, ResetPasswordParam } from './authentication.models';
@@ -66,23 +66,17 @@ export class AuthenticationService {
             ));
     }
 
-/* 
-    signup(param: SigUpUserParam) {
-        return this.http.get(ApiEndpoints.authentication.signup);
-    } */
-
     changePassword(param: ResetPasswordParam) {
-       // return this.http.get(ApiEndpoints.authentication.changePassword);
-        const httpOptions = {
+        const httpOption = {
             headers: new HttpHeaders({
                 'Content-Type': 'application/json',
                 'Authorization': 'Basic YWRtaW46YWRtaW4='
             })
         };
 
-        return this.http.post(ApiEndpoints.authentication.changePassword, param, httpOptions).pipe(
+        return this.http.post(ApiEndpoints.authentication.changePassword, param, httpOption).pipe(
             map((data: any) =>
-                new LoginResponseData(data.error, data.message)
+                new ResetPasswordResponseData(data.error, data.message)
             ));
     }
 
