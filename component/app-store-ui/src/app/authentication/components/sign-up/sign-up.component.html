@@ -9,50 +9,50 @@
 
   <mat-card class="info-table animated fadeInDown" fxFlex="">
     <mat-card-content>
-      <form fxLayout="column" fxLayoutGap="20px" fxLayoutWrap class="sub-form" #appForm="ngForm" novalidate [formGroup]="formSignupApp"
+      <form fxLayout="column" fxLayoutGap="20px" fxLayoutWrap class="sub-form" [formGroup]="formSignupApp"
         #formDirective="ngForm" (ngSubmit)="onSubmit(formSignupApp,formDirective)">
 
         <div class="add-app-container" fxLayout="column">
           <mat-form-field>
-            <input matInput [(ngModel)]="firstName" placeholder="First Name" formControlName="firstName">
-            <mat-error *ngIf="f.firstName.errors?.required">First Name is Required</mat-error>
-            <mat-error *ngIf="f.firstName.errors?.maxlength">Only 20 characters are allowed</mat-error>
-            <mat-error *ngIf="f.firstName.errors?.pattern">Do not enter special characters</mat-error>
+            <input matInput placeholder="First Name" formControlName="firstName">
+            <mat-error *ngIf="formSignupApp.hasError('required', 'firstName')">First Name is Required</mat-error>
+            <mat-error *ngIf="formSignupApp.hasError('maxlength', 'firstName')">Only 20 characters are allowed</mat-error>
+            <mat-error *ngIf="formSignupApp.hasError('pattern', 'firstName')">Do not enter special characters</mat-error>
           </mat-form-field>
 
           <mat-form-field>
-            <input matInput [(ngModel)]="lastName" placeholder="Last Name" formControlName="lastName">
-            <mat-error *ngIf="f.lastName.errors?.required">Last Name is Required </mat-error>
-            <mat-error *ngIf="f.lastName.errors?.maxlength">Only 40 characters are allowed</mat-error>
-            <mat-error *ngIf="f.lastName.errors?.pattern">Do not enter special characters</mat-error>
+            <input matInput placeholder="Last Name" formControlName="lastName">
+            <mat-error *ngIf="formSignupApp.hasError('required', 'lastName')">Last Name is Required </mat-error>
+            <mat-error *ngIf="formSignupApp.hasError('maxlength', 'lastName')">Only 40 characters are allowed</mat-error>
+            <mat-error *ngIf="formSignupApp.hasError('pattern', 'lastName')">Do not enter special characters</mat-error>
           </mat-form-field>
 
           <mat-form-field>
-            <input matInput [(ngModel)]="email" placeholder="Email" formControlName="email">
-            <mat-error *ngIf="f.email.errors?.required">Email is Required </mat-error>
-            <mat-error *ngIf="f.email.errors?.pattern">Invalid email format</mat-error>
+            <input matInput placeholder="Email" formControlName="email">
+            <mat-error *ngIf="formSignupApp.hasError('required', 'email')">Email is Required </mat-error>
+            <mat-error *ngIf="formSignupApp.hasError('pattern', 'email')">Invalid email format</mat-error>
           </mat-form-field>
 
           <mat-form-field>
-            <input matInput formControlName="userName" [(ngModel)]="userName" placeholder="User Name">
-            <mat-error *ngIf="f.userName.errors?.required">User Name is Required </mat-error>
-            <mat-error *ngIf="f.userName.errors?.minlength">Minimum 5 characters Should be there</mat-error>
-            <mat-error *ngIf="f.userName.errors?.pattern">User Name is invalid format </mat-error>
+            <input matInput formControlName="userName" placeholder="User Name">
+            <mat-error *ngIf="formSignupApp.hasError('required', 'userName')" >User Name is Required </mat-error>
+            <mat-error *ngIf="formSignupApp.hasError('minlength', 'userName')" >Minimum 5 characters Should be there</mat-error>
+            <mat-error *ngIf="formSignupApp.hasError('pattern', 'userName')" >User Name is invalid format </mat-error>
           </mat-form-field>
 
           <mat-form-field>
-            <input matInput type="password" [(ngModel)]="password" placeholder="Password" formControlName="password">
-            <mat-error *ngIf="f.password.errors?.required">Password is Required </mat-error>
-            <mat-error *ngIf="f.password.errors?.minlength">Minimum 5 characters Should be there</mat-error>
-            <mat-error *ngIf="f.password.errors?.pattern">invalid Password format.It should have atleast(Lowercase
+            <input matInput type="password" placeholder="Password" formControlName="password">
+            <mat-error  *ngIf="formSignupApp.hasError('required', 'password')">Password is Required </mat-error>
+            <mat-error *ngIf="formSignupApp.hasError('minlength', 'password')">Minimum 5 characters Should be there</mat-error>
+            <mat-error *ngIf="formSignupApp.hasError('pattern', 'password')">invalid Password format.It should have atleast(Lowercase
               letters,Uppercase letters,Numbers,Special characters) </mat-error>
           </mat-form-field>
 
-          <!-- <mat-form-field>
-            <input type="password" matInput [(ngModel)]="confirmPassword" placeholder="Confirm Password"
-              formControlName="confirmPassword">
-            <mat-error *ngIf="f.confirmPassword.errors?.required">Password Confirmation is Required </mat-error>
-          </mat-form-field> -->
+          <mat-form-field>
+            <input type="password" matInput placeholder="Confirm Password"
+              formControlName="confirmPassword" [errorStateMatcher]="matcher">
+            <mat-error  *ngIf="formSignupApp.hasError('notSame')">Passwords do not match </mat-error>
+          </mat-form-field>
           <br>
           <div fxFlex="100%" fxLayoutGap="10px">
             <button mat-raised-button type="button" (click)="onReset()" color="warn">Cancel</button>
