@@ -43,6 +43,10 @@ const _authReducer = createReducer(initState,
 
     on(loginActions.TokenGenerationSuccessAction, (state, { payload }) => ({
         ...state, tokenDetails: payload
+    })),
+
+    on(loginActions.TokenRefreshSuccessAction, (state, { payload }) => ({
+        ...state, tokenDetails: payload
     }))
 );
 

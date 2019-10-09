@@ -42,9 +42,7 @@ export class AuthenticationEffects {
             this.notification.error("Invalid username or password");
             throw response;
           } else {
-            const p = new ClientRegParam();
             this.router.navigate([this.lastAuthRequiredRoute || "home"]);
-            this.store.dispatch(loginActions.ClientRegistrationAction({ "payload": p }));
             return loginActions.LoginSuccessAction({ "payload": response });
           }
         }),
@@ -62,8 +60,7 @@ export class AuthenticationEffects {
       .pipe(
         map((response: RegClientData) => {
           if (!response.error) {
-            const p = new TokenGenerationParam();
-            this.store.dispatch(loginActions.TokenGenerationAction({ "payload": p }));
+            localStorage.setItem('tkx', btoa(response.clientId + ':' + response.clientSecret));
             return loginActions.ClientRegistrationSuccessAction({ "payload": response })
           } else {
             throw Error("Operation Failed");
@@ -83,11 +80,29 @@ export class AuthenticationEffects {
       .pipe(
         map((response: TokenData) => {
           if (!response.error) {
+            this.authService.startTimer(response.expires_in);
             return loginActions.TokenGenerationSuccessAction({ "payload": response });
 
           } else {
             throw Error("Operation Failed");
           }
+        }),
+        catchError((e: HttpErrorResponse) => {
+          this.notification.error(e.message);
+          return EMPTY
+        })
+      )
+    )
+  ));
+
+  tokenRefresh$ = createEffect(() => this.actions$.pipe(
+    ofType(loginActions.TokenRefreshAction),
+    mergeMap(() => this.authService.tokenRefresh()
+      .pipe(
+        map((response: TokenData) => {
+          this.authService.startTimer(response.expires_in);
+          console.log("Refresh : " + response.expires_in)
+          return loginActions.TokenRefreshSuccessAction({ "payload": response });
         }),
         catchError((e: HttpErrorResponse) => {
           this.notification.error(e.message);

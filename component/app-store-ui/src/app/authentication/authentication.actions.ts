@@ -15,8 +15,11 @@ export const SignupUserSuccessAction = createAction('[Auth] Signup Success ✓',
 export const ChangeUserPwAction = createAction('[Auth] Change Password', props<{payload: ResetPasswordParam}>());
 export const ChangeUserPwSuccessAction = createAction('[Auth] Change Password Success ✓', props<{payload: any}>());
 
-export const ClientRegistrationAction = createAction('[Auth] Client Reg App', props<{payload: ClientRegParam}>());
+export const ClientRegistrationAction = createAction('[Auth] Client Reg App', props<{payload: LoginFormData}>());
 export const ClientRegistrationSuccessAction = createAction('[Auth] Client Reg App Success ✓', props<{payload: RegClientData}>());
 
-export const TokenGenerationAction = createAction('[Auth] Token Generation', props<{payload: TokenGenerationParam}>());
+export const TokenGenerationAction = createAction('[Auth] Token Generation', props<{payload: LoginFormData}>());
 export const TokenGenerationSuccessAction = createAction('[Auth] Token Generation Success ✓', props<{payload: TokenData}>());
+
+export const TokenRefreshAction = createAction('[Auth] Token Refresh');
+export const TokenRefreshSuccessAction = createAction('[Auth] Token Refresh Success ✓', props<{payload: TokenData}>());

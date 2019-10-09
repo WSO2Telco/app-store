@@ -5,12 +5,12 @@ import { HttpClient, HttpParams, HttpHeaders, HttpBackend } from '@angular/commo
 import { Observable } from 'rxjs';
 
 import { ApiEndpoints } from '../config/api.endpoints';
-import * as localStore from 'store';
 
 import { LoginFormData, LoginResponseData, LogoutResponseData, ClientRegParam, RegClientData, TokenGenerationParam, TokenData, ResetPasswordResponseData } from './authentication.models';
 import { AppState } from '../app.data.models';
 import { Store } from '@ngrx/store';
 import { SigUpUserParam, ResetPasswordParam } from './authentication.models';
+import { TokenRefreshAction } from './authentication.actions';
 
 @Injectable()
 export class AuthenticationService {
@@ -94,45 +94,38 @@ export class AuthenticationService {
         return !!this.loginData;
     }
 
-    clientAppRegistration(param: ClientRegParam) {
-        param.callbackUrl = 'www.google.lk';
-        param.clientName = 'admin';
-        param.owner = 'admin';
+    clientAppRegistration(loginData: LoginFormData) {
+
+        const param: ClientRegParam = new ClientRegParam();
+        param.owner = loginData.username;
         param.grantType = 'password refresh_token';
         param.saasApp = true;
 
         const httpOptions = {
             headers: new HttpHeaders({
                 'Content-Type': 'application/json',
-                'Authorization': 'Basic YWRtaW46YWRtaW4='
+                'Authorization': 'Basic '+ btoa(`${loginData.username}:${loginData.password}`)
             })
         };
 
-        return this.httpBasicClient.post<RegClientData>(
-            ApiEndpoints.authentication.clientRegistration, param,
-            httpOptions
+        return this.httpBasicClient.post<RegClientData>(ApiEndpoints.authentication.clientRegistration, param, httpOptions
         ).pipe(
-            map((data: RegClientData) =>
-              {
-                localStore.setItem('tkx', btoa(data.clientId + ':' + data.clientSecret));
-                return data;
-              }
-            )
-        );;
+            map((data: RegClientData) => this.clientAuthData = data)
+        );
     }
 
 
-    tokenGeneration(param: TokenGenerationParam) {
+    tokenGeneration(loginData) {
         const body = new HttpParams()
         .set('grant_type', 'password')
         .set('scope', 'apim:subscribe')
-        .set('username', 'admin')
-        .set('password', 'admin');
-
+        .set('username', loginData.username)
+        .set('password', loginData.password);
+        
         const httpOptions = {
             headers: new HttpHeaders({
                 'Content-Type': 'application/x-www-form-urlencoded',
-                'Authorization': 'Basic ' + localStore.getItem('tkx')
+                'Authorization': 'Basic ' + localStorage.getItem('tkx')
             })
         };
         return this.httpBasicClient.post<TokenData>(ApiEndpoints.authentication.tokenGeneration, body.toString(), httpOptions);
@@ -146,21 +139,17 @@ export class AuthenticationService {
         const httpOptions = {
             headers: new HttpHeaders({
                 'Content-Type': 'application/x-www-form-urlencoded',
-                'Authorization': 'Basic ' + localStore.getItem('tkx')
+                'Authorization': 'Basic ' + localStorage.getItem('tkx')
             })
         };
         return this.httpBasicClient.post<TokenData>(ApiEndpoints.authentication.tokenGeneration, body.toString(), httpOptions);
     }
 
-    startTimer() {
-        if (this.tokenData) {
-            clearInterval(this.tokenTimer);
-            this.tokenTimer = null;
-        }
-        this.tokenTimer = setInterval(() => {
-            this.tokenRefresh();
-            console.log("Timer started");
-        }, this.tokenData.expires_in-60);
+    startTimer(expire) {
+        clearTimeout(this.tokenTimer);
+        this.tokenTimer = setTimeout(() => {
+            this.store.dispatch(TokenRefreshAction());
+        },  (expire*1000)-60);
     }
 
 }

@@ -40,7 +40,6 @@
     "ngrx-store-localstorage": "^8.0.0",
     "path": "^0.12.7",
     "rxjs": "^6.5.3",
-    "store": "^2.0.12",
     "swagger-ui-dist": "^3.23.11",
     "tslib": "^1.10.0",
     "typescript": "^3.5.3",
