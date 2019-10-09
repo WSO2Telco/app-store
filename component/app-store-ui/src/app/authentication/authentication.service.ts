@@ -1,7 +1,7 @@
 
 import { map } from 'rxjs/operators';
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpParams, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpParams, HttpHeaders, HttpBackend } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 import { ApiEndpoints } from '../config/api.endpoints';
@@ -10,14 +10,18 @@ import { LoginFormData, LoginResponseData, LogoutResponseData, ClientRegParam, R
 import { AppState } from '../app.data.models';
 import { Store } from '@ngrx/store';
 import { SigUpUserParam, ResetPasswordParam } from './authentication.models';
+import { TokenRefreshAction } from './authentication.actions';
 
 @Injectable()
 export class AuthenticationService {
 
     private loginData: LoginResponseData;
     private clientAuthData: RegClientData;
+    private tokenData: TokenData;
+    private httpBasicClient: HttpClient;
+    private tokenTimer;
 
-    constructor(private http: HttpClient, private store: Store<AppState>) {
+    constructor(private http: HttpClient, private store: Store<AppState>, handler: HttpBackend) {
         this.store.select((s) => s.authentication.loginData).subscribe((auth) => {
             this.loginData = auth;
         })
@@ -25,6 +29,12 @@ export class AuthenticationService {
         this.store.select((s) => s.authentication.registeredAppData).subscribe((regAppData) => {
             this.clientAuthData = regAppData;
         })
+
+        this.store.select((s) => s.authentication.tokenDetails).subscribe((token) => {
+            this.tokenData = token;
+        })
+
+        this.httpBasicClient = new HttpClient(handler);
     }
 
     login(param: LoginFormData): Observable<LoginResponseData> {
@@ -84,45 +94,62 @@ export class AuthenticationService {
         return !!this.loginData;
     }
 
-    clientAppRegistration(param: ClientRegParam) {
-        param.callbackUrl = 'www.google.lk';
-        param.clientName = 'admin';
-        param.owner = 'admin';
+    clientAppRegistration(loginData: LoginFormData) {
+
+        const param: ClientRegParam = new ClientRegParam();
+        param.owner = loginData.username;
         param.grantType = 'password refresh_token';
         param.saasApp = true;
 
         const httpOptions = {
             headers: new HttpHeaders({
                 'Content-Type': 'application/json',
-                'Authorization': 'Basic YWRtaW46YWRtaW4='
+                'Authorization': 'Basic '+ btoa(`${loginData.username}:${loginData.password}`)
             })
         };
 
-        return this.http.post<RegClientData>(
-            ApiEndpoints.authentication.clientRegistration, param,
-            httpOptions
+        return this.httpBasicClient.post<RegClientData>(ApiEndpoints.authentication.clientRegistration, param, httpOptions
         ).pipe(
-            map((data: RegClientData) =>
-                this.clientAuthData = data
-            )
-        );;
+            map((data: RegClientData) => this.clientAuthData = data)
+        );
     }
 
 
-    tokenGeneration(param: TokenGenerationParam) {
+    tokenGeneration(loginData) {
         const body = new HttpParams()
         .set('grant_type', 'password')
         .set('scope', 'apim:subscribe')
-        .set('username', 'admin')
-        .set('password', 'admin');
+        .set('username', loginData.username)
+        .set('password', loginData.password);
+        
+        const httpOptions = {
+            headers: new HttpHeaders({
+                'Content-Type': 'application/x-www-form-urlencoded',
+                'Authorization': 'Basic ' + localStorage.getItem('tkx')
+            })
+        };
+        return this.httpBasicClient.post<TokenData>(ApiEndpoints.authentication.tokenGeneration, body.toString(), httpOptions);
+    }
+
+    tokenRefresh() {
+        const body = new HttpParams()
+        .set('grant_type', 'refresh_token')
+        .set('refresh_token', this.tokenData.refresh_token);
 
         const httpOptions = {
             headers: new HttpHeaders({
                 'Content-Type': 'application/x-www-form-urlencoded',
-                'Authorization': 'Basic ' + btoa(this.clientAuthData.clientId + ':' + this.clientAuthData.clientSecret)
+                'Authorization': 'Basic ' + localStorage.getItem('tkx')
             })
         };
-        return this.http.post<TokenData>(ApiEndpoints.authentication.tokenGeneration, body.toString(), httpOptions);
+        return this.httpBasicClient.post<TokenData>(ApiEndpoints.authentication.tokenGeneration, body.toString(), httpOptions);
+    }
+
+    startTimer(expire) {
+        clearTimeout(this.tokenTimer);
+        this.tokenTimer = setTimeout(() => {
+            this.store.dispatch(TokenRefreshAction());
+        },  (expire*1000)-60);
     }
 
 }
