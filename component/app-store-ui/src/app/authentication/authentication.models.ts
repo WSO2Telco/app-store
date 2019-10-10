@@ -4,6 +4,7 @@ export interface AuthState {
     lastAuthRequiredRoute: string;
     registeredAppData: RegClientData;
     tokenDetails:TokenData;
+    loggedUser:string;
 }
 
 export interface IMenuItem {
@@ -59,7 +60,8 @@ export enum LoginMenuActionTypes {
     LOGOUT = 'logout',
     SIGNUP = 'signup',
     MYACCOUNT = 'my-account',
-    HELP = 'help'
+    HELP = 'help',
+    THEME = 'theme'
 }
 
 export class LoginFormData {

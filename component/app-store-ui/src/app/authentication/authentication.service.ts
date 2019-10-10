@@ -20,6 +20,7 @@ export class AuthenticationService {
     private tokenData: TokenData;
     private httpBasicClient: HttpClient;
     private tokenTimer;
+    private loggedUser:string;
 
     constructor(private http: HttpClient, private store: Store<AppState>, handler: HttpBackend) {
         this.store.select((s) => s.authentication.loginData).subscribe((auth) => {
@@ -32,6 +33,10 @@ export class AuthenticationService {
 
         this.store.select((s) => s.authentication.tokenDetails).subscribe((token) => {
             this.tokenData = token;
+        })
+
+        this.store.select((s) => s.authentication.loggedUser).subscribe((user) => {
+            this.loggedUser = user;
         })
 
         this.httpBasicClient = new HttpClient(handler);
@@ -63,14 +68,7 @@ export class AuthenticationService {
     }
 
     signup(param: SigUpUserParam): Observable<LoginResponseData> {
-        const httpOptions = {
-            headers: new HttpHeaders({
-                'Content-Type': 'application/json',
-                'Authorization': 'Basic YWRtaW46YWRtaW4='
-            })
-        };
-
-        return this.http.post(ApiEndpoints.authentication.signup, param, httpOptions).pipe(
+        return this.http.post(ApiEndpoints.authentication.signup, param).pipe(
             map((data: any) =>
                 new LoginResponseData(data.error, data.message)
             ));
@@ -80,11 +78,11 @@ export class AuthenticationService {
         const httpOption = {
             headers: new HttpHeaders({
                 'Content-Type': 'application/json',
-                'Authorization': 'Basic YWRtaW46YWRtaW4='
+                'Authorization': 'Basic ' + btoa(`${this.loggedUser}:${param.currentPassword}`)
             })
         };
 
-        return this.http.post(ApiEndpoints.authentication.changePassword, param, httpOption).pipe(
+        return this.httpBasicClient.post(ApiEndpoints.authentication.changePassword, param, httpOption).pipe(
             map((data: any) =>
                 new ResetPasswordResponseData(data.error, data.message)
             ));

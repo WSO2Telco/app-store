@@ -5,3 +5,20 @@ mat-icon{
     height: $icon-sze;
     width: $icon-sze;
 }
+
+.top-right-block{
+    display: inline-block;
+    cursor: pointer;
+
+    img{
+        float: left;
+        margin: 10px 10px 0 0;
+    }
+
+    .logged-user{
+        padding: 10px 10px 0 10px;
+        float: left;
+        font-weight: 500;
+        font-size: 16px;
+    }
+}

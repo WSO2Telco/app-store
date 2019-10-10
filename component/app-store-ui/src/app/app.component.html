@@ -7,7 +7,6 @@
     <div class="menu-wrapper">
       <store-main-menu></store-main-menu>
     </div>
-    <!-- <store-particles [isEnable]="particleAnimation"></store-particles> -->
   </mat-sidenav>
 
   <mat-sidenav #right position="end" [(opened)]="rightNavOpened" (closedStart)="onRightNavClose()" class="right-nav mat-elevation-z5"
@@ -24,12 +23,7 @@
 
       <span class="fill-remaining-space"></span>
 
-      <span>
-        <button mat-icon-button routerLink="/home/theme">
-          <mat-icon class="theme">palette</mat-icon>
-        </button>
-        <store-login-icon (menuSelect)="onMenuSelect($event)"></store-login-icon>
-      </span>
+      <store-login-icon (menuSelect)="onMenuSelect($event)"></store-login-icon>
     </mat-toolbar>
     <div class="breadcrumb-wrap" [ngClass]="{'left-open':leftNavOpened}">
       <span class="menu-icon-container">
