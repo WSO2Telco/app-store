@@ -3,7 +3,7 @@ import { OnInit, ChangeDetectorRef } from '@angular/core';
 import { LoginMenuAction, LoginResponseData, LoginMenuActionTypes, LoginFormData } from './authentication/authentication.models';
 import { Store } from '@ngrx/store';
 import { AppState } from './app.data.models';
-import { DoLogoutAction, DoLoginAction, ClientRegistrationAction, ClientRegistrationSuccessAction, TokenGenerationAction } from './authentication/authentication.actions';
+import { DoLogoutAction, DoLoginAction, ClientRegistrationAction, ClientRegistrationSuccessAction, TokenGenerationAction, SetLoggedUserAction } from './authentication/authentication.actions';
 import { Observable } from 'rxjs';
 import * as globalActions from './app.actions';
 import { ToggleLeftPanelAction} from './app.actions';
@@ -74,13 +74,15 @@ export class AppComponent implements OnInit {
         break;
       }
 
+      case LoginMenuActionTypes.THEME: {
+        this.router.navigate(['home/theme']);
+        break;
+      }
+
       case LoginMenuActionTypes.MYACCOUNT: {
         this.router.navigate(['application/my-account']);
         break;
       }
-
-      default:
-        break;
     }
 
   }
@@ -91,6 +93,7 @@ export class AppComponent implements OnInit {
 
     this.actions$.pipe(ofType(ClientRegistrationSuccessAction)).pipe(take(1)).subscribe(p => {
       this.store.dispatch(TokenGenerationAction({ "payload": loginData }));
+      this.store.dispatch(SetLoggedUserAction({"payload": loginData.username}))
     })
   }
 

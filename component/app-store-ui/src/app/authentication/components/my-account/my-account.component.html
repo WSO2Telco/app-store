@@ -1,9 +1,8 @@
-<div class="my-account-container">
-    <mat-card class="myacc-title animated fadeInDown">
-        <mat-card-content>
-            My Account
-        </mat-card-content>
-    </mat-card>
+<div fxLayout="column" fxLayoutGap="20px">
+
+    <div class="intro-container">
+      <h1 class="animated fadeInDown">My Account</h1>
+    </div>
 
     <mat-card class="myacc-form animated fadeIn delay_6">
         <mat-card-content>
@@ -13,8 +12,7 @@
                  <mat-form-field fxFlex="50%" fxFlex.lt-md="100%">
                     <input name="currentPassword" type="password" matInput formControlName="currentpassword"
                         placeholder="Current Password">
-                    <mat-error *ngIf="updatePwForm.hasError('required', 'currentpassword')">Current Password is Required
-                    </mat-error>
+                    <mat-error *ngIf="updatePwForm.hasError('required', 'currentpassword')">Current Password is Required</mat-error>
                 </mat-form-field> 
 
 
@@ -25,7 +23,7 @@
                         Please enter your newpassword
                     </mat-error>
                     <mat-error *ngIf="updatePwForm.hasError('pattern', 'password')">
-                       Invalid Password format
+                       Password should contain upper & lowercase characters, numbers, special characters, and 8 characters at least.
                     </mat-error>
                 </mat-form-field>
 

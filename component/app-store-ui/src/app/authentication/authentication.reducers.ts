@@ -6,11 +6,13 @@ import { createReducer, on } from '@ngrx/store';
 const defaultMenu = [
     { name: 'Login', action: LoginMenuActionTypes.LOGIN },
     { name: 'Sign up', action: LoginMenuActionTypes.SIGNUP },
+    { name: 'Theme', action: LoginMenuActionTypes.THEME },
     { name: 'Help', action: LoginMenuActionTypes.HELP }
 ];
 
 const loggedInMenu = [
-    { name: 'My Accunt', action: LoginMenuActionTypes.MYACCOUNT },
+    { name: 'My Account', action: LoginMenuActionTypes.MYACCOUNT },
+    { name: 'Theme', action: LoginMenuActionTypes.THEME },
     { name: 'Logout', action: LoginMenuActionTypes.LOGOUT }
 ];
 
@@ -19,7 +21,8 @@ const initState: AuthState = {
     menuData: defaultMenu,
     lastAuthRequiredRoute: null,
     registeredAppData: null,
-    tokenDetails: null
+    tokenDetails: null,
+    loggedUser: null
 };
 
 
@@ -35,6 +38,10 @@ const _authReducer = createReducer(initState,
 
     on(loginActions.SetLastAuthRequiredRouteAction, (state, { payload }) => ({
         ...state, lastAuthRequiredRoute: payload
+    })),
+
+    on(loginActions.SetLoggedUserAction, (state, { payload }) => ({
+        ...state, loggedUser: payload
     })),
 
     on(loginActions.ClientRegistrationSuccessAction, (state, { payload }) => ({

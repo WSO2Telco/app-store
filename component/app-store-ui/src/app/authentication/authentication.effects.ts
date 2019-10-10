@@ -155,9 +155,10 @@ export class AuthenticationEffects {
         map((response) => {
           if (response.error) {
             this.notification.error(response.message);
+            throw response;
           } else {
             this.notification.success('User password changed successfully. You can now sign in to the API store using the new password.');
-            return loginActions.ChangeUserPwSuccessAction({ "payload": 'response' });
+            return loginActions.ChangeUserPwSuccessAction({ "payload": response });
           }
         }),
         catchError((e: HttpErrorResponse) => {

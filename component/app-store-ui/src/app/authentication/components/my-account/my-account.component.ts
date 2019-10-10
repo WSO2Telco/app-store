@@ -56,8 +56,6 @@ export class MyAccountComponent implements OnInit {
         formDirective.resetForm();
         this.updatePwForm.reset();
       })
-    } else { 
-      console.log('error');
     }
   }
 
