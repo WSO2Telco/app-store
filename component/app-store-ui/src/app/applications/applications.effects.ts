@@ -78,12 +78,44 @@ export class ApplicationsEffects {
   ));
 
   appKeysGenerate$ = createEffect(() => this.actions$.pipe(
-    ofType(applicationsActions.GenerateAppKey),
+    ofType(applicationsActions.GenerateAppKeyAction),
     mergeMap(({ appId, payload }) => this.service.generateAppKey(appId, payload)
       .pipe(
         map((e) => {
           this.notification.success("Key generated successfully !!");
-          return applicationsActions.GenerateAppKeySuccess()
+          return applicationsActions.GenerateAppKeySuccessAction()
+        }),
+        catchError((e: HttpErrorResponse) => {
+          this.notification.error(e.message);
+          return EMPTY
+        })
+      )
+    )
+  ));
+
+  appKeysUpdate$ = createEffect(() => this.actions$.pipe(
+    ofType(applicationsActions.UpdateAppKeyAction),
+    mergeMap(({ appId, payload }) => this.service.updateAppKey(appId, payload)
+      .pipe(
+        map((e) => {
+          this.notification.success("Key Details Updated Successfully !!");
+          return applicationsActions.UpdateAppKeySuccessAction()
+        }),
+        catchError((e: HttpErrorResponse) => {
+          this.notification.error(e.message);
+          return EMPTY
+        })
+      )
+    )
+  ));
+
+  keySecretRegenerate$ = createEffect(() => this.actions$.pipe(
+    ofType(applicationsActions.RegenerateSecretAction),
+    mergeMap(({payload}) => this.service.regenerateKeySecret(payload)
+      .pipe(
+        map((e) => {
+          this.notification.success("Key Regenerated Successfully !!");
+          return applicationsActions.RegenerateSecretSuccessAction()
         }),
         catchError((e: HttpErrorResponse) => {
           this.notification.error(e.message);

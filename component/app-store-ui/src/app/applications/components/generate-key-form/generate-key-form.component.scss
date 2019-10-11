@@ -59,12 +59,16 @@ mat-form-field{
 .key-block{
     padding: 0 10px 10px 10px;
 
-    .mat-icon{
+    .icon-wrap{
         position: absolute;
+        margin-top: 6px;
+        display: inline-block;
+    }
+
+    .mat-icon{
         cursor: pointer;
         font-size: 17px;
         color: #666;
-        margin-top: 6px;
     }
 
     .key-label{

@@ -4,9 +4,8 @@ import { ActivatedRoute } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { AppState } from '../../../app.data.models';
 import { ApplicationDetailsKeys, GenerateKeyPayload } from '../../applications.data.models';
-import { take } from 'rxjs/operators';
-import { GenerateAppKey, GenerateAppKeySuccess } from '../../applications.actions';
-import { Actions, ofType } from '@ngrx/effects';
+import { GenerateAppKeyAction, RegenerateSecretAction, UpdateAppKeyAction } from '../../applications.actions';
+import { Actions } from '@ngrx/effects';
 import { NotificationService } from '../../../shared/services/notification.service';
 
 @Component({
@@ -22,7 +21,6 @@ export class GenerateKeyFormComponent implements OnInit, OnDestroy {
   public validity:string;
 
   private appId:string = null;
-  private newKeyGenerated:boolean = false;
   public keyObject:ApplicationDetailsKeys;
   public keyPayload:GenerateKeyPayload = new GenerateKeyPayload();
   public keySecretVisibility:boolean = false
@@ -88,7 +86,7 @@ export class GenerateKeyFormComponent implements OnInit, OnDestroy {
     this.envLabel = (this.keyEnv == 'PRODUCTION') ? "Production" : "Sandbox";
     this.keyPayload.keyType = this.keyEnv;
 
-    this.storeSelect = this.store.select((s) => s.applications.selectedApplication.keys).pipe(take(1)).subscribe((appDetails) => {
+    this.storeSelect = this.store.select((s) => s.applications.selectedApplication.keys).subscribe((appDetails) => {
       this.keyObject = appDetails.find(i => i.keyType == this.keyEnv);
       if(this.keyObject){
         console.log(this.keyObject);
@@ -99,10 +97,6 @@ export class GenerateKeyFormComponent implements OnInit, OnDestroy {
       }
       this.cd.detectChanges();
     });
-
-    this.actions$.pipe(ofType(GenerateAppKeySuccess)).pipe(take(1)).subscribe(p => {
-      this.newKeyGenerated = true;
-    })
   }
 
   switchKeyVisibility(action){
@@ -129,13 +123,17 @@ export class GenerateKeyFormComponent implements OnInit, OnDestroy {
     let supportedGrantTypes = this.grantTypes.filter(opt => opt.checked).map(opt => opt.value);
     this.keyPayload.supportedGrantTypes = supportedGrantTypes;
 
-    if(this.keyObject || this.newKeyGenerated){
-      this.appService.updateAppKey(this.appId, this.keyPayload).subscribe(response => {});
+    if(this.keyObject){
+      this.store.dispatch(UpdateAppKeyAction({ 'appId' : this.appId, 'payload' : this.keyPayload}))
     }
     else{
-      this.store.dispatch(GenerateAppKey({ 'appId' : this.appId, 'payload' : this.keyPayload}))
+      this.store.dispatch(GenerateAppKeyAction({ 'appId' : this.appId, 'payload' : this.keyPayload}))
     }
 
+  }
+
+  resetKey(){
+    this.store.dispatch(RegenerateSecretAction({ 'payload' : this.keyObject.consumerKey}))
   }
 
   callbackUpdate(value){

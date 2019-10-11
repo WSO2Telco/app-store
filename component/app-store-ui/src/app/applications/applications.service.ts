@@ -56,6 +56,11 @@ export class ApplicationsService {
     return this.http.post<any>(`${ApiEndpoints.applications.generateKeys}?applicationId=${appId}`, payload);
   }
 
+  regenerateKeySecret(key): Observable<any> {
+    let payload = { "consumerKey": key };
+    return this.http.post<any>(`${ApiEndpoints.applications.regenerateSecret}`, payload);
+  }
+
   updateAppKey(appId, keyObject): Observable<any> {
     var payload = (({ supportedGrantTypes, callbackUrl }) => ({ supportedGrantTypes, callbackUrl }))(keyObject);
     var endpoint = `${ApiEndpoints.applications.applications}/${appId}/keys/${keyObject.keyType}`;

@@ -11,8 +11,11 @@
           <span *ngIf="!keySecretVisibility">&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;</span>
           <span *ngIf="keySecretVisibility">{{keyObject.consumerSecret}}</span>
         </span> 
-        <mat-icon *ngIf="!keySecretVisibility" (click)="switchKeyVisibility(true)">visibility</mat-icon>
-        <mat-icon *ngIf="keySecretVisibility" (click)="switchKeyVisibility(false)">visibility_off</mat-icon>
+        <div class="icon-wrap">
+          <mat-icon *ngIf="!keySecretVisibility" (click)="switchKeyVisibility(true)">visibility</mat-icon>
+          <mat-icon *ngIf="keySecretVisibility" (click)="switchKeyVisibility(false)">visibility_off</mat-icon>
+          <mat-icon (click)="resetKey()">refresh</mat-icon>
+        </div>
       </div>
       <div class="gt-title"><span>Grant Types</span></div>
       <div class="gt-caption">The application can use the following grant types to generate access tokens. You can enable or disable grant types for this application based on the application requirement.</div>

@@ -15,5 +15,11 @@ export const GetApplicationSubscriptionsSuccessAction = createAction('[App] Get 
 export const CreateApplicationsAction = createAction('[App] Create App', props<{payload: CreateApplicationParam}>());
 export const CreateApplicationSuccessAction = createAction('[App] Create App Success ✓', props<{payload: CreateAppResponseData}>());
 
-export const GenerateAppKey = createAction('[App] Generate App Key', props<{appId:string, payload: GenerateKeyPayload}>());
-export const GenerateAppKeySuccess = createAction('[App] Generate App Key Success ✓');
+export const GenerateAppKeyAction = createAction('[App] Generate App Key', props<{appId:string, payload: GenerateKeyPayload}>());
+export const GenerateAppKeySuccessAction = createAction('[App] Generate App Key Success ✓');
+
+export const UpdateAppKeyAction = createAction('[App] Update App Key', props<{appId:string, payload: GenerateKeyPayload}>());
+export const UpdateAppKeySuccessAction = createAction('[App] Update App Key Success ✓');
+
+export const RegenerateSecretAction = createAction('[App] Regenerate Key Secret', props<{payload:string}>());
+export const RegenerateSecretSuccessAction = createAction('[App] Regenerate Key Secret Success ✓');
