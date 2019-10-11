@@ -11,7 +11,7 @@ const defaultMenu = [
 ];
 
 const loggedInMenu = [
-    { name: 'My Account', action: LoginMenuActionTypes.MYACCOUNT },
+    { name: 'Account', action: LoginMenuActionTypes.MYACCOUNT },
     { name: 'Theme', action: LoginMenuActionTypes.THEME },
     { name: 'Logout', action: LoginMenuActionTypes.LOGOUT }
 ];
@@ -33,7 +33,7 @@ const _authReducer = createReducer(initState,
     })),
 
     on(loginActions.DoLogoutSuccessAction, (state, { }) => ({
-        ...state, loginData: null, registeredAppData: null, tokenDetails: null, menuData: defaultMenu
+        ...state, loginData: null, registeredAppData: null, tokenDetails: null, menuData: defaultMenu, loggedUser: null
     })),
 
     on(loginActions.SetLastAuthRequiredRouteAction, (state, { payload }) => ({
