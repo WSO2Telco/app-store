@@ -1,12 +1,21 @@
 <div class="gen-key-container">
-  <div class="title">Generate {{envLabel}} Keys</div>
+  <div *ngIf="!keyObject" class="no-key">
+    <mat-icon>info</mat-icon> No {{envLabel}} Keys Found
+  </div>
+  
   <div fxLayout="column">
     <section class="grant-type-section" fxFlex>
-      <div class="gt-title">
-        <span>Grant Types</span>
-        <br>
-        <br> Application can use the following grant types to generate Access Tokens. Based on the application requirement, you
-        can enable or disable grant types for this application.</div>
+      <div *ngIf="keyObject" class="key-block">
+        <span class="key-label">Consumer Key : </span><span class="app-key" matTooltip="Click to copy the key" matTooltipPosition="right" (click)="clickToCopy(keyObject.consumerKey)">{{keyObject.consumerKey}}</span><br/><br/>
+        <span class="key-label">Consumer Secret : </span><span class="app-key" matTooltip="Click to copy the secret" matTooltipPosition="right" (click)="clickToCopy(keyObject.consumerSecret)">
+          <span *ngIf="!keySecretVisibility">&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;</span>
+          <span *ngIf="keySecretVisibility">{{keyObject.consumerSecret}}</span>
+        </span> 
+        <mat-icon *ngIf="!keySecretVisibility" (click)="switchKeyVisibility(true)">visibility</mat-icon>
+        <mat-icon *ngIf="keySecretVisibility" (click)="switchKeyVisibility(false)">visibility_off</mat-icon>
+      </div>
+      <div class="gt-title"><span>Grant Types</span></div>
+      <div class="gt-caption">The application can use the following grant types to generate access tokens. You can enable or disable grant types for this application based on the application requirement.</div>
       <div class="key-grant-type" *ngFor="let t of grantTypes">
         <mat-checkbox class="ck-gt" value="t.value" [(ngModel)]="t.checked" [disabled]="(t.value == 'implicit' || t.value == 'authorization_code') && (!keyPayload.callbackUrl || keyPayload.callbackUrl.length <= 0)">{{t.name}}</mat-checkbox>
       </div>
@@ -18,7 +27,7 @@
       <input matInput placeholder="Access token validity period" [(ngModel)]="validity" />
     </mat-form-field>
     <div fxLayoutAlign="end center">
-      <button mat-raised-button class="generate"  color="accent" (click)="generateKey()">Generate</button>
+      <button mat-raised-button class="generate"  color="accent" (click)="generateKey()"><span *ngIf="!keyObject">Generate</span><span *ngIf="keyObject">Update</span></button>
     </div>
   </div>
 
