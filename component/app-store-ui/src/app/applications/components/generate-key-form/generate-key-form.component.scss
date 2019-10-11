@@ -33,3 +33,60 @@ mat-form-field{
     width: 25%;
     display: inline-block;
 }
+
+.no-key{
+    display: flex;
+    align-items: center;
+    background: #fafafa;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+
+    .mat-icon{
+        margin-right: 5px;
+    }
+}
+
+.gt-caption{
+    font-size: 13px;
+    line-height: 1.5;
+    color: #333;
+    max-width: 500px;
+    padding-left: 10px;
+    margin-bottom: 20px;
+}
+
+.key-block{
+    padding: 0 10px 10px 10px;
+
+    .icon-wrap{
+        position: absolute;
+        margin-top: 6px;
+        display: inline-block;
+    }
+
+    .mat-icon{
+        cursor: pointer;
+        font-size: 17px;
+        color: #666;
+    }
+
+    .key-label{
+        display: inline-block;
+        width: 25%;
+    }
+}
+
+.app-key{
+    font-family: monospace;
+    margin: 0 10px;
+    font-weight: bold;
+    letter-spacing: 1px;
+    padding: 3px 10px;
+    border: 2px solid rgba(0,0,0,.54);
+    cursor: pointer;
+    display: inline-block;
+    min-width: 275px;
+    text-align: center;
+    border-radius: 3px;
+}

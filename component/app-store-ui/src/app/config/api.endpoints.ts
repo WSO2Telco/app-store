@@ -24,7 +24,8 @@ export const ApiEndpoints = {
   },
   applications: {
     applications : apiContext + '/applications',
-    generateKeys : apiContext + '/applications/generate-keys'
+    generateKeys : apiContext + '/applications/generate-keys',
+    regenerateSecret : apiContext + '/applications/regenerate-consumersecret'
   },
   subscriptions: apiContext + '/subscriptions',
   forum: {

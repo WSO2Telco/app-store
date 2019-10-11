@@ -64,7 +64,11 @@ export class ApplicationDetailMainComponent implements OnInit {
       }
     })
 
-    this.actions$.pipe(ofType(applicationsActions.GenerateAppKeySuccess)).pipe(take(1)).subscribe(p => {
+    this.actions$.pipe(ofType(applicationsActions.GenerateAppKeySuccessAction)).subscribe(p => {
+      this.store.dispatch(applicationsActions.GetApplicationDetailsAction({ "payload": this.appId }));
+    })
+
+    this.actions$.pipe(ofType(applicationsActions.RegenerateSecretSuccessAction)).subscribe(p => {
       this.store.dispatch(applicationsActions.GetApplicationDetailsAction({ "payload": this.appId }));
     })
 
