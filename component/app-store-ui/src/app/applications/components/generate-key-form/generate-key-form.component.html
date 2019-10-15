@@ -32,6 +32,57 @@
     <div fxLayoutAlign="end center">
       <button mat-raised-button class="generate"  color="accent" (click)="generateKey()"><span *ngIf="!keyObject">Generate</span><span *ngIf="keyObject">Update</span></button>
     </div>
+
+    <hr />
+
+    <div class="access-token-block" *ngIf="keyObject" [ngClass]="{expanded: accessTokenExpanded}">
+      <h3 (click)="accessTokenExpand()">Access Token</h3>
+      <div class="access-token-content" *ngIf="accessTokenExpanded">
+        
+        <div>
+          <mat-form-field>
+            <mat-label>Grant Type</mat-label>
+            <mat-select [(ngModel)]="accessTokenGrant">
+              <mat-option value="password" selected="true">Password</mat-option>
+              <mat-option value="client_credentials">Client Credentials</mat-option>
+            </mat-select>
+          </mat-form-field>
+
+          <mat-form-field *ngIf="accessTokenGrant == 'password'">
+            <input matInput placeholder="Username" [(ngModel)]="accessTokenUser">
+          </mat-form-field>
+
+          <mat-form-field>
+            <input type="number" matInput placeholder="Validity Period" [(ngModel)]="accessTokenValidity">
+            <span matSuffix> seconds</span>
+          </mat-form-field>
+        </div>
+<pre>
+curl <strong>-k -d</strong> "<span class="code-blue">grant_type={{accessTokenGrant}}<span *ngIf="accessTokenGrant == 'password'">&username={{accessTokenUser}}&password=Password</span></span>" \
+     <strong>-H</strong> "<span class="code-blue">Authorization: Basic <span matTooltip="Base64(consumer-key:consumer-secret)" matTooltipPosition="above">{{accessTokenAuth}}</span></span>" \
+      https://192.168.56.1:8243/token
+</pre>
+
+        <div class="test-access-token">
+          <div class="block-title">Test Access Token</div>
+
+          <div class="caption">Token below has a validity period of <span class="soft-bold">{{keyObject.token?.validityTime}}</span> seconds. And the token has ( <span class="soft-bold" *ngFor="let scope of keyObject.token.tokenScopes">{{scope}} </span> ) scopes.</div>
+
+          <div class="generated-access-token key-block">
+            <span class="app-key" matTooltip="Click to copy the secret" matTooltipPosition="right" (click)="clickToCopy(keyObject.token?.accessToken)">
+              <span *ngIf="!accessTokenVisible">&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;</span>
+              <span *ngIf="accessTokenVisible">{{keyObject.token?.accessToken}}</span>
+            </span> 
+            <div class="icon-wrap">
+              <mat-icon *ngIf="!accessTokenVisible" (click)="switchAccessTokenVisibility(true)" matTooltip="Show Access Token">visibility</mat-icon>
+              <mat-icon *ngIf="accessTokenVisible" (click)="switchAccessTokenVisibility(false)" matTooltip="Hide Access Token">visibility_off</mat-icon>
+              <mat-icon (click)="resetKey()" matTooltip="Regenerate Access Token">refresh</mat-icon>
+            </div>
+          </div>
+        </div>
+        
+      </div>
+    </div>
   </div>
 
 </div>

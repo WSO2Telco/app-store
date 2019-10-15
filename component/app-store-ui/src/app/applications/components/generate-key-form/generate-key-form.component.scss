@@ -90,3 +90,71 @@ mat-form-field{
     text-align: center;
     border-radius: 3px;
 }
+
+.access-token-block{
+    border: 1px solid #999;
+    background: #f6f6f6;
+    padding: 10px;
+    border-radius: 3px;
+
+    h3{
+        margin: 0;
+        cursor: pointer;
+    }
+
+    .access-token-content {
+        padding: 15px 0;
+    }
+
+    &.expanded{
+        h3{
+            cursor: default;
+            border-bottom: 1px solid #999;
+            padding-bottom: 5px;
+        }
+    }
+
+    pre{
+        margin-left: 50px;
+        word-break: break-all;
+        white-space: pre-wrap;
+        background: #eee;
+        padding: 10px;
+        margin: 0 10px 20px;
+        border-radius: 3px;
+    }
+
+    .code-blue{
+        color: #0000e6;
+    }
+
+    .mat-stroked-button{
+        margin-left: 10px;;
+    }
+
+    .mat-form-field-infix{
+        max-width: 85px;
+    }
+
+    .test-access-token{
+        padding: 10px;
+
+        .block-title{
+            font-weight: 500;
+            font-size: 16px;
+            margin-bottom: 10px;
+        }
+
+        .caption {
+            margin: 10px 0 20px;
+        }
+        
+        .generated-access-token {
+            padding: 0;
+
+            .app-key{
+                margin-left: 0;
+            }
+        }
+    }
+}

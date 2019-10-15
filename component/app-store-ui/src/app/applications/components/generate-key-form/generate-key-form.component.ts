@@ -21,9 +21,17 @@ export class GenerateKeyFormComponent implements OnInit, OnDestroy {
   public validity:string;
 
   private appId:string = null;
+
   public keyObject:ApplicationDetailsKeys;
   public keyPayload:GenerateKeyPayload = new GenerateKeyPayload();
-  public keySecretVisibility:boolean = false
+  public keySecretVisibility:boolean = false;
+
+  public accessTokenExpanded = true; // = false;
+  public accessTokenUser;
+  public accessTokenGrant = 'password';
+  public accessTokenAuth;
+  public accessTokenValidity:number = 3600;
+  public accessTokenVisible = false;
 
   grantTypes = [
     {
@@ -89,18 +97,26 @@ export class GenerateKeyFormComponent implements OnInit, OnDestroy {
     this.storeSelect = this.store.select((s) => s.applications.selectedApplication.keys).subscribe((appDetails) => {
       this.keyObject = appDetails.find(i => i.keyType == this.keyEnv);
       if(this.keyObject){
-        console.log(this.keyObject);
         this.grantTypes.forEach((t, i) => {
           this.grantTypes[i].checked = this.keyObject.supportedGrantTypes.includes(t.value)
         })
         this.keyPayload.callbackUrl = this.keyObject.callbackUrl;
+        this.accessTokenAuth = btoa(`${this.keyObject.consumerKey}:${this.keyObject.consumerSecret}`);
       }
       this.cd.detectChanges();
     });
+
+    this.store.select((s) => s.authentication.loggedUser).subscribe((user) => {
+      this.accessTokenUser = user;
+    })
   }
 
   switchKeyVisibility(action){
     this.keySecretVisibility = action;
+  }
+
+  switchAccessTokenVisibility(action){
+    this.accessTokenVisible = action;
   }
 
   clickToCopy(text){
@@ -142,5 +158,9 @@ export class GenerateKeyFormComponent implements OnInit, OnDestroy {
         if(t.value == 'implicit' || t.value == 'authorization_code') this.grantTypes[i].checked = false;
       })
     }
+  }
+
+  accessTokenExpand(){
+    this.accessTokenExpanded = true;
   }
 }
