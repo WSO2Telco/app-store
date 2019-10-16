@@ -148,7 +148,8 @@ export class GenerateKeyFormComponent implements OnInit, OnDestroy {
   }
 
   resetAccessToken(){
-    this.store.dispatch(RegenerateAccessTokenAction({ 'payload' : this.accessTokenAuth}))
+    const payload = {"auth":this.accessTokenAuth, "validity":this.accessTokenValidity}
+    this.store.dispatch(RegenerateAccessTokenAction({ 'payload' : payload}))
   }
 
   callbackUpdate(value){
@@ -159,9 +160,9 @@ export class GenerateKeyFormComponent implements OnInit, OnDestroy {
     }
   }
 
-  accessTokenExpand(){
-    this.accessTokenExpanded = true;
-  }
+  // accessTokenExpand(){
+  //   this.accessTokenExpanded = true;
+  // }
 
   clickToCopy(text){
     const event = (e: ClipboardEvent) => {

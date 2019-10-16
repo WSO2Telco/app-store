@@ -24,5 +24,5 @@ export const UpdateAppKeySuccessAction = createAction('[App] Update App Key Succ
 export const RegenerateSecretAction = createAction('[App] Regenerate Key Secret', props<{payload:string}>());
 export const RegenerateSecretSuccessAction = createAction('[App] Regenerate Key Secret Success ✓');
 
-export const RegenerateAccessTokenAction = createAction('[App] Regenerate Access Token', props<{payload:string}>());
+export const RegenerateAccessTokenAction = createAction('[App] Regenerate Access Token', props<{payload:any}>());
 export const RegenerateAccessTokenSuccessAction = createAction('[App] Regenerate Access Token Success ✓', props<{payload:any}>());

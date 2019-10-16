@@ -68,17 +68,18 @@ export class ApplicationsService {
     return this.http.put<any>(endpoint, payload);
   }
 
-  regenerateAccessToken(auth): Observable<any> {
+  regenerateAccessToken(payload): Observable<any> {
     const httpBasicClient:HttpClient = new HttpClient(this.handler);
 
     const body = new HttpParams()
     .set('grant_type', 'client_credentials')
     .set('scope', 'test')
+    .set('validity_period', payload.validity)
     
     const httpOptions = {
       headers: new HttpHeaders({
           'Content-Type': 'application/x-www-form-urlencoded',
-          'Authorization': 'Basic ' + auth
+          'Authorization': 'Basic ' + payload.auth
       })
     };
     return httpBasicClient.post<TokenData>(ApiEndpoints.authentication.tokenGeneration, body.toString(), httpOptions);
