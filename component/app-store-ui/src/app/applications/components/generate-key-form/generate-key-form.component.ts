@@ -4,8 +4,8 @@ import { ActivatedRoute } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { AppState } from '../../../app.data.models';
 import { ApplicationDetailsKeys, GenerateKeyPayload } from '../../applications.data.models';
-import { GenerateAppKeyAction, RegenerateSecretAction, UpdateAppKeyAction } from '../../applications.actions';
-import { Actions } from '@ngrx/effects';
+import { GenerateAppKeyAction, RegenerateSecretAction, UpdateAppKeyAction, RegenerateAccessTokenAction, RegenerateAccessTokenSuccessAction } from '../../applications.actions';
+import { Actions, ofType } from '@ngrx/effects';
 import { NotificationService } from '../../../shared/services/notification.service';
 
 @Component({
@@ -25,6 +25,7 @@ export class GenerateKeyFormComponent implements OnInit, OnDestroy {
   public keyObject:ApplicationDetailsKeys;
   public keyPayload:GenerateKeyPayload = new GenerateKeyPayload();
   public keySecretVisibility:boolean = false;
+  public clientCredEnabled = false;
 
   public accessTokenExpanded = true; // = false;
   public accessTokenUser;
@@ -103,11 +104,16 @@ export class GenerateKeyFormComponent implements OnInit, OnDestroy {
         this.keyPayload.callbackUrl = this.keyObject.callbackUrl;
         this.accessTokenAuth = btoa(`${this.keyObject.consumerKey}:${this.keyObject.consumerSecret}`);
       }
+      this.clientCredEnabled = this.keyObject.supportedGrantTypes.includes('client_credentials');
       this.cd.detectChanges();
     });
 
     this.store.select((s) => s.authentication.loggedUser).subscribe((user) => {
       this.accessTokenUser = user;
+    })
+
+    this.actions$.pipe(ofType(RegenerateAccessTokenSuccessAction)).subscribe(p => {
+      this.keyObject.token.accessToken = p.payload.access_token;
     })
   }
 
@@ -139,6 +145,10 @@ export class GenerateKeyFormComponent implements OnInit, OnDestroy {
 
   resetKey(){
     this.store.dispatch(RegenerateSecretAction({ 'payload' : this.keyObject.consumerKey}))
+  }
+
+  resetAccessToken(){
+    this.store.dispatch(RegenerateAccessTokenAction({ 'payload' : this.accessTokenAuth}))
   }
 
   callbackUpdate(value){

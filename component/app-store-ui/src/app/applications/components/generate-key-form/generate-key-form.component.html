@@ -35,7 +35,7 @@
 
     <hr />
 
-    <div class="access-token-block" *ngIf="keyObject" [ngClass]="{expanded: accessTokenExpanded}">
+    <div class="access-token-block" *ngIf="keyObject.token" [ngClass]="{expanded: accessTokenExpanded}">
       <h3 (click)="accessTokenExpand()">Access Token</h3>
       <div class="access-token-content" *ngIf="accessTokenExpanded">
         
@@ -44,7 +44,7 @@
             <mat-label>Grant Type</mat-label>
             <mat-select [(ngModel)]="accessTokenGrant">
               <mat-option value="password" selected="true">Password</mat-option>
-              <mat-option value="client_credentials">Client Credentials</mat-option>
+              <mat-option value="client_credentials" [disabled]="!clientCredEnabled">Client Credentials</mat-option>
             </mat-select>
           </mat-form-field>
 
@@ -82,7 +82,7 @@ curl <strong>-k -d</strong> "<span class="code-blue">grant_type={{accessTokenGra
             <div class="icon-wrap">
               <mat-icon *ngIf="!accessTokenVisible" (click)="switchAccessTokenVisibility(true)" matTooltip="Show Access Token">visibility</mat-icon>
               <mat-icon *ngIf="accessTokenVisible" (click)="switchAccessTokenVisibility(false)" matTooltip="Hide Access Token">visibility_off</mat-icon>
-              <mat-icon (click)="resetKey()" matTooltip="Regenerate Access Token">refresh</mat-icon>
+              <mat-icon *ngIf="clientCredEnabled" (click)="resetAccessToken()" matTooltip="Regenerate Access Token">refresh</mat-icon>
             </div>
           </div>
         </div>

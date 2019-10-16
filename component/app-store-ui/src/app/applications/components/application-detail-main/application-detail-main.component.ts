@@ -72,6 +72,10 @@ export class ApplicationDetailMainComponent implements OnInit {
       this.store.dispatch(applicationsActions.GetApplicationDetailsAction({ "payload": this.appId }));
     })
 
+    this.actions$.pipe(ofType(applicationsActions.UpdateAppKeySuccessAction)).subscribe(p => {
+      this.store.dispatch(applicationsActions.GetApplicationDetailsAction({ "payload": this.appId }));
+    })
+
   }
 
   ngOnInit() {

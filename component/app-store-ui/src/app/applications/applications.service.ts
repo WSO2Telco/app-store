@@ -1,6 +1,6 @@
 
 import { map } from 'rxjs/operators';
-import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams, HttpBackend } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { ApiEndpoints } from '../config/api.endpoints';
 import {
@@ -17,7 +17,7 @@ export class ApplicationsService {
 
   private accessToken: TokenData;
 
-  constructor(private http: HttpClient, private store: Store<AppState>) {
+  constructor(private http: HttpClient, private store: Store<AppState>, private handler: HttpBackend) {
     this.store.select((s) => s.authentication.tokenDetails).subscribe((auth) => {
       this.accessToken = auth;
     })
@@ -66,6 +66,22 @@ export class ApplicationsService {
     var endpoint = `${ApiEndpoints.applications.applications}/${appId}/keys/${keyObject.keyType}`;
 
     return this.http.put<any>(endpoint, payload);
+  }
+
+  regenerateAccessToken(auth): Observable<any> {
+    const httpBasicClient:HttpClient = new HttpClient(this.handler);
+
+    const body = new HttpParams()
+    .set('grant_type', 'client_credentials')
+    .set('scope', 'test')
+    
+    const httpOptions = {
+      headers: new HttpHeaders({
+          'Content-Type': 'application/x-www-form-urlencoded',
+          'Authorization': 'Basic ' + auth
+      })
+    };
+    return httpBasicClient.post<TokenData>(ApiEndpoints.authentication.tokenGeneration, body.toString(), httpOptions);
   }
 
 }
