@@ -77,6 +77,50 @@ mat-form-field{
     }
 }
 
+.code-wrap{
+    position: relative;
+    overflow: hidden;
+    margin: 0 10px 20px;
+    cursor: pointer;
+
+    .mat-icon{
+        position: absolute;
+        right: 10px;
+        bottom: 0px;
+        cursor: pointer;
+        font-size: 18px;
+    }
+
+    &:hover{
+        .copy-icon{
+            width: 40px;
+        }
+    }
+}
+
+.copy-icon{
+    position: absolute;
+    right: -1px;
+    bottom: 0px;
+    cursor: pointer;
+    font-size: 14px;
+    display: flex;
+    padding: 5px;
+    background: #ddd;
+    padding-left: 25px;
+    border-top-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+    transition: all 0.5s;
+    width: 0;
+
+    .mat-icon{
+        font-size: 16px;
+        position: absolute;
+        left: 6px;
+        top: 6px;
+    }
+}
+
 .app-key{
     font-family: monospace;
     margin: 0 10px;
@@ -120,7 +164,7 @@ mat-form-field{
         white-space: pre-wrap;
         background: #eee;
         padding: 10px;
-        margin: 0 10px 20px;
+        margin: 0;
         border-radius: 3px;
     }
 

@@ -57,11 +57,17 @@
             <span matSuffix> seconds</span>
           </mat-form-field>
         </div>
+<div class="code-wrap" (click)="copyAccessToken()">
 <pre>
 curl <strong>-k -d</strong> "<span class="code-blue">grant_type={{accessTokenGrant}}<span *ngIf="accessTokenGrant == 'password'">&username={{accessTokenUser}}&password=Password</span></span>" \
      <strong>-H</strong> "<span class="code-blue">Authorization: Basic <span matTooltip="Base64(consumer-key:consumer-secret)" matTooltipPosition="above">{{accessTokenAuth}}</span></span>" \
       https://192.168.56.1:8243/token
 </pre>
+<div class="copy-icon">
+  <mat-icon>filter_none</mat-icon>&nbsp;
+  <span class="copy-label">Copy</span>
+</div>
+</div>
 
         <div class="test-access-token">
           <div class="block-title">Test Access Token</div>

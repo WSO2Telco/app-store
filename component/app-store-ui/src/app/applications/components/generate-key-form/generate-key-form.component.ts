@@ -119,17 +119,6 @@ export class GenerateKeyFormComponent implements OnInit, OnDestroy {
     this.accessTokenVisible = action;
   }
 
-  clickToCopy(text){
-    const event = (e: ClipboardEvent) => {
-      e.clipboardData.setData('text/plain', text);
-      e.preventDefault();
-      document.removeEventListener('copy', event);
-    }
-    document.addEventListener('copy', event);
-    document.execCommand('copy');
-    this.notification.success('Copied to clipboard');
-  }
-
   ngOnDestroy(){
     this.storeSelect.unsubscribe();
     this.cd.detach();
@@ -162,5 +151,24 @@ export class GenerateKeyFormComponent implements OnInit, OnDestroy {
 
   accessTokenExpand(){
     this.accessTokenExpanded = true;
+  }
+
+  clickToCopy(text){
+    const event = (e: ClipboardEvent) => {
+      e.clipboardData.setData('text/plain', text);
+      e.preventDefault();
+      document.removeEventListener('copy', event);
+    }
+    document.addEventListener('copy', event);
+    document.execCommand('copy');
+    this.notification.success('Copied to clipboard');
+  }
+
+  copyAccessToken(){
+    let accessToken = `curl -k -d "grant_type=${this.accessTokenGrant}`;
+    if(this.accessTokenGrant == 'password') accessToken += `&username=${this.accessTokenUser}&password=Password`;
+    accessToken += `" -H "Authorization: Basic ${this.accessTokenAuth}" https://192.168.56.1:8243/token`;
+
+    this.clickToCopy(accessToken);
   }
 }
