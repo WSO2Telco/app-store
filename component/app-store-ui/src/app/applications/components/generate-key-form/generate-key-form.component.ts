@@ -4,8 +4,8 @@ import { ActivatedRoute } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { AppState } from '../../../app.data.models';
 import { ApplicationDetailsKeys, GenerateKeyPayload } from '../../applications.data.models';
-import { GenerateAppKeyAction, RegenerateSecretAction, UpdateAppKeyAction } from '../../applications.actions';
-import { Actions } from '@ngrx/effects';
+import { GenerateAppKeyAction, RegenerateSecretAction, UpdateAppKeyAction, RegenerateAccessTokenAction, RegenerateAccessTokenSuccessAction } from '../../applications.actions';
+import { Actions, ofType } from '@ngrx/effects';
 import { NotificationService } from '../../../shared/services/notification.service';
 
 @Component({
@@ -21,9 +21,18 @@ export class GenerateKeyFormComponent implements OnInit, OnDestroy {
   public validity:string;
 
   private appId:string = null;
+
   public keyObject:ApplicationDetailsKeys;
   public keyPayload:GenerateKeyPayload = new GenerateKeyPayload();
-  public keySecretVisibility:boolean = false
+  public keySecretVisibility:boolean = false;
+  public clientCredEnabled = false;
+
+  public accessTokenExpanded = true; // = false;
+  public accessTokenUser;
+  public accessTokenGrant = 'password';
+  public accessTokenAuth;
+  public accessTokenValidity:number = 3600;
+  public accessTokenVisible = false;
 
   grantTypes = [
     {
@@ -89,29 +98,31 @@ export class GenerateKeyFormComponent implements OnInit, OnDestroy {
     this.storeSelect = this.store.select((s) => s.applications.selectedApplication.keys).subscribe((appDetails) => {
       this.keyObject = appDetails.find(i => i.keyType == this.keyEnv);
       if(this.keyObject){
-        console.log(this.keyObject);
         this.grantTypes.forEach((t, i) => {
           this.grantTypes[i].checked = this.keyObject.supportedGrantTypes.includes(t.value)
         })
         this.keyPayload.callbackUrl = this.keyObject.callbackUrl;
+        this.accessTokenAuth = btoa(`${this.keyObject.consumerKey}:${this.keyObject.consumerSecret}`);
       }
+      this.clientCredEnabled = this.keyObject.supportedGrantTypes.includes('client_credentials');
       this.cd.detectChanges();
     });
+
+    this.store.select((s) => s.authentication.loggedUser).subscribe((user) => {
+      this.accessTokenUser = user;
+    })
+
+    this.actions$.pipe(ofType(RegenerateAccessTokenSuccessAction)).subscribe(p => {
+      this.keyObject.token.accessToken = p.payload.access_token;
+    })
   }
 
   switchKeyVisibility(action){
     this.keySecretVisibility = action;
   }
 
-  clickToCopy(text){
-    const event = (e: ClipboardEvent) => {
-      e.clipboardData.setData('text/plain', text);
-      e.preventDefault();
-      document.removeEventListener('copy', event);
-    }
-    document.addEventListener('copy', event);
-    document.execCommand('copy');
-    this.notification.success('Copied to clipboard');
+  switchAccessTokenVisibility(action){
+    this.accessTokenVisible = action;
   }
 
   ngOnDestroy(){
@@ -136,11 +147,39 @@ export class GenerateKeyFormComponent implements OnInit, OnDestroy {
     this.store.dispatch(RegenerateSecretAction({ 'payload' : this.keyObject.consumerKey}))
   }
 
+  resetAccessToken(){
+    const payload = {"auth":this.accessTokenAuth, "validity":this.accessTokenValidity}
+    this.store.dispatch(RegenerateAccessTokenAction({ 'payload' : payload}))
+  }
+
   callbackUpdate(value){
     if(!value || value == '') {
       this.grantTypes.forEach((t, i) => {
         if(t.value == 'implicit' || t.value == 'authorization_code') this.grantTypes[i].checked = false;
       })
     }
+  }
+
+  // accessTokenExpand(){
+  //   this.accessTokenExpanded = true;
+  // }
+
+  clickToCopy(text){
+    const event = (e: ClipboardEvent) => {
+      e.clipboardData.setData('text/plain', text);
+      e.preventDefault();
+      document.removeEventListener('copy', event);
+    }
+    document.addEventListener('copy', event);
+    document.execCommand('copy');
+    this.notification.success('Copied to clipboard');
+  }
+
+  copyAccessToken(){
+    let accessToken = `curl -k -d "grant_type=${this.accessTokenGrant}`;
+    if(this.accessTokenGrant == 'password') accessToken += `&username=${this.accessTokenUser}&password=Password`;
+    accessToken += `" -H "Authorization: Basic ${this.accessTokenAuth}" https://192.168.56.1:8243/token`;
+
+    this.clickToCopy(accessToken);
   }
 }

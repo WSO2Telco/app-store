@@ -124,4 +124,20 @@ export class ApplicationsEffects {
       )
     )
   ));
+
+  accessTokenRegenerate$ = createEffect(() => this.actions$.pipe(
+    ofType(applicationsActions.RegenerateAccessTokenAction),
+    mergeMap(({payload}) => this.service.regenerateAccessToken(payload)
+      .pipe(
+        map((response) => {
+          this.notification.success("Key Regenerated Successfully !!");
+          return applicationsActions.RegenerateAccessTokenSuccessAction({"payload" : response})
+        }),
+        catchError((e: HttpErrorResponse) => {
+          this.notification.error(e.message);
+          return EMPTY
+        })
+      )
+    )
+  ));
 }
