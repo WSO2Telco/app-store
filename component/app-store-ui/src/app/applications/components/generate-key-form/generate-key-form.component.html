@@ -35,7 +35,7 @@
 
     <hr />
 
-    <div class="access-token-block" *ngIf="keyObject.token" [ngClass]="{expanded: accessTokenExpanded}">
+    <div class="access-token-block" *ngIf="keyObject" [ngClass]="{expanded: accessTokenExpanded}">
       <h3 (click)="accessTokenExpand()">Access Token</h3>
       <div class="access-token-content" *ngIf="accessTokenExpanded">
         
@@ -69,7 +69,7 @@ curl <strong>-k -d</strong> "<span class="code-blue">grant_type={{accessTokenGra
 </div>
 </div>
 
-        <div class="test-access-token">
+        <div class="test-access-token" *ngIf="keyObject.token?.accessToken">
           <div class="block-title">Test Access Token</div>
 
           <div class="caption">Token below has a validity period of <span class="soft-bold">{{keyObject.token?.validityTime}}</span> seconds. And the token has ( <span class="soft-bold" *ngFor="let scope of keyObject.token.tokenScopes">{{scope}} </span> ) scopes.</div>
