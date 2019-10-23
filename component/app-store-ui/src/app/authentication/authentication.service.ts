@@ -2,7 +2,7 @@
 import { map } from 'rxjs/operators';
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams, HttpHeaders, HttpBackend } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, EMPTY } from 'rxjs';
 
 import { ApiEndpoints } from '../config/api.endpoints';
 
@@ -11,6 +11,7 @@ import { AppState } from '../app.data.models';
 import { Store } from '@ngrx/store';
 import { SigUpUserParam, ResetPasswordParam } from './authentication.models';
 import { TokenRefreshAction } from './authentication.actions';
+import { Router } from '@angular/router';
 
 @Injectable()
 export class AuthenticationService {
@@ -22,7 +23,7 @@ export class AuthenticationService {
     private tokenTimer;
     private loggedUser:string;
 
-    constructor(private http: HttpClient, private store: Store<AppState>, handler: HttpBackend) {
+    constructor(private http: HttpClient, private store: Store<AppState>, handler: HttpBackend, private router: Router) {
         this.store.select((s) => s.authentication.loginData).subscribe((auth) => {
             this.loginData = auth;
         })
@@ -62,7 +63,7 @@ export class AuthenticationService {
                 'Content-Type': 'application/json'
             })
         };
-
+        this.router.navigate(["home"]);
         return this.http.get(ApiEndpoints.authentication.logout, httpOptions).pipe(
             map((data: any) => new LogoutResponseData(data)));
     }
@@ -130,9 +131,12 @@ export class AuthenticationService {
     }
 
     tokenRefresh() {
+        const rtkn = localStorage.getItem('rtkn');
+        if(!rtkn) return EMPTY;
+
         const body = new HttpParams()
         .set('grant_type', 'refresh_token')
-        .set('refresh_token', this.tokenData.refresh_token);
+        .set('refresh_token', rtkn);
 
         const httpOptions = {
             headers: new HttpHeaders({

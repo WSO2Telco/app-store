@@ -81,6 +81,7 @@ export class AuthenticationEffects {
         map((response: TokenData) => {
           if (!response.error) {
             this.authService.startTimer(response.expires_in);
+            localStorage.setItem('rtkn', response.refresh_token);
             return loginActions.TokenGenerationSuccessAction({ "payload": response });
 
           } else {
@@ -101,7 +102,7 @@ export class AuthenticationEffects {
       .pipe(
         map((response: TokenData) => {
           this.authService.startTimer(response.expires_in);
-          console.log("Refresh : " + response.expires_in)
+          localStorage.setItem('rtkn', response.refresh_token);
           return loginActions.TokenRefreshSuccessAction({ "payload": response });
         }),
         catchError((e: HttpErrorResponse) => {
@@ -117,7 +118,6 @@ export class AuthenticationEffects {
     mergeMap(() => this.authService.logout()
       .pipe(
         map(() => {
-          this.router.navigate(["home"]);
           return loginActions.DoLogoutSuccessAction();
         }),
         catchError((e: HttpErrorResponse) => {

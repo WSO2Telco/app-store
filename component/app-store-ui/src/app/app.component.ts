@@ -3,7 +3,7 @@ import { OnInit, ChangeDetectorRef } from '@angular/core';
 import { LoginMenuAction, LoginResponseData, LoginMenuActionTypes, LoginFormData } from './authentication/authentication.models';
 import { Store } from '@ngrx/store';
 import { AppState } from './app.data.models';
-import { DoLogoutAction, DoLoginAction, ClientRegistrationAction, ClientRegistrationSuccessAction, TokenGenerationAction, SetLoggedUserAction } from './authentication/authentication.actions';
+import { DoLogoutAction, DoLoginAction, ClientRegistrationAction, ClientRegistrationSuccessAction, TokenGenerationAction, SetLoggedUserAction, TokenRefreshAction } from './authentication/authentication.actions';
 import { Observable } from 'rxjs';
 import * as globalActions from './app.actions';
 import { ToggleLeftPanelAction} from './app.actions';
@@ -55,6 +55,8 @@ export class AppComponent implements OnInit {
       this.store.dispatch(ToggleLeftPanelAction({"payload": true}));
     }, 200);
 
+    let rtkn = localStorage.getItem('rtkn');
+    if(rtkn) this.store.dispatch(TokenRefreshAction());
   }
 
   onMenuSelect(event: LoginMenuAction) {
