@@ -19,7 +19,7 @@ export class ApplicationsEffects {
 
   getAllApps$ = createEffect(() => this.actions$.pipe(
     ofType(applicationsActions.GetAllApplicationsAction),
-    mergeMap(({payload}) => this.service.getAllApplications(payload)
+    mergeMap(({ payload }) => this.service.getAllApplications(payload)
       .pipe(
         map((response: ApplicationListResult) => applicationsActions.GetAllApplicationsSuccessAction({ "payload": response })),
         catchError((e: HttpErrorResponse) => {
@@ -60,17 +60,60 @@ export class ApplicationsEffects {
     ofType(applicationsActions.CreateApplicationsAction),
     mergeMap(({ payload }) => this.service.createApplication(payload)
       .pipe(
-       map((response: CreateAppResponseData) => {
-        if (response.message) {
-          this.notification.error(response.message);
-          throw response;
-        } else {
-          this.notification.success("Application created successfully");
-          return applicationsActions.CreateApplicationSuccessAction({ "payload": response });
-        }
-      }),
+        map((response: CreateAppResponseData) => {
+          if (response.message) {
+            this.notification.error(response.message);
+            throw response;
+          } else {
+            this.notification.success("Application created successfully");
+            return applicationsActions.CreateApplicationSuccessAction({ "payload": response });
+          }
+        }),
         catchError((e: HttpErrorResponse) => {
           this.notification.error(e.error.description);
+          return EMPTY
+        })
+      )
+    )
+  ));
+
+
+  updateApps$ = createEffect(() => this.actions$.pipe(
+    ofType(applicationsActions.UpdateApplicationsAction),
+    mergeMap(({ appId, payload }) => this.service.updateApplication(appId, payload)
+      .pipe(
+        map((response: CreateAppResponseData) => {
+          if (response.message) {
+            this.notification.error(response.message);
+            throw response;
+          } else {
+            this.notification.success("Application Updated successfully");
+            return applicationsActions.UpdateApplicationSuccessAction({ "payload": response });
+          }
+        }),
+        catchError((e: HttpErrorResponse) => {
+          this.notification.error(e.error.description);
+          return EMPTY
+        })
+      )
+    )
+  ));
+
+  deleteApps$ = createEffect(() => this.actions$.pipe(
+    ofType(applicationsActions.DeleteApplicationsAction),
+    mergeMap(({ appId }) => this.service.deleteApplication(appId)
+      .pipe(
+        map((response: any) => {
+          if (response) {
+            this.notification.error(response);
+            throw response;
+          } else {
+            this.notification.success("Application Deleted successfully");
+            return applicationsActions.DeleteApplicationSuccessAction({ "payload": response });
+          }
+        }),
+        catchError((e: HttpErrorResponse) => {
+          this.notification.error(e.error);
           return EMPTY
         })
       )
@@ -111,7 +154,7 @@ export class ApplicationsEffects {
 
   keySecretRegenerate$ = createEffect(() => this.actions$.pipe(
     ofType(applicationsActions.RegenerateSecretAction),
-    mergeMap(({payload}) => this.service.regenerateKeySecret(payload)
+    mergeMap(({ payload }) => this.service.regenerateKeySecret(payload)
       .pipe(
         map((e) => {
           this.notification.success("Key Regenerated Successfully !!");
@@ -127,11 +170,11 @@ export class ApplicationsEffects {
 
   accessTokenRegenerate$ = createEffect(() => this.actions$.pipe(
     ofType(applicationsActions.RegenerateAccessTokenAction),
-    mergeMap(({payload}) => this.service.regenerateAccessToken(payload)
+    mergeMap(({ payload }) => this.service.regenerateAccessToken(payload)
       .pipe(
         map((response) => {
           this.notification.success("Key Regenerated Successfully !!");
-          return applicationsActions.RegenerateAccessTokenSuccessAction({"payload" : response})
+          return applicationsActions.RegenerateAccessTokenSuccessAction({ "payload": response })
         }),
         catchError((e: HttpErrorResponse) => {
           this.notification.error(e.message);
