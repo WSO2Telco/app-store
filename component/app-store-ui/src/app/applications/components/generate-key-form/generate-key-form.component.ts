@@ -160,10 +160,6 @@ export class GenerateKeyFormComponent implements OnInit, OnDestroy {
     }
   }
 
-  // accessTokenExpand(){
-  //   this.accessTokenExpanded = true;
-  // }
-
   clickToCopy(text){
     const event = (e: ClipboardEvent) => {
       e.clipboardData.setData('text/plain', text);
