@@ -13,6 +13,10 @@ const routes = [
         component: CreateApplicationComponent
     },
     {
+        path: 'create/:appId',
+        component: CreateApplicationComponent
+    },
+    {
         path: ':appId',
         redirectTo: ':appId/overview',
         pathMatch: 'full'

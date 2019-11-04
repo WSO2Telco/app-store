@@ -3,27 +3,30 @@
   <div class="intro-container">
     <h1 class="animated fadeInDown">Applications</h1>
     <div class="intro-text animated fadeIn">
-      <p>Logical collection of APIs that allows you to use a single access token to invoke a collection of APIs and to subscribe to one API multiple times with different SLA levels.</p>
-      <p><strong class="notice">*</strong> The "DefaultApplication" is pre-created and allows unlimited access by default.</p>
+      <p>Logical collection of APIs that allows you to use a single access token to invoke a collection of APIs and to
+        subscribe to one API multiple times with different SLA levels.</p>
+      <p><strong class="notice">*</strong> The "DefaultApplication" is pre-created and allows unlimited access by
+        default.</p>
     </div>
   </div>
 
   <div>
-    <div class="pull-right"> 
-        <div class="search-Container animated fadeIn">
-          <form #searchForm="ngForm" novalidate (ngSubmit)="onSearchClick()" fxLayout="row" fxLayoutGap="20px">
-            <mat-form-field class="search-input" fxFlex="80%">
-              <input matInput placeholder="Filter by..." name="searchQuery" [(ngModel)]="searchQuery">
-            </mat-form-field>
-            <button class="search" mat-mini-fab color="accent"><i class="fa fa-search" aria-hidden="true"></i></button>
-          </form>
-        </div>
+    <div class="pull-right">
+      <div class="search-Container animated fadeIn">
+        <form #searchForm="ngForm" novalidate (ngSubmit)="onSearchClick()" fxLayout="row" fxLayoutGap="20px">
+          <mat-form-field class="search-input" fxFlex="80%">
+            <input matInput placeholder="Filter by..." name="searchQuery" [(ngModel)]="searchQuery">
+          </mat-form-field>
+          <button class="search" mat-mini-fab color="accent"><i class="fa fa-search" aria-hidden="true"></i></button>
+        </form>
+      </div>
       <!-- <button mat-mini-fab color="accent" matTooltip="Create new application" [routerLink]="['/applications/create']"><i class="fa fa-search" aria-hidden="true"></i></button> | 
       <button mat-mini-fab color="accent" matTooltip="Create new application" [routerLink]="['/applications/create']"><i class="fa fa-plus" aria-hidden="true"></i></button> -->
     </div>
 
     <div>
-        <button mat-raised-button matTooltip="Create new application" color="accent" [routerLink]="['/applications/create']">+ &nbsp; New</button>
+      <button mat-raised-button matTooltip="Create new application" color="accent"
+        [routerLink]="['/applications/create']">+ &nbsp; New</button>
     </div>
   </div>
 
@@ -39,12 +42,12 @@
         <mat-header-cell *matHeaderCellDef> Tier </mat-header-cell>
         <mat-cell *matCellDef="let element"> {{element.throttlingTier}} </mat-cell>
       </ng-container>
-      
+
       <ng-container matColumnDef="wfStatus">
         <mat-header-cell *matHeaderCellDef> Workflow Status </mat-header-cell>
         <mat-cell *matCellDef="let element"> {{element.status}} </mat-cell>
       </ng-container>
-      
+
       <ng-container matColumnDef="subscription">
         <mat-header-cell *matHeaderCellDef> Subscriptions </mat-header-cell>
         <mat-cell *matCellDef="let element"> {{element.apiCount}} </mat-cell>
@@ -54,45 +57,40 @@
         <mat-header-cell class="action-container" *matHeaderCellDef> Actions </mat-header-cell>
         <mat-cell class="action-container" *matCellDef="let element">
           <div class="button-row">
-          
-            <button mat-icon-button  matTooltip="View" (click)="onAppAction(element,'view')" >
+            <button mat-icon-button matTooltip="View" (click)="onAppAction(element,'view')">
               <mat-icon>visibility</mat-icon>
             </button>
-            <button mat-icon-button  matTooltip="Edit" (click)="onAppAction(element,'edit')" >
-              <mat-icon>create</mat-icon>
+            <button mat-icon-button matTooltip="Edit" (click)="onAppAction(element,'edit')">
+              <mat-icon>edit</mat-icon>
             </button>
-            <button mat-icon-button  matTooltip="Delete" (click)="onAppAction(element,'delete')" >
-              <mat-icon>delete</mat-icon>
+            <button mat-icon-button matTooltip="Delete" (click)="openDialog(element,$event)">
+              <mat-icon class="danger">delete</mat-icon>
             </button>
-
           </div>
         </mat-cell>
       </ng-container>
 
 
       <mat-header-row *matHeaderRowDef="[ 'name','tier','wfStatus','subscription','action']"></mat-header-row>
-      <mat-row *matRowDef="let row; columns: [ 'name','tier','wfStatus','subscription','action'];" (click)="onAppAction(row,'view')"></mat-row>
+      <mat-row *matRowDef="let row; columns: [ 'name','tier','wfStatus','subscription','action'];"
+        (click)="onAppAction(row,'view')"></mat-row>
     </mat-table>
     <!-- <mat-paginator length="false" [pageSize]="pageSize" [pageSizeOptions]="[5, 10, 25, 100]" (page)="onPageChanged($event)"></mat-paginator> -->
 
     <div align="right">
-      <button mat-icon-button type="button"
-              class="mat-paginator-navigation-previous"
-              (click)="paginate('prev')"
-              [disabled]="!appResult?.previous">
+      <button mat-icon-button type="button" class="mat-paginator-navigation-previous" (click)="paginate('prev')"
+        [disabled]="!appResult?.previous">
         <svg class="mat-paginator-icon" viewBox="0 0 24 24" focusable="false">
-          <path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/>
+          <path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z" />
         </svg>
       </button>
-      <button mat-icon-button type="button"
-              class="mat-paginator-navigation-next"
-              (click)="paginate('next')"
-              [disabled]="!appResult?.next">
+      <button mat-icon-button type="button" class="mat-paginator-navigation-next" (click)="paginate('next')"
+        [disabled]="!appResult?.next">
         <svg class="mat-paginator-icon" viewBox="0 0 24 24" focusable="false">
-          <path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/>
+          <path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z" />
         </svg>
       </button>
     </div>
   </div>
-    
+
 </div>

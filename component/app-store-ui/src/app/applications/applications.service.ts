@@ -52,6 +52,16 @@ export class ApplicationsService {
     );
   }
 
+  updateApplication(appId,param: CreateApplicationParam): Observable<CreateAppResponseData> {
+    return this.http.put(`${ApiEndpoints.applications.applications}/${appId}`, param).pipe(
+      map((data: any) => new CreateAppResponseData())
+    );
+  }
+
+  deleteApplication(appId): Observable<any> {
+    return this.http.delete(`${ApiEndpoints.applications.applications}/${appId}`);
+  }
+
   generateAppKey(appId, payload): Observable<any> {
     return this.http.post<any>(`${ApiEndpoints.applications.generateKeys}?applicationId=${appId}`, payload);
   }
