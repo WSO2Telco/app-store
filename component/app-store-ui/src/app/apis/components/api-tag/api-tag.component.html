@@ -1,0 +1,10 @@
+<div fxLayout="column" fxLayoutGap="20px">
+
+  <div class="intro-container animated fadeInDown">
+    <h1>APIs Cloud</h1>
+  </div>
+  <angular-tag-cloud [data]="data" [width]="options.width" [height]="options.height" [overflow]="options.overflow"
+    [zoomOnHover]="zoomOnHoverOptions" (clicked)="logClicked($event)">
+  </angular-tag-cloud>
+  
+</div>

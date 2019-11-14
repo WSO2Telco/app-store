@@ -1,0 +1,59 @@
+.overview-full-width{
+  width: 100%;
+}
+
+.field{
+  strong {
+    text-transform: uppercase;
+  }
+}
+
+.description-box{
+  overflow: hidden;
+  overflow-wrap: break-word;
+}
+
+/* General Layout */
+angular-tag-cloud {
+  border: 1px solid #dfdfdf;
+/* Permalink - use to edit and share this gradient: https://colorzilla.com/gradient-editor/#feffff+0,ddf1f9+35,a0d8ef+100;Blue+3D+%2318 */
+background: #feffff; /* Old browsers */
+background: -moz-radial-gradient(center, ellipse cover,  #feffff 0%, #ddf1f9 35%, #a0d8ef 100%); /* FF3.6-15 */
+background: -webkit-radial-gradient(center, ellipse cover,  #feffff 0%,#ddf1f9 35%,#a0d8ef 100%); /* Chrome10-25,Safari5.1-6 */
+background: radial-gradient(ellipse at center,  #feffff 0%,#ddf1f9 35%,#a0d8ef 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#feffff', endColorstr='#a0d8ef',GradientType=1 ); /* IE6-9 fallback on horizontal gradient */
+
+}
+
+/* no decoration for links */
+::ng-deep angular-tag-cloud a {
+  text-decoration: none;
+  color: inherit;
+}
+::ng-deep angular-tag-cloud a:hover {
+  color: rgb(255, 255, 255);
+}
+
+/* font sizes */
+::ng-deep angular-tag-cloud span.w10 { font-size: 480% !important; }
+::ng-deep angular-tag-cloud span.w9 { font-size: 430% !important; }
+::ng-deep angular-tag-cloud span.w8 { font-size: 380% !important; }
+::ng-deep angular-tag-cloud span.w7 { font-size: 340% !important; }
+::ng-deep angular-tag-cloud span.w6 { font-size: 310% !important; }
+::ng-deep angular-tag-cloud span.w5 { font-size: 280% !important; }
+::ng-deep angular-tag-cloud span.w4 { font-size: 260% !important; }
+::ng-deep angular-tag-cloud span.w3 { font-size: 240% !important; }
+::ng-deep angular-tag-cloud span.w2 { font-size: 220% !important; }
+::ng-deep angular-tag-cloud span.w1 { font-size: 200% !important; }
+
+/* colors */
+::ng-deep angular-tag-cloud span.w10 { color: #0cf !important; }
+::ng-deep angular-tag-cloud span.w9 { color: #fff !important; }
+::ng-deep angular-tag-cloud span.w8 { color: rgb(255, 0, 195) !important; }
+::ng-deep angular-tag-cloud span.w7 { color: rgb(36, 154, 116) !important; }
+::ng-deep angular-tag-cloud span.w6 { color: #e8f090 !important; }
+::ng-deep angular-tag-cloud span.w5 { color: #c3dd90 !important; }
+::ng-deep angular-tag-cloud span.w4 { color: #ee99e7 !important; }
+::ng-deep angular-tag-cloud span.w3 { color: #f2ea10 !important; }
+::ng-deep angular-tag-cloud span.w2 { color: #f09090 !important; }
+::ng-deep angular-tag-cloud span.w1 { color: #555555 !important; }
