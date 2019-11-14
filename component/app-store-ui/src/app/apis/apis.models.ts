@@ -13,8 +13,8 @@ export class ApiSearchParam {
         public limit: number,
         public offset: number
     ) {
-        if(this.apiStatus != ApiStatus.all) 
-        this.query = `status:${this.apiStatus} ${this.query}`;
+        if (this.apiStatus != ApiStatus.all)
+            this.query = `status:${this.apiStatus} ${this.query}`;
     }
 }
 
@@ -57,6 +57,18 @@ export class paginationData {
     limit: number;
 }
 
+export class TagListResult {
+    count: number;
+    next: string;
+    previous: string;
+    list: tagData[];
+}
+
+export class tagData {
+    name: string;
+    weight: number;
+}
+
 export class ApiOverview {
     name: string;
     provider: string;
@@ -92,15 +104,15 @@ export class ApiOverview {
     apiBusinessOwner: any;
     scopes: any;
     monetizationCategory: any;
-    endpointURLs:any [];
+    endpointURLs: any[];
     businessInformation: BusinessInfo;
 }
 
 export class BusinessInfo {
-    technicalOwner:string = null;
-    technicalOwnerEmail:string = null;
-    businessOwner:string = null;
-    businessOwnerEmail:string = null;
+    technicalOwner: string = null;
+    technicalOwnerEmail: string = null;
+    businessOwner: string = null;
+    businessOwnerEmail: string = null;
 }
 
 export interface ApisState {

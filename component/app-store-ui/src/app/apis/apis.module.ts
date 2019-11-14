@@ -17,6 +17,9 @@ import { ApiDocumentationComponent } from './components/api-documentation/api-do
 import { ApiForumComponent } from './components/api-forum/api-forum.component';
 import { StarRatingModule } from 'angular-star-rating';
 import { ApiAppSubscriptionsComponent } from './components/api-app-subscriptions/api-app-subscriptions.component';
+import { ApiTagComponent } from './components/api-tag/api-tag.component';
+import { TagCloudModule } from 'angular-tag-cloud-module';
+import { ApiSdkComponent } from './components/api-sdk/api-sdk.component';
 
 @NgModule({
   imports: [
@@ -24,6 +27,7 @@ import { ApiAppSubscriptionsComponent } from './components/api-app-subscriptions
     SharedModule,
     ApisRoutes,
     StarRatingModule.forRoot(),
+    TagCloudModule,
     StoreModule.forFeature('apis', apisReducer),
     EffectsModule.forFeature([ApisEffects])
   ],
@@ -36,6 +40,8 @@ import { ApiAppSubscriptionsComponent } from './components/api-app-subscriptions
     ApiConsoleComponent,
     ApiDocumentationComponent,
     ApiForumComponent,
+    ApiTagComponent,
+    ApiSdkComponent,
     ApiAppSubscriptionsComponent],
   providers: [ApisService],
   entryComponents: [ApiSubscriptionComponent]
