@@ -9,7 +9,7 @@ import * as apiActions from './apis.actions';
 import { DoApiSearchAction}  from './apis.actions';
 import {
     ApiSearchParam, ApiSearchResult, ApplicationSearchParam, Application,
-    ApplicationsResult, SubscribeParam, SubscribeResult, ApiOverview
+    ApplicationsResult, SubscribeParam, SubscribeResult, ApiOverview, tagData, TagListResult
 } from './apis.models';
 import { Actions, ofType, createEffect } from '@ngrx/effects';
 
@@ -47,6 +47,20 @@ export class ApisEffects {
       )
     )
   ));
+
+  apiTag$ = createEffect(() => this.actions$.pipe(
+    ofType(apiActions.GetApiTagAction),
+    mergeMap(({}) => this.apiService.getApiTag()
+      .pipe(
+        map((result: TagListResult) => (apiActions.GetApiTagSuccessAction({"payload" : result}))),
+        catchError((e: HttpErrorResponse) => {
+            this.notification.error(e.message);
+            return EMPTY
+        })
+      )
+    )
+  ));
+
 
   userApplications$ = createEffect(() => this.actions$.pipe(
     ofType(apiActions.GetUserApplicationsAction),

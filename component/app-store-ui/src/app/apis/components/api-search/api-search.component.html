@@ -5,18 +5,22 @@
   </div>
 
   <div>
-    <div class="pull-right"> 
+    <div class="pull-left">  <button class="search" (click)="openDialog()" mat-flat-button color="accent"><i class="fa fa-tags" aria-hidden="true"></i> Filter By Tags </button></div>
+    <div class="pull-right">
       <div class="search-Container animated fadeIn">
         <form #searchForm="ngForm" novalidate (ngSubmit)="onSearchClick()" fxLayout="row" fxLayoutGap="20px">
           <mat-form-field>
-            <mat-select placeholder="Category" name="apiCategory" (selectionChange)="onCategoryChange()" [(ngModel)]="apiCategory">
+            <mat-select placeholder="Category" name="apiCategory" (selectionChange)="onCategoryChange()"
+              [(ngModel)]="apiCategory">
               <mat-option *ngFor="let cat of apiStatus" [value]="cat">
                 {{ cat }}
               </mat-option>
             </mat-select>
           </mat-form-field>
           <mat-form-field class="search-input" fxFlex="80%">
-            <input matInput placeholder="Filter by..." name="searchQuery" matTooltip="You can search in attributes by using an ':' modifier.Eg. 'provider:apigate' will match an API if the provider of the API is exactly 'apigate'. Supported attribute modifiers are [version, context, description, subcontext, doc, provider, tag]" [(ngModel)]="searchQuery">
+            <input matInput placeholder="Filter by..." name="searchQuery"
+              matTooltip="You can search in attributes by using an ':' modifier.Eg. 'provider:apigate' will match an API if the provider of the API is exactly 'apigate'. Supported attribute modifiers are [version, context, description, subcontext, doc, provider, tag]"
+              [(ngModel)]="searchQuery">
           </mat-form-field>
           <button class="search" mat-mini-fab color="accent"><i class="fa fa-search" aria-hidden="true"></i></button>
         </form>
@@ -27,14 +31,16 @@
 </div>
 
 <mat-card class="animated fadeIn delay_6" style="margin-bottom:100px;">
-  <mat-card-content> 
+  <mat-card-content>
     <div>
-        <div class="pull-right switch-view-icons">
-          <mat-icon [ngClass]="{'active' : view == 'list'}" title="Switch to list view" (click)="switchView('list')">view_list</mat-icon>
-          <mat-icon [ngClass]="{'active' : view == 'grid'}" title="Switch to grid view" (click)="switchView('grid')">view_module</mat-icon>
-        </div>
-        <div *ngIf="apiCategory!='all'" class="api-filter-message">Filtered to <span>{{apiCategory}}</span> APIs</div>
-        <div class="clearfix"></div>
+      <div class="pull-right switch-view-icons">
+        <mat-icon [ngClass]="{'active' : view == 'list'}" title="Switch to list view" (click)="switchView('list')">
+          view_list</mat-icon>
+        <mat-icon [ngClass]="{'active' : view == 'grid'}" title="Switch to grid view" (click)="switchView('grid')">
+          view_module</mat-icon>
+      </div>
+      <div *ngIf="apiCategory!='all'" class="api-filter-message">Filtered to <span>{{apiCategory}}</span> APIs</div>
+      <div class="clearfix"></div>
     </div>
     <div class="result-wrapper" [ngClass]="{ 'table-view' : view == 'list', 'grid-view' : view == 'grid'}">
 
@@ -43,13 +49,13 @@
         <div class="api-detail-wrap">
           <div class="name-container">API Name</div>
           <div class="info-container">
-            <span >Version</span>
-            <span >Provider</span>
-            <span >Rating</span>
+            <span>Version</span>
+            <span>Provider</span>
+            <span>Rating</span>
           </div>
         </div>
       </div>
-        
+
       <div class="api-info" *ngFor="let api of apiSearchResult" [routerLink]="'/apis/detail/' + api.id">
         <div class="icon-wrap">
           <div class="api-icon">
@@ -60,15 +66,18 @@
         <div class="api-detail-wrap">
           <div class="name-container">{{api.name}}</div>
           <div class="info-container">
-            <span >{{api.version}}</span>
-            <span >{{api.provider}}</span>
-            <span ><star-rating [starType]="'svg'" [rating]="3" [hoverEnabled]="true"></star-rating></span>
+            <span>{{api.version}}</span>
+            <span>{{api.provider}}</span>
+            <span>
+              <star-rating [starType]="'svg'" [rating]="3" [hoverEnabled]="true"></star-rating>
+            </span>
           </div>
         </div>
       </div>
 
     </div>
 
-    <mat-paginator [length]="length" [pageSize]="pageSize" [pageSizeOptions]="[5, 10, 25, 100]" (page)="onPageChanged($event)"></mat-paginator>
+    <mat-paginator [length]="length" [pageSize]="pageSize" [pageSizeOptions]="[5, 10, 25, 100]"
+      (page)="onPageChanged($event)"></mat-paginator>
   </mat-card-content>
 </mat-card>

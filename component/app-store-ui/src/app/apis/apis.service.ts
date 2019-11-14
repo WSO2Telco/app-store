@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 import { HttpClient, HttpParams, HttpHeaders } from '@angular/common/http';
 import {
     ApiSearchParam, ApiSearchResult, Application, ApplicationSearchParam, ApplicationsResult,
-    SubscribeParam, SubscribeResult, ApiOverview
+    SubscribeParam, SubscribeResult, ApiOverview, TagListResult
 } from './apis.models';
 
 
@@ -43,6 +43,10 @@ export class ApisService {
 
     getApiOverview(param): Observable<ApiOverview> {
         return this.http.get<ApiOverview>(ApiEndpoints.apis.apiOverview+param);
+    }
+    
+    getApiTag(): Observable<any> {
+        return this.http.get<TagListResult>(ApiEndpoints.apis.tag);
     }
 
 }

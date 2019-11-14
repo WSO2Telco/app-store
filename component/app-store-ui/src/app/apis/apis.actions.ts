@@ -1,5 +1,5 @@
 import { createAction, props } from '@ngrx/store';
-import { ApiSearchParam, ApiSearchResult, Application, SubscribeParam, ApiOverview, ApplicationSearchParam } from './apis.models';
+import { ApiSearchParam, ApiSearchResult, Application, SubscribeParam, ApiOverview, ApplicationSearchParam, tagData, TagListResult } from './apis.models';
 import { Operator } from '../app.data.models';
 
 export const DoApiSearchAction = createAction('[API] Search', props<{payload: ApiSearchParam}>());
@@ -7,6 +7,9 @@ export const ApiSearchSuccessAction = createAction('[API] Search Success ✓', p
 
 export const GetApiOverviewAction = createAction('[API] Get API Overview', props<{payload: string}>());
 export const GetApiOverviewSuccessAction = createAction('[API] Get API Overview Success ✓', props<{payload: ApiOverview}>());
+
+export const GetApiTagAction = createAction('[API] Get API Tag', props());
+export const GetApiTagSuccessAction = createAction('[API] Get API Tag Success ✓', props<{payload: TagListResult}>());
 
 export const GetUserApplicationsAction = createAction('[API] Get User Apps', props<{payload: any}>());
 export const GetUserApplicationsSuccessAction = createAction('[API] Get User Apps Success ✓', props<{payload: Application[]}>());

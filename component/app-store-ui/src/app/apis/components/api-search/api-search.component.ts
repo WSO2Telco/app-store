@@ -3,7 +3,7 @@ import { AppState } from "../../../app.data.models";
 import { Store } from "@ngrx/store";
 import { DoApiSearchAction } from "../../apis.actions";
 import { ApiSearchParam, ApiSearchResult, ApiSummary, ApiStatus, paginationData } from "../../apis.models";
-import { PageEvent } from "@angular/material";
+import { PageEvent, MatDialog } from "@angular/material";
 import { Router, ActivatedRoute } from "@angular/router";
 
 //Breadcrumbs
@@ -11,6 +11,7 @@ import * as globalActions from "../../../app.actions";
 import { BreadcrumbItem } from "../../../app.data.models";
 import { Title } from '@angular/platform-browser';
 import { ApiEndpoints } from '../../../config/api.endpoints';
+import { ApiTagComponent } from '../api-tag/api-tag.component';
 
 @Component({
   selector: "store-api-search",
@@ -30,14 +31,16 @@ export class ApiSearchComponent implements OnInit {
   // MatPaginator Output
   pageEvent: PageEvent;
   apiPrefix = ApiEndpoints.apiContext;
-  public view:string = "grid";
+  public view: string = "grid";
+  tagName: string;
 
   constructor(
     private store: Store<AppState>,
     private router: Router,
     private ref: ChangeDetectorRef,
     private titleService: Title,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    public dialog: MatDialog
   ) {
     this.store
       .select(s => s.apis.apiSearchResult)
@@ -59,10 +62,22 @@ export class ApiSearchComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.store.dispatch(DoApiSearchAction({ "payload" : new ApiSearchParam(this.apiCategory, '', 5, 0)}));
-    this.store.dispatch(globalActions.SetBreadcrumbAction({payload:[new BreadcrumbItem("APIs")]}));
+    this.store.dispatch(DoApiSearchAction({ "payload": new ApiSearchParam(this.apiCategory, '', 5, 0) }));
+    this.store.dispatch(globalActions.SetBreadcrumbAction({ payload: [new BreadcrumbItem("APIs")] }));
     this.titleService.setTitle("APIs | Apigate API Store");
     this.view = (localStorage.getItem('resultview')) ? localStorage.getItem('resultview') : 'grid';
+
+    this.route.params.subscribe(p => {
+      this.tagName = p['tag'];
+      console.log(this.tagName)
+      if (this.tagName != undefined) this.store.dispatch(DoApiSearchAction({ "payload": new ApiSearchParam(this.apiCategory, 'tag:' + this.tagName, this.pageSize, 0) }));
+    })
+  }
+
+  openDialog(): void {
+    const dialogRef = this.dialog.open(ApiTagComponent, {
+      width: '500px',
+    });
   }
 
   applyFilter(value: string) {
@@ -70,7 +85,7 @@ export class ApiSearchComponent implements OnInit {
   }
 
   onSearchClick() {
-    this.store.dispatch(DoApiSearchAction({ "payload" : new ApiSearchParam(this.apiCategory, this.searchQuery, this.pageSize, 0)}));
+    this.store.dispatch(DoApiSearchAction({ "payload": new ApiSearchParam(this.apiCategory, this.searchQuery, this.pageSize, 0) }));
   }
 
   onApiSelected($event) {
@@ -78,16 +93,16 @@ export class ApiSearchComponent implements OnInit {
   }
 
   onCategoryChange() {
-    this.store.dispatch(DoApiSearchAction({ "payload" : new ApiSearchParam(this.apiCategory, this.searchQuery, this.pageSize, 0)}));
+    this.store.dispatch(DoApiSearchAction({ "payload": new ApiSearchParam(this.apiCategory, this.searchQuery, this.pageSize, 0) }));
   }
 
   onPageChanged(e) {
     let offset = e.pageSize * e.pageIndex;
     this.pageSize = e.pageSize;
-    this.store.dispatch(DoApiSearchAction({ "payload" : new ApiSearchParam(this.apiCategory, this.searchQuery, e.pageSize, offset)}));
+    this.store.dispatch(DoApiSearchAction({ "payload": new ApiSearchParam(this.apiCategory, this.searchQuery, e.pageSize, offset) }));
   }
 
-  switchView(view){
+  switchView(view) {
     this.view = view;
     localStorage.setItem('resultview', view);
   }

@@ -1,24 +1,23 @@
 <mat-sidenav-container fullscreen id="main-container" [ngClass]="selectedTheme">
 
-  <mat-sidenav #sidenav mode="side" [(opened)]="leftNavOpened" 
-  [ngClass]="{'backImg':menuBackImage}"
-  color="primary" fixedTopGap="50">
+  <mat-sidenav #sidenav mode="side" [(opened)]="leftNavOpened" [ngClass]="{'backImg':menuBackImage}" color="primary"
+    fixedTopGap="50">
 
     <div class="menu-wrapper">
       <store-main-menu></store-main-menu>
     </div>
   </mat-sidenav>
 
-  <mat-sidenav #right position="end" [(opened)]="rightNavOpened" (closedStart)="onRightNavClose()" class="right-nav mat-elevation-z5"
-    color="primary" fixedTopGap="50">
+  <mat-sidenav #right position="end" [(opened)]="rightNavOpened" (closedStart)="onRightNavClose()"
+    class="right-nav mat-elevation-z5" color="primary" fixedTopGap="50">
     <store-login-form (loginClick)="onLoginClick($event)"></store-login-form>
   </mat-sidenav>
-
 
   <mat-sidenav-content id="ss">
     <mat-toolbar class="mat-elevation-z5 toolbar-main" [class.isOpen]="leftNavOpened">
       <span class="logo-container">
-        <img class="tb-logo" routerLink="/home" src="assets/images/logo_white.svg" /> <span class="app-name" routerLink="/home"> API Store</span>
+        <img class="tb-logo" routerLink="/home" src="assets/images/logo_white.svg" /> <span class="app-name"
+          routerLink="/home"> API Store</span>
       </span>
 
       <span class="fill-remaining-space"></span>
@@ -40,6 +39,6 @@
       <footer>Copyright &copy; 2019 Apigate Sdn Bhd. All rights reserved.</footer>
     </div>
 
-    </mat-sidenav-content>
+  </mat-sidenav-content>
 
 </mat-sidenav-container>
