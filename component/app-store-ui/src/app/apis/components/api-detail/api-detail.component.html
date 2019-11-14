@@ -50,6 +50,15 @@
         <store-api-documentation></store-api-documentation>
       </mat-expansion-panel>
 
+      <mat-expansion-panel (opened)="switchTab('sdk')">
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              SDKs
+            </mat-panel-title>
+          </mat-expansion-panel-header>
+          <store-api-sdk></store-api-sdk>
+        </mat-expansion-panel>
+
       <mat-expansion-panel (opened)="switchTab('forum')">
         <mat-expansion-panel-header>
           <mat-panel-title>

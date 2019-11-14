@@ -38,7 +38,7 @@ export class MainMenuComponent implements OnInit {
       name: "FORUM",
       icon: "forum",
       route: ["forum"]
-    },
+    }
     // {
     //   id: 5,
     //   name: "STATISTICS",

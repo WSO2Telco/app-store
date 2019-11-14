@@ -6,8 +6,8 @@ export const ApiEndpoints = {
   authentication: {
     login: baseUrl.protocol + '//' + baseUrl.host + "/app-store/public/api/auth/login",
     logout: baseUrl.protocol + '//' + baseUrl.host + "/app-store/public/api/auth/logout",
-    signup:  baseUrl.protocol + '//' + baseUrl.host + "/app-store/public/api/user/add",
-    changePassword:  baseUrl.protocol + '//' + baseUrl.host + "/app-store/public/api/user/change-password-by-user",
+    signup: baseUrl.protocol + '//' + baseUrl.host + "/app-store/public/api/user/add",
+    changePassword: baseUrl.protocol + '//' + baseUrl.host + "/app-store/public/api/user/change-password-by-user",
     clientRegistration: baseUrl.protocol + '//' + baseUrl.host + '/client-registration/v0.13/register',
     tokenGeneration: baseUrl.protocol + '//' + baseUrl.host + '/oauth2/token',
   },
@@ -15,7 +15,8 @@ export const ApiEndpoints = {
     search: apiContext + '/apis',
     apiOverview: apiContext + '/apis/',
     applications: apiContext + '/subscriptions',
-    subscribe: "./assets/files/subscribe.json"
+    subscribe: "./assets/files/subscribe.json",
+    tag: apiContext + '/tags',
   },
   global: {
     countries:
@@ -23,9 +24,9 @@ export const ApiEndpoints = {
     tiers: "./assets/files/tiers.json"
   },
   applications: {
-    applications : apiContext + '/applications',
-    generateKeys : apiContext + '/applications/generate-keys',
-    regenerateSecret : apiContext + '/applications/regenerate-consumersecret'
+    applications: apiContext + '/applications',
+    generateKeys: apiContext + '/applications/generate-keys',
+    regenerateSecret: apiContext + '/applications/regenerate-consumersecret'
   },
   subscriptions: apiContext + '/subscriptions',
   forum: {
