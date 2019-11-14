@@ -11,7 +11,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "/home/telco/Documents/Projects/dialog-igw/wso2telcohub-4.0.1-SNAPSHOT/repository/deployment/server/webapps/app-store/public",
+            "outputPath": "../app-store-service/src/main/webapp/public",
             "index": "src/index.html",
             "main": "src/main.ts",
             "tsConfig": "src/tsconfig.app.json",
