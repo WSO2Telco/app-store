@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
 import { ApiEndpoints } from '../config/api.endpoints';
 import { Observable } from 'rxjs';
-import { HttpClient, HttpParams, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpParams, HttpHeaders, HttpBackend } from '@angular/common/http';
 import {
     ApiSearchParam, ApiSearchResult, Application, ApplicationSearchParam, ApplicationsResult,
-    SubscribeParam, SubscribeResult, ApiOverview, TagListResult
+    SubscribeParam, SubscribeResult, ApiOverview, TagListResult, sdkParam
 } from './apis.models';
 
 
@@ -12,7 +12,7 @@ import {
 @Injectable()
 export class ApisService {
 
-    constructor(private http: HttpClient) { }
+    constructor(private http: HttpClient, private handler: HttpBackend) { }
 
     search(param: ApiSearchParam): Observable<any> {
         const searchParams = new HttpParams()
@@ -42,11 +42,31 @@ export class ApisService {
     }
 
     getApiOverview(param): Observable<ApiOverview> {
-        return this.http.get<ApiOverview>(ApiEndpoints.apis.apiOverview+param);
+        return this.http.get<ApiOverview>(ApiEndpoints.apis.apiOverview + param);
     }
-    
+
     getApiTag(): Observable<any> {
         return this.http.get<TagListResult>(ApiEndpoints.apis.tag);
+    }
+
+    getApiSdk(param: sdkParam): Observable<any> {
+        /*  const sdkp = new HttpParams()
+             .append('apiId', param.apiId)
+             .append('lang', param.lang)
+  */
+        let data = '?apiId=' + param.apiId + '&language=' + param.lang;
+
+        const headerParams = new HttpHeaders()
+            .append('Content-Type', 'application/json')
+        return this.http.post<any>(ApiEndpoints.apis.sdk + data, headerParams);
+    }
+
+
+    updateAppKey(appId, keyObject): Observable<any> {
+        var payload = (({ supportedGrantTypes, callbackUrl }) => ({ supportedGrantTypes, callbackUrl }))(keyObject);
+        var endpoint = `${ApiEndpoints.applications.applications}/${appId}/keys/${keyObject.keyType}`;
+
+        return this.http.put<any>(endpoint, payload);
     }
 
 }
