@@ -69,6 +69,12 @@ export class tagData {
     weight: number;
 }
 
+export class sdkParam {
+    constructor(
+        public lang: string = '',
+        public apiId: string = '') { }
+}
+
 export class ApiOverview {
     name: string;
     provider: string;

@@ -1,35 +1,36 @@
 
 import { EMPTY } from 'rxjs';
-import {catchError, switchMap, map, mergeMap} from 'rxjs/operators';
+import { catchError, switchMap, map, mergeMap } from 'rxjs/operators';
 import { Injectable } from '@angular/core';
 import { HttpErrorResponse } from '@angular/common/http';
 import { ApisService } from './apis.service';
 import { NotificationService } from '../shared/services/notification.service';
 import * as apiActions from './apis.actions';
-import { DoApiSearchAction}  from './apis.actions';
+import { DoApiSearchAction } from './apis.actions';
 import {
-    ApiSearchParam, ApiSearchResult, ApplicationSearchParam, Application,
-    ApplicationsResult, SubscribeParam, SubscribeResult, ApiOverview, tagData, TagListResult
+  ApiSearchParam, ApiSearchResult, ApplicationSearchParam, Application,
+  ApplicationsResult, SubscribeParam, SubscribeResult, ApiOverview, tagData, TagListResult
 } from './apis.models';
 import { Actions, ofType, createEffect } from '@ngrx/effects';
+import { DebugHelper } from 'protractor/built/debugger';
 
 @Injectable()
 export class ApisEffects {
 
   constructor(
-      private actions$: Actions,
-      private apiService: ApisService,
-      private notification: NotificationService
+    private actions$: Actions,
+    private apiService: ApisService,
+    private notification: NotificationService
   ) { }
 
   apiSearch$ = createEffect(() => this.actions$.pipe(
     ofType(apiActions.DoApiSearchAction),
-    mergeMap(({payload}) => this.apiService.search(payload)
+    mergeMap(({ payload }) => this.apiService.search(payload)
       .pipe(
-        map((result: ApiSearchResult) => (apiActions.ApiSearchSuccessAction({ "payload" : result}))),
+        map((result: ApiSearchResult) => (apiActions.ApiSearchSuccessAction({ "payload": result }))),
         catchError((e: HttpErrorResponse) => {
-            this.notification.error(e.message);
-            return EMPTY
+          this.notification.error(e.message);
+          return EMPTY
         })
       )
     )
@@ -37,12 +38,12 @@ export class ApisEffects {
 
   apiOverview$ = createEffect(() => this.actions$.pipe(
     ofType(apiActions.GetApiOverviewAction),
-    mergeMap(({payload}) => this.apiService.getApiOverview(payload)
+    mergeMap(({ payload }) => this.apiService.getApiOverview(payload)
       .pipe(
-        map((result: ApiOverview) => (apiActions.GetApiOverviewSuccessAction({"payload" : result}))),
+        map((result: ApiOverview) => (apiActions.GetApiOverviewSuccessAction({ "payload": result }))),
         catchError((e: HttpErrorResponse) => {
-            this.notification.error(e.message);
-            return EMPTY
+          this.notification.error(e.message);
+          return EMPTY
         })
       )
     )
@@ -50,34 +51,78 @@ export class ApisEffects {
 
   apiTag$ = createEffect(() => this.actions$.pipe(
     ofType(apiActions.GetApiTagAction),
-    mergeMap(({}) => this.apiService.getApiTag()
+    mergeMap(({ }) => this.apiService.getApiTag()
       .pipe(
-        map((result: TagListResult) => (apiActions.GetApiTagSuccessAction({"payload" : result}))),
+        map((result: TagListResult) => (apiActions.GetApiTagSuccessAction({ "payload": result }))),
         catchError((e: HttpErrorResponse) => {
-            this.notification.error(e.message);
-            return EMPTY
+          this.notification.error(e.message);
+          return EMPTY
         })
       )
     )
   ));
 
+  apiSdk$ = createEffect(() => this.actions$.pipe(
+    ofType(apiActions.GetApiSdkAction),
+    mergeMap(({ payload }) => this.apiService.getApiSdk(payload)
+      .pipe(
+        map((result: any) => (apiActions.GetApiSdkSuccessAction({ "payload": result }))),
+        catchError((e: HttpErrorResponse) => {
+          this.notification.error(e.message);
+          return EMPTY
+        })
+      )
+    )
+  ));
+
+  /*   apiSdk$ = createEffect(() => this.actions$.pipe(
+      ofType(apiActions.GetApiSdkAction),
+      mergeMap(({ payload }) => this.apiService.getApiSdk(payload)
+        .pipe(
+          map((result: any) => {
+            debugger;
+            if (result.error) {
+              result.message = 'Load application error';
+              throw result;
+            } else {
+              debugger;
+              this.downloadFile(result)
+              console.log('hit');
+              return (apiActions.GetApiSdkSuccessAction({ "payload": result }))
+            }
+          }),
+          catchError((e: HttpErrorResponse) => {
+            this.notification.error(e.message);
+            return EMPTY
+          })
+        )
+      )
+    ));
+  
+    downloadFile(data: any) {
+      console.log('dsds');
+      const blob = new Blob([data], { type: 'text/csv' });
+      const url = window.URL.createObjectURL(blob);
+      window.open(url);
+    }
+   */
 
   userApplications$ = createEffect(() => this.actions$.pipe(
     ofType(apiActions.GetUserApplicationsAction),
-    mergeMap(({payload}) => this.apiService.getUserApplicationsActions(payload)
+    mergeMap(({ payload }) => this.apiService.getUserApplicationsActions(payload)
       .pipe(
         map((result: ApplicationsResult) => {
           if (result.error) {
-              result.message = 'Load application error';
-              throw result;
+            result.message = 'Load application error';
+            throw result;
           } else {
-              const approvedApps = result.applications.filter((app) => app.status === 'APPROVED');
-              return (apiActions.GetUserApplicationsSuccessAction({"payload": approvedApps || []}))
+            const approvedApps = result.applications.filter((app) => app.status === 'APPROVED');
+            return (apiActions.GetUserApplicationsSuccessAction({ "payload": approvedApps || [] }))
           }
         }),
         catchError((e: HttpErrorResponse) => {
-            this.notification.error(e.message);
-            return EMPTY
+          this.notification.error(e.message);
+          return EMPTY
         })
       )
     )
@@ -85,19 +130,19 @@ export class ApisEffects {
 
   userSubscriptions$ = createEffect(() => this.actions$.pipe(
     ofType(apiActions.GetUserSubscriptionsAction),
-    mergeMap(({payload}) => this.apiService.getUserSubscriptions(payload)
+    mergeMap(({ payload }) => this.apiService.getUserSubscriptions(payload)
       .pipe(
         map((result: ApplicationsResult) => {
           if (result.error) {
-              result.message = 'Load subscriptions error';
-              throw result;
+            result.message = 'Load subscriptions error';
+            throw result;
           } else {
-              return (apiActions.GetUserSubscriptionsSuccessAction({"payload": result}))
+            return (apiActions.GetUserSubscriptionsSuccessAction({ "payload": result }))
           }
         }),
         catchError((e: HttpErrorResponse) => {
-            this.notification.error(e.message);
-            return EMPTY
+          this.notification.error(e.message);
+          return EMPTY
         })
       )
     )
@@ -105,12 +150,12 @@ export class ApisEffects {
 
   subscribe$ = createEffect(() => this.actions$.pipe(
     ofType(apiActions.DoSubscribeAction),
-    mergeMap(({payload}) => this.apiService.subscribe(payload)
+    mergeMap(({ payload }) => this.apiService.subscribe(payload)
       .pipe(
-        map((result: SubscribeResult) => (apiActions.DoSubscribeSuccessAction({ "payload" : result}))),
+        map((result: SubscribeResult) => (apiActions.DoSubscribeSuccessAction({ "payload": result }))),
         catchError((e: HttpErrorResponse) => {
-            this.notification.error(e.message);
-            return EMPTY
+          this.notification.error(e.message);
+          return EMPTY
         })
       )
     )
