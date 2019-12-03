@@ -7,6 +7,8 @@ import { FormControl, NgForm } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { Application, SubscribeParam } from '../../apis.models';
 import { GetUserApplicationsAction, AddOperatorToSelectionAction, RemoveOperatorFromSelectionAction, RemoveAllOperatorFromSelectionAction, DoSubscribeAction } from '../../apis.actions';
+import { ConfirmDialogComponent } from '../../../commons/components/confirm-dialog/confirm-dialog.component';
+import { MatDialog } from '@angular/material';
 
 @Component({
   selector: 'store-api-subscription',
@@ -15,7 +17,7 @@ import { GetUserApplicationsAction, AddOperatorToSelectionAction, RemoveOperator
 })
 export class ApiSubscriptionComponent implements OnInit {
 
-  @ViewChild(NgForm, {static:true}) subForm: NgForm;
+  @ViewChild(NgForm, { static: true }) subForm: NgForm;
 
   public countries$: Observable<Country[]>;
   public operators$: Observable<Operator[]>;
@@ -29,7 +31,7 @@ export class ApiSubscriptionComponent implements OnInit {
   public selectedApplication: Application;
   public selectedTier: Tier;
 
-  constructor(private store: Store<AppState>, private actions: Actions) {
+  constructor(private store: Store<AppState>, private actions: Actions, private dialog: MatDialog) {
     this.countries$ = this.store.select((s: AppState) => s.global.mccAndmnc.countries);
     this.operators$ = this.store.select((s: AppState) => s.global.mccAndmnc.operators);
     this.applications$ = this.store.select((s: AppState) => s.apis.userApplications);
@@ -46,29 +48,53 @@ export class ApiSubscriptionComponent implements OnInit {
   }
 
   ngOnInit() {
+
     this.store.dispatch(LoadCountriesAction());
     this.store.dispatch(GetUserApplicationsAction);
   }
 
   onCountryChange() {
-    this.store.dispatch(LoadOperatorsAction({payload : this.selectedCountry}));
+    this.store.dispatch(LoadOperatorsAction({ payload: this.selectedCountry }));
     this.store.dispatch(RemoveAllOperatorFromSelectionAction);
   }
 
   onOperatorChange() {
-    this.store.dispatch(AddOperatorToSelectionAction({ "payload" : this.selectedOperator}));
+    this.store.dispatch(AddOperatorToSelectionAction({ "payload": this.selectedOperator }));
     this.selectedOperator = null;
   }
 
   onOperatorRemove(op: Operator) {
-    this.store.dispatch(RemoveOperatorFromSelectionAction({ "payload" : op}));
+    this.store.dispatch(RemoveOperatorFromSelectionAction({ "payload": op }));
+  }
+
+  openDialog(app, event: any) {
+    event.stopPropagation();
+    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+      data: {
+        message: 'Are you sure want to delete?',
+        buttonText: {
+          ok: 'Save',
+          cancel: 'No'
+        }
+      }
+    });
+
+    dialogRef.afterClosed().subscribe((confirmed: boolean) => {
+      if (confirmed) {
+        /* this.store.dispatch(applicationsActions.DeleteApplicationsAction({ "appId": app.applicationId }))
+
+        this.actions$.pipe(ofType(applicationsActions.DeleteApplicationSuccessAction)).subscribe(p => {
+          this.store.dispatch(applicationsActions.GetAllApplicationsAction({ "payload": new GetApplicationsParam(0, 10, 0, '') }))
+        }) */
+      }
+    });
   }
 
   onSubscribeClick($form) {
     if ($form.valid) {
       this.store.dispatch(DoSubscribeAction(
-        { "payload" : new SubscribeParam(this.selectedCountry, this.selectedOperators, this.selectedApplication, this.selectedTier)}
-        ));
+        { "payload": new SubscribeParam(this.selectedCountry, this.selectedOperators, this.selectedApplication, this.selectedTier) }
+      ));
     }
   }
 

@@ -1,7 +1,7 @@
 import { Component, OnInit, ChangeDetectorRef } from "@angular/core";
 import { AppState } from "../../../app.data.models";
 import { Store } from "@ngrx/store";
-import { DoApiSearchAction } from "../../apis.actions";
+import { DoApiSearchAction, GetAvailableApplicationAction } from "../../apis.actions";
 import { ApiSearchParam, ApiSearchResult, ApiSummary, ApiStatus, paginationData } from "../../apis.models";
 import { PageEvent, MatDialog } from "@angular/material";
 import { Router, ActivatedRoute } from "@angular/router";
@@ -12,6 +12,8 @@ import { BreadcrumbItem } from "../../../app.data.models";
 import { Title } from '@angular/platform-browser';
 import { ApiEndpoints } from '../../../config/api.endpoints';
 import { ApiTagComponent } from '../api-tag/api-tag.component';
+import { GetAllApplicationsAction } from '../../../applications/applications.actions';
+import { GetApplicationsParam } from '../../../applications/applications.data.models';
 
 @Component({
   selector: "store-api-search",
@@ -69,9 +71,26 @@ export class ApiSearchComponent implements OnInit {
 
     this.route.params.subscribe(p => {
       this.tagName = p['tag'];
-      console.log(this.tagName)
       if (this.tagName != undefined) this.store.dispatch(DoApiSearchAction({ "payload": new ApiSearchParam(this.apiCategory, 'tag:' + this.tagName, this.pageSize, 0) }));
     })
+
+    this.store.select((s) => s.authentication.tokenDetails).subscribe((auth) => {
+      if (auth) {
+        this.store.dispatch(GetAvailableApplicationAction({}))
+      }
+    })
+
+    /*  this.actions$.pipe(ofType(applicationsActions.GetAllApplicationsSuccessAction)).subscribe(p => {
+       if (p) {
+         this.store
+           .select(s => s.applications.allApplications)
+           .subscribe(apps => {
+             this.dataSource.data = apps.list;
+             this.appResult = apps;
+           });
+       }
+     }) */
+
   }
 
   openDialog(): void {

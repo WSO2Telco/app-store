@@ -1,18 +1,17 @@
 
 import { EMPTY } from 'rxjs';
-import { catchError, switchMap, map, mergeMap } from 'rxjs/operators';
+import { catchError, map, mergeMap } from 'rxjs/operators';
 import { Injectable } from '@angular/core';
 import { HttpErrorResponse } from '@angular/common/http';
 import { ApisService } from './apis.service';
 import { NotificationService } from '../shared/services/notification.service';
 import * as apiActions from './apis.actions';
-import { DoApiSearchAction } from './apis.actions';
 import {
-  ApiSearchParam, ApiSearchResult, ApplicationSearchParam, Application,
-  ApplicationsResult, SubscribeParam, SubscribeResult, ApiOverview, tagData, TagListResult
+  ApiSearchResult,
+  ApplicationsResult, SubscribeResult, ApiOverview, TagListResult,
 } from './apis.models';
 import { Actions, ofType, createEffect } from '@ngrx/effects';
-import { DebugHelper } from 'protractor/built/debugger';
+import { ApplicationListResult } from '../applications/applications.data.models';
 
 @Injectable()
 export class ApisEffects {
@@ -67,6 +66,31 @@ export class ApisEffects {
     mergeMap(({ payload }) => this.apiService.getApiSdk(payload)
       .pipe(
         map((result: any) => (apiActions.GetApiSdkSuccessAction({ "payload": result }))),
+        catchError((e: HttpErrorResponse) => {
+          this.notification.error(e.message);
+          return EMPTY
+        })
+      )
+    )
+  ));
+
+  addNewSubscription$ = createEffect(() => this.actions$.pipe(
+    ofType(apiActions.DoNewSubscribeAction),
+    mergeMap(({ payload }) => this.apiService.newApiSubscription(payload)
+      .pipe(
+        map((result: any) => (this.notification.success('Successfully subscribe to the new application'), apiActions.DoNewSubscribeSuccessAction({ "payload": result }))),
+        catchError((e: HttpErrorResponse) => {
+          this.notification.error(e.error.message);
+          return EMPTY
+        })
+      )
+    )));
+
+  getAvailableApps$ = createEffect(() => this.actions$.pipe(
+    ofType(apiActions.GetAvailableApplicationAction),
+    mergeMap(({ }) => this.apiService.getAvailableApplications()
+      .pipe(
+        map((response: ApplicationListResult) => (apiActions.GetAvailableApplicationSuccessAction({ "payload": response }))),
         catchError((e: HttpErrorResponse) => {
           this.notification.error(e.message);
           return EMPTY

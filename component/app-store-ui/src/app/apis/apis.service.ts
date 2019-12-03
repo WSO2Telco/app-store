@@ -3,11 +3,9 @@ import { ApiEndpoints } from '../config/api.endpoints';
 import { Observable } from 'rxjs';
 import { HttpClient, HttpParams, HttpHeaders, HttpBackend } from '@angular/common/http';
 import {
-    ApiSearchParam, ApiSearchResult, Application, ApplicationSearchParam, ApplicationsResult,
-    SubscribeParam, SubscribeResult, ApiOverview, TagListResult, sdkParam
+    ApiSearchParam, ApiSearchResult, ApplicationsResult,
+    SubscribeParam, SubscribeResult, ApiOverview, TagListResult, sdkParam, AddNewSubsParam
 } from './apis.models';
-
-
 
 @Injectable()
 export class ApisService {
@@ -50,15 +48,20 @@ export class ApisService {
     }
 
     getApiSdk(param: sdkParam): Observable<any> {
-        /*  const sdkp = new HttpParams()
-             .append('apiId', param.apiId)
-             .append('lang', param.lang)
-  */
         let data = '?apiId=' + param.apiId + '&language=' + param.lang;
 
         const headerParams = new HttpHeaders()
             .append('Content-Type', 'application/json')
         return this.http.post<any>(ApiEndpoints.apis.sdk + data, headerParams);
+    }
+
+    newApiSubscription(param: AddNewSubsParam): Observable<any> {
+        const httpOptions = {
+            headers: new HttpHeaders({
+                'Content-Type': 'application/json'
+            })
+        };
+        return this.http.post(ApiEndpoints.apis.applications, param, httpOptions)
     }
 
 
@@ -67,6 +70,10 @@ export class ApisService {
         var endpoint = `${ApiEndpoints.applications.applications}/${appId}/keys/${keyObject.keyType}`;
 
         return this.http.put<any>(endpoint, payload);
+    }
+
+    getAvailableApplications(): Observable<any> {
+        return this.http.get<any>(ApiEndpoints.apis.availableApp);
     }
 
 }

@@ -1,4 +1,5 @@
 import { Operator, Country, Tier } from '../app.data.models';
+import { ApplicationListResult } from '../applications/applications.data.models';
 
 export enum ApiStatus {
     all = 'all',
@@ -128,6 +129,23 @@ export interface ApisState {
     userApplications: Application[];
     selectedOperators: Operator[];
     isSubscriptionSuccess: boolean;
+    apiSubscriptions: SubscriptionResult;
+    availableApp: ApplicationListResult;
+}
+
+export class SubscriptionResult {
+    count: number;
+    next: string;
+    previous: string;
+    list: Subscription[];
+}
+
+export class Subscription {
+    apiIdentifier: string;
+    applicationId: string;
+    status: string;
+    subscriptionId: string;
+    tier: string;
 }
 
 export interface Application {
@@ -161,8 +179,17 @@ export class SubscribeParam {
     ) { }
 }
 
+export class AddNewSubsParam {
+    constructor(
+        public tier: string,
+        public apiIdentifier: string,
+        public applicationId: string,
+    ) { }
+}
+
 
 export class SubscribeResult {
     public error: boolean;
     public message: string;
 }
+
