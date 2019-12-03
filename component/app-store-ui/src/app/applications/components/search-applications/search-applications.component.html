@@ -20,8 +20,6 @@
           <button class="search" mat-mini-fab color="accent"><i class="fa fa-search" aria-hidden="true"></i></button>
         </form>
       </div>
-      <!-- <button mat-mini-fab color="accent" matTooltip="Create new application" [routerLink]="['/applications/create']"><i class="fa fa-search" aria-hidden="true"></i></button> | 
-      <button mat-mini-fab color="accent" matTooltip="Create new application" [routerLink]="['/applications/create']"><i class="fa fa-plus" aria-hidden="true"></i></button> -->
     </div>
 
     <div>
@@ -75,7 +73,6 @@
       <mat-row *matRowDef="let row; columns: [ 'name','tier','wfStatus','subscription','action'];"
         (click)="onAppAction(row,'view')"></mat-row>
     </mat-table>
-    <!-- <mat-paginator length="false" [pageSize]="pageSize" [pageSizeOptions]="[5, 10, 25, 100]" (page)="onPageChanged($event)"></mat-paginator> -->
 
     <div align="right">
       <button mat-icon-button type="button" class="mat-paginator-navigation-previous" (click)="paginate('prev')"

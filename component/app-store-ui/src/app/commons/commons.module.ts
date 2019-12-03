@@ -7,6 +7,7 @@ import { BreadcrumbsComponent } from "./components/breadcrumbs/breadcrumbs.compo
 import { ParticlesComponent } from "./components/particles/particles.component";
 import { ParticlesModule } from "angular-particle";
 import { ConfirmDialogComponent } from "./components/confirm-dialog/confirm-dialog.component";
+import { ActionDialogComponent } from './components/action-dialog/action-dialog.component';
 
 @NgModule({
   imports: [CommonModule, SharedModule, ParticlesModule],
@@ -15,7 +16,8 @@ import { ConfirmDialogComponent } from "./components/confirm-dialog/confirm-dial
     HamburgerMenuComponent,
     BreadcrumbsComponent,
     ParticlesComponent,
-    ConfirmDialogComponent
+    ConfirmDialogComponent,
+    ActionDialogComponent
   ],
   exports: [
     MainMenuComponent,
@@ -23,6 +25,6 @@ import { ConfirmDialogComponent } from "./components/confirm-dialog/confirm-dial
     HamburgerMenuComponent,
     ParticlesComponent
   ],
-  entryComponents: [ConfirmDialogComponent]
+  entryComponents: [ConfirmDialogComponent, ActionDialogComponent]
 })
-export class CommonsModule {}
+export class CommonsModule { }

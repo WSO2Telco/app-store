@@ -17,7 +17,8 @@ export const ApiEndpoints = {
     applications: apiContext + '/subscriptions',
     subscribe: "./assets/files/subscribe.json",
     tag: apiContext + '/tags',
-    sdk: apiContext+'/apis/generate-sdk'
+    sdk: apiContext+'/apis/generate-sdk',
+    availableApp: apiContext + '/applications',
   },
   global: {
     countries:

@@ -1,16 +1,17 @@
 <div fxLayout="column" fxLayoutGap="20px">
 
   <div class="intro-container">
-    
+
     <div class="pull-left">
-        <img [src]="apiPrefix + api?.thumbnailUrl" class="api-thumb" *ngIf="api?.thumbnailUrl" />
-        <img src="assets/images/apigate-a.png" class="api-thumb" *ngIf="!api.thumbnailUrl" />
+      <img [src]="apiPrefix + api?.thumbnailUrl" class="api-thumb" *ngIf="api?.thumbnailUrl" />
+      <img src="assets/images/apigate-a.png" class="api-thumb" *ngIf="!api.thumbnailUrl" />
     </div>
     <h1>{{api.name}} <span class="version" aria-label="API Version">{{api.version}}</span></h1>
-    <div class="pull-right subscribe-btn">
+    <div class="pull-right subscribe-btn" *ngIf="loggedUser != null">
       <button mat-flat-button color="accent" (click)="switchTab('subscription')">Subscribe</button>
     </div>
-    <div class="status-label" [ngClass]="api.status"><span class="status-dot"></span> <span class="status-lbl">{{api.status}}</span></div>
+    <div class="status-label" [ngClass]="api.status"><span class="status-dot"></span> <span
+        class="status-lbl">{{api.status}}</span></div>
   </div>
 
   <div class="child-container">
@@ -25,7 +26,7 @@
         <store-api-overview [apiOverview]="api"></store-api-overview>
       </mat-expansion-panel>
 
-      <mat-expansion-panel [expanded]="activeTab == 'subscription'" (opened)="switchTab('subscription')">
+      <mat-expansion-panel [expanded]="activeTab == 'subscription'" (opened)="switchTab('subscription')" *ngIf="loggedUser != null">
         <mat-expansion-panel-header>
           <mat-panel-title>Subscriptions</mat-panel-title>
         </mat-expansion-panel-header>
@@ -50,14 +51,14 @@
         <store-api-documentation></store-api-documentation>
       </mat-expansion-panel>
 
-      <mat-expansion-panel (opened)="switchTab('sdk')">
-          <mat-expansion-panel-header>
-            <mat-panel-title>
-              SDKs
-            </mat-panel-title>
-          </mat-expansion-panel-header>
-          <store-api-sdk></store-api-sdk>
-        </mat-expansion-panel>
+      <mat-expansion-panel (opened)="switchTab('sdk')" *ngIf="loggedUser != null">
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            SDKs
+          </mat-panel-title>
+        </mat-expansion-panel-header>
+        <store-api-sdk></store-api-sdk>
+      </mat-expansion-panel>
 
       <mat-expansion-panel (opened)="switchTab('forum')">
         <mat-expansion-panel-header>
@@ -85,14 +86,16 @@
       <div class="api-detail-wrap">
         <div class="name-container">{{simapi.name}}</div>
         <div class="info-container">
-          <span >Version : {{simapi.version}}</span>
+          <span>Version : {{simapi.version}}</span>
           <!-- <span >{{api.provider}}</span> -->
-          <span class="star-rating"><star-rating [starType]="'svg'" [rating]="simapi.stars" [hoverEnabled]="true"></star-rating></span>
+          <span class="star-rating">
+            <star-rating [starType]="'svg'" [rating]="simapi.stars" [hoverEnabled]="true"></star-rating>
+          </span>
         </div>
         <div class="clearfix"></div>
       </div>
-    </div> 
-    
+    </div>
+
   </div>
   <div class="clearfix"></div>
 </div>
