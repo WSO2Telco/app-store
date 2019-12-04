@@ -61,6 +61,7 @@ export class ApiAppSubscriptionsComponent implements OnInit {
     var mapResult = this.appResult.map(appArr => ({ value: appArr.applicationId, viewValue: appArr.name }));
     event.stopPropagation();
     const dialogRef = this.dialog.open(ActionDialogComponent, {
+      width: '380px',
       data: {
         appList: mapResult,
         buttonText: {

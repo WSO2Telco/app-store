@@ -1,14 +1,14 @@
 <div mat-dialog-content>
-  <p>Select the Application to subscribe?</p>
-  <mat-form-field>
-    <mat-select [(value)]="selected">
+  <h3 fxFlex="100%">Select the Application to subscribe?</h3>
+  <mat-form-field fxFlex="100%">
+    <mat-select [(value)]="selected" fxFlex="100%">
       <mat-option *ngFor="let app of data.appList" [value]="app.value">
         {{app.viewValue}}
       </mat-option>
     </mat-select>
   </mat-form-field>
 </div>
-<div mat-dialog-actions>
+<div mat-dialog-actions align="end">
   <button mat-button mat-flat-button color="red" (click)="onNoClick()">Cancel</button>
   <button mat-button [mat-dialog-close]="selected" mat-flat-button color="accent" cdkFocusInitial>Subscribe</button>
 </div>
