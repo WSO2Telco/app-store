@@ -39,7 +39,8 @@
                     <div class="field" fxFlex><strong>Description</strong></div>
                     <div class="description-box">{{apiOverview.description}} <span *ngIf="!apiOverview.description">N/A</span></div>
                     <br/>
-                    <div><star-rating [starType]="'svg'" [rating]="apiOverview.rates" [hoverEnabled]="true"></star-rating></div>
+                    <div class="field" fxFlex><strong>Ratings</strong></div>
+                    <div><star-rating [starType]="'svg'" [rating]="3" [hoverEnabled]="true"></star-rating></div>
                     <hr/>
 
                     <ng-container *ngIf="apiOverview.businessInformation?.technicalOwner || apiOverview.businessInformation?.businessOwner">
