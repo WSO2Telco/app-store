@@ -76,4 +76,8 @@ export class ApisService {
         return this.http.get<any>(ApiEndpoints.apis.availableApp);
     }
 
+    deleteSubscription(subscriptionId): Observable<any> {
+        return this.http.delete(`${ApiEndpoints.apis.applications}/${subscriptionId}`);
+    }
+
 }
