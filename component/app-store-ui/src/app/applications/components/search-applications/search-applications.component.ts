@@ -101,7 +101,6 @@ export class SearchApplicationsComponent implements OnInit {
   }
 
   onPageChanged(e) {
-
   }
 
   paginate(direction) {

@@ -4,12 +4,12 @@ import { MatDialog, MatTableDataSource } from '@angular/material';
 import { AppState } from '../../../app.data.models';
 import { NotificationService } from "../../../shared/services/notification.service";
 import { Subscription, GetApplicationsParam } from "../../../applications/applications.data.models";
-import { GetUserApplicationsAction, GetUserSubscriptionsAction, DoNewSubscribeAction, DoNewSubscribeSuccessAction } from '../../apis.actions';
+import { GetUserSubscriptionsAction, DoNewSubscribeAction, DoNewSubscribeSuccessAction, UnsubscribeAction, UnsubscribeSuccessAction } from '../../apis.actions';
 import { ActivatedRoute } from '@angular/router';
 import { Actions, ofType } from '@ngrx/effects';
-import { GetAllApplicationsAction } from '../../../applications/applications.actions';
 import { ActionDialogComponent } from '../../../commons/components/action-dialog/action-dialog.component';
 import { AddNewSubsParam } from '../../apis.models';
+import { ConfirmDialogComponent } from '../../../commons/components/confirm-dialog/confirm-dialog.component';
 
 @Component({
   selector: 'store-api-app-subscriptions',
@@ -84,5 +84,33 @@ export class ApiAppSubscriptionsComponent implements OnInit {
     }
     );
   }
+
+
+  //unsubscribe
+  onAction(sub, action) {
+    if (action === "unsubscribe") {
+      const ref = this.dialog.open(ConfirmDialogComponent, {
+        data: {
+          title: "Confirm Unsubscribe",
+          message:
+            'Are you sure you want to unsubscribe the subscription id "' +
+            sub.subscriptionId + '"?'
+        }
+      });
+
+      ref.afterClosed().subscribe((confirmed: boolean) => {
+        if (confirmed) {
+          this.store.dispatch(UnsubscribeAction({ subscriptionId: sub.subscriptionId }));
+          this.notification.success("Successfully unsubscribe the Subscription");
+
+
+          this.actions$.pipe(ofType(UnsubscribeSuccessAction)).subscribe(p => {
+            this.store.dispatch(GetUserSubscriptionsAction({ "payload": this.api_id }));
+          })
+        }
+      });
+    }
+  }
+
 
 }

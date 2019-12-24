@@ -131,6 +131,27 @@ export class ApisEffects {
     }
    */
 
+  deleteSubscription$ = createEffect(() => this.actions$.pipe(
+    ofType(apiActions.UnsubscribeAction),
+    mergeMap(({ subscriptionId }) => this.apiService.deleteSubscription(subscriptionId)
+      .pipe(
+        map((response: any) => {
+          if (response) {
+            this.notification.error(response);
+            throw response;
+          } else {
+            this.notification.success("Successfully Unsubscribe");
+            return apiActions.UnsubscribeSuccessAction({ "payload": response });
+          }
+        }),
+        catchError((e: HttpErrorResponse) => {
+          this.notification.error(e.error);
+          return EMPTY
+        })
+      )
+    )
+  ));
+
   userApplications$ = createEffect(() => this.actions$.pipe(
     ofType(apiActions.GetUserApplicationsAction),
     mergeMap(({ payload }) => this.apiService.getUserApplicationsActions(payload)
