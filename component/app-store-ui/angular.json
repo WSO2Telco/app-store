@@ -21,13 +21,15 @@
               "src/favicon.ico"
             ],
             "styles": [
-              "node_modules/animate.css/animate.min.css",
               "node_modules/swagger-ui-dist/swagger-ui.css",
               "node_modules/material-design-icons-iconfont/dist/material-design-icons.css",
               "node_modules/font-awesome/css/font-awesome.css",
-              "src/styles/style.scss"
+              "src/styles/style.scss",
+              "node_modules/intro.js/introjs.css"
             ],
-            "scripts": []
+            "scripts": [
+              "node_modules/intro.js/intro.js"
+            ]
           },
           "configurations": {
             "production": {
@@ -75,7 +77,6 @@
             "tsConfig": "src/tsconfig.spec.json",
             "scripts": [],
             "styles": [
-              "node_modules/animate.css/animate.min.css",
               "node_modules/swagger-ui-dist/swagger-ui.css",
               "node_modules/material-design-icons-iconfont/dist/material-design-icons.css",
               "node_modules/font-awesome/css/font-awesome.css",
