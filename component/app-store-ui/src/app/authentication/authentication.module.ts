@@ -10,6 +10,7 @@ import { authReducer } from './authentication.reducers';
 import { AuthenticationService } from './authentication.service';
 import { SignUpComponent } from './components/sign-up/sign-up.component';
 import { MyAccountComponent } from './components/my-account/my-account.component';
+import { helpComponent } from './components/help/help.component';
 
 @NgModule({
   imports: [
@@ -22,7 +23,8 @@ import { MyAccountComponent } from './components/my-account/my-account.component
     LoginIconComponent,
     LoginFormComponent,
     SignUpComponent,
-    MyAccountComponent],
+    MyAccountComponent,
+    helpComponent],
   providers: [
     AuthenticationService
   ],

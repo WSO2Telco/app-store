@@ -3,6 +3,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { SignUpComponent } from './authentication/components/sign-up/sign-up.component';
 import { MyAccountComponent } from './authentication/components/my-account/my-account.component';
 import { AppGuard } from './app.guards';
+import { helpComponent } from './authentication/components/help/help.component';
 
 const routes: Routes = [
   {
@@ -34,6 +35,10 @@ const routes: Routes = [
   {
     path: 'application/sign-up',
     component: SignUpComponent
+  },
+  {
+    path: 'application/help',
+    component: helpComponent
   },
   {
     path: 'application/my-account',
