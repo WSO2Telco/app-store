@@ -75,6 +75,10 @@ export class AppComponent implements OnInit {
         this.router.navigate(['application/sign-up']);
         break;
       }
+      case LoginMenuActionTypes.HELP: {
+        this.router.navigate(['application/help']);
+        break;
+      }
 
       case LoginMenuActionTypes.THEME: {
         this.router.navigate(['home/theme']);
