@@ -103,8 +103,8 @@ export class GenerateKeyFormComponent implements OnInit, OnDestroy {
         })
         this.keyPayload.callbackUrl = this.keyObject.callbackUrl;
         this.accessTokenAuth = btoa(`${this.keyObject.consumerKey}:${this.keyObject.consumerSecret}`);
+        this.clientCredEnabled = this.keyObject.supportedGrantTypes.includes('client_credentials');
       }
-      this.clientCredEnabled = this.keyObject.supportedGrantTypes.includes('client_credentials');
       this.cd.detectChanges();
     });
 
