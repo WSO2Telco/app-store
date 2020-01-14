@@ -28,8 +28,9 @@ public enum Tables {
 	AM_SUBSCRIBER("AM_SUBSCRIBER"),
 	AM_SUBSCRIPTION("AM_SUBSCRIPTION"),
 	DEP_OPERATORS("operators"),
-	DEP_OPERATOR_APPS("operatorapps");
-
+	DEP_OPERATOR_APPS("operatorapps"),
+	FORUM_TOPICS("forum_topics"),
+	FORUM_REPLIES("forum_replies");
 	/**
 	 * Instantiates a new reporting table.
 	 *
