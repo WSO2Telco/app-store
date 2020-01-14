@@ -26,8 +26,8 @@
     <mat-form-field>
       <input type="url" matInput placeholder="Callback URL" [(ngModel)]="keyPayload.callbackUrl" (keyup)="callbackUpdate(keyPayload.callbackUrl)" />
     </mat-form-field>
-    <mat-form-field>
-      <input matInput placeholder="Access token validity period" [(ngModel)]="validity" />
+    <mat-form-field >
+      <input matInput placeholder="Access token validity period" [(ngModel)]="keyPayload.validityTime" [disabled]="keyObject" />
     </mat-form-field>
     <div fxLayoutAlign="end center">
       <button mat-raised-button class="generate"  color="accent" (click)="generateKey()"><span *ngIf="!keyObject">Generate</span><span *ngIf="keyObject">Update</span></button>
