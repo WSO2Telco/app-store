@@ -1,7 +1,7 @@
 <div fxLayout="column" fxLayoutGap="20px">
 
   <div class="intro-container">
-    <h1 class="animated fadeInDown">{{ appData == null ? 'Create' : 'Edit' }} Application</h1>
+    <h1 class="animated fadeInDown">{{ appData == null ? 'Create' : 'Update' }} Application</h1>
     <div class="intro-text animated fadeIn">
       <p>Applications allow you to use a single access token to invoke a collection of APIs and to subscribe to one API
         multiple times with different SLA levels.</p>
@@ -29,7 +29,7 @@
 
           <div fxFlex="100%" fxLayoutGap="10px">
             <button mat-raised-button type="button" [routerLink]="['/applications']" color="red">Cancel</button>
-            <button mat-raised-button type="submit" color="accent">{{ appData == null ? 'Create' : 'Edit' }}</button>
+            <button mat-raised-button type="submit" color="accent">{{ appData == null ? 'Create' : 'Update' }}</button>
           </div>
         </div>
 
