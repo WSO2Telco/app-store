@@ -77,7 +77,7 @@ export class SearchApplicationsComponent implements OnInit {
     event.stopPropagation();
     const dialogRef = this.dialog.open(ConfirmDialogComponent, {
       data: {
-        message: 'Are you sure want to delete?',
+        message: 'Are you sure you want to delete?',
         buttonText: {
           ok: 'Save',
           cancel: 'No'

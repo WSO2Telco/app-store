@@ -73,6 +73,9 @@
       <mat-row *matRowDef="let row; columns: [ 'name','tier','wfStatus','subscription','action'];"
         (click)="onAppAction(row,'view')"></mat-row>
     </mat-table>
+    <ng-container *ngIf="dataSource.data.length == 0">
+      <h2 align="center">No applications available</h2>
+    </ng-container>
 
     <div align="right">
       <button mat-icon-button type="button" class="mat-paginator-navigation-previous" (click)="paginate('prev')"
