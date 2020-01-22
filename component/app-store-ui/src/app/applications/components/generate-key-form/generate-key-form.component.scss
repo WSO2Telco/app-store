@@ -25,6 +25,20 @@ mat-form-field{
     padding :10px;
 }
 
+.fullwidth-field{
+    width: 80%;
+}
+
+.validity-field{
+    width: 180px;
+}
+
+.mat-form-field-disabled{
+    span{
+        color: rgba(0, 0, 0, 0.38);
+    }
+}
+
 .generate{
     width: 150px;
 }

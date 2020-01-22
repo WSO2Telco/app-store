@@ -7,6 +7,7 @@ import { ApplicationDetailsKeys, GenerateKeyPayload } from '../../applications.d
 import { GenerateAppKeyAction, RegenerateSecretAction, UpdateAppKeyAction, RegenerateAccessTokenAction, RegenerateAccessTokenSuccessAction } from '../../applications.actions';
 import { Actions, ofType } from '@ngrx/effects';
 import { NotificationService } from '../../../shared/services/notification.service';
+import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms';
 
 @Component({
   selector: 'store-generate-key-form',
@@ -33,6 +34,9 @@ export class GenerateKeyFormComponent implements OnInit, OnDestroy {
   public accessTokenAuth;
   public accessTokenValidity:number = 3600;
   public accessTokenVisible = false;
+
+  private storeSelect;
+  keygenForm: FormGroup;
 
   grantTypes = [
     {
@@ -82,14 +86,18 @@ export class GenerateKeyFormComponent implements OnInit, OnDestroy {
     private store: Store<AppState>,
     private cd:ChangeDetectorRef,
     private actions$: Actions,
-    private notification: NotificationService
+    private notification: NotificationService,
+    private fb: FormBuilder
   ) {
     this.route.params.subscribe(params => {
       this.appId = params['appId'];
     })
-  }
 
-  private storeSelect;
+    this.keygenForm = this.fb.group({
+      keyUrl: ['', [ Validators.required, Validators.pattern('(https?://)?([\\da-z.-]+)\\.([a-z.]{2,6})[/\\w .-]*/?') ]],
+      keyValidity: ['', [Validators.required, Validators.min(-1), Validators.pattern(/\-?\d*\.?\d{1,2}/)]],
+    });
+  }
 
   ngOnInit() {
     this.envLabel = (this.keyEnv == 'PRODUCTION') ? "Production" : "Sandbox";
@@ -101,8 +109,14 @@ export class GenerateKeyFormComponent implements OnInit, OnDestroy {
         this.grantTypes.forEach((t, i) => {
           this.grantTypes[i].checked = this.keyObject.supportedGrantTypes.includes(t.value)
         })
-        this.keyPayload.callbackUrl = this.keyObject.callbackUrl;
-        this.keyPayload.validityTime = this.keyObject.token.validityTime;
+
+        this.keygenForm.setValue({
+          keyUrl: this.keyObject.callbackUrl, 
+          keyValidity: this.keyObject.token.validityTime
+        });
+
+        this.keygenForm.controls['keyValidity'].disable();
+
         this.accessTokenAuth = btoa(`${this.keyObject.consumerKey}:${this.keyObject.consumerSecret}`);
         this.clientCredEnabled = this.keyObject.supportedGrantTypes.includes('client_credentials');
       }
@@ -134,15 +148,21 @@ export class GenerateKeyFormComponent implements OnInit, OnDestroy {
   generateKey(){
     let supportedGrantTypes = this.grantTypes.filter(opt => opt.checked).map(opt => opt.value);
     this.keyPayload.supportedGrantTypes = supportedGrantTypes;
+    if(this.keygenForm.valid){
+      this.keyPayload.callbackUrl = this.keygenForm.get('keyUrl').value;
+      this.keyPayload.validityTime = this.keygenForm.get('keyValidity').value;
 
-    if(this.keyObject){
-      this.store.dispatch(UpdateAppKeyAction({ 'appId' : this.appId, 'payload' : this.keyPayload}))
+      if(this.keyObject){
+        this.store.dispatch(UpdateAppKeyAction({ 'appId' : this.appId, 'payload' : this.keyPayload}))
+      }
+      else{
+        this.store.dispatch(GenerateAppKeyAction({ 'appId' : this.appId, 'payload' : this.keyPayload}))
+      }
     }
-    else{
-      this.store.dispatch(GenerateAppKeyAction({ 'appId' : this.appId, 'payload' : this.keyPayload}))
-    }
-
+    
   }
+
+  get f() { return this.keygenForm.controls; }
 
   resetKey(){
     this.store.dispatch(RegenerateSecretAction({ 'payload' : this.keyObject.consumerKey}))
