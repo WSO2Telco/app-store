@@ -29,6 +29,7 @@ import { InfiniteScrollDirective } from "./directives/infinite-scroll.directive"
 import { MatChipsModule } from "@angular/material/chips";
 import { MatCheckboxModule } from "@angular/material/checkbox";
 import { MatDialogModule } from "@angular/material/dialog";
+import { MatSortModule } from '@angular/material/sort';
 
 @NgModule({
   imports: [
@@ -62,6 +63,7 @@ import { MatDialogModule } from "@angular/material/dialog";
     MatInputModule,
     MatSnackBarModule,
     MatTableModule,
+    MatSortModule,
     MatPaginatorModule,
     MatTooltipModule,
     FlexLayoutModule,
