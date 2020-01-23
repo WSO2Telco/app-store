@@ -1,15 +1,12 @@
 import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { OnInit, ChangeDetectorRef } from '@angular/core';
-import { LoginMenuAction, LoginResponseData, LoginMenuActionTypes, LoginFormData } from './authentication/authentication.models';
+import { LoginMenuAction, LoginMenuActionTypes } from './authentication/authentication.models';
 import { Store } from '@ngrx/store';
 import { AppState } from './app.data.models';
-import { DoLogoutAction, DoLoginAction, ClientRegistrationAction, ClientRegistrationSuccessAction, TokenGenerationAction, SetLoggedUserAction, TokenRefreshAction } from './authentication/authentication.actions';
-import { Observable } from 'rxjs';
+import { DoLogoutAction, TokenRefreshAction } from './authentication/authentication.actions';
 import * as globalActions from './app.actions';
 import { ToggleLeftPanelAction} from './app.actions';
 import { Router } from '@angular/router';
-import { ofType, Actions } from '@ngrx/effects';
-import { take } from 'rxjs/operators';
 
 @Component({
   selector: 'store-root',
@@ -28,8 +25,7 @@ export class AppComponent implements OnInit {
   constructor(
     private store: Store<AppState>,
     private ref: ChangeDetectorRef,
-    private router: Router,
-    private actions$: Actions) { }
+    private router: Router) { }
 
   ngOnInit(): void {
 
@@ -91,16 +87,6 @@ export class AppComponent implements OnInit {
       }
     }
 
-  }
-
-  onLoginClick(loginData: LoginFormData) {
-    this.store.dispatch(DoLoginAction({"payload": loginData}));
-    this.store.dispatch(ClientRegistrationAction({"payload": loginData}));
-
-    this.actions$.pipe(ofType(ClientRegistrationSuccessAction)).pipe(take(1)).subscribe(p => {
-      this.store.dispatch(TokenGenerationAction({ "payload": loginData }));
-      this.store.dispatch(SetLoggedUserAction({"payload": loginData.username}))
-    })
   }
 
   onRightNavClose() {
