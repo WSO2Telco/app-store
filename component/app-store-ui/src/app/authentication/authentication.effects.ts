@@ -1,5 +1,5 @@
 
-import { EMPTY } from 'rxjs';
+import { EMPTY, of } from 'rxjs';
 import { catchError, switchMap, map, mergeMap } from 'rxjs/operators';
 import { Actions, Effect, createEffect, ofType } from "@ngrx/effects";
 import * as loginActions from "./authentication.actions";
@@ -39,17 +39,14 @@ export class AuthenticationEffects {
       .pipe(
         map((response: LoginResponseData) => {
           if (response.error) {
-            this.notification.error("Invalid username or password");
-            throw response;
+            let msg = (response.message) ? response.message : "Invalid username or password";
+            return loginActions.LoginFailedAction({payload: msg});
           } else {
             this.router.navigate([this.lastAuthRequiredRoute || "home"]);
             return loginActions.LoginSuccessAction({ "payload": response });
           }
         }),
-        catchError((e: HttpErrorResponse) => {
-          this.notification.error(e.message);
-          return EMPTY
-        })
+        catchError( (e: HttpErrorResponse) => of(loginActions.LoginFailedAction({payload: e.message})) )
       )
     )
   ));

@@ -23,15 +23,33 @@
         <mat-checkbox class="ck-gt" value="t.value" [(ngModel)]="t.checked" [disabled]="(t.value == 'implicit' || t.value == 'authorization_code') && (!keyPayload.callbackUrl || keyPayload.callbackUrl.length <= 0)">{{t.name}}</mat-checkbox>
       </div>
     </section>
-    <mat-form-field>
-      <input type="url" matInput placeholder="Callback URL" [(ngModel)]="keyPayload.callbackUrl" (keyup)="callbackUpdate(keyPayload.callbackUrl)" />
-    </mat-form-field>
-    <mat-form-field >
-      <input matInput placeholder="Access token validity period" [(ngModel)]="keyPayload.validityTime" [disabled]="keyObject" />
-    </mat-form-field>
-    <div fxLayoutAlign="end center">
-      <button mat-raised-button class="generate"  color="accent" (click)="generateKey()"><span *ngIf="!keyObject">Generate</span><span *ngIf="keyObject">Update</span></button>
-    </div>
+    <form [formGroup]="keygenForm">
+      <mat-form-field class="fullwidth-field">
+        <input type="url" matInput placeholder="Callback URL" formControlName="keyUrl" />
+        <mat-error *ngIf="f?.keyUrl?.errors?.required">
+          Callback URL is required
+        </mat-error>
+        <mat-error *ngIf="f?.keyUrl?.errors?.pattern">
+          Enter valid Callback URL
+        </mat-error>
+      </mat-form-field>
+      <mat-form-field class="validity-field">
+        <input matInput placeholder="Validity period" formControlName="keyValidity" />
+        <span matSuffix> seconds</span>
+        <mat-error *ngIf="f?.keyValidity?.errors?.required">
+          Validity Period URL is required
+        </mat-error>
+        <mat-error *ngIf="f?.keyValidity?.errors?.min">
+          Enter positive value or -1 for Unlimited
+        </mat-error>
+        <mat-error *ngIf="f?.keyValidity?.errors?.pattern">
+          Enter value in seconds
+        </mat-error>
+      </mat-form-field>
+      <div fxLayoutAlign="end center">
+        <button mat-raised-button class="generate"  color="accent" (click)="generateKey()"><span *ngIf="!keyObject">Generate</span><span *ngIf="keyObject">Update</span></button>
+      </div>
+    </form>
 
     <hr />
 

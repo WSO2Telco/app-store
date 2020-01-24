@@ -3,6 +3,7 @@ import { LoginFormData, LoginResponseData, ClientRegParam, RegClientData, TokenD
 
 export const DoLoginAction = createAction('[Auth] Login', props<{payload: LoginFormData}>());
 export const LoginSuccessAction = createAction('[Auth] Login Success ✓', props<{payload: LoginResponseData}>());
+export const LoginFailedAction = createAction('[Auth] Login Failed Action', props<{payload: string}>());
 
 export const DoLogoutAction = createAction('[Auth] Logout');
 export const DoLogoutSuccessAction = createAction('[Auth] Logout Success ✓');
