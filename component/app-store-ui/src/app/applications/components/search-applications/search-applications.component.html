@@ -61,9 +61,12 @@
             <button mat-icon-button matTooltip="View" (click)="onAppAction(element,'view')">
               <mat-icon>visibility</mat-icon>
             </button>
-            <button mat-icon-button matTooltip="Edit" (click)="onAppAction(element,'edit')">
-              <mat-icon>edit</mat-icon>
-            </button>
+            <button mat-icon-button matTooltip="Edit" *ngIf="element.status != 'CREATED'"
+            (click)="onAppAction(element,'edit')">
+            <mat-icon>edit</mat-icon>
+          </button>
+          <button mat-icon-button *ngIf="element.status == 'CREATED'">
+          </button>
             <button mat-icon-button matTooltip="Delete" (click)="openDialog(element,$event)">
               <mat-icon class="danger">delete</mat-icon>
             </button>
