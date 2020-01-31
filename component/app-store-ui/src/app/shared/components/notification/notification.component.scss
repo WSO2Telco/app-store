@@ -1,24 +1,24 @@
 .main-container {
-  padding: 10px;
+  padding: 15px;
 
   &.SUCCESS {
-    background-color: #51A351;
+    background-color: #51a351;
   }
 
   &.ERROR {
-    background-color: #BD362F;
+    background-color: #bd362f;
   }
 
   &.WARNING {
-    background-color: #F89406;
+    background-color: #f89406;
   }
 
   &.INFO {
-    background-color: #2F96B4;
+    background-color: #2f96b4;
   }
 
   &::after {
-    content: '';
+    content: "";
     display: block;
     clear: both;
   }
@@ -43,6 +43,7 @@
 
     .msg-container {
       color: #ececec;
+      font-size: 16px;
     }
   }
 }

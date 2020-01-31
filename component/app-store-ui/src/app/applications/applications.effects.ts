@@ -92,7 +92,11 @@ export class ApplicationsEffects {
           }
         }),
         catchError((e: HttpErrorResponse) => {
-          this.notification.error(e.error.description);
+          if (e.error.code == '500') {
+            this.notification.error("Application is available having the same name");
+          } else {
+            this.notification.error(e.error.description);
+          }
           return EMPTY
         })
       )
