@@ -18,7 +18,7 @@ export class ForumService{
         param.parentId = 'common';
         // .......................
         
-        let endpoint = ApiEndpoints.forum.getAllTopics+'?parentId='+param.parentId+'&page='+param.page;
+        let endpoint = ApiEndpoints.forum.topicList+'?parentId='+param.parentId+'&page='+param.page;
         if(param.search){
             endpoint+='&search='+param.search;
         }
@@ -32,10 +32,10 @@ export class ForumService{
 
     createTopic(param:CreateTopicParam){
         param.parentId = 'common';
-        return this.http.post(ApiEndpoints.forum.create,param);
+        return this.http.post(ApiEndpoints.forum.createTopic,param);
     }
   
     getOneTopic(topicId:string){
-        return this.http.get(ApiEndpoints.forum.getOneTopic+'?id='+topicId);
+        return this.http.get(ApiEndpoints.forum.topicList+'?id='+topicId);
     }
 }
