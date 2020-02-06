@@ -1,7 +1,7 @@
 import { Component, OnInit } from "@angular/core";
 import { AppState } from "../../../app.data.models";
 import { Store } from "@ngrx/store";
-import { Topic, GetTopicsParam } from "../../forum.data.models";
+import { Topic, GetTopicsParam, TopicResultPayload } from "../../forum.data.models";
 import { MatTableDataSource } from "@angular/material";
 import * as forumActions from "../../forum.actions";
 import { Router } from "@angular/router";
@@ -15,7 +15,7 @@ import { Title } from '@angular/platform-browser';
   styleUrls: ["./forum-main.component.scss"]
 })
 export class ForumMainComponent implements OnInit {
-  public topics: Topic[];
+  public topics: TopicResultPayload;
   public searchQuery: string;
 
   constructor(private store: Store<AppState>, private router: Router, private titleService: Title) {}

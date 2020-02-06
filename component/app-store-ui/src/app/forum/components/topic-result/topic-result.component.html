@@ -3,12 +3,12 @@
 
     <ng-container matColumnDef="topic">
       <mat-header-cell *matHeaderCellDef=""> Topic </mat-header-cell>
-      <mat-cell *matCellDef="let element" (click)="onTopicAction(element,'view')"> {{element.subject}} </mat-cell>
+      <mat-cell *matCellDef="let element" (click)="onTopicAction(element,'view')"> {{element.title}} </mat-cell>
     </ng-container>
 
     <ng-container matColumnDef="by">
       <mat-header-cell *matHeaderCellDef=""> Created By </mat-header-cell>
-      <mat-cell *matCellDef="let element" (click)="onTopicAction(element,'view')"> {{element.topicOwner}} </mat-cell>
+      <mat-cell *matCellDef="let element" (click)="onTopicAction(element,'view')"> {{element.author}} </mat-cell>
     </ng-container>
     
     <ng-container matColumnDef="replies">

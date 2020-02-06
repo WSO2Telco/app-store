@@ -3,6 +3,7 @@ import { AppState } from "../../../app.data.models";
 import { Store } from "@ngrx/store";
 import { MatTableDataSource } from "@angular/material";
 import { Topic } from "../../forum.data.models";
+import { Router } from '@angular/router';
 
 @Component({
   selector: "store-topic-result",
@@ -15,11 +16,12 @@ export class TopicResultComponent implements OnInit {
 
   dataSource = new MatTableDataSource<Topic>();
 
-  constructor(private store: Store<AppState>) {}
+  constructor(private store: Store<AppState>, private router: Router) {}
 
   ngOnInit() {
     this.store.select(s => s.forum.allTopics).subscribe(res => {
-      this.dataSource.data = res;
+      this.dataSource.data = res.list;
+      console.log(res);
     });
   }
 
@@ -28,7 +30,8 @@ export class TopicResultComponent implements OnInit {
       this.whenDelete.emit(element.topicId);
     }
     if(action ==='view'){
-      this.whenView.emit(element);
+      // this.whenView.emit(element);
+      this.router.navigate(["/forum/view/"+element.id]);
     }
   }
 }

@@ -22,7 +22,7 @@ export class ForumEffects {
     ofType(forumActions.GetAllTopicsAction),
     mergeMap(({payload}) => this.service.getAllTopics(payload)
       .pipe(
-        map((result: TopicResult) => (forumActions.GetAllTopicsSuccessAction({payload:result.data}))),
+        map((result: TopicResult) => (forumActions.GetAllTopicsSuccessAction({payload:result.payload}))),
         catchError((e: HttpErrorResponse) => {
             this.notification.error(e.message);
             return EMPTY
@@ -73,7 +73,7 @@ export class ForumEffects {
       .pipe(
         map((result:any) => {
           if (!result.error) {
-            return forumActions.GetTopicDetailSuccessAction({payload:result.data});
+            return forumActions.GetTopicDetailSuccessAction({payload:result.payload});
           } else {
             throw Error("Operation Failed");
           }

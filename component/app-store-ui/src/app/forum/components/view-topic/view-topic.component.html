@@ -3,25 +3,26 @@
 <div fxLayout="row" fxLayoutGap="20px" id="forum-post">
 
   <mat-card fxFlex class="animated fadeIn delay_6" style="margin-bottom:100px;">
-    <h1>{{topic?.subject}}</h1>
-    <div class="description" [innerHTML]="topic.description"></div>
-    <div class="post-author">by <strong>admin</strong> <br/>Tue Mar 13 2018 | 10:45 AM</div>
+    <h1>{{topic?.title}}</h1>
+    <div class="description" [innerHTML]="topic?.content"></div>
+    <div class="post-author">by <strong>{{topic?.author}}</strong> <br/>{{topic?.date}}</div>
 
     <br/>
 
     <div class="replies">
-      <h2>{{replies?.length}} Responses</h2>
+      <h2>{{topic?.replies?.length}} Responses</h2>
       <div>
-        <div *ngFor="let rep of replies;let x=index;" class="reply-item">
+        <div *ngFor="let rep of topic?.replies; let x=index;" class="reply-item">
           <div class="rep-by">
-            <span class="avatar" [innerHtml]="getFirstLetter(rep.createdBy)"></span>
+            <span *ngIf="rep?.replyUsername" class="avatar" [innerHtml]="getFirstLetter(rep?.replyUsername)"></span>
             <div>
-              <strong>{{rep.createdBy}}</strong> <br/>
-              {{rep.time | date : 'on EEEE, MMM d yyyy, hh:mm a' }}
+              <strong>{{rep.replyUsername}}</strong> <br/>
+              <!-- {{rep.time | date : 'on EEEE, MMM d yyyy, hh:mm a' }} -->
+              {{rep.time}}
             </div>
           </div>
           <div class="reply-content">
-            {{rep?.reply}}
+            {{rep?.replyText}}
           </div>
         </div>
       </div>

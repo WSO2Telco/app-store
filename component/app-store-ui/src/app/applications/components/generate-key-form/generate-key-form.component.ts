@@ -95,7 +95,7 @@ export class GenerateKeyFormComponent implements OnInit, OnDestroy {
 
     this.keygenForm = this.fb.group({
       keyUrl: ['', [ Validators.required, Validators.pattern('(https?://)?([\\da-z.-]+)\\.([a-z.]{2,6})[/\\w .-]*/?') ]],
-      keyValidity: ['', [Validators.required, Validators.min(-1), Validators.pattern(/\-?\d*\.?\d{1,2}/)]],
+      keyValidity: ['9000', [Validators.required, Validators.min(-1), Validators.pattern(/\-?\d*\.?\d{1,2}/)]],
     });
   }
 

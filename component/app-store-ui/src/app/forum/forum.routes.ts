@@ -13,7 +13,7 @@ const routes = [
         component: CreateTopicComponent
     },
     {
-        path: 'view-topic',
+        path: 'view/:id',
         component: ViewTopicComponent
     }
 ];
