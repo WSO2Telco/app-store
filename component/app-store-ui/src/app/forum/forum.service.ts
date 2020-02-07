@@ -28,7 +28,6 @@ export class ForumService{
     }
 
     createTopic(param:CreateTopicParam){
-        param.parentId = 'common';
         return this.http.post(ApiEndpoints.forum.createTopic,param);
     }
   

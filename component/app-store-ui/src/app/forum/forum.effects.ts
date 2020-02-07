@@ -52,9 +52,9 @@ export class ForumEffects {
     mergeMap(({payload}) => this.service.createTopic(payload)
       .pipe(
         map((result:any) => {
-          if (!result.error) {
+          if (result.success) {
             this.notification.success("Forum topic successfully created");
-            return forumActions.CreateTopicSuccessAction();
+            return forumActions.CreateTopicSuccessAction({payload:result.payload});
           } else {
             throw Error("Operation Failed");
           }

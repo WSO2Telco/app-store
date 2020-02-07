@@ -32,9 +32,8 @@ export class GetTopicsParam {
 }
 
 export class CreateTopicParam {
-  subject: string;
-  parentId: string;
-  description: string;
+  title: string;
+  content: string;
 }
 
 export class Reply {
