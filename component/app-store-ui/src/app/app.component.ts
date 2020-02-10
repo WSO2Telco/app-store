@@ -5,8 +5,9 @@ import { Store } from '@ngrx/store';
 import { AppState } from './app.data.models';
 import { DoLogoutAction, TokenRefreshAction } from './authentication/authentication.actions';
 import * as globalActions from './app.actions';
-import { ToggleLeftPanelAction} from './app.actions';
+import { ToggleLeftPanelAction } from './app.actions';
 import { Router } from '@angular/router';
+import { BnNgIdleService } from 'bn-ng-idle';
 
 @Component({
   selector: 'store-root',
@@ -25,7 +26,14 @@ export class AppComponent implements OnInit {
   constructor(
     private store: Store<AppState>,
     private ref: ChangeDetectorRef,
-    private router: Router) { }
+    private router: Router,
+    private bnIdle: BnNgIdleService) {
+    this.bnIdle.startWatching(180).subscribe((res) => {
+      if (res) {
+        this.store.dispatch(DoLogoutAction());
+      }
+    })
+  }
 
   ngOnInit(): void {
 
@@ -43,22 +51,22 @@ export class AppComponent implements OnInit {
     this.store.select(store => store.authentication.loginData)
       .subscribe((loginData) => {
         if (loginData) {
-          this.store.dispatch(globalActions.ToggleRightPanelAction({"payload": false}));
+          this.store.dispatch(globalActions.ToggleRightPanelAction({ "payload": false }));
         }
       });
 
     setTimeout(() => {
-      this.store.dispatch(ToggleLeftPanelAction({"payload": true}));
+      this.store.dispatch(ToggleLeftPanelAction({ "payload": true }));
     }, 200);
 
     let rtkn = localStorage.getItem('rtkn');
-    if(rtkn) this.store.dispatch(TokenRefreshAction());
+    if (rtkn) this.store.dispatch(TokenRefreshAction());
   }
 
   onMenuSelect(event: LoginMenuAction) {
     switch (event.type) {
       case LoginMenuActionTypes.LOGIN: {
-        this.store.dispatch(globalActions.ToggleRightPanelAction({"payload": true}));
+        this.store.dispatch(globalActions.ToggleRightPanelAction({ "payload": true }));
         break;
       }
 
@@ -90,10 +98,10 @@ export class AppComponent implements OnInit {
   }
 
   onRightNavClose() {
-    this.store.dispatch(globalActions.ToggleRightPanelAction({"payload": false}));
+    this.store.dispatch(globalActions.ToggleRightPanelAction({ "payload": false }));
   }
 
   onHambergerMenuClick(event) {
-    this.store.dispatch(globalActions.ToggleLeftPanelAction({"payload": event}));
+    this.store.dispatch(globalActions.ToggleLeftPanelAction({ "payload": event }));
   }
 }
