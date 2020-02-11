@@ -1,9 +1,10 @@
 import { Component, OnInit, ChangeDetectorRef } from "@angular/core";
-import { Topic, TopicDetail, Reply } from "../../forum.data.models";
+import { Topic, TopicDetail, Reply, PostCommentParam } from "../../forum.data.models";
 import { AppState } from "../../../app.data.models";
 import { Store } from "@ngrx/store";
 import * as forumActions from "../../forum.actions";
 import { ActivatedRoute } from '@angular/router';
+import { Actions, ofType } from '@ngrx/effects';
 
 @Component({
   selector: "store-view-topic",
@@ -17,8 +18,12 @@ export class ViewTopicComponent implements OnInit {
   public replies:Reply[];
   public topicId:string;
 
+  public ckeConfig;
+  public commentBody = new PostCommentParam();
+
   constructor(
-    private store: Store<AppState>, 
+    private store: Store<AppState>,
+    private actions$: Actions,
     private route: ActivatedRoute,
     private cd: ChangeDetectorRef
   ) {}
@@ -31,11 +36,41 @@ export class ViewTopicComponent implements OnInit {
 
     this.route.params.subscribe(params => {
       this.topicId = params['id'];
+      this.commentBody.topicID = this.topicId;
       this.store.dispatch(forumActions.GetTopicDetailAction({payload:this.topicId}));
-   });
+    });
+
+    this.ckeConfig = {
+      toolbarGroups : [
+        { name: 'document', groups: [ 'mode', 'document', 'doctools' ] },
+        { name: 'clipboard', groups: [ 'clipboard', 'undo' ] },
+        { name: 'editing', groups: [ 'find', 'selection', 'spellchecker', 'editing' ] },
+        { name: 'forms', groups: [ 'forms' ] },
+        { name: 'basicstyles', groups: [ 'cleanup', 'basicstyles' ] },
+        { name: 'paragraph', groups: [ 'indent', 'list', 'align', 'blocks', 'bidi', 'paragraph' ] },
+        { name: 'links', groups: [ 'links' ] },
+        { name: 'insert', groups: [ 'insert' ] },
+        { name: 'styles', groups: [ 'styles' ] },
+        { name: 'colors', groups: [ 'colors' ] },
+        { name: 'tools', groups: [ 'tools' ] },
+        { name: 'others', groups: [ 'others' ] },
+        { name: 'about', groups: [ 'about' ] }
+      ],
+      removeButtons : 'Source,Save,Templates,Cut,Undo,Find,SelectAll,Scayt,Form,Checkbox,Radio,TextField,Textarea,Select,Button,ImageButton,HiddenField,Subscript,Outdent,Indent,CreateDiv,BidiLtr,Language,Unlink,Anchor,Image,Flash,Table,HorizontalRule,Smiley,SpecialChar,PageBreak,Iframe,Styles,Maximize,About,ShowBlocks,BGColor,Format,Font,FontSize,NewPage,Copy,Redo,Replace,Paste,PasteText,Print,Preview,PasteFromWord,RemoveFormat,CopyFormatting,NumberedList,BulletedList,JustifyLeft,JustifyCenter,JustifyRight,JustifyBlock,BidiRtl,Superscript'
+    }
+
+    this.actions$.pipe(ofType(forumActions.PostReplySuccessAction)).subscribe(l => {
+      this.commentBody.replyText = '';
+      this.store.dispatch(forumActions.GetTopicDetailAction({payload:this.topicId}));
+    })
   }
 
   getFirstLetter(name:string): string {
     return (name != '') ? name.charAt(0) : null;
+  }
+
+  postComment(){
+    if(this.commentBody.replyText != '')
+    this.store.dispatch(forumActions.PostReplyAction({payload: this.commentBody}));
   }
 }

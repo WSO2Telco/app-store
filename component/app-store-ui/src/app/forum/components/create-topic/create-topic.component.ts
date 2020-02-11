@@ -61,6 +61,7 @@ export class CreateTopicComponent implements OnInit {
   }
 
   onCreateClick() {
+    if(this.topic.title !='' && this.topic.content !='')
     this.store.dispatch(forumActions.CreateTopicAction({payload: this.topic}));
   }
 

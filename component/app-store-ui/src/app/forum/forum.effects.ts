@@ -85,4 +85,23 @@ export class ForumEffects {
       )
     )
   ));
+
+  postComment$ = createEffect(() => this.actions$.pipe(
+    ofType(forumActions.PostReplyAction),
+    mergeMap(({payload}) => this.service.postComment(payload)
+      .pipe(
+        map((result:any) => {
+          if (result.success) {
+            return forumActions.PostReplySuccessAction();
+          } else {
+            throw Error("Operation Failed");
+          }
+        }),
+        catchError((e: HttpErrorResponse) => {
+            this.notification.error(e.message);
+            return EMPTY
+        })
+      )
+    )
+  ));
 }

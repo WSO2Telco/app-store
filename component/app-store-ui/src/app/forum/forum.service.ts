@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { GetTopicsParam, TopicResult, CreateTopicParam } from './forum.data.models';
+import { GetTopicsParam, TopicResult, CreateTopicParam, PostCommentParam } from './forum.data.models';
 import { Observable } from 'rxjs';
 import { ApiEndpoints } from '../config/api.endpoints';
 
@@ -29,6 +29,10 @@ export class ForumService{
 
     createTopic(param:CreateTopicParam){
         return this.http.post(ApiEndpoints.forum.createTopic,param);
+    }
+
+    postComment(param:PostCommentParam){
+        return this.http.post(ApiEndpoints.forum.postReply,param);
     }
   
     getOneTopic(topicId:string){

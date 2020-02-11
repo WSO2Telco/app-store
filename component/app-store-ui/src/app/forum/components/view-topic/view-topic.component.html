@@ -21,17 +21,16 @@
               {{rep.time}}
             </div>
           </div>
-          <div class="reply-content">
-            {{rep?.replyText}}
-          </div>
+          <div class="reply-content" [innerHtml]="rep?.replyText"></div>
         </div>
       </div>
 
       <div class="post-reply">
         <div>
-          <textarea rows="5" cols="50"></textarea>
+          <ckeditor [config]="ckeConfig" name="commentBody" [(ngModel)]="commentBody.replyText"></ckeditor>
         </div>
-        <button mat-flat-button color="accent">Comment</button>
+        <br/>
+        <button mat-flat-button color="accent" (click)="postComment()">Comment</button>
       </div>
 
     </div>

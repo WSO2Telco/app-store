@@ -36,6 +36,11 @@ export class CreateTopicParam {
   content: string;
 }
 
+export class PostCommentParam {
+  topicID : string;
+  replyText : string;
+}
+
 export class Reply {
   createdBy: string;
   date: string;
