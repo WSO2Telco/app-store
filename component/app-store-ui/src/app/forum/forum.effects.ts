@@ -36,7 +36,10 @@ export class ForumEffects {
     mergeMap(({payload}) => this.service.deleteTopic(payload)
       .pipe(
         map((result:any) => {
-          if (!result.error) return forumActions.GetAllTopicsAction({payload : new GetTopicsParam});
+          if (!result.error) {
+            this.notification.success("Post Deleted Successfully !");
+            return forumActions.GetAllTopicsAction({payload : new GetTopicsParam});
+          }
           else throw Error("Operation Failed");
         }),
         catchError((e: HttpErrorResponse) => {

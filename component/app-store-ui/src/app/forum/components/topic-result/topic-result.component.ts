@@ -21,16 +21,14 @@ export class TopicResultComponent implements OnInit {
   ngOnInit() {
     this.store.select(s => s.forum.allTopics).subscribe(res => {
       this.dataSource.data = res.list;
-      console.log(res);
     });
   }
 
   onTopicAction(element, action) {
     if (action === "delete") {
-      this.whenDelete.emit(element.topicId);
+      this.whenDelete.emit(element.id);
     }
     if(action ==='view'){
-      // this.whenView.emit(element);
       this.router.navigate(["/forum/view/"+element.id]);
     }
   }

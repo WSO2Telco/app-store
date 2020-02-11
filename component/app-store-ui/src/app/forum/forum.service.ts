@@ -24,7 +24,8 @@ export class ForumService{
     }
 
     deleteTopic(topicId:string){
-        return this.http.delete(ApiEndpoints.forum.deleteTopic+'?id='+topicId);
+        let payload = {id:topicId};
+        return this.http.post(ApiEndpoints.forum.deleteTopic, payload);
     }
 
     createTopic(param:CreateTopicParam){
