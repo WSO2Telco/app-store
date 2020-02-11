@@ -35,6 +35,11 @@ export class ForumService{
     postComment(param:PostCommentParam){
         return this.http.post(ApiEndpoints.forum.postReply,param);
     }
+
+    deleteComment(commentId:string){
+        let payload = {replyId:commentId};
+        return this.http.post(ApiEndpoints.forum.deleteReply,payload);
+    }
   
     getOneTopic(topicId:string){
         return this.http.get(ApiEndpoints.forum.topicList+'/'+topicId);

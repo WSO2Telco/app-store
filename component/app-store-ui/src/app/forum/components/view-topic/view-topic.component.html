@@ -21,7 +21,12 @@
               {{rep.time}}
             </div>
           </div>
-          <div class="reply-content" [innerHtml]="rep?.replyText"></div>
+          <div class="reply-content">
+            <button mat-icon-button matTooltip="Delete Comment" (click)="deleteComment(rep?.replyId)" class="btn-delete">
+              <mat-icon>close</mat-icon>
+            </button>
+            <div [innerHtml]="rep?.replyText"></div>
+          </div>
         </div>
       </div>
 

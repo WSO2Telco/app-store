@@ -107,4 +107,23 @@ export class ForumEffects {
       )
     )
   ));
+
+  deleteComment$ = createEffect(() => this.actions$.pipe(
+    ofType(forumActions.DeleteCommentAction),
+    mergeMap(({payload}) => this.service.deleteComment(payload)
+      .pipe(
+        map((result:any) => {
+          if (!result.error) {
+            this.notification.success("Comment Deleted Successfully !");
+            return forumActions.DeleteCommentSuccessAction();
+          }
+          else throw Error("Operation Failed");
+        }),
+        catchError((e: HttpErrorResponse) => {
+            this.notification.error(e.message);
+            return EMPTY
+        })
+      )
+    )
+  ));
 }

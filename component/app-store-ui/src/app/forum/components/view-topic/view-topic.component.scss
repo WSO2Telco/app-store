@@ -123,4 +123,20 @@
         margin-left: -10px;
         margin-top: -10px;
     }
+    
+    &:hover{
+        .btn-delete{
+            opacity: 1;
+        }
+    }
+}
+
+.btn-delete{
+    float: right;
+    opacity: 0;
+    transition: opacity 0.5s;
+
+    .mat-icon{
+        font-size: 17px;
+    }
 }

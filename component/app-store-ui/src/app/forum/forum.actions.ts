@@ -7,6 +7,9 @@ export const GetAllTopicsSuccessAction = createAction('[Forum] Get All Topics Su
 export const DeleteTopicAction = createAction('[Forum] Delete Topic', props<{payload: string}>());
 export const DeleteTopicSuccessAction = createAction('[Forum]  Delete Topic Success ✓');
 
+export const DeleteCommentAction = createAction('[Forum] Delete Comment', props<{payload: string}>());
+export const DeleteCommentSuccessAction = createAction('[Forum]  Delete Comment Success ✓');
+
 export const CreateTopicAction = createAction('[Forum] Create Topic', props<{payload: CreateTopicParam}>());
 export const CreateTopicSuccessAction = createAction('[Forum] Create Topic Success ✓', props<{payload: any}>());
 

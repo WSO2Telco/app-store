@@ -5,6 +5,8 @@ import { Store } from "@ngrx/store";
 import * as forumActions from "../../forum.actions";
 import { ActivatedRoute } from '@angular/router';
 import { Actions, ofType } from '@ngrx/effects';
+import { MatDialog } from '@angular/material';
+import { DeleteConfirmationDialog } from '../delete-confirmation/delete-confirmation';
 
 @Component({
   selector: "store-view-topic",
@@ -25,7 +27,8 @@ export class ViewTopicComponent implements OnInit {
     private store: Store<AppState>,
     private actions$: Actions,
     private route: ActivatedRoute,
-    private cd: ChangeDetectorRef
+    private cd: ChangeDetectorRef,
+    public dialog: MatDialog
   ) {}
 
   ngOnInit() {
@@ -63,6 +66,10 @@ export class ViewTopicComponent implements OnInit {
       this.commentBody.replyText = '';
       this.store.dispatch(forumActions.GetTopicDetailAction({payload:this.topicId}));
     })
+
+    this.actions$.pipe(ofType(forumActions.DeleteCommentSuccessAction)).subscribe(l => {
+      this.store.dispatch(forumActions.GetTopicDetailAction({payload:this.topicId}));
+    })
   }
 
   getFirstLetter(name:string): string {
@@ -72,5 +79,13 @@ export class ViewTopicComponent implements OnInit {
   postComment(){
     if(this.commentBody.replyText != '')
     this.store.dispatch(forumActions.PostReplyAction({payload: this.commentBody}));
+  }
+
+  deleteComment(id){
+    const dialogRef = this.dialog.open(DeleteConfirmationDialog);
+
+    dialogRef.afterClosed().subscribe(result => {
+      if(result=="delete") this.store.dispatch(forumActions.DeleteCommentAction({payload:id}));
+    });
   }
 }

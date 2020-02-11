@@ -1,13 +1,13 @@
 import { Component, OnInit } from "@angular/core";
 import { AppState } from "../../../app.data.models";
 import { Store } from "@ngrx/store";
-import { Topic, GetTopicsParam, TopicResultPayload } from "../../forum.data.models";
-import { MatTableDataSource, MatDialogRef, MatDialog } from "@angular/material";
+import { GetTopicsParam, TopicResultPayload } from "../../forum.data.models";
+import { MatDialog } from "@angular/material";
 import * as forumActions from "../../forum.actions";
-import { Router } from "@angular/router";
 import * as globalActions from "../../../app.actions";
 import { BreadcrumbItem } from "../../../app.data.models";
 import { Title } from '@angular/platform-browser';
+import { DeleteConfirmationDialog } from '../delete-confirmation/delete-confirmation';
 
 @Component({
   selector: "store-forum-main",
@@ -53,29 +53,4 @@ export class ForumMainComponent implements OnInit {
       if(result=="delete") this.store.dispatch(forumActions.DeleteTopicAction({payload:id}));
     });
   }
-
-  openDialog(id): void {
-    
-  }
-}
-
-@Component({
-  selector: 'delete-confirmation-dialog',
-  template: `
-<div mat-dialog-content>
-  <h2>Confirm Delete ?</h2>
-</div>
-<div mat-dialog-actions>
-  <button mat-button (click)="onNoClick()" cdkFocusInitial>Cancel</button>
-  <button mat-button mat-dialog-close="delete">Delete</button>
-</div>`,
-})
-export class DeleteConfirmationDialog {
-
-  constructor(public dialogRef: MatDialogRef<DeleteConfirmationDialog>) {}
-
-  onNoClick(): void {
-    this.dialogRef.close();
-  }
-
 }
