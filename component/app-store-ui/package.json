@@ -31,6 +31,7 @@
     "angular-star-rating": "^4.0.0-beta.3",
     "angular-tag-cloud-module": "^3.8.1",
     "animate.css": "^3.7.2",
+    "bn-ng-idle": "^1.0.1",
     "ckeditor4-angular": "^1.0.0-beta.2",
     "core-js": "^3.1.4",
     "css-star-rating": "^1.2.4",
