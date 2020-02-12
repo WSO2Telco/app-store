@@ -8,7 +8,6 @@ import { LoginFormComponent } from './components/login-form/login-form.component
 import { AuthenticationEffects } from './authentication.effects';
 import { authReducer } from './authentication.reducers';
 import { AuthenticationService } from './authentication.service';
-import { SignUpComponent } from './components/sign-up/sign-up.component';
 import { MyAccountComponent } from './components/my-account/my-account.component';
 import { helpComponent } from './components/help/help.component';
 
@@ -22,7 +21,6 @@ import { helpComponent } from './components/help/help.component';
   declarations: [
     LoginIconComponent,
     LoginFormComponent,
-    SignUpComponent,
     MyAccountComponent,
     helpComponent],
   providers: [
