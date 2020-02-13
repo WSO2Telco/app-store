@@ -134,8 +134,9 @@ public class UserService {
 
         try {
             UserInfoServiceUtil userInfoServiceUtil = UserInfoServiceUtil.getInstance();
+            userInfoServiceUtil.getUserInfoService(UserInfoServiceUtil.getSessionCookie());
             VerificationBean verificationBean = userInfoServiceUtil.updatePassword(resetPasswordRequest.getUsername(), resetPasswordRequest.getCode(),
-                    resetPasswordRequest.getCaptcha(),resetPasswordRequest.getNewPassword());
+                    /*resetPasswordRequest.getCaptcha(),*/resetPasswordRequest.getNewPassword());
             response = Response.status(Response.Status.OK).
                     entity(new GenericResponse(false, "password updated successfully")).build();
         } catch (Exception e) {
@@ -153,6 +154,7 @@ public class UserService {
 
         try {
             UserInfoServiceUtil userInfoServiceUtil = UserInfoServiceUtil.getInstance();
+            userInfoServiceUtil.getUserInfoService(UserInfoServiceUtil.getSessionCookie());
             InputValidator.validateUserInput("Username", resetPasswordRequest.getUsername(), InputType.NAME);
 
             if(!isUserExists(resetPasswordRequest.getUsername())) {

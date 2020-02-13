@@ -45,11 +45,27 @@ public class UserInfoServiceUtil {
     private static final Logger logger = Logger.getLogger(UserInfoServiceUtil.class.getName());
 
     private UserInformationRecoveryServiceStub stub = null;
-
     private static UserInfoServiceUtil userInfoServiceUtil = null;
 
+    private String userInfoRecoveryService = "UserInformationRecoveryService";
+
     private UserInfoServiceUtil() {
-        getUserInfoService();
+        initUserInfoRecoveryService();
+    }
+
+    private void initUserInfoRecoveryService () {
+        try {
+            APIManagerConfiguration config = HostObjectComponent.getAPIManagerConfiguration();
+            String url = config.getFirstProperty(APIConstants.AUTH_MANAGER_URL);
+            if (url == null) {
+                handleException("API_KEY_MANAGER URL Unspecified");
+            }
+            stub = new UserInformationRecoveryServiceStub(null, url + userInfoRecoveryService);
+        } catch (ApiException e) {
+            logger.log(Level.WARNING, "product data retrieval error " + e);
+        } catch (AxisFault axisFault) {
+            logger.log(Level.WARNING, "Stub generation error occurred " + axisFault);
+        }
     }
 
     public static UserInfoServiceUtil getInstance() {
@@ -59,28 +75,11 @@ public class UserInfoServiceUtil {
         return userInfoServiceUtil;
     }
 
-    private UserInformationRecoveryServiceStub getUserInfoService() {
-        String userInfoRecoveryService = "UserInformationRecoveryService";
-        String sessionCookie = getSessionCookie();
-
-        try {
-            APIManagerConfiguration config = HostObjectComponent.getAPIManagerConfiguration();
-            String url = config.getFirstProperty(APIConstants.AUTH_MANAGER_URL);
-            if (url == null) {
-                handleException("API_KEY_MANAGER URL Unspecified");
-            }
-
-            stub = new UserInformationRecoveryServiceStub(null, url + userInfoRecoveryService);
-            ServiceClient serviceClient = stub._getServiceClient();
-            Options options = serviceClient.getOptions();
-            options.setManageSession(true);
-            options.setProperty(HTTPConstants.COOKIE_STRING, sessionCookie);
-        } catch (AxisFault axisFault) {
-            logger.log(Level.WARNING, "Stub generation error occurred " + axisFault);
-        } catch (ApiException e) {
-            logger.log(Level.WARNING, "product data retrieval error " + e);
-        }
-        return stub;
+    public void getUserInfoService(String sessionCookie) {
+        ServiceClient serviceClient = stub._getServiceClient();
+        Options options = serviceClient.getOptions();
+        options.setManageSession(true);
+        options.setProperty(HTTPConstants.COOKIE_STRING, sessionCookie);
     }
 
     public VerificationBean sendNotification(String username) throws RemoteException, UserInformationRecoveryServiceIdentityMgtServiceExceptionException {
@@ -89,7 +88,8 @@ public class UserInfoServiceUtil {
         return stub.sendRecoveryNotification(username, userBean.getKey(), "email");
     }
 
-    public VerificationBean updatePassword(String username, String confirmationCode, CaptchaInfoBean captchaInfoBean, String newPassword) throws RemoteException, UserInformationRecoveryServiceIdentityMgtServiceExceptionException {
+    public VerificationBean updatePassword(String username, String confirmationCode, /*CaptchaInfoBean captchaInfoBean,*/ String newPassword) throws RemoteException, UserInformationRecoveryServiceIdentityMgtServiceExceptionException {
+        CaptchaInfoBean captchaInfoBean = stub.getCaptcha();
         VerificationBean verificationBean = stub.verifyConfirmationCode(username, confirmationCode, captchaInfoBean);
         return stub.updatePassword(username, verificationBean.getKey(), newPassword);
     }
@@ -123,6 +123,8 @@ public class UserInfoServiceUtil {
             if (authenticationAdminStub.login(adminUsername, adminPassword, new URL(serverURL).getHost())) {
                 sessionCookie = (String) authenticationAdminStub._getServiceClient().getLastOperationContext()
                         .getServiceContext().getProperty(HTTPConstants.COOKIE_STRING);
+
+
             } else {
                 handleException("Incorrect credentials");
             }
