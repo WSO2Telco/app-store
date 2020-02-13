@@ -6,6 +6,7 @@ import { SharedModule } from '../shared/shared.module';
 import { ThemeComponent } from './components/theme/theme.component';
 import { ThumbnailComponent } from './components/thumbnail/thumbnail.component';
 import { SlideshowModule } from 'ng-simple-slideshow';
+import { SignUpComponent } from './components/sign-up/sign-up.component';
 
 @NgModule({
   imports: [
@@ -14,6 +15,6 @@ import { SlideshowModule } from 'ng-simple-slideshow';
     HomeRoutes,
     SlideshowModule
   ],
-  declarations: [DashboardComponent, ThemeComponent, ThumbnailComponent]
+  declarations: [DashboardComponent, ThemeComponent, ThumbnailComponent,SignUpComponent]
 })
 export class HomeModule { }

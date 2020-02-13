@@ -8,9 +8,9 @@ import { AppState } from '../../../app.data.models';
 import { Store } from '@ngrx/store';
 import { NgForm, FormGroup, FormBuilder, Validators, FormGroupDirective, AbstractControl, FormControl } from '@angular/forms';
 import { Actions, ofType } from '@ngrx/effects';
-import { SigUpUserParam } from '../../authentication.models';
-import { SignupUserSuccessAction, SignupUserAction } from '../../authentication.actions';
+import { SignupUserSuccessAction, SignupUserAction } from '../../../authentication/authentication.actions';
 import { ErrorStateMatcher } from '@angular/material/core';
+import { SigUpUserParam } from '../../../authentication/authentication.models';
 
 export class SignUpErrorStateMatcher implements ErrorStateMatcher {
   isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
@@ -28,7 +28,7 @@ export class SignUpErrorStateMatcher implements ErrorStateMatcher {
 })
 export class SignUpComponent implements OnInit {
 
-  public user: SigUpUserParam;
+  public user: SigUpUserParam
   matcher = new SignUpErrorStateMatcher();
   formSignupApp: FormGroup;
   submitted = false;
@@ -52,7 +52,7 @@ export class SignUpComponent implements OnInit {
 
   ngOnInit() {
     this.user = new SigUpUserParam();
-    this.store.dispatch(globalActions.SetBreadcrumbAction({ payload: [new BreadcrumbItem("Applications")] }));
+    this.store.dispatch(globalActions.SetBreadcrumbAction({ payload: [new BreadcrumbItem("SignUp")] }));
     this.titleService.setTitle("Create New App | Apigate API Store");
   }
 
