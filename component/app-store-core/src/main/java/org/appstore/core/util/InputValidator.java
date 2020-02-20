@@ -1,7 +1,15 @@
 package org.appstore.core.util;
 
+import java.security.SecureRandom;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
+import org.apache.commons.lang.math.RandomUtils;
+import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.appstore.core.exception.InvalidInputException;
@@ -70,5 +78,29 @@ public class InputValidator {
             log.error(errorMsg);
             throw new InvalidInputException(errorMsg);
         }
+    }
+
+    public static String generatePass() {
+        //StringBuilder charset = new StringBuilder();
+        String upperCase = RandomStringUtils.random(2, 65, 90, true,
+                true, null, new SecureRandom());
+        //charset.append(upperCase);
+        String lowerCase = RandomStringUtils.random(2, 97, 122, true,
+                true, null, new SecureRandom());
+        //charset.append(lowerCase);
+        String numbers = RandomStringUtils.randomNumeric(2);
+        //charset.append(numbers);
+        String specialChar_1 = RandomStringUtils.random(2, 33, 46, false,
+                false, null, new SecureRandom());
+        //charset.append(specialChar_1)
+        String specialChar_2 = RandomStringUtils.random(2, 58, 64, false,
+                false, null, new SecureRandom());
+        //charset.append(specialChar_2);
+        String charset = upperCase.concat(lowerCase).concat(numbers).concat(specialChar_1).concat(specialChar_2);
+
+        List<String> pwdLetters = Arrays.asList(charset.split(""));
+
+        Collections.shuffle(pwdLetters);
+        return  pwdLetters.stream().collect(Collectors.joining());
     }
 }

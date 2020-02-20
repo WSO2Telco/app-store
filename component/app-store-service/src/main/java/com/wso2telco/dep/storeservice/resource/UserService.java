@@ -6,11 +6,13 @@ import org.apache.axis2.transport.http.HTTPConstants;
 import org.appstore.core.dto.ChangePasswordByUsrRequest;
 import org.appstore.core.dto.ChangePasswordRequest;
 import org.appstore.core.dto.GenericResponse;
+import org.appstore.core.dto.ResetPasswordRequest;
 import org.appstore.core.dto.UserRequest;
 import org.appstore.core.exception.ApiException;
 import org.appstore.core.exception.InvalidInputException;
 import org.appstore.core.util.InputType;
 import org.appstore.core.util.InputValidator;
+import org.appstore.core.util.UserInfoServiceUtil;
 import org.wso2.carbon.apimgt.api.APIManagementException;
 import org.wso2.carbon.apimgt.hostobjects.HostObjectUtils;
 import org.wso2.carbon.apimgt.hostobjects.internal.HostObjectComponent;
@@ -32,6 +34,7 @@ import org.wso2.carbon.base.MultitenantConstants;
 import org.wso2.carbon.context.PrivilegedCarbonContext;
 import org.wso2.carbon.core.util.PermissionUpdateUtil;
 import org.wso2.carbon.identity.mgt.stub.UserIdentityManagementAdminServiceStub;
+import org.wso2.carbon.identity.mgt.stub.beans.VerificationBean;
 import org.wso2.carbon.identity.user.registration.stub.UserRegistrationAdminServiceException;
 import org.wso2.carbon.identity.user.registration.stub.UserRegistrationAdminServiceStub;
 import org.wso2.carbon.identity.user.registration.stub.dto.UserDTO;
@@ -48,11 +51,7 @@ import org.wso2.carbon.utils.multitenancy.MultitenantUtils;
 import java.nio.charset.StandardCharsets;
 import java.util.Base64;
 
-import javax.ws.rs.Consumes;
-import javax.ws.rs.HeaderParam;
-import javax.ws.rs.POST;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
+import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
@@ -105,7 +104,7 @@ public class UserService {
             }
 
             if(isUserExists(userRequest.getUsername())) {
-                handleException("User name already exists");
+                UserInfoServiceUtil.handleException("User name already exists");
             }
 
             addUser(userRequest.getUsername(), userRequest.getPassword(), userRequest.getAllFieldsValues());
@@ -129,6 +128,51 @@ public class UserService {
     }
 
     @POST
+    @Path("/update-password")
+    public Response updatePassword(ResetPasswordRequest resetPasswordRequest) {
+        Response response;
+
+        try {
+            UserInfoServiceUtil userInfoServiceUtil = UserInfoServiceUtil.getInstance();
+            userInfoServiceUtil.getUserInfoService(UserInfoServiceUtil.getSessionCookie());
+            VerificationBean verificationBean = userInfoServiceUtil.updatePassword(resetPasswordRequest.getUsername(), resetPasswordRequest.getCode(),
+                    /*resetPasswordRequest.getCaptcha(),*/resetPasswordRequest.getNewPassword());
+            response = Response.status(Response.Status.OK).
+                    entity(new GenericResponse(false, "password updated successfully")).build();
+        } catch (Exception e) {
+            logger.log(Level.WARNING, "Error while updating password " + e);
+            response = Response.status(Response.Status.OK)
+                    .entity(new GenericResponse(true, e.getMessage())).build();
+        }
+        return response;
+    }
+
+    @POST
+    @Path("forget-password")
+    public Response sendNotification(ResetPasswordRequest resetPasswordRequest) {
+        Response response;
+
+        try {
+            UserInfoServiceUtil userInfoServiceUtil = UserInfoServiceUtil.getInstance();
+            userInfoServiceUtil.getUserInfoService(UserInfoServiceUtil.getSessionCookie());
+            InputValidator.validateUserInput("Username", resetPasswordRequest.getUsername(), InputType.NAME);
+
+            if(!isUserExists(resetPasswordRequest.getUsername())) {
+                UserInfoServiceUtil.handleException("User does not exists");
+            }
+
+            VerificationBean verificationBean = userInfoServiceUtil.sendNotification(resetPasswordRequest.getUsername());
+            response = Response.status(Response.Status.OK).
+                    entity(new GenericResponse(false, "notification sent successfully")).build();
+        } catch (Exception e) {
+            logger.log(Level.WARNING, "Error occurred while sending notification " + e);
+            response = Response.status(Response.Status.OK)
+                    .entity(new GenericResponse(true, e.getMessage())).build();
+        }
+        return response;
+    }
+
+    @POST
     @Path("change-password-by-user")
     public Response changePasswordByUser(ChangePasswordByUsrRequest changePasswordReq, @HeaderParam("authorization") String authString) {
         Response response;
@@ -146,7 +190,7 @@ public class UserService {
                 authUsername = decodedAuthParts[0];
                 authPassword = decodedAuthParts[1];
             } catch (Exception e) {
-                handleException("User authentication failed");
+                UserInfoServiceUtil.handleException("User authentication failed");
             }
 
             APIManagerConfiguration config = HostObjectComponent.getAPIManagerConfiguration();
@@ -158,17 +202,19 @@ public class UserService {
             authOptions.setManageSession(true);
             int tenantId =  ServiceReferenceHolder.getInstance().getRealmService().getTenantManager().getTenantId(tenantDomain);
             if(tenantId == org.wso2.carbon.base.MultitenantConstants.INVALID_TENANT_ID) {
-                handleException("Invalid tenant domain");
+                UserInfoServiceUtil.handleException("Invalid tenant domain");
             }
             PermissionUpdateUtil.updatePermissionTree(tenantId);
             if(authAdminStub.login(authUsername, authPassword, new URL(serverURL).getHost())) {
                 sessionCookie = (String) authAdminStub._getServiceClient().getLastOperationContext().getServiceContext().getProperty(HTTPConstants.COOKIE_STRING);
             } else {
-                handleException("Incorrect credentials");
+                UserInfoServiceUtil.handleException("Incorrect credentials");
             }
 
+            // -- getting session cookie to access admin service
+
             if (!changePasswordReq.getCurrentPassword().equals(authPassword)) {
-                handleException("Current password is incorrect");
+                UserInfoServiceUtil.handleException("Current password is incorrect");
             }
 
             if (tenantDomain != null && !MultitenantConstants.SUPER_TENANT_DOMAIN_NAME.equals(tenantDomain)) {
@@ -179,7 +225,7 @@ public class UserService {
 
             UserRegistrationConfigDTO signupConfig = SelfSignUpUtil.getSignupConfiguration(tenantDomain);
             if (signupConfig != null && !"".equals(signupConfig.getSignUpDomain()) && !signupConfig.isSignUpEnabled()) {
-                handleException("Self sign up has been disabled for this tenant domain");
+                UserInfoServiceUtil.handleException("Self sign up has been disabled for this tenant domain");
             }
 
             UserIdentityManagementAdminServiceStub identityMgtAdminStub  = new UserIdentityManagementAdminServiceStub(
@@ -191,7 +237,7 @@ public class UserService {
             identityMgtAdminStub.changeUserPassword(changePasswordReq.getNewPassword(), changePasswordReq.getCurrentPassword());
 
             if (!isAbleToLogin(authUsername, changePasswordReq.getNewPassword(), serverURL, tenantDomain)) {
-                handleException("Password change failed");
+                UserInfoServiceUtil.handleException("Password change failed");
             }
 
             response = Response.status(Response.Status.OK)
@@ -232,7 +278,7 @@ public class UserService {
             String tenantDomain = MultitenantUtils.getTenantDomain(APIUtil.replaceEmailDomainBack(changePasswordReq.getUsername()));
 
             if (!isAbleToLogin(changePasswordReq.getUsername(), changePasswordReq.getCurrentPassword(), serverURL, tenantDomain)) {
-                handleException("Current password is incorrect");
+                UserInfoServiceUtil.handleException("Current password is incorrect");
             }
 
             if (tenantDomain != null && !MultitenantConstants.SUPER_TENANT_DOMAIN_NAME.equals(tenantDomain)) {
@@ -243,11 +289,11 @@ public class UserService {
 
             UserRegistrationConfigDTO signupConfig = SelfSignUpUtil.getSignupConfiguration(tenantDomain);
             if (signupConfig != null && !"".equals(signupConfig.getSignUpDomain()) && !signupConfig.isSignUpEnabled()) {
-                handleException("Self sign up has been disabled for this tenant domain");
+                UserInfoServiceUtil.handleException("Self sign up has been disabled for this tenant domain");
             }
 
             if(changePasswordReq.getUsername().equals(signupConfig.getAdminUserName())) {
-                handleException("Unable to change super admin credentials");
+                UserInfoServiceUtil.handleException("Unable to change super admin credentials");
             }
 
             UserAdminStub userAdminStub = new UserAdminStub(null, serverURL + "UserAdmin");
@@ -255,7 +301,7 @@ public class UserService {
             userAdminStub.changePasswordByUser(tenantAwareUserName, changePasswordReq.getCurrentPassword(), changePasswordReq.getNewPassword());
 
             if (!isAbleToLogin(changePasswordReq.getUsername(), changePasswordReq.getNewPassword(), serverURL, tenantDomain)) {
-                handleException("Password change failed");
+                UserInfoServiceUtil.handleException("Password change failed");
             }
 
             response = Response.status(Response.Status.OK)
@@ -289,7 +335,7 @@ public class UserService {
 
         /* fieldValues will contain values up to last field user entered */
         String[] fieldValues = fields.split("\\|");
-        UserFieldDTO[] userFields = getOrderedUserFieldDTO();
+        UserFieldDTO[] userFields = getOrderedUserFieldDTO(); // wrong user field setup - for email this is setting organisation as email value
         for (int i = 0; i < fieldValues.length; i++) {
             if (fieldValues[i] != null) {
                 userFields[i].setFieldValue(fieldValues[i]);
@@ -312,7 +358,7 @@ public class UserService {
             // set tenant specific sign up user storage
             if (signupConfig != null && !signupConfig.getSignUpDomain().isEmpty()) {
                 if (!signupConfig.isSignUpEnabled()) {
-                    handleException("Self sign up has been disabled for this tenant domain");
+                    UserInfoServiceUtil.handleException("Self sign up has been disabled for this tenant domain");
                 }
                 int index = username.indexOf(UserCoreConstants.DOMAIN_SEPARATOR);
 
@@ -370,12 +416,12 @@ public class UserService {
                 } catch (WorkflowException e) {
                     logger.log(Level.WARNING,"Unable to execute User SignUp Workflow", e);
                     removeTenantUser(username, serverURL);
-                    handleException("Unable to execute User SignUp Workflow", e);
+                    UserInfoServiceUtil.handleException("Unable to execute User SignUp Workflow", e);
                 }
             } else {
                 String customErrorMsg = "Unable to add a user. Please check credentials in "
                         + "the signup-config.xml in the registry";
-                handleException(customErrorMsg);
+                UserInfoServiceUtil.handleException(customErrorMsg);
             }
         } catch (UserRegistrationAdminServiceException | WorkflowException |
                 UserAdminUserAdminException | RemoteException | APIManagementException e) {
@@ -412,7 +458,7 @@ public class UserService {
             APIManagerConfiguration config = HostObjectComponent.getAPIManagerConfiguration();
             String url = config.getFirstProperty(APIConstants.AUTH_MANAGER_URL);
             if (url == null) {
-                handleException("API key manager URL unspecified");
+                UserInfoServiceUtil.handleException("API key manager URL unspecified");
             }
             stub = new UserRegistrationAdminServiceStub(null, url + "UserRegistrationAdminService");
             ServiceClient client = stub._getServiceClient();
@@ -465,7 +511,7 @@ public class UserService {
                 exists = true;
             }
         } catch (org.wso2.carbon.user.api.UserStoreException e) {
-            handleException("Error while checking user existence for " + username, e);
+            UserInfoServiceUtil.handleException("Error while checking user existence for " + username, e);
         }
         return exists;
     }
@@ -474,7 +520,7 @@ public class UserService {
                                          String tenantDomain) throws ApiException {
         boolean loginStatus = false;
         if (serverURL == null) {
-            handleException("API key manager URL unspecified");
+            UserInfoServiceUtil.handleException("API key manager URL unspecified");
         }
         try {
             AuthenticationAdminStub authAdminStub =
@@ -492,16 +538,6 @@ public class UserService {
             logger.log(Level.WARNING,"Error while checking the ability to login", axisFault);
         }
         return loginStatus;
-    }
-
-    private static void handleException(String msg) throws ApiException {
-        logger.log(Level.WARNING, msg);
-        throw new ApiException(msg);
-    }
-
-    private static void handleException(String msg, Throwable throwable) throws ApiException {
-        logger.log(Level.WARNING, msg);
-        throw new ApiException(msg, throwable);
     }
 
     private enum AllFieldValue {
