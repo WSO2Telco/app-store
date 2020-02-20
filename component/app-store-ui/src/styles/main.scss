@@ -85,4 +85,9 @@ img {
  @include animation-delay(1.2s);
 }
 
-
+.swiper-container{
+  .swiper-button-prev,
+  .swiper-button-next{
+    display: none;
+  }
+}
