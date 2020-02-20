@@ -2,7 +2,7 @@ import { Component, OnInit } from "@angular/core";
 import { AppState } from "../../../app.data.models";
 import { Store } from "@ngrx/store";
 import { GetTopicsParam, TopicResultPayload } from "../../forum.data.models";
-import { MatDialog } from "@angular/material";
+import { MatDialog } from "@angular/material/dialog";
 import * as forumActions from "../../forum.actions";
 import * as globalActions from "../../../app.actions";
 import { BreadcrumbItem } from "../../../app.data.models";

@@ -8,7 +8,7 @@ import { Observable } from 'rxjs';
 import { Application, SubscribeParam } from '../../apis.models';
 import { GetUserApplicationsAction, AddOperatorToSelectionAction, RemoveOperatorFromSelectionAction, RemoveAllOperatorFromSelectionAction, DoSubscribeAction } from '../../apis.actions';
 import { ConfirmDialogComponent } from '../../../commons/components/confirm-dialog/confirm-dialog.component';
-import { MatDialog } from '@angular/material';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'store-api-subscription',

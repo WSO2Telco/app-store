@@ -1,7 +1,9 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { AppState } from '../../../app.data.models';
 import { Store } from '@ngrx/store';
-import { MatTableDataSource, MatDialog, MatSort } from '@angular/material';
+import { MatDialog } from '@angular/material/dialog';
+import { MatSort } from '@angular/material/sort';
+import { MatTableDataSource } from '@angular/material/table';
 import { Application, GetApplicationsParam } from '../../applications.data.models';
 import * as applicationsActions from '../../applications.actions';
 import * as authActions from '../../../authentication/authentication.actions'

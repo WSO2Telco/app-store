@@ -1,7 +1,7 @@
 import { Component, OnInit, Input, OnChanges, SimpleChanges, Output, EventEmitter } from "@angular/core";
 import { AppState } from "../../../app.data.models";
 import { Store } from "@ngrx/store";
-import { MatTableDataSource } from "@angular/material";
+import { MatTableDataSource } from "@angular/material/table";
 import { Topic } from "../../forum.data.models";
 import { Router } from '@angular/router';
 

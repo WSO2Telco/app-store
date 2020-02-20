@@ -5,7 +5,7 @@ import { Store } from "@ngrx/store";
 import * as forumActions from "../../forum.actions";
 import { ActivatedRoute } from '@angular/router';
 import { Actions, ofType } from '@ngrx/effects';
-import { MatDialog } from '@angular/material';
+import { MatDialog } from '@angular/material/dialog';
 import { DeleteConfirmationDialog } from '../delete-confirmation/delete-confirmation';
 
 @Component({

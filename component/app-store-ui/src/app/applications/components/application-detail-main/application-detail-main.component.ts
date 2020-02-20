@@ -1,7 +1,7 @@
 import { Component, OnInit, ChangeDetectorRef } from "@angular/core";
 import { ActivatedRoute } from "@angular/router";
 import { Location } from '@angular/common';
-import { MatDialog } from "@angular/material";
+import { MatDialog } from "@angular/material/dialog";
 import { Store, createSelector, select } from '@ngrx/store';
 
 import { AppState } from '../../../app.data.models';

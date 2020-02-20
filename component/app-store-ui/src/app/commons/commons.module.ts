@@ -5,12 +5,11 @@ import { HamburgerMenuComponent } from "./components/hamburger-menu/hamburger-me
 import { SharedModule } from "../shared/shared.module";
 import { BreadcrumbsComponent } from "./components/breadcrumbs/breadcrumbs.component";
 import { ParticlesComponent } from "./components/particles/particles.component";
-import { ParticlesModule } from "angular-particle";
 import { ConfirmDialogComponent } from "./components/confirm-dialog/confirm-dialog.component";
 import { ActionDialogComponent } from './components/action-dialog/action-dialog.component';
 
 @NgModule({
-  imports: [CommonModule, SharedModule, ParticlesModule],
+  imports: [CommonModule, SharedModule],
   declarations: [
     MainMenuComponent,
     HamburgerMenuComponent,
