@@ -49,6 +49,10 @@ h1, h2, h3, h4, h5, h6{
   clear: both;
 }
 
+img {
+  max-width: 100%;
+}
+
 .delay_1{
  @include animation-delay(0.1s);
 }

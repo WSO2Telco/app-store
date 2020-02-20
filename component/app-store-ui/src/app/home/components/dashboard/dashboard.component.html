@@ -9,7 +9,11 @@
       </div>
     </div>
     <div style="height: 300px; width: 480px;" fxFlex="480px">
-      <slideshow [imageUrls]="imageUrlArray" #slideshow [showArrows]="true" [autoPlay]="true" [showCaptions]="false"></slideshow>
+      <swiper class="swiper-container" [config]="config" (indexChange)="onIndexChange($event)" fxFlex="auto">
+        <div *ngFor="let slide of imageUrlArray" class="swiper-slide">
+          <img [src]="slide.url" />
+        </div>
+      </swiper>
     </div>
   </div>
 </div>
