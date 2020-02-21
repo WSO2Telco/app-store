@@ -4,7 +4,9 @@ import org.apache.axis2.client.Options;
 import org.apache.axis2.client.ServiceClient;
 import org.appstore.core.dto.AuthenticationRequest;
 import org.appstore.core.dto.GenericResponse;
+import org.appstore.core.dto.LoginResponse;
 import org.appstore.core.util.InputValidator;
+import org.appstore.core.util.UserInfoServiceUtil;
 import org.wso2.carbon.apimgt.api.APIManagementException;
 import org.wso2.carbon.apimgt.hostobjects.internal.HostObjectComponent;
 import org.wso2.carbon.apimgt.hostobjects.internal.ServiceReferenceHolder;
@@ -84,8 +86,9 @@ public class AuthenticationService {
                         .build();
                 logger.log(Level.WARNING, "Invalid username or password, Login failed");
             } else {
+                String theme = UserInfoServiceUtil.getTheme(authenticationRequest.getUsername());
                 response = Response.status(Response.Status.OK)
-                        .entity(new GenericResponse(false, "SUCCESS"))
+                        .entity(new LoginResponse(false, "SUCCESS", theme))
                         .build();
                 logger.log(Level.INFO, authenticationRequest.getUsername() + " successfully logged in");
             }
@@ -97,7 +100,6 @@ public class AuthenticationService {
         }
         return response;
     }
-
 
     @GET
     @Path("/logout")

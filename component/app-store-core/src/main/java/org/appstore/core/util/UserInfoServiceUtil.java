@@ -123,8 +123,6 @@ public class UserInfoServiceUtil {
             if (authenticationAdminStub.login(adminUsername, adminPassword, new URL(serverURL).getHost())) {
                 sessionCookie = (String) authenticationAdminStub._getServiceClient().getLastOperationContext()
                         .getServiceContext().getProperty(HTTPConstants.COOKIE_STRING);
-
-
             } else {
                 handleException("Incorrect credentials");
             }
@@ -144,13 +142,23 @@ public class UserInfoServiceUtil {
         throw new ApiException(msg, throwable);
     }
 
-    private static boolean isEmailExists(String username, String userEmail) {
+    public static boolean isEmailExists(String username, String userEmail) {
         boolean emailStatus = false;
         String email = getUserFieldDTO(username, "http://wso2.org/claims/emailaddress");
         if (email != null && userEmail.equals(email)) {
             emailStatus = true;
         }
         return emailStatus;
+    }
+
+    public static String getTheme(String username) {
+        String theme = getUserFieldDTO(username, "http://wso2.org/claims/usertheme");
+        return theme;
+    }
+
+    public static boolean setTheme (String username, String claimValue) {
+        boolean status = UserInfoServiceUtil.setUserFieldDTO(username,"http://wso2.org/claims/usertheme", claimValue, "default");
+        return status;
     }
 
     private static String getUserFieldDTO(String username, String claim) {
@@ -178,5 +186,32 @@ public class UserInfoServiceUtil {
             logger.log(Level.CONFIG, "Error while retrieving user details " + e);
         }
         return userField;
+    }
+
+    private static boolean setUserFieldDTO(String username, String claimURI, String claimValue, String userProfile) {
+        String userManageServiceName = "RemoteUserStoreManagerService";
+        RemoteUserStoreManagerServiceStub stub;
+        boolean status = false;
+
+        String sessionCookie = UserInfoServiceUtil.getSessionCookie();
+
+        try {
+            APIManagerConfiguration config = HostObjectComponent.getAPIManagerConfiguration();
+            String url = config.getFirstProperty(APIConstants.AUTH_MANAGER_URL);
+            if (url == null) {
+                UserInfoServiceUtil.handleException("API_KEY_MANAGER URL Unspecified");
+            }
+
+            stub = new RemoteUserStoreManagerServiceStub(null, url + userManageServiceName);
+            ServiceClient serviceClient = stub._getServiceClient();
+            Options options = serviceClient.getOptions();
+            options.setManageSession(true);
+            options.setProperty(HTTPConstants.COOKIE_STRING, sessionCookie);
+            stub.setUserClaimValue(username, claimURI, claimValue, userProfile);
+            status = true;
+        } catch (Exception e) {
+            logger.log(Level.CONFIG, "Error while updating user details " + e);
+        }
+        return status;
     }
 }

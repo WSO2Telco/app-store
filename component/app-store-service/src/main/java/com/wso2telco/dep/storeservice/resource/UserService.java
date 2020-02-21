@@ -127,12 +127,73 @@ public class UserService {
         return response;
     }
 
+    @GET
+    @Path("/theme/{user}")
+    @Produces(MediaType.TEXT_PLAIN)
+    public Response getTheme(@PathParam("user") String username) {
+        Response response;
+        try {
+            InputValidator.validateUserInput("Username", username, InputType.NAME);
+            if (!isUserExists(username)) {
+                UserInfoServiceUtil.handleException("User does not exists");
+            }
+            String theme = UserInfoServiceUtil.getTheme(username);
+            response = Response.status(Response.Status.OK).
+                    entity(theme).build();
+        } catch (InvalidInputException e) {
+            logger.log(Level.WARNING, "Invalid username or password" + e);
+            response = Response.status(Response.Status.OK)
+                    .entity(new GenericResponse(true, "Incorrect Username pattern")).build();
+        } catch (ApiException e) {
+            logger.log(Level.WARNING, "User does not exists" + e);
+            response = Response.status(Response.Status.OK)
+                    .entity(new GenericResponse(true, "Login failed. Please recheck the username")).build();
+        } catch (APIManagementException e) {
+            logger.log(Level.WARNING, "user existence check failed" + e);
+            response = Response.status(Response.Status.OK).entity(new GenericResponse(true, "user existence check failed")).build();
+        }
+        return response;
+    }
+
+    @POST
+    @Path("/theme")
+    public Response setTheme(ResetPasswordRequest resetPasswordRequest) {
+        Response response;
+        boolean status;
+        try {
+            InputValidator.validateUserInput("Username", resetPasswordRequest.getUsername(), InputType.NAME);
+            if (!isUserExists(resetPasswordRequest.getUsername())) {
+                UserInfoServiceUtil.handleException("User does not exists");
+            }
+            status = UserInfoServiceUtil.setTheme(resetPasswordRequest.getUsername(), resetPasswordRequest.getTheme());
+            if (status) {
+                response = Response.status(Response.Status.OK).entity(new GenericResponse(false, "theme updated successfully")).build();
+            } else {
+                response = Response.status(Response.Status.OK).entity(new GenericResponse(true, "Theme update failed")).build();
+            }
+        } catch (InvalidInputException e) {
+            logger.log(Level.WARNING, "Invalid username or password" + e);
+            response = Response.status(Response.Status.OK)
+                    .entity(new GenericResponse(true, "Incorrect Username pattern")).build();
+        } catch (ApiException e) {
+            logger.log(Level.WARNING, "User does not exists" + e);
+            response = Response.status(Response.Status.OK)
+                    .entity(new GenericResponse(true, "Login failed. Please recheck the username")).build();
+        } catch (APIManagementException e) {
+            logger.log(Level.WARNING, "user existence check failed" + e);
+            response = Response.status(Response.Status.OK).entity(new GenericResponse(true, "user existence check failed")).build();
+        }
+        return response;
+    }
+
     @POST
     @Path("/update-password")
     public Response updatePassword(ResetPasswordRequest resetPasswordRequest) {
         Response response;
-
         try {
+            InputValidator.validateUserInput("Username", resetPasswordRequest.getUsername(), InputType.NAME);
+            InputValidator.validateUserInput("Password", resetPasswordRequest.getNewPassword(), InputType.PASSWORD);
+
             UserInfoServiceUtil userInfoServiceUtil = UserInfoServiceUtil.getInstance();
             userInfoServiceUtil.getUserInfoService(UserInfoServiceUtil.getSessionCookie());
             VerificationBean verificationBean = userInfoServiceUtil.updatePassword(resetPasswordRequest.getUsername(), resetPasswordRequest.getCode(),
@@ -148,14 +209,13 @@ public class UserService {
     }
 
     @POST
-    @Path("forget-password")
+    @Path("/forget-password")
     public Response sendNotification(ResetPasswordRequest resetPasswordRequest) {
         Response response;
-
         try {
+            InputValidator.validateUserInput("Username", resetPasswordRequest.getUsername(), InputType.NAME);
             UserInfoServiceUtil userInfoServiceUtil = UserInfoServiceUtil.getInstance();
             userInfoServiceUtil.getUserInfoService(UserInfoServiceUtil.getSessionCookie());
-            InputValidator.validateUserInput("Username", resetPasswordRequest.getUsername(), InputType.NAME);
 
             if(!isUserExists(resetPasswordRequest.getUsername())) {
                 UserInfoServiceUtil.handleException("User does not exists");
@@ -303,7 +363,6 @@ public class UserService {
             if (!isAbleToLogin(changePasswordReq.getUsername(), changePasswordReq.getNewPassword(), serverURL, tenantDomain)) {
                 UserInfoServiceUtil.handleException("Password change failed");
             }
-
             response = Response.status(Response.Status.OK)
                     .entity(new GenericResponse(false, "SUCCESS"))
                     .build();
