@@ -10,6 +10,7 @@ import { authReducer } from './authentication.reducers';
 import { AuthenticationService } from './authentication.service';
 import { MyAccountComponent } from './components/my-account/my-account.component';
 import { helpComponent } from './components/help/help.component';
+import { ResetPasswordComponent } from './components/reset-password/reset-password.component';
 
 @NgModule({
   imports: [
@@ -22,7 +23,8 @@ import { helpComponent } from './components/help/help.component';
     LoginIconComponent,
     LoginFormComponent,
     MyAccountComponent,
-    helpComponent],
+    helpComponent,
+    ResetPasswordComponent],
   providers: [
     AuthenticationService
   ],

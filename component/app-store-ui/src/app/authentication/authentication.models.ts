@@ -3,8 +3,8 @@ export interface AuthState {
     menuData: IMenuItem[];
     lastAuthRequiredRoute: string;
     registeredAppData: RegClientData;
-    tokenDetails:TokenData;
-    loggedUser:string;
+    tokenDetails: TokenData;
+    loggedUser: string;
 }
 
 export interface IMenuItem {
@@ -81,15 +81,38 @@ export class LogoutResponseData {
 export class SigUpUserParam {
     username: string;
     password: string;
-    allFieldsValues:string;
+    allFieldsValues: string;
 }
 
-export class ResetPasswordParam{
-    currentPassword:string;
-    newPassword:string;
+export class ResetPasswordParam {
+    currentPassword: string;
+    newPassword: string;
+}
+
+export class ForgetResetPasswordParam {
+    username: string;
+    newPassword: string;
+    code:string;
+}
+
+
+export class ForgetPasswordParam {
+    constructor(public username: string) { }
 }
 
 export class ResetPasswordResponseData {
+    constructor(
+        public error: boolean = false,
+        public message: string = '') { }
+}
+
+export class ForgetPasswordResponseData {
+    constructor(
+        public error: boolean = false,
+        public message: string = '') { }
+}
+
+export class UpdateForgetPasswordResponseData {
     constructor(
         public error: boolean = false,
         public message: string = '') { }
