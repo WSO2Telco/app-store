@@ -22,6 +22,7 @@ public class ResetPasswordRequest {
     String code;
     //CaptchaInfoBean captcha;
     String newPassword;
+    String theme;
 
     public String getUsername() {
         return username;
@@ -44,4 +45,8 @@ public class ResetPasswordRequest {
     public void setNewPassword(String newPassword) {
         this.newPassword = newPassword;
     }
+
+    public String getTheme() { return theme; }
+
+    public void setTheme(String theme) { this.theme = theme; }
 }
