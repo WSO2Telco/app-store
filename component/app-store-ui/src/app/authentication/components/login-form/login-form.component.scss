@@ -26,3 +26,17 @@
   color: #f00;
   margin: -10px 0 25px;
 }
+
+.fpwHidden{
+  display: none;
+}
+
+#forgotPW{
+  color: red;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.forgotPWBack{
+  color: green !important;
+}
