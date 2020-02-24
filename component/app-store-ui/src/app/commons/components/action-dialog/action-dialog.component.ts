@@ -1,5 +1,5 @@
 import { Component, OnInit, Inject } from '@angular/core';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { ActionDialogParam } from '../../commons.data.models';
 
 @Component({
@@ -9,6 +9,8 @@ import { ActionDialogParam } from '../../commons.data.models';
 })
 export class ActionDialogComponent implements OnInit {
 
+  public selected;
+  
   constructor(
     public dialogRef: MatDialogRef<ActionDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: ActionDialogParam) { }

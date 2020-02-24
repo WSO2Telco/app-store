@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { MatDialog, MatTableDataSource } from '@angular/material';
+import { MatDialog } from '@angular/material/dialog';
+import { MatTableDataSource } from '@angular/material/table';
 import { AppState } from '../../../app.data.models';
 import { NotificationService } from "../../../shared/services/notification.service";
 import { Subscription, GetApplicationsParam } from "../../../applications/applications.data.models";

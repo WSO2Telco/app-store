@@ -17,3 +17,20 @@
 .mention{
     color: red;
 }
+
+.editor-pane,
+.preview-pane{
+    width: 48%;
+    float: left;
+}
+
+.preview-pane-inner{
+    padding: 50px 20px;
+}
+
+.preview-label{
+    color: #999;
+    font-weight: 500;
+    font-size: 12px;
+    letter-spacing: 1px;
+}

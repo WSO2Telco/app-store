@@ -22,7 +22,7 @@ export class ForumEffects {
     ofType(forumActions.GetAllTopicsAction),
     mergeMap(({payload}) => this.service.getAllTopics(payload)
       .pipe(
-        map((result: TopicResult) => (forumActions.GetAllTopicsSuccessAction({payload:result.data}))),
+        map((result: TopicResult) => (forumActions.GetAllTopicsSuccessAction({payload:result.payload}))),
         catchError((e: HttpErrorResponse) => {
             this.notification.error(e.message);
             return EMPTY
@@ -36,7 +36,10 @@ export class ForumEffects {
     mergeMap(({payload}) => this.service.deleteTopic(payload)
       .pipe(
         map((result:any) => {
-          if (!result.error) return forumActions.GetAllTopicsAction({payload : new GetTopicsParam});
+          if (!result.error) {
+            this.notification.success("Post Deleted Successfully !");
+            return forumActions.GetAllTopicsAction({payload : new GetTopicsParam});
+          }
           else throw Error("Operation Failed");
         }),
         catchError((e: HttpErrorResponse) => {
@@ -52,9 +55,9 @@ export class ForumEffects {
     mergeMap(({payload}) => this.service.createTopic(payload)
       .pipe(
         map((result:any) => {
-          if (!result.error) {
+          if (result.success) {
             this.notification.success("Forum topic successfully created");
-            return forumActions.CreateTopicSuccessAction();
+            return forumActions.CreateTopicSuccessAction({payload:result.payload});
           } else {
             throw Error("Operation Failed");
           }
@@ -73,10 +76,48 @@ export class ForumEffects {
       .pipe(
         map((result:any) => {
           if (!result.error) {
-            return forumActions.GetTopicDetailSuccessAction({payload:result.data});
+            return forumActions.GetTopicDetailSuccessAction({payload:result.payload});
           } else {
             throw Error("Operation Failed");
           }
+        }),
+        catchError((e: HttpErrorResponse) => {
+            this.notification.error(e.message);
+            return EMPTY
+        })
+      )
+    )
+  ));
+
+  postComment$ = createEffect(() => this.actions$.pipe(
+    ofType(forumActions.PostReplyAction),
+    mergeMap(({payload}) => this.service.postComment(payload)
+      .pipe(
+        map((result:any) => {
+          if (result.success) {
+            return forumActions.PostReplySuccessAction();
+          } else {
+            throw Error("Operation Failed");
+          }
+        }),
+        catchError((e: HttpErrorResponse) => {
+            this.notification.error(e.message);
+            return EMPTY
+        })
+      )
+    )
+  ));
+
+  deleteComment$ = createEffect(() => this.actions$.pipe(
+    ofType(forumActions.DeleteCommentAction),
+    mergeMap(({payload}) => this.service.deleteComment(payload)
+      .pipe(
+        map((result:any) => {
+          if (!result.error) {
+            this.notification.success("Comment Deleted Successfully !");
+            return forumActions.DeleteCommentSuccessAction();
+          }
+          else throw Error("Operation Failed");
         }),
         catchError((e: HttpErrorResponse) => {
             this.notification.error(e.message);

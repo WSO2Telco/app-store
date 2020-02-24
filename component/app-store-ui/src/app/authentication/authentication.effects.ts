@@ -103,7 +103,7 @@ export class AuthenticationEffects {
           return loginActions.TokenRefreshSuccessAction({ "payload": response });
         }),
         catchError((e: HttpErrorResponse) => {
-          this.notification.error(e.message);
+          localStorage.removeItem('rtkn');
           return EMPTY
         })
       )

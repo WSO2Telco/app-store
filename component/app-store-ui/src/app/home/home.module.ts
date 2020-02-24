@@ -5,16 +5,29 @@ import { HomeRoutes } from './home.routes';
 import { SharedModule } from '../shared/shared.module';
 import { ThemeComponent } from './components/theme/theme.component';
 import { ThumbnailComponent } from './components/thumbnail/thumbnail.component';
-import { SlideshowModule } from 'ng-simple-slideshow';
 import { SignUpComponent } from './components/sign-up/sign-up.component';
+import { SwiperModule } from 'ngx-swiper-wrapper';
+import { SWIPER_CONFIG } from 'ngx-swiper-wrapper';
+import { SwiperConfigInterface } from 'ngx-swiper-wrapper';
+
+const DEFAULT_SWIPER_CONFIG: SwiperConfigInterface = {
+  direction: 'horizontal',
+  slidesPerView: 'auto'
+};
 
 @NgModule({
   imports: [
     CommonModule,
     SharedModule,
     HomeRoutes,
-    SlideshowModule
+    SwiperModule
   ],
-  declarations: [DashboardComponent, ThemeComponent, ThumbnailComponent,SignUpComponent]
+  declarations: [DashboardComponent, ThemeComponent, ThumbnailComponent,SignUpComponent],
+  providers: [
+    {
+      provide: SWIPER_CONFIG,
+      useValue: DEFAULT_SWIPER_CONFIG
+    }
+  ]
 })
 export class HomeModule { }

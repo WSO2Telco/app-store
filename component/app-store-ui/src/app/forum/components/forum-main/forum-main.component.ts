@@ -1,13 +1,13 @@
 import { Component, OnInit } from "@angular/core";
 import { AppState } from "../../../app.data.models";
 import { Store } from "@ngrx/store";
-import { Topic, GetTopicsParam } from "../../forum.data.models";
-import { MatTableDataSource } from "@angular/material";
+import { GetTopicsParam, TopicResultPayload } from "../../forum.data.models";
+import { MatDialog } from "@angular/material/dialog";
 import * as forumActions from "../../forum.actions";
-import { Router } from "@angular/router";
 import * as globalActions from "../../../app.actions";
 import { BreadcrumbItem } from "../../../app.data.models";
 import { Title } from '@angular/platform-browser';
+import { DeleteConfirmationDialog } from '../delete-confirmation/delete-confirmation';
 
 @Component({
   selector: "store-forum-main",
@@ -15,10 +15,13 @@ import { Title } from '@angular/platform-browser';
   styleUrls: ["./forum-main.component.scss"]
 })
 export class ForumMainComponent implements OnInit {
-  public topics: Topic[];
+  public topics: TopicResultPayload;
   public searchQuery: string;
 
-  constructor(private store: Store<AppState>, private router: Router, private titleService: Title) {}
+  constructor(
+    private store: Store<AppState>, 
+    private titleService: Title,
+    public dialog: MatDialog ) {}
 
   ngOnInit() {
     this.store.select(s => s.forum.allTopics).subscribe(res => {
@@ -44,10 +47,10 @@ export class ForumMainComponent implements OnInit {
   }
 
   onTopicDelete(id) {
-    this.store.dispatch(forumActions.DeleteTopicAction({payload:id}));
-  }
+    const dialogRef = this.dialog.open(DeleteConfirmationDialog);
 
-  onTopicView(topic) {
-    this.router.navigate(["forum/view-topic"]);
+    dialogRef.afterClosed().subscribe(result => {
+      if(result=="delete") this.store.dispatch(forumActions.DeleteTopicAction({payload:id}));
+    });
   }
 }

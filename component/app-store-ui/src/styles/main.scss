@@ -20,6 +20,10 @@ body snack-bar-container {
   padding: 0px !important;
 }
 
+h1, h2, h3, h4, h5, h6{
+  font-weight: 500; 
+}
+
 .information-container {
   display: none;
 }
@@ -43,6 +47,10 @@ body snack-bar-container {
 
 .clearfix {
   clear: both;
+}
+
+img {
+  max-width: 100%;
 }
 
 .delay_1{
@@ -77,4 +85,9 @@ body snack-bar-container {
  @include animation-delay(1.2s);
 }
 
-
+.swiper-container{
+  .swiper-button-prev,
+  .swiper-button-next{
+    display: none;
+  }
+}

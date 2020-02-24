@@ -7,7 +7,7 @@ import { Actions, ofType } from '@ngrx/effects';
 import * as apisActions from '../../apis.actions';
 import { TagListResult } from '../../apis.models';
 import { Router } from "@angular/router";
-import { MatDialogRef } from '@angular/material';
+import { MatDialogRef } from '@angular/material/dialog';
 
 @Component({
   selector: 'store-api-tag',
