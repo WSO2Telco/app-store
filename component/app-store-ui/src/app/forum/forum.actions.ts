@@ -4,6 +4,9 @@ import { Topic, CreateTopicParam, TopicDetail, GetTopicsParam, TopicResultPayloa
 export const GetAllTopicsAction = createAction('[Forum] Get All Topics', props<{payload: GetTopicsParam}>());
 export const GetAllTopicsSuccessAction = createAction('[Forum] Get All Topics Success ✓', props<{payload: TopicResultPayload}>());
 
+export const SearchTopicsAction = createAction('[Forum] Search Topics', props<{payload: string}>());
+export const SearchTopicsSuccessAction = createAction('[Forum] Search Topics Success ✓', props<{payload: TopicResultPayload}>());
+
 export const DeleteTopicAction = createAction('[Forum] Delete Topic', props<{payload: string}>());
 export const DeleteTopicSuccessAction = createAction('[Forum]  Delete Topic Success ✓');
 

@@ -28,22 +28,15 @@ export class ForumMainComponent implements OnInit {
       this.topics = res;
     });
 
-    this.store.dispatch(
-      forumActions.GetAllTopicsAction({payload: new GetTopicsParam()})
-    );
+    this.store.dispatch(forumActions.GetAllTopicsAction({payload: new GetTopicsParam()}));
 
     this.store.dispatch(globalActions.SetBreadcrumbAction({payload:[new BreadcrumbItem("Forum")]}));
     this.titleService.setTitle("Forum | Apigate API Store");
   }
 
   onSearchClick() {
-    this.store.dispatch(
-      forumActions.GetAllTopicsAction({payload:
-        {
-          ...new GetTopicsParam(),
-          search: this.searchQuery
-        }})
-    );
+    if(this.searchQuery != '') this.store.dispatch(forumActions.SearchTopicsAction({payload:this.searchQuery}));
+    else forumActions.GetAllTopicsAction({payload: new GetTopicsParam()});
   }
 
   onTopicDelete(id) {

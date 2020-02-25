@@ -1,41 +1,38 @@
 <div class="tbl-container Xmat-elevation-z8 ">
-  <mat-table #table [dataSource]="dataSource">
+    <mat-table #table [dataSource]="dataSource">
 
-    <ng-container matColumnDef="topic">
-      <mat-header-cell *matHeaderCellDef=""> Topic </mat-header-cell>
-      <mat-cell *matCellDef="let element" (click)="onTopicAction(element,'view')"> {{element.title}} </mat-cell>
-    </ng-container>
+        <ng-container matColumnDef="topic">
+            <mat-header-cell *matHeaderCellDef=""> Topic </mat-header-cell>
+            <mat-cell *matCellDef="let element" (click)="onTopicAction(element,'view')"> {{element.title}} </mat-cell>
+        </ng-container>
 
-    <ng-container matColumnDef="by">
-      <mat-header-cell *matHeaderCellDef=""> Created By </mat-header-cell>
-      <mat-cell *matCellDef="let element" (click)="onTopicAction(element,'view')"> {{element.author}} </mat-cell>
-    </ng-container>
-    
-    <ng-container matColumnDef="replies">
-      <mat-header-cell *matHeaderCellDef=""> Replies </mat-header-cell>
-      <mat-cell *matCellDef="let element" (click)="onTopicAction(element,'view')"> {{element.replyCount}} </mat-cell>
-    </ng-container>
-    
-    <ng-container matColumnDef="action">
-      <mat-header-cell class="action-container" *matHeaderCellDef> Actions </mat-header-cell>
-      <mat-cell class="action-container" *matCellDef="let element">
-        <div class="button-row">
-        
-       
-          <button mat-icon-button matTooltip="View" (click)="onTopicAction(element,'view')">
-            <mat-icon>remove_red_eye</mat-icon>
-          </button>
-          <button mat-icon-button matTooltip="Delete" (click)="onTopicAction(element,'delete')">
-            <mat-icon>delete</mat-icon>
-          </button>
+        <ng-container matColumnDef="by">
+            <mat-header-cell *matHeaderCellDef=""> Created By </mat-header-cell>
+            <mat-cell *matCellDef="let element" (click)="onTopicAction(element,'view')"> {{element.author}} </mat-cell>
+        </ng-container>
 
-        </div>
-      </mat-cell>
-    </ng-container>
+        <ng-container matColumnDef="replies">
+            <mat-header-cell *matHeaderCellDef=""> Replies </mat-header-cell>
+            <mat-cell *matCellDef="let element" (click)="onTopicAction(element,'view')"> {{element.replyCount}} </mat-cell>
+        </ng-container>
 
+        <ng-container matColumnDef="action">
+            <mat-header-cell class="action-container" *matHeaderCellDef> Actions </mat-header-cell>
+            <mat-cell class="action-container" *matCellDef="let element">
+                <div class="button-row">
+                    <button mat-icon-button matTooltip="View" (click)="onTopicAction(element,'view')">
+                  <mat-icon>remove_red_eye</mat-icon>
+                </button>
+                    <button *ngIf="element.canModify" mat-icon-button matTooltip="Delete" (click)="onTopicAction(element,'delete')">
+                <mat-icon>delete</mat-icon>
+              </button>
 
-    <mat-header-row *matHeaderRowDef="[ 'topic','by','replies','action']"></mat-header-row>
-    <mat-row *matRowDef="let row; columns: [ 'topic','by','replies','action'];"></mat-row>
-  </mat-table>
-  <mat-paginator [pageSizeOptions]="[5, 10, 25]"></mat-paginator>
+                </div>
+            </mat-cell>
+        </ng-container>
+
+        <mat-header-row *matHeaderRowDef="[ 'topic','by','replies','action']"></mat-header-row>
+        <mat-row *matRowDef="let row; columns: [ 'topic','by','replies','action'];"></mat-row>
+    </mat-table>
+    <mat-paginator [length]="totalTopics" [pageSize]="pageSize" (page)="changePage($event)"></mat-paginator>
 </div>

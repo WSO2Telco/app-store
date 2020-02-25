@@ -13,6 +13,10 @@ const _forumReducer = createReducer(initState,
       ...state, allTopics: payload
   })),
 
+  on(forumActions.SearchTopicsSuccessAction, (state, { payload }) => ({
+    ...state, allTopics: payload
+  })),
+
   on(forumActions.GetTopicDetailSuccessAction, (state, { payload }) => ({
     ...state, topicDetail: payload
   }))

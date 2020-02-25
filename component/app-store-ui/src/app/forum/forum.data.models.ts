@@ -26,8 +26,8 @@ export class TopicResultPayload {
 }
 
 export class GetTopicsParam {
-  parentId: string;
-  page: number;
+  page: number = 0;
+  size: number = 10;
   search?: string;
 }
 

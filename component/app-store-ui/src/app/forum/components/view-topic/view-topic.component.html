@@ -1,47 +1,45 @@
-
-
 <div fxLayout="row" fxLayoutGap="20px" id="forum-post">
 
-  <mat-card fxFlex class="animated fadeIn delay_6" style="margin-bottom:100px;">
-    <h1>{{topic?.title}}</h1>
-    <div class="description" [innerHTML]="topic?.content"></div>
-    <div class="post-author">by <strong>{{topic?.author}}</strong> <br/>{{topic?.date}}</div>
+    <mat-card fxFlex class="animated fadeIn delay_6" style="margin-bottom:100px;">
+        <h1>{{topic?.title}}</h1>
+        <div class="description" [innerHTML]="topic?.content"></div>
+        <div class="post-author">by <strong>{{topic?.author}}</strong> <br/>{{topic?.date}}</div>
 
-    <br/>
-
-    <div class="replies">
-      <h2>{{topic?.replies?.length}} Responses</h2>
-      <div>
-        <div *ngFor="let rep of topic?.replies; let x=index;" class="reply-item">
-          <div class="rep-by">
-            <span *ngIf="rep?.replyUsername" class="avatar" [innerHtml]="getFirstLetter(rep?.replyUsername)"></span>
-            <div>
-              <strong>{{rep.replyUsername}}</strong> <br/>
-              <!-- {{rep.time | date : 'on EEEE, MMM d yyyy, hh:mm a' }} -->
-              {{rep.time}}
-            </div>
-          </div>
-          <div class="reply-content">
-            <button mat-icon-button matTooltip="Delete Comment" (click)="deleteComment(rep?.replyId)" class="btn-delete">
-              <mat-icon>close</mat-icon>
-            </button>
-            <div [innerHtml]="rep?.replyText"></div>
-          </div>
-        </div>
-      </div>
-
-      <div class="post-reply">
-        <div>
-          <ckeditor [config]="ckeConfig" name="commentBody" [(ngModel)]="commentBody.replyText"></ckeditor>
-        </div>
         <br/>
-        <button mat-flat-button color="accent" (click)="postComment()">Comment</button>
-      </div>
 
+        <div class="replies">
+            <h2>{{topic?.replies?.length}} Responses</h2>
+            <div>
+                <div *ngFor="let rep of topic?.replies; let x=index;" class="reply-item">
+                    <div class="rep-by">
+                        <span *ngIf="rep?.replyUsername" class="avatar" [innerHtml]="getFirstLetter(rep?.replyUsername)"></span>
+                        <div>
+                            <strong>{{rep.replyUsername}}</strong> <br/>
+                            <!-- {{rep.time | date : 'on EEEE, MMM d yyyy, hh:mm a' }} -->
+                            {{rep.time}}
+                        </div>
+                    </div>
+                    <div class="reply-content">
+                        <button *ngIf="rep?.canModify" mat-icon-button matTooltip="Delete Comment" (click)="deleteComment(rep?.replyId)" class="btn-delete">
+                          <mat-icon>close</mat-icon>
+                        </button>
+                        <div [innerHtml]="rep?.replyText"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="post-reply">
+                <div>
+                    <ckeditor [config]="ckeConfig" name="commentBody" [(ngModel)]="commentBody.replyText"></ckeditor>
+                </div>
+                <br/>
+                <button mat-flat-button color="accent" (click)="postComment()">Comment</button>
+            </div>
+
+        </div>
+    </mat-card>
+
+    <div fxFlex.gt-sm="30">
+        <!-- <h2>Recent Forum Discussions</h2> -->
     </div>
-  </mat-card>
-
-  <div fxFlex.gt-sm="30">
-    <!-- <h2>Recent Forum Discussions</h2> -->
-  </div>
 </div>
