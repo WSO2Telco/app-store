@@ -166,4 +166,46 @@ export class AuthenticationEffects {
     )
   ));
 
+  forgetPassword$ = createEffect(() => this.actions$.pipe(
+    ofType(loginActions.ForgetPwAction),
+    mergeMap(({ payload }) => this.authService.forgetPassword(payload)
+      .pipe(
+        map((response) => {
+          if (response.error) {
+            this.notification.error(response.message);
+            throw response;
+          } else {
+            this.notification.success('Please check your email for the password reset link');
+            return loginActions.ForgetPwSuccessAction({ "payload": response });
+          }
+        }),
+        catchError((e: HttpErrorResponse) => {
+          this.notification.error(e.message);
+          return EMPTY
+        })
+      )
+    )
+  ));
+
+  updateForgetPassword$ = createEffect(() => this.actions$.pipe(
+    ofType(loginActions.UpdateForgetPwAction),
+    mergeMap(({ payload }) => this.authService.UpdateForgetPw(payload)
+      .pipe(
+        map((response) => {
+          if (response.error) {
+            this.notification.error(response.message);
+            throw response;
+          } else {
+            this.notification.success('New Password successfully updated ');
+            return loginActions.UpdateForgetPwSuccessAction({ "payload": response });
+          }
+        }),
+        catchError((e: HttpErrorResponse) => {
+          this.notification.error(e.message);
+          return EMPTY
+        })
+      )
+    )
+  ));
+
 }

@@ -29,7 +29,8 @@
               "node_modules/intro.js/introjs.css"
             ],
             "scripts": [
-              "node_modules/intro.js/intro.js"
+              "node_modules/intro.js/intro.js",
+              "node_modules/jquery/dist/jquery.min.js"
             ]
           },
           "configurations": {

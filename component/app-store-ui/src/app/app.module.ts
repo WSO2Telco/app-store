@@ -76,13 +76,13 @@ const metaReducers: Array<MetaReducer<any, any>> = [localStorageSyncReducer];
   providers: [
     AppService,
     AppGuard,
-    { 
-      provide: HTTP_INTERCEPTORS, 
-      useClass: ApiInterceptor, 
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: ApiInterceptor,
       multi: true
     },
     BnNgIdleService
   ],
   bootstrap: [AppComponent]
 })
-export class AppModule {}
+export class AppModule { }

@@ -5,12 +5,15 @@ const appStoreApi = baseUrl.protocol + '//' + baseUrl.host + "/app-store/public/
 export const ApiEndpoints = {
   apiContext: apiContext,
   authentication: {
-    login               : appStoreApi + "/auth/login",
-    logout              : appStoreApi + "/api/auth/logout",
-    signup              : appStoreApi + "/user/add",
-    changePassword      : appStoreApi + "/user/change-password-by-user",
-    clientRegistration  : baseUrl.protocol + '//' + baseUrl.host + '/client-registration/v0.13/register',
-    tokenGeneration     : baseUrl.protocol + '//' + baseUrl.host + '/oauth2/token',
+    login: appStoreApi + "/auth/login",
+    logout: appStoreApi + "/api/auth/logout",
+    signup: appStoreApi + "/user/add",
+    changePassword: appStoreApi + "/user/change-password-by-user",
+    updateForgetPassword: appStoreApi + "/user/update-password",
+    forgetPassword: appStoreApi + "/user/forget-password",
+    clientRegistration: baseUrl.protocol + '//' + baseUrl.host + '/client-registration/v0.13/register',
+    tokenGeneration: baseUrl.protocol + '//' + baseUrl.host + '/oauth2/token',
+
   },
   apis: {
     search: apiContext + '/apis',
@@ -18,7 +21,7 @@ export const ApiEndpoints = {
     applications: apiContext + '/subscriptions',
     subscribe: "./assets/files/subscribe.json",
     tag: apiContext + '/tags',
-    sdk: apiContext+'/apis/generate-sdk',
+    sdk: apiContext + '/apis/generate-sdk',
     availableApp: apiContext + '/applications',
   },
   global: {
@@ -33,10 +36,10 @@ export const ApiEndpoints = {
   },
   subscriptions: apiContext + '/subscriptions',
   forum: {
-    topicList    : appStoreApi + "/forum/list",
-    createTopic  : appStoreApi + "/forum/createTopic",
-    deleteTopic  : appStoreApi + "/forum/deleteTopic",
-    postReply    : appStoreApi + "/forum/postReply",
-    deleteReply  : appStoreApi + "/forum/deleteReply"
+    topicList: appStoreApi + "/forum/list",
+    createTopic: appStoreApi + "/forum/createTopic",
+    deleteTopic: appStoreApi + "/forum/deleteTopic",
+    postReply: appStoreApi + "/forum/postReply",
+    deleteReply: appStoreApi + "/forum/deleteReply"
   }
 };

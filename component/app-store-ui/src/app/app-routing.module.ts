@@ -3,6 +3,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { MyAccountComponent } from './authentication/components/my-account/my-account.component';
 import { AppGuard } from './app.guards';
 import { helpComponent } from './authentication/components/help/help.component';
+import { ResetPasswordComponent } from './authentication/components/reset-password/reset-password.component';
 
 const routes: Routes = [
   {
@@ -38,6 +39,10 @@ const routes: Routes = [
   {
     path: 'application/my-account',
     component: MyAccountComponent
+  },
+  {
+    path: 'application/reset-password/:username/:code',
+    component: ResetPasswordComponent
   },
   {
     path: '',
