@@ -34,5 +34,5 @@
         <mat-header-row *matHeaderRowDef="[ 'topic','by','replies','action']"></mat-header-row>
         <mat-row *matRowDef="let row; columns: [ 'topic','by','replies','action'];"></mat-row>
     </mat-table>
-    <mat-paginator [pageSizeOptions]="[5, 10, 25]"></mat-paginator>
+    <mat-paginator [length]="totalTopics" [pageSize]="pageSize" (page)="changePage($event)"></mat-paginator>
 </div>

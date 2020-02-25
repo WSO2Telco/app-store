@@ -9,17 +9,8 @@ export class ForumService{
 
     constructor(private http:HttpClient){}
 
-    getAllTopics(param:GetTopicsParam):Observable<TopicResult>{
-        if(!param){
-            param = new GetTopicsParam();
-        }
-        //TODO: Remove this in prod
-        param.page = 1;
-        param.parentId = 'common';
-        // .......................
-        
-        let endpoint = ApiEndpoints.forum.topicList+'/start/0/count/10'; //='+param.parentId+'&page='+param.page;
-
+    getAllTopics(param:GetTopicsParam):Observable<TopicResult>{       
+        let endpoint = `${ApiEndpoints.forum.topicList}/start/${param.page*param.size}/count/${param.size}`;
         return this.http.get<TopicResult>(endpoint);
     }
 
