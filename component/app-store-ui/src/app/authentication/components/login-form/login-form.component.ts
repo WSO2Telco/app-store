@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component, OnInit, Output, EventEmitter, Chang
 import { LoginFormData, ForgetPasswordParam } from '../../authentication.models';
 import { Store } from '@ngrx/store';
 import { AppState } from '../../../app.data.models';
-import { DoLoginAction, ClientRegistrationAction, ClientRegistrationSuccessAction, TokenGenerationAction, SetLoggedUserAction, LoginSuccessAction, LoginFailedAction, ForgetPwAction } from '../../authentication.actions';
+import { DoLoginAction, ClientRegistrationAction, ClientRegistrationSuccessAction, TokenGenerationAction, SetLoggedUserAction, LoginSuccessAction, LoginFailedAction, ForgetPwAction, ForgetPwSuccessAction } from '../../authentication.actions';
 import { Actions, ofType } from '@ngrx/effects';
 import { take } from 'rxjs/operators';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
@@ -30,7 +30,8 @@ export class LoginFormComponent implements OnInit {
     private store: Store<AppState>,
     private actions$: Actions,
     private fb: FormBuilder,
-    private cd: ChangeDetectorRef
+    private cd: ChangeDetectorRef,
+    private actions: Actions
   ) {
     this.loginForm = this.fb.group({
       username: ['', Validators.required],
@@ -100,6 +101,10 @@ export class LoginFormComponent implements OnInit {
       this.username = this.fpwForm.get('username').value;
 
       this.store.dispatch(ForgetPwAction({ "payload": new ForgetPasswordParam(this.username) }));
+
+      this.actions.pipe(ofType(ForgetPwSuccessAction)).subscribe(p => {
+        this.fpwForm.reset();
+      })
     }
 
   }
