@@ -12,11 +12,18 @@ public class Topic {
 	private List<Reply> replies;
 	private int replyCount;
 	private String content;
+	private boolean canModify;
 	
 	
 	
 	
 	
+	public boolean isCanModify() {
+		return canModify;
+	}
+	public void setCanModify(boolean canModify) {
+		this.canModify = canModify;
+	}
 	public int getReplyCount() {
 		return replyCount;
 	}

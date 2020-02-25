@@ -14,9 +14,20 @@ public class Reply {
 	
 	private int topicID;
 	
+	private boolean canModify;
+	
+	
 	
 
 
+
+	public boolean isCanModify() {
+		return canModify;
+	}
+
+	public void setCanModify(boolean canModify) {
+		this.canModify = canModify;
+	}
 
 	public int getReplyId() {
 		return replyId;
