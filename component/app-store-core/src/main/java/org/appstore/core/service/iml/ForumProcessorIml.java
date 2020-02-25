@@ -37,7 +37,7 @@ public class ForumProcessorIml implements ForumProcessor {
 		genaricTopicList.setList(topics);
 		int totalTopicCount=dataProvider.getTotalTopicsCount();
 
-		genaricTopicList.setTotalTopics(totalTopicCount);
+		genaricTopicList.setTotalTopics(topics.size());
 
 		return new Callback().setMessage("success").setPayload(genaricTopicList).setSuccess(true);
 	}

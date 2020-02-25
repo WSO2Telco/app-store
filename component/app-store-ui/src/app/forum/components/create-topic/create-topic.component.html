@@ -1,24 +1,37 @@
-<div fxLayout="column" fxLayoutGap="20px">
+<div>
 
-    <div class="intro-container">
-      <h1 class="animated fadeInDown">Create New Topic</h1>
+    <div class="editor-pane">
+        <div class="intro-container">
+            <h1 class="animated fadeInDown">Create New Topic</h1>
+          </div>
+      
+          <mat-card class="forum-container animated fadeIn delay_6" >
+              <mat-card-content>
+                      <form #topicForm="ngForm" novalidate (ngSubmit)="onCreateClick()" fxLayout="column" fxLayoutGap="20px">
+                          <mat-form-field fxFlex>
+                              <input matInput placeholder="Topic Title" name="subject" [(ngModel)]="topic.title" autocomplete="off" />
+                          </mat-form-field>
+                          <ckeditor [config]="ckeConfig" name="topicContent" [(ngModel)]="topic.content"></ckeditor>
+                          <div class="btn-wrapper" fxLayout="row"  fxLayoutAlign="end center" >
+                              <button type="button"  mat-raised-button >Cancel</button>
+                              <button type="submit"  mat-raised-button color="accent">Create</button>
+                          </div>
+                      </form>    
+              </mat-card-content>
+          </mat-card>
     </div>
 
-    <mat-card class="forum-container animated fadeIn delay_6" >
-        <mat-card-content>
-                <form #topicForm="ngForm" novalidate (ngSubmit)="onCreateClick()" fxLayout="column" fxLayoutGap="20px">
-                    <mat-form-field fxFlex>
-                        <input matInput placeholder="Topic Title" name="subject" [(ngModel)]="topic.subject">
-                    </mat-form-field>
-                    <ckeditor [config]="ckeConfig" name="topicContent" [(ngModel)]="topicContent"></ckeditor>
-                    <div class="btn-wrapper" fxLayout="row"  fxLayoutAlign="end center" >
-                        <button type="button"  mat-raised-button >Cancel</button>
-                        <button type="submit"  mat-raised-button color="accent">Create</button>
-                    </div>
-                </form>    
-        </mat-card-content>
-    </mat-card>
+    <div class="preview-pane">
+        <div class="preview-pane-inner">
+            <mat-card>
+                <mat-card-content>
+                    <strong class="preview-label">PREVIEW</strong>
+                    <h1 class="preview-title">{{topic.title}}</h1>
+                    <div [innerHTML]="topic.content"></div>
+                </mat-card-content>
+            </mat-card>
+        </div>
+    </div>
 
+    <div class="clearfix"></div>
 </div>
-
-<div [innerHTML]="topicContent" (change)="onChange($event)"></div>

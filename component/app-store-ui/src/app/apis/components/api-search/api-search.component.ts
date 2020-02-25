@@ -3,7 +3,8 @@ import { AppState } from "../../../app.data.models";
 import { Store } from "@ngrx/store";
 import { DoApiSearchAction, GetAvailableApplicationAction } from "../../apis.actions";
 import { ApiSearchParam, ApiSearchResult, ApiSummary, ApiStatus, paginationData } from "../../apis.models";
-import { PageEvent, MatDialog } from "@angular/material";
+import { MatDialog } from "@angular/material/dialog";
+import { PageEvent } from "@angular/material/paginator";
 import { Router, ActivatedRoute } from "@angular/router";
 
 //Breadcrumbs

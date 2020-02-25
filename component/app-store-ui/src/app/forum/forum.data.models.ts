@@ -1,22 +1,28 @@
 export interface ForumState {
-  allTopics: Topic[];
-  topicDetail:TopicDetail;
+  allTopics: TopicResultPayload;
+  topicDetail:Topic;
 }
 
 export class Topic {
-  description: string;
+  id: number;
+  title: string;
+  author: string;
+  date: string;
+  replies: [];
   replyCount: number;
-  subject: string;
-  topicId: string;
-  topicOwner: string;
-  user: string;
+  content: string;
 }
 
 export class TopicResult {
-  data: Topic[];
-  error: boolean;
-  page: number;
-  total_pages: number;
+  payload: TopicResultPayload;
+  success: boolean;
+  message: string;
+}
+
+export class TopicResultPayload {
+  totalTopics: number;
+  nextPage: number;
+  list: Topic[]
 }
 
 export class GetTopicsParam {
@@ -26,9 +32,13 @@ export class GetTopicsParam {
 }
 
 export class CreateTopicParam {
-  subject: string;
-  parentId: string;
-  description: string;
+  title: string;
+  content: string;
+}
+
+export class PostCommentParam {
+  topicID : string;
+  replyText : string;
 }
 
 export class Reply {

@@ -1,4 +1,9 @@
 import { Component, OnInit } from '@angular/core';
+//Breadcrumbs
+import * as globalActions from "../../../app.actions";
+import { BreadcrumbItem } from "../../../app.data.models";
+import { AppState } from '../../../app.data.models';
+import { Store } from '@ngrx/store';
 import * as introJs from 'intro.js/intro.js';
 
 @Component({
@@ -8,11 +13,13 @@ import * as introJs from 'intro.js/intro.js';
 export class helpComponent implements OnInit {
 
   introJS = introJs();
- 
-  constructor() {
+
+  constructor(
+    private store: Store<AppState>
+  ) {
     this.introJS.setOptions({
       steps: [
-        { 
+        {
           intro: "Welcome to App store walk-through"
         },
         {
@@ -42,9 +49,10 @@ export class helpComponent implements OnInit {
       ]
     });
   }
- 
+
   ngOnInit() {
     this.introJS.start();
+    this.store.dispatch(globalActions.SetBreadcrumbAction({ payload: [new BreadcrumbItem("Help")] }));
   }
 
 }

@@ -30,6 +30,7 @@ import { applicationsReducer } from "./applications/applications.reducer";
 import { AppGuard } from "./app.guards";
 import { forumReducer } from "./forum/forum.reducer";
 import { ApiInterceptor } from './shared/api.interceptor';
+import { BnNgIdleService } from 'bn-ng-idle'; // import bn-ng-idle service
 
 const reducers: ActionReducerMap<AppState> = {
   global: globalReducer,
@@ -75,12 +76,13 @@ const metaReducers: Array<MetaReducer<any, any>> = [localStorageSyncReducer];
   providers: [
     AppService,
     AppGuard,
-    { 
-      provide: HTTP_INTERCEPTORS, 
-      useClass: ApiInterceptor, 
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: ApiInterceptor,
       multi: true
-    }
+    },
+    BnNgIdleService
   ],
   bootstrap: [AppComponent]
 })
-export class AppModule {}
+export class AppModule { }

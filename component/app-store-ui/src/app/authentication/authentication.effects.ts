@@ -1,5 +1,5 @@
 
-import { EMPTY } from 'rxjs';
+import { EMPTY, of } from 'rxjs';
 import { catchError, switchMap, map, mergeMap } from 'rxjs/operators';
 import { Actions, Effect, createEffect, ofType } from "@ngrx/effects";
 import * as loginActions from "./authentication.actions";
@@ -39,17 +39,14 @@ export class AuthenticationEffects {
       .pipe(
         map((response: LoginResponseData) => {
           if (response.error) {
-            this.notification.error("Invalid username or password");
-            throw response;
+            let msg = (response.message) ? response.message : "Invalid username or password";
+            return loginActions.LoginFailedAction({payload: msg});
           } else {
             this.router.navigate([this.lastAuthRequiredRoute || "home"]);
             return loginActions.LoginSuccessAction({ "payload": response });
           }
         }),
-        catchError((e: HttpErrorResponse) => {
-          this.notification.error(e.message);
-          return EMPTY
-        })
+        catchError( (e: HttpErrorResponse) => of(loginActions.LoginFailedAction({payload: e.message})) )
       )
     )
   ));
@@ -106,7 +103,7 @@ export class AuthenticationEffects {
           return loginActions.TokenRefreshSuccessAction({ "payload": response });
         }),
         catchError((e: HttpErrorResponse) => {
-          this.notification.error(e.message);
+          localStorage.removeItem('rtkn');
           return EMPTY
         })
       )
@@ -159,6 +156,48 @@ export class AuthenticationEffects {
           } else {
             this.notification.success('User password changed successfully. You can now sign in to the API store using the new password.');
             return loginActions.ChangeUserPwSuccessAction({ "payload": response });
+          }
+        }),
+        catchError((e: HttpErrorResponse) => {
+          this.notification.error(e.message);
+          return EMPTY
+        })
+      )
+    )
+  ));
+
+  forgetPassword$ = createEffect(() => this.actions$.pipe(
+    ofType(loginActions.ForgetPwAction),
+    mergeMap(({ payload }) => this.authService.forgetPassword(payload)
+      .pipe(
+        map((response) => {
+          if (response.error) {
+            this.notification.error(response.message);
+            throw response;
+          } else {
+            this.notification.success('Please check your email for the password reset link');
+            return loginActions.ForgetPwSuccessAction({ "payload": response });
+          }
+        }),
+        catchError((e: HttpErrorResponse) => {
+          this.notification.error(e.message);
+          return EMPTY
+        })
+      )
+    )
+  ));
+
+  updateForgetPassword$ = createEffect(() => this.actions$.pipe(
+    ofType(loginActions.UpdateForgetPwAction),
+    mergeMap(({ payload }) => this.authService.UpdateForgetPw(payload)
+      .pipe(
+        map((response) => {
+          if (response.error) {
+            this.notification.error(response.message);
+            throw response;
+          } else {
+            this.notification.success('New Password successfully updated ');
+            return loginActions.UpdateForgetPwSuccessAction({ "payload": response });
           }
         }),
         catchError((e: HttpErrorResponse) => {

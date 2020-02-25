@@ -1,10 +1,10 @@
-import { ForumState, Topic, TopicDetail } from "./forum.data.models";
+import { ForumState, Topic, TopicDetail, TopicResultPayload } from "./forum.data.models";
 import * as forumActions from "./forum.actions";
 import { createReducer, on } from '@ngrx/store';
 
 const initState: ForumState = {
-  allTopics: Topic[""],
-  topicDetail: new TopicDetail
+  allTopics: new TopicResultPayload,
+  topicDetail: new Topic
 };
 
 const _forumReducer = createReducer(initState,

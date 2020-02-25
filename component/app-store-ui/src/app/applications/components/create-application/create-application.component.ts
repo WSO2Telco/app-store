@@ -35,8 +35,8 @@ export class CreateApplicationComponent implements OnInit {
     private route: ActivatedRoute,
   ) {
     this.formCreateApp = this.fb.group({
-      appName: ['', [Validators.required, Validators.maxLength(70), Validators.pattern("[a-zA-Z\s]+$")]],
-      appDescription: ['', Validators.required]
+      appName: ['', [Validators.required, Validators.maxLength(70)]],
+      appDescription: ['']
     });
 
   }

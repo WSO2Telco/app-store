@@ -19,7 +19,7 @@
           </mat-form-field>
           <mat-form-field class="search-input" fxFlex="80%">
             <input matInput placeholder="Filter by..." name="searchQuery"
-              matTooltip="You can search in attributes by using an ':' modifier.Eg. 'provider:apigate' will match an API if the provider of the API is exactly 'apigate'. Supported attribute modifiers are [version, context, description, subcontext, doc, provider, tag]"
+              matTooltip="You can search in attributes by using an ':' modifier. Eg: 'name:apigate'. Supported attribute modifiers are [name, version, context, description, subcontext, doc, provider, tag]"
               [(ngModel)]="searchQuery">
           </mat-form-field>
           <button class="search" mat-mini-fab color="accent"><i class="fa fa-search" aria-hidden="true"></i></button>

@@ -1,7 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { AppState } from '../../../app.data.models';
 import { Store } from '@ngrx/store';
-import { MatTableDataSource, MatDialog } from '@angular/material';
+import { MatDialog } from '@angular/material/dialog';
+import { MatSort } from '@angular/material/sort';
+import { MatTableDataSource } from '@angular/material/table';
 import { Application, GetApplicationsParam } from '../../applications.data.models';
 import * as applicationsActions from '../../applications.actions';
 import * as authActions from '../../../authentication/authentication.actions'
@@ -27,6 +29,7 @@ export class SearchApplicationsComponent implements OnInit {
   pageSize: number = 10;
   pageIndex: number = 0;
   appResult;
+   @ViewChild(MatSort, {static: true}) sort: MatSort;
 
   constructor(private store: Store<AppState>, private router: Router, private titleService: Title, private actions$: Actions, private dialog: MatDialog) { }
 
@@ -52,13 +55,13 @@ export class SearchApplicationsComponent implements OnInit {
 
     this.store.dispatch(globalActions.SetBreadcrumbAction({ payload: [new BreadcrumbItem("Applications")] }));
     this.titleService.setTitle("Apps | Apigate API Store");
+    this.dataSource.sort = this.sort;
   }
 
   onAppAction(app, action) {
     switch (action) {
 
       case 'view': {
-        console.log(action);
         this.router.navigate([`applications/${app.applicationId}/overview`]);
         break;
       }
@@ -77,7 +80,7 @@ export class SearchApplicationsComponent implements OnInit {
     event.stopPropagation();
     const dialogRef = this.dialog.open(ConfirmDialogComponent, {
       data: {
-        message: 'Are you sure want to delete?',
+        message: 'Are you sure you want to delete?',
         buttonText: {
           ok: 'Save',
           cancel: 'No'

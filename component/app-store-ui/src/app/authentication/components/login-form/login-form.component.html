@@ -1,22 +1,50 @@
 <div>
   <div class="header">
-    Sign In 
+    Sign In
   </div>
 
   <mat-card class="form-container">
-    <form #loginForm="ngForm" novalidate (ngSubmit)="onLoginClick()">
+    <form [formGroup]="loginForm" class="loginForm" (ngSubmit)="onLoginClick()">
       <mat-card-content>
         <mat-form-field>
-          <input matInput name="username" autocomplete="off" #userNameRef="ngModel" required [(ngModel)]="username" placeholder="Username">
+          <input matInput autocomplete="off" placeholder="Username" formControlName="username" />
+          <mat-error *ngIf="f?.username?.errors?.required">
+            Please enter username
+          </mat-error>
         </mat-form-field>
         <mat-form-field>
-          <input matInput type="password" autocomplete="off" placeholder="Password" name="password" #passwordRef="ngModel" required [(ngModel)]="password">
+          <input matInput type="password" autocomplete="off" placeholder="Password" formControlName="password" />
+          <mat-error *ngIf="f?.password?.errors?.required">
+            Please enter password
+          </mat-error>
         </mat-form-field>
       </mat-card-content>
 
+      <div class="login-error" *ngIf="loginError && loginForm.valid">
+        {{loginError}}
+      </div>
+
       <button mat-raised-button color="accent" style="width:100%">Login</button>
     </form>
+    <form [formGroup]="fpwForm" class="fpwForm fpwHidden" (ngSubmit)="onfpwLoginClick()">
+      <mat-card-content>
+        Enter username and submit to receive password reset link to your email address.
+        <br>
+        <mat-form-field>
+          <input matInput autocomplete="off" placeholder="Username" formControlName="username" />
+          <mat-error *ngIf="g?.fpwusername?.errors?.required">
+            Please enter username
+          </mat-error>
+        </mat-form-field>
+      </mat-card-content>
 
+      <div class="login-error" *ngIf="FpwError && fpwForm.valid">
+        {{FpwError}}
+      </div>
+
+      <button mat-raised-button color="accent" style="width:100%">Submit</button>
+    </form>
+    <h4 id="forgotPW">Forgot Password?</h4>
   </mat-card>
 
 </div>

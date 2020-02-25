@@ -30,7 +30,7 @@ export class MyAccountComponent implements OnInit {
   constructor(private store: Store<AppState>, private actions: Actions,private formBuilder: FormBuilder) {
     this.updatePwForm = this.formBuilder.group({
       currentpassword: ['', [Validators.required]],
-      password: ['', [Validators.required,Validators.pattern('(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[$@$!%*?&])[A-Za-z\d$@$!%*?&].{8,}')]],
+      password: ['', [Validators.required,Validators.pattern('(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[$@$!%*?&])[0-9A-Za-z\d$@$!%*?&].{8,}')]],
       confirmPassword: ['']
     }, { validator: this.checkPasswords });
    }

@@ -7,11 +7,13 @@ import org.appstore.core.dto.AuthenticationRequest;
 import org.appstore.core.dto.ChangePasswordByUsrRequest;
 import org.appstore.core.dto.ChangePasswordRequest;
 import org.appstore.core.dto.GenericResponse;
+import org.appstore.core.dto.ResetPasswordRequest;
 import org.appstore.core.dto.UserRequest;
 import org.appstore.core.exception.ApiException;
 import org.appstore.core.exception.InvalidInputException;
 import org.appstore.core.util.InputType;
 import org.appstore.core.util.InputValidator;
+import org.appstore.core.util.UserInfoServiceUtil;
 import org.wso2.carbon.apimgt.api.APIManagementException;
 import org.wso2.carbon.apimgt.hostobjects.HostObjectUtils;
 import org.wso2.carbon.apimgt.hostobjects.internal.HostObjectComponent;
@@ -33,6 +35,7 @@ import org.wso2.carbon.base.MultitenantConstants;
 import org.wso2.carbon.context.PrivilegedCarbonContext;
 import org.wso2.carbon.core.util.PermissionUpdateUtil;
 import org.wso2.carbon.identity.mgt.stub.UserIdentityManagementAdminServiceStub;
+import org.wso2.carbon.identity.mgt.stub.beans.VerificationBean;
 import org.wso2.carbon.identity.user.registration.stub.UserRegistrationAdminServiceException;
 import org.wso2.carbon.identity.user.registration.stub.UserRegistrationAdminServiceStub;
 import org.wso2.carbon.identity.user.registration.stub.dto.UserDTO;
@@ -54,11 +57,7 @@ import com.google.gson.GsonBuilder;
 import java.nio.charset.StandardCharsets;
 import java.util.Base64;
 
-import javax.ws.rs.Consumes;
-import javax.ws.rs.HeaderParam;
-import javax.ws.rs.POST;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
+import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
@@ -89,6 +88,7 @@ import java.util.logging.Logger;
 @Produces(MediaType.APPLICATION_JSON)
 public class UserService {
 
+
 	private static final Logger logger = Logger.getLogger(UserService.class.getName());
 
 	@POST
@@ -117,7 +117,7 @@ public class UserService {
 			}
 
 			if(isUserExists(userRequest.getUsername())) {
-				handleException("User name already exists");
+				UserInfoServiceUtil.handleException("User name already exists");
 			}
 
 			addUser(userRequest.getUsername(), userRequest.getPassword(), userRequest.getAllFieldsValues());
@@ -126,7 +126,7 @@ public class UserService {
 			//Converting the Object to JSONString
 			String jsonString = mapper.writeValueAsString(new GenericResponse(false, "SUCCESS"));
 			response = Response.status(Response.Status.OK).entity(jsonString).build();
-			
+
 			logger.log(Level.INFO, "user added successfully : " + userRequest.getUsername());
 		} catch (ApiException | InvalidInputException e) {
 			ObjectMapper mapper = new ObjectMapper();
@@ -139,7 +139,7 @@ public class UserService {
 				response = Response.status(Response.Status.OK).entity("{'ststus':'fail'}").build();
 			}
 			response = Response.status(Response.Status.OK).entity(jsonString).build();
-			
+
 			logger.log(Level.WARNING, "Error occurred while adding user");
 		} catch (Exception e) {
 			ObjectMapper mapper = new ObjectMapper();
@@ -152,11 +152,289 @@ public class UserService {
 				response = Response.status(Response.Status.OK).entity("{'ststus':'fail'}").build();
 
 			}
-			
+
 			response =  Response.status(Response.Status.INTERNAL_SERVER_ERROR)
 					.entity(jsonString)
 					.build();
 			logger.log(Level.WARNING, "Internal server error occurred while adding user", e);
+		}
+		return response;
+	}
+	
+	@GET
+	@Path("/theme/{user}")
+	@Produces(MediaType.TEXT_PLAIN)
+	public Response getTheme(@PathParam("user") String username) {
+		Response response;
+		try {
+			InputValidator.validateUserInput("Username", username, InputType.NAME);
+			if (!isUserExists(username)) {
+				UserInfoServiceUtil.handleException("User does not exists");
+			}
+			String theme = UserInfoServiceUtil.getTheme(username);
+			ObjectMapper mapper = new ObjectMapper();
+			//Converting the Object to JSONString
+			String jsonString = mapper.writeValueAsString(theme);
+			response = Response.status(Response.Status.OK).
+					entity(jsonString).build();
+		} catch (InvalidInputException e) {
+			logger.log(Level.WARNING, "Invalid username or password" + e);
+			
+			ObjectMapper mapper = new ObjectMapper();
+			//Converting the Object to JSONString
+			String jsonString=null;
+			try {
+				jsonString = mapper.writeValueAsString(new GenericResponse(true, "Incorrect Username pattern"));
+			} catch (JsonProcessingException e1) {
+				// TODO Auto-generated catch block
+				response = Response.status(Response.Status.OK).entity("{'ststus':'fail'}").build();
+
+			}
+
+			response =  Response.status(Response.Status.OK)
+					.entity(jsonString)
+					.build();
+			
+			
+		} catch (ApiException e) {
+			logger.log(Level.WARNING, "User does not exists" + e);
+			
+			ObjectMapper mapper = new ObjectMapper();
+			//Converting the Object to JSONString
+			String jsonString=null;
+			try {
+				jsonString = mapper.writeValueAsString(new GenericResponse(true, "Login failed. Please recheck the username"));
+			} catch (JsonProcessingException e1) {
+				// TODO Auto-generated catch block
+				response = Response.status(Response.Status.OK).entity("{'ststus':'fail'}").build();
+
+			}
+
+			response =  Response.status(Response.Status.OK)
+					.entity(jsonString)
+					.build();
+			
+		} catch (APIManagementException e) {
+			logger.log(Level.WARNING, "user existence check failed" + e);
+			
+			ObjectMapper mapper = new ObjectMapper();
+			//Converting the Object to JSONString
+			String jsonString=null;
+			try {
+				jsonString = mapper.writeValueAsString(new GenericResponse(true, "user existence check failed"));
+			} catch (JsonProcessingException e1) {
+				// TODO Auto-generated catch block
+				response = Response.status(Response.Status.OK).entity("{'ststus':'fail'}").build();
+
+			}
+
+			response =  Response.status(Response.Status.OK)
+					.entity(jsonString)
+					.build();
+			
+		} catch (Exception e) {
+			ObjectMapper mapper = new ObjectMapper();
+			//Converting the Object to JSONString
+			String jsonString=null;
+			try {
+				jsonString = mapper.writeValueAsString(new GenericResponse(true, e.getMessage()));
+			} catch (JsonProcessingException e1) {
+				// TODO Auto-generated catch block
+				response = Response.status(Response.Status.OK).entity("{'ststus':'fail'}").build();
+
+			}
+
+			response =  Response.status(Response.Status.INTERNAL_SERVER_ERROR)
+					.entity(jsonString)
+					.build();
+			logger.log(Level.WARNING, "Internal server error occurred while adding user", e);
+		}
+		return response;
+	}
+
+	@POST
+	@Path("/theme")
+	public Response setTheme(String jsonBody) {
+		Response response;
+		boolean status;
+		
+		Gson gson = new GsonBuilder().serializeNulls().create();
+
+		ResetPasswordRequest resetPasswordRequest = gson.fromJson(jsonBody, ResetPasswordRequest.class);
+
+		try {
+			InputValidator.validateUserInput("Username", resetPasswordRequest.getUsername(), InputType.NAME);
+			if (!isUserExists(resetPasswordRequest.getUsername())) {
+				UserInfoServiceUtil.handleException("User does not exists");
+			}
+			status = UserInfoServiceUtil.setTheme(resetPasswordRequest.getUsername(), resetPasswordRequest.getTheme());
+			if (status) {
+				ObjectMapper mapper = new ObjectMapper();
+				//Converting the Object to JSONString
+				String jsonString = mapper.writeValueAsString(new GenericResponse(false, "theme updated successfully"));
+				response = Response.status(Response.Status.OK).entity(jsonString).build();
+			} else {
+				ObjectMapper mapper = new ObjectMapper();
+				//Converting the Object to JSONString
+				String jsonString = mapper.writeValueAsString(new GenericResponse(true, "Theme update failed"));
+				response = Response.status(Response.Status.OK).entity(jsonString).build();
+			}
+		} catch (InvalidInputException e) {
+			logger.log(Level.WARNING, "Invalid username or password" + e);
+			ObjectMapper mapper = new ObjectMapper();
+			//Converting the Object to JSONString
+			String jsonString=null;
+			try {
+				jsonString = mapper.writeValueAsString(new GenericResponse(true, "Incorrect Username pattern"));
+			} catch (JsonProcessingException e1) {
+				// TODO Auto-generated catch block
+				response = Response.status(Response.Status.OK).entity("{'ststus':'fail'}").build();
+
+			}
+
+			response =  Response.status(Response.Status.OK)
+					.entity(jsonString)
+					.build();
+			
+		} catch (ApiException e) {
+			logger.log(Level.WARNING, "User does not exists" + e);
+			ObjectMapper mapper = new ObjectMapper();
+			//Converting the Object to JSONString
+			String jsonString=null;
+			try {
+				jsonString = mapper.writeValueAsString(new GenericResponse(true, "Login failed. Please recheck the username"));
+			} catch (JsonProcessingException e1) {
+				// TODO Auto-generated catch block
+				response = Response.status(Response.Status.OK).entity("{'ststus':'fail'}").build();
+
+			}
+
+			response =  Response.status(Response.Status.OK)
+					.entity(jsonString)
+					.build();
+
+		} catch (APIManagementException e) {
+			logger.log(Level.WARNING, "user existence check failed" + e);
+			ObjectMapper mapper = new ObjectMapper();
+			//Converting the Object to JSONString
+			String jsonString=null;
+			try {
+				jsonString = mapper.writeValueAsString(new GenericResponse(true, "user existence check failed"));
+			} catch (JsonProcessingException e1) {
+				// TODO Auto-generated catch block
+				response = Response.status(Response.Status.OK).entity("{'ststus':'fail'}").build();
+
+			}
+
+			response =  Response.status(Response.Status.OK)
+					.entity(jsonString)
+					.build();
+
+		
+		} catch (Exception e) {
+			ObjectMapper mapper = new ObjectMapper();
+			//Converting the Object to JSONString
+			String jsonString=null;
+			try {
+				jsonString = mapper.writeValueAsString(new GenericResponse(true, e.getMessage()));
+			} catch (JsonProcessingException e1) {
+				// TODO Auto-generated catch block
+				response = Response.status(Response.Status.OK).entity("{'ststus':'fail'}").build();
+
+			}
+
+			response =  Response.status(Response.Status.INTERNAL_SERVER_ERROR)
+					.entity(jsonString)
+					.build();
+			logger.log(Level.WARNING, "Internal server error occurred while adding user", e);
+		}
+		return response;
+	}
+
+	@POST
+	@Path("/update-password")
+	public Response updatePassword(String jsonBody) {
+		Response response;
+		Gson gson = new GsonBuilder().serializeNulls().create();
+
+		ResetPasswordRequest resetPasswordRequest = gson.fromJson(jsonBody, ResetPasswordRequest.class);
+
+		try {
+			InputValidator.validateUserInput("Username", resetPasswordRequest.getUsername(), InputType.NAME);
+			InputValidator.validateUserInput("Password", resetPasswordRequest.getNewPassword(), InputType.PASSWORD);
+
+			UserInfoServiceUtil userInfoServiceUtil = UserInfoServiceUtil.getInstance();
+			userInfoServiceUtil.getUserInfoService(UserInfoServiceUtil.getSessionCookie());
+			VerificationBean verificationBean = userInfoServiceUtil.updatePassword(resetPasswordRequest.getUsername(), resetPasswordRequest.getCode(),
+					/*resetPasswordRequest.getCaptcha(),*/resetPasswordRequest.getNewPassword());
+			
+			ObjectMapper mapper = new ObjectMapper();
+			//Converting the Object to JSONString
+			String jsonString = mapper.writeValueAsString(new GenericResponse(false, "password updated successfully"));
+			response = Response.status(Response.Status.OK).entity(jsonString).build();
+			
+			
+		} catch (Exception e) {
+			logger.log(Level.WARNING, "Error while updating password " + e);
+			ObjectMapper mapper = new ObjectMapper();
+			//Converting the Object to JSONString
+			String jsonString=null;
+			try {
+				jsonString = mapper.writeValueAsString(new GenericResponse(true, e.getMessage()));
+			} catch (JsonProcessingException e1) {
+				// TODO Auto-generated catch block
+				response = Response.status(Response.Status.OK).entity("{'ststus':'fail'}").build();
+
+			}
+
+			response =  Response.status(Response.Status.OK)
+					.entity(jsonString)
+					.build();
+			
+		}
+		return response;
+	}
+
+	@POST
+	@Path("/forget-password")
+	public Response sendNotification(String jsonBody) {
+		Response response;
+		Gson gson = new GsonBuilder().serializeNulls().create();
+
+		ResetPasswordRequest resetPasswordRequest = gson.fromJson(jsonBody, ResetPasswordRequest.class);
+
+		try {
+			InputValidator.validateUserInput("Username", resetPasswordRequest.getUsername(), InputType.NAME);
+			UserInfoServiceUtil userInfoServiceUtil = UserInfoServiceUtil.getInstance();
+			userInfoServiceUtil.getUserInfoService(UserInfoServiceUtil.getSessionCookie());
+
+			if(!isUserExists(resetPasswordRequest.getUsername())) {
+				UserInfoServiceUtil.handleException("User does not exists");
+			}
+
+			VerificationBean verificationBean = userInfoServiceUtil.sendNotification(resetPasswordRequest.getUsername());
+			ObjectMapper mapper = new ObjectMapper();
+			//Converting the Object to JSONString
+			String jsonString = mapper.writeValueAsString(new GenericResponse(false, "notification sent successfully"));
+			response = Response.status(Response.Status.OK).entity(jsonString).build();
+			
+			
+		} catch (Exception e) {
+			logger.log(Level.WARNING, "Error occurred while sending notification " + e);
+			ObjectMapper mapper = new ObjectMapper();
+			//Converting the Object to JSONString
+			String jsonString=null;
+			try {
+				jsonString = mapper.writeValueAsString(new GenericResponse(true, e.getMessage()));
+			} catch (JsonProcessingException e1) {
+				// TODO Auto-generated catch block
+				response = Response.status(Response.Status.OK).entity("{'ststus':'fail'}").build();
+
+			}
+
+			response =  Response.status(Response.Status.OK)
+					.entity(jsonString)
+					.build();
 		}
 		return response;
 	}
@@ -184,7 +462,7 @@ public class UserService {
 				authUsername = decodedAuthParts[0];
 				authPassword = decodedAuthParts[1];
 			} catch (Exception e) {
-				handleException("User authentication failed");
+				UserInfoServiceUtil.handleException("User authentication failed");
 			}
 
 			APIManagerConfiguration config = HostObjectComponent.getAPIManagerConfiguration();
@@ -196,17 +474,17 @@ public class UserService {
 			authOptions.setManageSession(true);
 			int tenantId =  ServiceReferenceHolder.getInstance().getRealmService().getTenantManager().getTenantId(tenantDomain);
 			if(tenantId == org.wso2.carbon.base.MultitenantConstants.INVALID_TENANT_ID) {
-				handleException("Invalid tenant domain");
+				UserInfoServiceUtil.handleException("Invalid tenant domain");
 			}
 			PermissionUpdateUtil.updatePermissionTree(tenantId);
 			if(authAdminStub.login(authUsername, authPassword, new URL(serverURL).getHost())) {
 				sessionCookie = (String) authAdminStub._getServiceClient().getLastOperationContext().getServiceContext().getProperty(HTTPConstants.COOKIE_STRING);
 			} else {
-				handleException("Incorrect credentials");
+				UserInfoServiceUtil.handleException("Incorrect credentials");
 			}
 
 			if (!changePasswordReq.getCurrentPassword().equals(authPassword)) {
-				handleException("Current password is incorrect");
+				UserInfoServiceUtil.handleException("Current password is incorrect");
 			}
 
 			if (tenantDomain != null && !MultitenantConstants.SUPER_TENANT_DOMAIN_NAME.equals(tenantDomain)) {
@@ -217,7 +495,7 @@ public class UserService {
 
 			UserRegistrationConfigDTO signupConfig = SelfSignUpUtil.getSignupConfiguration(tenantDomain);
 			if (signupConfig != null && !"".equals(signupConfig.getSignUpDomain()) && !signupConfig.isSignUpEnabled()) {
-				handleException("Self sign up has been disabled for this tenant domain");
+				UserInfoServiceUtil.handleException("Self sign up has been disabled for this tenant domain");
 			}
 
 			UserIdentityManagementAdminServiceStub identityMgtAdminStub  = new UserIdentityManagementAdminServiceStub(
@@ -229,14 +507,14 @@ public class UserService {
 			identityMgtAdminStub.changeUserPassword(changePasswordReq.getNewPassword(), changePasswordReq.getCurrentPassword());
 
 			if (!isAbleToLogin(authUsername, changePasswordReq.getNewPassword(), serverURL, tenantDomain)) {
-				handleException("Password change failed");
+				UserInfoServiceUtil.handleException("Password change failed");
 			}
 
 			ObjectMapper mapper = new ObjectMapper();
 			//Converting the Object to JSONString
 			String jsonString = mapper.writeValueAsString(new GenericResponse(false, "SUCCESS"));
 			response = Response.status(Response.Status.OK).entity(jsonString).build();
-			
+
 
 			logger.log(Level.INFO, "Password changed successfully for user : " + authUsername);
 		} catch (ApiException | InvalidInputException e) {
@@ -251,7 +529,7 @@ public class UserService {
 
 			}
 			response = Response.status(Response.Status.OK).entity(jsonString).build();
-			
+
 			logger.log(Level.WARNING, "Error occurred changing password");
 		} catch (Exception e) {
 			ObjectMapper mapper = new ObjectMapper();
@@ -264,8 +542,8 @@ public class UserService {
 				response = Response.status(Response.Status.OK).entity("{'ststus':'fail'}").build();
 
 			}
-			
-			
+
+
 			response =  Response.status(Response.Status.INTERNAL_SERVER_ERROR)
 					.entity(jsonString)
 					.build();
@@ -283,7 +561,7 @@ public class UserService {
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response changePassword(String jsonBody) {
-		Response response;
+		Response response=null;
 		boolean isTenantFlowStarted = false;
 		Gson gson = new GsonBuilder().serializeNulls().create();
 
@@ -299,7 +577,7 @@ public class UserService {
 			String tenantDomain = MultitenantUtils.getTenantDomain(APIUtil.replaceEmailDomainBack(changePasswordReq.getUsername()));
 
 			if (!isAbleToLogin(changePasswordReq.getUsername(), changePasswordReq.getCurrentPassword(), serverURL, tenantDomain)) {
-				handleException("Current password is incorrect");
+				UserInfoServiceUtil.handleException("Current password is incorrect");
 			}
 
 			if (tenantDomain != null && !MultitenantConstants.SUPER_TENANT_DOMAIN_NAME.equals(tenantDomain)) {
@@ -310,11 +588,11 @@ public class UserService {
 
 			UserRegistrationConfigDTO signupConfig = SelfSignUpUtil.getSignupConfiguration(tenantDomain);
 			if (signupConfig != null && !"".equals(signupConfig.getSignUpDomain()) && !signupConfig.isSignUpEnabled()) {
-				handleException("Self sign up has been disabled for this tenant domain");
+				UserInfoServiceUtil.handleException("Self sign up has been disabled for this tenant domain");
 			}
 
 			if(changePasswordReq.getUsername().equals(signupConfig.getAdminUserName())) {
-				handleException("Unable to change super admin credentials");
+				UserInfoServiceUtil.handleException("Unable to change super admin credentials");
 			}
 
 			UserAdminStub userAdminStub = new UserAdminStub(null, serverURL + "UserAdmin");
@@ -322,18 +600,18 @@ public class UserService {
 			userAdminStub.changePasswordByUser(tenantAwareUserName, changePasswordReq.getCurrentPassword(), changePasswordReq.getNewPassword());
 
 			if (!isAbleToLogin(changePasswordReq.getUsername(), changePasswordReq.getNewPassword(), serverURL, tenantDomain)) {
-				handleException("Password change failed");
+				UserInfoServiceUtil.handleException("Password change failed");
 			}
 			ObjectMapper mapper = new ObjectMapper();
 			//Converting the Object to JSONString
 			String jsonString = mapper.writeValueAsString(new GenericResponse(false, "SUCCESS"));
 			response = Response.status(Response.Status.OK).entity(jsonString).build();
-			
 
-			
+
+
 			logger.log(Level.INFO, "Password changed successfully for user : " + changePasswordReq.getUsername());
 		} catch (ApiException | InvalidInputException e) {
-			
+
 			ObjectMapper mapper = new ObjectMapper();
 			//Converting the Object to JSONString
 			String jsonString=null;
@@ -345,25 +623,12 @@ public class UserService {
 
 			}
 			response = Response.status(Response.Status.OK).entity(jsonString).build();
-			
-			
+
+
 			logger.log(Level.WARNING, "Error occurred while changing password");
 		} catch (Exception e) {
-			
-			ObjectMapper mapper = new ObjectMapper();
-			//Converting the Object to JSONString
-			String jsonString=null;
-			try {
-				jsonString = mapper.writeValueAsString(new GenericResponse(true, e.getMessage()));
-			} catch (JsonProcessingException e1) {
-				// TODO Auto-generated catch block
-				response = Response.status(Response.Status.OK).entity("{'ststus':'fail'}").build();
 
-			}
-			response =  Response.status(Response.Status.INTERNAL_SERVER_ERROR)
-					.entity(jsonString)
-					.build();
-			logger.log(Level.WARNING, "Internal server error occurred while changing password", e);
+			
 		} finally {
 			if (isTenantFlowStarted) {
 				PrivilegedCarbonContext.endTenantFlow();
@@ -371,7 +636,7 @@ public class UserService {
 		}
 		return response;
 	}
-
+	
 	private void addUser(String username, String password, String fields) throws Exception {
 
 		APIManagerConfiguration config = HostObjectComponent.getAPIManagerConfiguration();
@@ -404,7 +669,7 @@ public class UserService {
 			// set tenant specific sign up user storage
 			if (signupConfig != null && !signupConfig.getSignUpDomain().isEmpty()) {
 				if (!signupConfig.isSignUpEnabled()) {
-					handleException("Self sign up has been disabled for this tenant domain");
+					UserInfoServiceUtil.handleException("Self sign up has been disabled for this tenant domain");
 				}
 				int index = username.indexOf(UserCoreConstants.DOMAIN_SEPARATOR);
 
@@ -462,12 +727,12 @@ public class UserService {
 				} catch (WorkflowException e) {
 					logger.log(Level.WARNING,"Unable to execute User SignUp Workflow", e);
 					removeTenantUser(username, serverURL);
-					handleException("Unable to execute User SignUp Workflow", e);
+					UserInfoServiceUtil.handleException("Unable to execute User SignUp Workflow", e);
 				}
 			} else {
 				String customErrorMsg = "Unable to add a user. Please check credentials in "
 						+ "the signup-config.xml in the registry";
-				handleException(customErrorMsg);
+				UserInfoServiceUtil.handleException(customErrorMsg);
 			}
 		} catch (UserRegistrationAdminServiceException | WorkflowException |
 				UserAdminUserAdminException | RemoteException | APIManagementException e) {
@@ -504,7 +769,7 @@ public class UserService {
 			APIManagerConfiguration config = HostObjectComponent.getAPIManagerConfiguration();
 			String url = config.getFirstProperty(APIConstants.AUTH_MANAGER_URL);
 			if (url == null) {
-				handleException("API key manager URL unspecified");
+				UserInfoServiceUtil.handleException("API key manager URL unspecified");
 			}
 			stub = new UserRegistrationAdminServiceStub(null, url + "UserRegistrationAdminService");
 			ServiceClient client = stub._getServiceClient();
@@ -557,7 +822,7 @@ public class UserService {
 				exists = true;
 			}
 		} catch (org.wso2.carbon.user.api.UserStoreException e) {
-			handleException("Error while checking user existence for " + username, e);
+			UserInfoServiceUtil.handleException("Error while checking user existence for " + username, e);
 		}
 		return exists;
 	}
@@ -566,7 +831,7 @@ public class UserService {
 			String tenantDomain) throws ApiException {
 		boolean loginStatus = false;
 		if (serverURL == null) {
-			handleException("API key manager URL unspecified");
+			UserInfoServiceUtil.handleException("API key manager URL unspecified");
 		}
 		try {
 			AuthenticationAdminStub authAdminStub =
@@ -617,5 +882,6 @@ public class UserService {
 			return position;
 		}
 	}
+	
 
 }

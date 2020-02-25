@@ -6,7 +6,7 @@ import { Observable, EMPTY } from 'rxjs';
 
 import { ApiEndpoints } from '../config/api.endpoints';
 
-import { LoginFormData, LoginResponseData, LogoutResponseData, ClientRegParam, RegClientData, TokenGenerationParam, TokenData, ResetPasswordResponseData } from './authentication.models';
+import { LoginFormData, LoginResponseData, LogoutResponseData, ClientRegParam, RegClientData, TokenGenerationParam, TokenData, ResetPasswordResponseData, ForgetPasswordParam, ForgetPasswordResponseData, UpdateForgetPasswordResponseData, ForgetResetPasswordParam } from './authentication.models';
 import { AppState } from '../app.data.models';
 import { Store } from '@ngrx/store';
 import { SigUpUserParam, ResetPasswordParam } from './authentication.models';
@@ -88,6 +88,32 @@ export class AuthenticationService {
         return this.httpBasicClient.post(ApiEndpoints.authentication.changePassword, param, httpOption).pipe(
             map((data: any) =>
                 new ResetPasswordResponseData(data.error, data.message)
+            ));
+    }
+
+    forgetPassword(param: ForgetPasswordParam) {
+        const httpOption = {
+            headers: new HttpHeaders({
+                'Content-Type': 'application/json'
+            })
+        };
+
+        return this.httpBasicClient.post(ApiEndpoints.authentication.forgetPassword, param, httpOption).pipe(
+            map((data: any) =>
+                new ForgetPasswordResponseData(data.error, data.message)
+            ));
+    }
+
+    UpdateForgetPw(param: ForgetResetPasswordParam) {
+        const httpOption = {
+            headers: new HttpHeaders({
+                'Content-Type': 'application/json'
+            })
+        };
+
+        return this.httpBasicClient.post(ApiEndpoints.authentication.updateForgetPassword, param, httpOption).pipe(
+            map((data: any) =>
+                new UpdateForgetPasswordResponseData(data.error, data.message)
             ));
     }
 

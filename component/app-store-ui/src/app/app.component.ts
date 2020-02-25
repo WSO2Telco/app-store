@@ -1,15 +1,13 @@
 import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { OnInit, ChangeDetectorRef } from '@angular/core';
-import { LoginMenuAction, LoginResponseData, LoginMenuActionTypes, LoginFormData } from './authentication/authentication.models';
+import { LoginMenuAction, LoginMenuActionTypes } from './authentication/authentication.models';
 import { Store } from '@ngrx/store';
 import { AppState } from './app.data.models';
-import { DoLogoutAction, DoLoginAction, ClientRegistrationAction, ClientRegistrationSuccessAction, TokenGenerationAction, SetLoggedUserAction, TokenRefreshAction } from './authentication/authentication.actions';
-import { Observable } from 'rxjs';
+import { DoLogoutAction, TokenRefreshAction } from './authentication/authentication.actions';
 import * as globalActions from './app.actions';
-import { ToggleLeftPanelAction} from './app.actions';
+import { ToggleLeftPanelAction } from './app.actions';
 import { Router } from '@angular/router';
-import { ofType, Actions } from '@ngrx/effects';
-import { take } from 'rxjs/operators';
+import { BnNgIdleService } from 'bn-ng-idle';
 
 @Component({
   selector: 'store-root',
@@ -29,7 +27,13 @@ export class AppComponent implements OnInit {
     private store: Store<AppState>,
     private ref: ChangeDetectorRef,
     private router: Router,
-    private actions$: Actions) { }
+    private bnIdle: BnNgIdleService) {
+    this.bnIdle.startWatching(180).subscribe((res) => {
+      if (res) {
+        this.store.dispatch(DoLogoutAction());
+      }
+    })
+  }
 
   ngOnInit(): void {
 
@@ -47,22 +51,22 @@ export class AppComponent implements OnInit {
     this.store.select(store => store.authentication.loginData)
       .subscribe((loginData) => {
         if (loginData) {
-          this.store.dispatch(globalActions.ToggleRightPanelAction({"payload": false}));
+          this.store.dispatch(globalActions.ToggleRightPanelAction({ "payload": false }));
         }
       });
 
     setTimeout(() => {
-      this.store.dispatch(ToggleLeftPanelAction({"payload": true}));
+      this.store.dispatch(ToggleLeftPanelAction({ "payload": true }));
     }, 200);
 
     let rtkn = localStorage.getItem('rtkn');
-    if(rtkn) this.store.dispatch(TokenRefreshAction());
+    if (rtkn) this.store.dispatch(TokenRefreshAction());
   }
 
   onMenuSelect(event: LoginMenuAction) {
     switch (event.type) {
       case LoginMenuActionTypes.LOGIN: {
-        this.store.dispatch(globalActions.ToggleRightPanelAction({"payload": true}));
+        this.store.dispatch(globalActions.ToggleRightPanelAction({ "payload": true }));
         break;
       }
 
@@ -72,7 +76,7 @@ export class AppComponent implements OnInit {
       }
 
       case LoginMenuActionTypes.SIGNUP: {
-        this.router.navigate(['application/sign-up']);
+        this.router.navigate(['home/signup']);
         break;
       }
       case LoginMenuActionTypes.HELP: {
@@ -93,21 +97,11 @@ export class AppComponent implements OnInit {
 
   }
 
-  onLoginClick(loginData: LoginFormData) {
-    this.store.dispatch(DoLoginAction({"payload": loginData}));
-    this.store.dispatch(ClientRegistrationAction({"payload": loginData}));
-
-    this.actions$.pipe(ofType(ClientRegistrationSuccessAction)).pipe(take(1)).subscribe(p => {
-      this.store.dispatch(TokenGenerationAction({ "payload": loginData }));
-      this.store.dispatch(SetLoggedUserAction({"payload": loginData.username}))
-    })
-  }
-
   onRightNavClose() {
-    this.store.dispatch(globalActions.ToggleRightPanelAction({"payload": false}));
+    this.store.dispatch(globalActions.ToggleRightPanelAction({ "payload": false }));
   }
 
   onHambergerMenuClick(event) {
-    this.store.dispatch(globalActions.ToggleLeftPanelAction({"payload": event}));
+    this.store.dispatch(globalActions.ToggleLeftPanelAction({ "payload": event }));
   }
 }

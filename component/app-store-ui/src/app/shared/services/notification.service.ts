@@ -27,7 +27,7 @@ export class NotificationService {
         type,
         message: msg
       },
-     duration: 3000
+     duration: 5000
     });
   }
 

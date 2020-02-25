@@ -3,13 +3,14 @@ import { AppState } from "../../../app.data.models";
 import { Store } from "@ngrx/store";
 import { CreateTopicParam } from "../../forum.data.models";
 import * as forumActions from "../../forum.actions";
-import { Actions } from "@ngrx/effects";
+import { Actions, ofType } from "@ngrx/effects";
 import { Router } from "@angular/router";
 
 import * as globalActions from "../../../app.actions";
 import { BreadcrumbItem } from "../../../app.data.models";
 import { Title } from '@angular/platform-browser';
 import { ApiSearchResult } from '../../../apis/apis.models';
+import { take } from 'rxjs/operators';
 
 @Component({
   selector: "store-create-topic",
@@ -53,18 +54,19 @@ export class CreateTopicComponent implements OnInit {
       .subscribe((res: ApiSearchResult) => {
         ApiRepo.list = res.list;
       });
+
+    this.actions.pipe(ofType(forumActions.CreateTopicSuccessAction)).pipe(take(1)).subscribe(topic => {
+      this.router.navigate(["/forum/view/", topic.payload.id]);
+    })
   }
 
   onCreateClick() {
-    // this.store.dispatch(new forumActions.CreateTopicAction(this.topic));
-
-    // this.actions.ofType(forumActions.CREATE_TOPIC_SUCCESS).subscribe(() => {
-    //   this.router.navigate(['forum']);
-    // });
+    if(this.topic.title !='' && this.topic.content !='')
+    this.store.dispatch(forumActions.CreateTopicAction({payload: this.topic}));
   }
 
   public onChange( { editor }) {
-    this.topicContent = editor.getData();
+    this.topic.content = editor.getData();
   }
   
 }
