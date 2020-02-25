@@ -23,6 +23,11 @@ export class ForumService{
         return this.http.get<TopicResult>(endpoint);
     }
 
+    searchForum(searchTerm:string){
+        let url = `${ApiEndpoints.forum.search}/${encodeURI(searchTerm)}`;
+        return this.http.get(url);
+    }
+
     deleteTopic(topicId:string){
         let payload = {id:topicId};
         return this.http.post(ApiEndpoints.forum.deleteTopic, payload);

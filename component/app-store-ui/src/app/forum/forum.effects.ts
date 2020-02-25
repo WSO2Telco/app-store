@@ -18,11 +18,24 @@ export class ForumEffects {
     private actions$: Actions
   ) {}
 
-  apiSearch$ = createEffect(() => this.actions$.pipe(
+  forumGetList$ = createEffect(() => this.actions$.pipe(
     ofType(forumActions.GetAllTopicsAction),
     mergeMap(({payload}) => this.service.getAllTopics(payload)
       .pipe(
         map((result: TopicResult) => (forumActions.GetAllTopicsSuccessAction({payload:result.payload}))),
+        catchError((e: HttpErrorResponse) => {
+            this.notification.error(e.message);
+            return EMPTY
+        })
+      )
+    )
+  ));
+
+  forumSearch$ = createEffect(() => this.actions$.pipe(
+    ofType(forumActions.SearchTopicsAction),
+    mergeMap(({payload}) => this.service.searchForum(payload)
+      .pipe(
+        map((result: TopicResult) => (forumActions.SearchTopicsSuccessAction({payload:result.payload}))),
         catchError((e: HttpErrorResponse) => {
             this.notification.error(e.message);
             return EMPTY
