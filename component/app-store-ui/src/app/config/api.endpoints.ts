@@ -6,7 +6,7 @@ export const ApiEndpoints = {
   apiContext: apiContext,
   authentication: {
     login: appStoreApi + "/auth/login",
-    logout: appStoreApi + "/api/auth/logout",
+    logout: appStoreApi + "/auth/logout",
     signup: appStoreApi + "/user/add",
     changePassword: appStoreApi + "/user/change-password-by-user",
     updateForgetPassword: appStoreApi + "/user/update-password",
