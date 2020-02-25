@@ -88,7 +88,6 @@ import java.util.logging.Logger;
 @Produces(MediaType.APPLICATION_JSON)
 public class UserService {
 
-
 	private static final Logger logger = Logger.getLogger(UserService.class.getName());
 
 	@POST
@@ -882,6 +881,4 @@ public class UserService {
 			return position;
 		}
 	}
-	
-
 }
