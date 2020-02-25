@@ -7,6 +7,7 @@ import { ActivatedRoute } from '@angular/router';
 import { Actions, ofType } from '@ngrx/effects';
 import { MatDialog } from '@angular/material/dialog';
 import { DeleteConfirmationDialog } from '../delete-confirmation/delete-confirmation';
+import { take } from 'rxjs/operators';
 
 @Component({
   selector: "store-view-topic",
@@ -62,9 +63,10 @@ export class ViewTopicComponent implements OnInit {
       removeButtons : 'Source,Save,Templates,Cut,Undo,Find,SelectAll,Scayt,Form,Checkbox,Radio,TextField,Textarea,Select,Button,ImageButton,HiddenField,Subscript,Outdent,Indent,CreateDiv,BidiLtr,Language,Unlink,Anchor,Image,Flash,Table,HorizontalRule,Smiley,SpecialChar,PageBreak,Iframe,Styles,Maximize,About,ShowBlocks,BGColor,Format,Font,FontSize,NewPage,Copy,Redo,Replace,Paste,PasteText,Print,Preview,PasteFromWord,RemoveFormat,CopyFormatting,NumberedList,BulletedList,JustifyLeft,JustifyCenter,JustifyRight,JustifyBlock,BidiRtl,Superscript'
     }
 
-    this.actions$.pipe(ofType(forumActions.PostReplySuccessAction)).subscribe(l => {
+    this.actions$.pipe(ofType(forumActions.PostReplySuccessAction)).pipe(take(1)).subscribe(l => {
       this.commentBody.replyText = '';
       this.store.dispatch(forumActions.GetTopicDetailAction({payload:this.topicId}));
+      console.log(this.topicId);
     })
 
     this.actions$.pipe(ofType(forumActions.DeleteCommentSuccessAction)).subscribe(l => {
