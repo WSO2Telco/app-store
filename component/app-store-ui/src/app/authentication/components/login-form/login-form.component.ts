@@ -5,7 +5,7 @@ import { AppState } from '../../../app.data.models';
 import { DoLoginAction, ClientRegistrationAction, ClientRegistrationSuccessAction, TokenGenerationAction, SetLoggedUserAction, LoginSuccessAction, LoginFailedAction, ForgetPwAction, ForgetPwSuccessAction } from '../../authentication.actions';
 import { Actions, ofType } from '@ngrx/effects';
 import { take } from 'rxjs/operators';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, FormGroupDirective } from '@angular/forms';
 declare var jQuery: any;
 
 @Component({
@@ -31,13 +31,14 @@ export class LoginFormComponent implements OnInit {
     private actions$: Actions,
     private fb: FormBuilder,
     private cd: ChangeDetectorRef,
-    private actions: Actions
+    private actions: Actions,
+    private formBuilder: FormBuilder
   ) {
     this.loginForm = this.fb.group({
       username: ['', Validators.required],
       password: ['', [Validators.required, Validators.min(8)]],
     });
-    this.fpwForm = this.fb.group({
+    this.fpwForm = this.formBuilder.group({
       username: ['', Validators.required]
     });
   }
@@ -79,7 +80,6 @@ export class LoginFormComponent implements OnInit {
   }
 
   get f() { return this.loginForm.controls; }
-  get g() { return this.fpwForm.controls; }
 
   onLoginClick() {
     this.loginError = null;
@@ -94,15 +94,15 @@ export class LoginFormComponent implements OnInit {
   }
 
 
-  onfpwLoginClick() {
-    this.FpwError = null;
+  onfpwLoginClick(form:any, formDirective: FormGroupDirective) {
 
     if (this.fpwForm.valid) {
-      this.username = this.fpwForm.get('username').value;
+      this.username = this.fpwForm.value.username;
 
       this.store.dispatch(ForgetPwAction({ "payload": new ForgetPasswordParam(this.username) }));
 
       this.actions.pipe(ofType(ForgetPwSuccessAction)).subscribe(p => {
+        formDirective.resetForm();
         this.fpwForm.reset();
       })
     }
