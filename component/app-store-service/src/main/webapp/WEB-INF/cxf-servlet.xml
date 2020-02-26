@@ -17,7 +17,7 @@
 	http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
 		http://cxf.apache.org/jaxrs http://cxf.apache.org/schemas/jaxrs.xsd">
 
-	<jaxrs:server id="ForumService" address="/public/api/user">
+	<jaxrs:server id="ForumService" address="/user">
 		<jaxrs:serviceBeans>
 			<ref bean="ForumServiceBean" />
 			
@@ -28,7 +28,7 @@
 		</jaxrs:providers> 
 	</jaxrs:server>
 	
-	<jaxrs:server id="ForumServiceSec" address="/public/api">
+	<jaxrs:server id="ForumServiceSec" address="/">
 		<jaxrs:serviceBeans>
 			<ref bean="AuthenticationServiceBean" />
 			<ref bean="MockServiceBean" />
