@@ -15,7 +15,7 @@
 	xsi:schemaLocation="http://oracle.com/webfolder/technetwork/jsc/xml/ns/javaee/web-app_3_0.xsd http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 	version="2.5">
 
-	<display-name>cxf</display-name>
+	<display-name>app-store</display-name>
 	<context-param>
 		<param-name>contextConfigLocation</param-name>
 		<param-value>WEB-INF/cxf-servlet.xml</param-value>
@@ -32,7 +32,7 @@
 
 	<servlet-mapping>
 		<servlet-name>cxf</servlet-name>
-		<url-pattern>/*</url-pattern>
+		<url-pattern>/public/api/*</url-pattern>
 	</servlet-mapping>
 
 	<session-config>
@@ -40,7 +40,7 @@
 	</session-config>
 
 	<welcome-file-list>
-		<welcome-file>index.jsp</welcome-file>
+		<welcome-file>index.html</welcome-file>
 	</welcome-file-list>
 
 </web-app>
