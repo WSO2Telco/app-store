@@ -26,21 +26,17 @@
 
       <button mat-raised-button color="accent" style="width:100%">Login</button>
     </form>
-    <form [formGroup]="fpwForm" class="fpwForm fpwHidden" (ngSubmit)="onfpwLoginClick()">
+    <form [formGroup]="fpwForm" #formDirective="ngForm" novalidate class="fpwForm fpwHidden" (ngSubmit)="onfpwLoginClick(fpwForm,formDirective)">
       <mat-card-content>
         Enter username and submit to receive password reset link to your email address.
         <br>
         <mat-form-field>
-          <input matInput autocomplete="off" placeholder="Username" formControlName="username" />
-          <mat-error *ngIf="g?.fpwusername?.errors?.required">
+          <input matInput autocomplete="off" placeholder="Username" name="username" formControlName="username" />
+          <mat-error *ngIf="fpwForm.hasError('required', 'username')">
             Please enter username
           </mat-error>
         </mat-form-field>
       </mat-card-content>
-
-      <div class="login-error" *ngIf="FpwError && fpwForm.valid">
-        {{FpwError}}
-      </div>
 
       <button mat-raised-button color="accent" style="width:100%">Submit</button>
     </form>
