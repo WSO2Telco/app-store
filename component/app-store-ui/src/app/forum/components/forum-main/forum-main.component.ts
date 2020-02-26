@@ -36,7 +36,7 @@ export class ForumMainComponent implements OnInit {
 
   onSearchClick() {
     if(this.searchQuery != '') this.store.dispatch(forumActions.SearchTopicsAction({payload:this.searchQuery}));
-    else forumActions.GetAllTopicsAction({payload: new GetTopicsParam()});
+    else this.store.dispatch(forumActions.GetAllTopicsAction({payload: new GetTopicsParam()}));
   }
 
   onTopicDelete(id) {
