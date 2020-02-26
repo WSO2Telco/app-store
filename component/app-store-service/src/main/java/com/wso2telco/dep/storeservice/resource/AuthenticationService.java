@@ -16,6 +16,11 @@ import org.wso2.carbon.authenticator.stub.AuthenticationAdminStub;
 import org.wso2.carbon.core.util.PermissionUpdateUtil;
 import org.wso2.carbon.utils.multitenancy.MultitenantUtils;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -51,8 +56,13 @@ public class AuthenticationService {
 
     @POST
     @Path("/login")
-    public Response login(AuthenticationRequest authenticationRequest) {
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response login(String jsonBody) {
 
+    	Gson gson = new GsonBuilder().serializeNulls().create();
+
+    	AuthenticationRequest authenticationRequest = gson.fromJson(jsonBody, AuthenticationRequest.class);
         Response response;
         try {
             InputValidator.validateUserInput("Username", authenticationRequest.getUsername());
@@ -81,20 +91,38 @@ public class AuthenticationService {
             String host = new URL(url).getHost();
             logger.log(Level.INFO, "login user : " + authenticationRequest.getUsername());
             if (!authAdminStub.login(authenticationRequest.getUsername(), authenticationRequest.getPassword(), host)) {
-                response = Response.status(Response.Status.OK)
-                        .entity(new GenericResponse(true, "Login failed. Please recheck the username and password and try again."))
-                        .build();
+               
+            	ObjectMapper mapper = new ObjectMapper();
+    			//Converting the Object to JSONString
+    			String jsonString = mapper.writeValueAsString(new GenericResponse(true, "Login failed. Please recheck the username and password and try again."));
+    			response = Response.status(Response.Status.OK).entity(jsonString).build();
+            	
                 logger.log(Level.WARNING, "Invalid username or password, Login failed");
             } else {
-                String theme = UserInfoServiceUtil.getTheme(authenticationRequest.getUsername());
-                response = Response.status(Response.Status.OK)
-                        .entity(new LoginResponse(false, "SUCCESS", theme))
-                        .build();
+
+            	ObjectMapper mapper = new ObjectMapper();
+    			//Converting the Object to JSONString
+
+				String theme = UserInfoServiceUtil.getTheme(authenticationRequest.getUsername());
+    			String jsonString = mapper.writeValueAsString(new LoginResponse(false, "SUCCESS", theme));
+    			response = Response.status(Response.Status.OK).entity(jsonString).build();
+                
+
                 logger.log(Level.INFO, authenticationRequest.getUsername() + " successfully logged in");
             }
         } catch (Exception e) {
+        	ObjectMapper mapper = new ObjectMapper();
+			//Converting the Object to JSONString
+			String jsonString=null;
+			try {
+				jsonString = mapper.writeValueAsString(new GenericResponse(true, e.getMessage()));
+			} catch (JsonProcessingException e1) {
+				// TODO Auto-generated catch block
+				response = Response.status(Response.Status.OK).entity("{'ststus':'fail'}").build();
+			}
+			
             response =  Response.status(Response.Status.INTERNAL_SERVER_ERROR)
-                .entity(new GenericResponse(true, e.getMessage()))
+                .entity(jsonString)
                 .build();
             logger.log(Level.WARNING, "Login failed, internal error occurred", e);
         }
@@ -103,6 +131,8 @@ public class AuthenticationService {
 
     @GET
     @Path("/logout")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
     public Response logout() {
         Response response;
         try {
@@ -114,14 +144,30 @@ public class AuthenticationService {
 
             AuthenticationAdminStub authAdminStub = new AuthenticationAdminStub(null, url + "AuthenticationAdmin");
             authAdminStub.logout();
+            
+            ObjectMapper mapper = new ObjectMapper();
+			//Converting the Object to JSONString
+			String jsonString = mapper.writeValueAsString(new GenericResponse(false, "SUCCESS"));
+			response = Response.status(Response.Status.OK).entity(jsonString).build();
 
-            response = Response.status(Response.Status.OK)
-                .entity(new GenericResponse(false, "SUCCESS"))
-                .build();
+
+            
             logger.log(Level.INFO, "successfully logged out");
         } catch (Exception e) {
+        	
+        	ObjectMapper mapper = new ObjectMapper();
+			//Converting the Object to JSONString
+			String jsonString=null;
+			try {
+				jsonString = mapper.writeValueAsString(new GenericResponse(true, e.getMessage()));
+			} catch (JsonProcessingException e1) {
+				// TODO Auto-generated catch block
+				response = Response.status(Response.Status.OK).entity("{'ststus':'fail'}").build();
+			}
+			
+
             response =  Response.status(Response.Status.INTERNAL_SERVER_ERROR)
-                .entity(new GenericResponse(true, e.getMessage()))
+                .entity(jsonString)
                 .build();
             logger.log(Level.WARNING, "Logging out failed, internal error occurred", e);
         }

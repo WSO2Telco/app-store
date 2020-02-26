@@ -73,6 +73,10 @@
 			<groupId>com.wso2telco.core</groupId>
 			<artifactId>user-profile</artifactId>
 		</dependency>
+		<dependency>
+			<groupId>com.wso2telco.core</groupId>
+			<artifactId>user-profile</artifactId>
+		</dependency>
         <dependency>
             <groupId>org.testng</groupId>
             <artifactId>testng</artifactId>

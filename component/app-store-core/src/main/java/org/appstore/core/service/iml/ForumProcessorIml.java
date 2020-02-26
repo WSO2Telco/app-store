@@ -8,36 +8,53 @@ import org.appstore.core.dto.GenericResponseWithIDs;
 import org.appstore.core.dto.Reply;
 import org.appstore.core.dto.Topic;
 import org.appstore.core.service.ForumProcessor;
+import org.appstore.core.dto.Callback ;
 
 import com.wso2telco.core.dbutils.exception.BusinessException;
-import com.wso2telco.core.dbutils.util.Callback;
 
 public class ForumProcessorIml implements ForumProcessor {
 
 	@Override
-	public Callback getTopicList(int start,int count) throws BusinessException {
+	public Callback getTopicList(int start,int count,String user,boolean isAdmin) throws BusinessException {
 		// TODO Auto-generated method stub
 		ForumDataProvider dataProvider=new ForumDataProvider();
 		GenaricTopicList  genaricTopicList=new GenaricTopicList();
-		List<Topic> topics=dataProvider.getTopics(start, count);
+		List<Topic> topics=dataProvider.getTopics(start, count,user,isAdmin);
 		genaricTopicList.setList(topics);
+		int totalTopicCount=dataProvider.getTotalTopicsCount();
+
+		genaricTopicList.setTotalTopics(totalTopicCount);
+		genaricTopicList.setNextPage(start+count);
+		return new Callback().setMessage("success").setPayload(genaricTopicList).setSuccess(true);
+	}
+	
+	@Override
+	public Callback getTopicList(String keyword,String user,boolean isAdmin) throws BusinessException {
+		// TODO Auto-generated method stub
+		ForumDataProvider dataProvider=new ForumDataProvider();
+		GenaricTopicList  genaricTopicList=new GenaricTopicList();
+		List<Topic> topics=dataProvider.getTopics(keyword,user,isAdmin);
+		genaricTopicList.setList(topics);
+		int totalTopicCount=dataProvider.getTotalTopicsCount();
 
 		genaricTopicList.setTotalTopics(topics.size());
-		genaricTopicList.setNextPage(start+count);
+
 		return new Callback().setMessage("success").setPayload(genaricTopicList).setSuccess(true);
 	}
 
 	@Override
-	public Callback getTopic(int topicID) throws BusinessException {
+	public Callback getTopic(int topicID,String user,boolean isAdmin) throws BusinessException {
 		ForumDataProvider dataProvider=new ForumDataProvider();
-		Topic topic=dataProvider.getTopic(topicID);
+		Topic topic=dataProvider.getTopic(topicID,user,isAdmin);
 
 		return new Callback().setMessage("success").setPayload(topic).setSuccess(true);
 	}
 
 	@Override
-	public Callback addTopic(Topic topic) throws BusinessException {
+	public Callback addTopic(Topic topic,String user,boolean isAdmin) throws BusinessException {
 		ForumDataProvider dataProvider=new ForumDataProvider();
+		
+		topic.setAuthor(user);
 		
 		Topic topicInDB=dataProvider.addTopic(topic);
 		
@@ -50,9 +67,9 @@ public class ForumProcessorIml implements ForumProcessor {
 	}
 
 	@Override
-	public Callback deleteTopic(Topic topic) throws BusinessException {
+	public Callback deleteTopic(Topic topic,String user,boolean isAdmin) throws BusinessException {
 		ForumDataProvider dataProvider=new ForumDataProvider();
-		Topic topicInDB=dataProvider.deleteTopic(topic);
+		Topic topicInDB=dataProvider.deleteTopic(topic,user,isAdmin);
 		GenericResponseWithIDs gr=new GenericResponseWithIDs();
 
 		gr.setId(topicInDB.getId());
@@ -62,7 +79,8 @@ public class ForumProcessorIml implements ForumProcessor {
 	}
 
 	@Override
-	public Callback addReply(Reply reply) throws BusinessException {
+	public Callback addReply(Reply reply,String user,boolean isAdmin) throws BusinessException {
+		reply.setReplyUsername(user);
 		ForumDataProvider dataProvider=new ForumDataProvider();
 		Reply replyInDB=dataProvider.addReply(reply);
 		GenericResponseWithIDs gr=new GenericResponseWithIDs();
@@ -73,9 +91,9 @@ public class ForumProcessorIml implements ForumProcessor {
 	}
 
 	@Override
-	public Callback deleteReply(Reply reply) throws BusinessException {
+	public Callback deleteReply(Reply reply,String user,boolean isAdmin) throws BusinessException {
 		ForumDataProvider dataProvider=new ForumDataProvider();
-		Reply replyInDB=dataProvider.deleteReply(reply);
+		Reply replyInDB=dataProvider.deleteReply(reply,user,isAdmin);
 		GenericResponseWithIDs gr=new GenericResponseWithIDs();
 		gr.setId(replyInDB.getReplyId());
 		gr.setIdType("Reply ID");

@@ -138,6 +138,7 @@
     <modules>
         <module>component/app-store-service</module>
         <module>component/app-store-core</module>
+	<module>component/app-store-auth</module>
         <!--module>com.wso2telco.dep.app-store.feature</module-->
     </modules>
 
@@ -175,7 +176,7 @@
         <com.esotericsoftware.yamlbeans.version>1.11</com.esotericsoftware.yamlbeans.version>
         <org.apache.commons.version>2.0</org.apache.commons.version>
         <org.wso2.carbon.version>4.4.8</org.wso2.carbon.version>
-        <com.wso2telco.core.version>2.4.1</com.wso2telco.core.version>
+        <com.wso2telco.core.version>2.4.6-SNAPSHOT</com.wso2telco.core.version>
         <carbon.p2.plugin.version>1.5.8</carbon.p2.plugin.version>
         <org.wso2.carbon.apimgt.version>6.0.4</org.wso2.carbon.apimgt.version>
         <org.testng.version>6.14.3</org.testng.version>
