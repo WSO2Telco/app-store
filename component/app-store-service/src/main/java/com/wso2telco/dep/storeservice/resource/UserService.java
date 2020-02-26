@@ -162,7 +162,6 @@ public class UserService {
 	
 	@GET
 	@Path("/theme/{user}")
-	@Produces(MediaType.TEXT_PLAIN)
 	public Response getTheme(@PathParam("user") String username) {
 		Response response;
 		try {
@@ -374,7 +373,7 @@ public class UserService {
 			
 			
 		} catch (Exception e) {
-			logger.log(Level.WARNING, "Error while updating password " + e);
+			logger.log(Level.WARNING, "Error while updating password.Please try again later " + e);
 			ObjectMapper mapper = new ObjectMapper();
 			//Converting the Object to JSONString
 			String jsonString=null;
@@ -419,7 +418,7 @@ public class UserService {
 			
 			
 		} catch (Exception e) {
-			logger.log(Level.WARNING, "Error occurred while sending notification " + e);
+			logger.log(Level.WARNING, "Error occurred while sending notification. Please try again later" + e);
 			ObjectMapper mapper = new ObjectMapper();
 			//Converting the Object to JSONString
 			String jsonString=null;
@@ -427,7 +426,7 @@ public class UserService {
 				jsonString = mapper.writeValueAsString(new GenericResponse(true, e.getMessage()));
 			} catch (JsonProcessingException e1) {
 				// TODO Auto-generated catch block
-				response = Response.status(Response.Status.OK).entity("{'ststus':'fail'}").build();
+				response = Response.status(Response.Status.OK).entity("{'status':'fail'}").build();
 
 			}
 
