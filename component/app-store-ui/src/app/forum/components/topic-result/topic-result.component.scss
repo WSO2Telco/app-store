@@ -1,19 +1,26 @@
-.tbl-container{
-    .mat-paginator-container{
-        padding-top:20px;
-        padding-bottom:20px;
+.tbl-container {
+    .mat-paginator-container {
+        padding-top: 20px;
+        padding-bottom: 20px;
     }
-    mat-header-cell{
+    mat-header-cell {
         font-size: 1.2em;
         &.action-container {
-            text-align:right;
-            padding-right:15px;
+            text-align: right;
+            padding-right: 15px;
         }
     }
+    mat-cell {
+        &.action-container {
+            text-align: right;
+        }
+    }
+}
 
-    mat-cell{
-        &.action-container{
-            text-align:right;
-        }
-    }
+.no-result {
+    background: url('/assets/images/search-bg.png') no-repeat 20% top;
+    padding: 80px 0 100px;
+    text-align: center;
+    font-size: 16px;
+    letter-spacing: 2px;
 }

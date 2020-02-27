@@ -1,4 +1,4 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, ChangeDetectorRef } from "@angular/core";
 import { AppState } from "../../../app.data.models";
 import { Store } from "@ngrx/store";
 import { GetTopicsParam, TopicResultPayload } from "../../forum.data.models";
@@ -21,14 +21,19 @@ export class ForumMainComponent implements OnInit {
   constructor(
     private store: Store<AppState>, 
     private titleService: Title,
-    public dialog: MatDialog ) {}
+    public dialog: MatDialog,
+    private cd: ChangeDetectorRef
+  ) {}
 
   ngOnInit() {
     this.store.select(s => s.forum.allTopics).subscribe(res => {
       this.topics = res;
     });
 
-    this.store.dispatch(forumActions.GetAllTopicsAction({payload: new GetTopicsParam()}));
+    this.store.select((s) => s.authentication.tokenDetails).subscribe((auth) => {
+      if(auth) this.store.dispatch(forumActions.GetAllTopicsAction({payload: new GetTopicsParam()}));
+      this.cd.detectChanges();
+    })
 
     this.store.dispatch(globalActions.SetBreadcrumbAction({payload:[new BreadcrumbItem("Forum")]}));
     this.titleService.setTitle("Forum | Apigate API Store");
