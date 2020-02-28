@@ -36,11 +36,11 @@ export const ApiEndpoints = {
   },
   subscriptions: apiContext + '/subscriptions',
   forum: {
-    topicList     : appStoreApi + "/user/forum/list",
-    createTopic   : appStoreApi + "/user/forum/createTopic",
-    deleteTopic   : appStoreApi + "/user/forum/deleteTopic",
-    postReply     : appStoreApi + "/user/forum/postReply",
-    deleteReply   : appStoreApi + "/user/forum/deleteReply",
-    search        : appStoreApi + "/user/forum/search"
+    topicList     : appStoreApi + "/forumUser/forum/list",
+    createTopic   : appStoreApi + "/forumUser/forum/createTopic",
+    deleteTopic   : appStoreApi + "/forumUser/forum/deleteTopic",
+    postReply     : appStoreApi + "/forumUser/forum/postReply",
+    deleteReply   : appStoreApi + "/forumUser/forum/deleteReply",
+    search        : appStoreApi + "/forumUser/forum/search"
   }
 };
