@@ -8,28 +8,29 @@ import { ResetPasswordComponent } from './authentication/components/reset-passwo
 const routes: Routes = [
   {
     path: 'home',
-    loadChildren: () => import('app/home/home.module').then(m => m.HomeModule)
+    loadChildren: () => import('./home/home.module').then(m => m.HomeModule)
   },
   {
     path: 'legacy',
-    loadChildren: () => import('app/legacy/legacy.module').then(m => m.LegacyModule)
+    loadChildren: () => import('./legacy/legacy.module').then(m => m.LegacyModule)
   },
   {
     path: 'apis',
-    loadChildren: () => import('app/apis/apis.module').then(m => m.ApisModule)
+    loadChildren: () => import('./apis/apis.module').then(m => m.ApisModule)
   },
   {
     path: 'forum',
-    loadChildren: () => import('app/forum/forum.module').then(m => m.ForumModule)
+    loadChildren: () => import('./forum/forum.module').then(m => m.ForumModule),
+    canActivate: [AppGuard]
   },
   {
     path: 'applications',
-    loadChildren: () => import('app/applications/applications.module').then(m => m.ApplicationsModule),
+    loadChildren: () => import('./applications/applications.module').then(m => m.ApplicationsModule),
     canActivate: [AppGuard]
   },
   {
     path: 'statistics',
-    loadChildren: () => import('app/statistics/statistics.module').then(m => m.StatisticsModule),
+    loadChildren: () => import('./statistics/statistics.module').then(m => m.StatisticsModule),
     canActivate: [AppGuard]
   },
   {

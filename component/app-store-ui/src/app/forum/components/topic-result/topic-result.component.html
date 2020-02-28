@@ -1,4 +1,4 @@
-<div class="tbl-container Xmat-elevation-z8 ">
+<div class="tbl-container Xmat-elevation-z8 " *ngIf="totalTopics > 0">
     <mat-table #table [dataSource]="dataSource">
 
         <ng-container matColumnDef="topic">
@@ -36,3 +36,6 @@
     </mat-table>
     <mat-paginator [length]="totalTopics" [pageSize]="pageSize" (page)="changePage($event)"></mat-paginator>
 </div>
+<ng-container *ngIf="totalTopics == 0">
+    <div class="no-result">No Results Found</div>
+</ng-container>

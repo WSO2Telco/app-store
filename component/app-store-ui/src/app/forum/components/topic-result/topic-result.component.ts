@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, OnChanges, SimpleChanges, Output, EventEmitter } from "@angular/core";
+import { Component, OnInit, Input, OnChanges, SimpleChanges, Output, EventEmitter, ChangeDetectorRef } from "@angular/core";
 import { AppState } from "../../../app.data.models";
 import { Store } from "@ngrx/store";
 import { MatTableDataSource } from "@angular/material/table";
@@ -19,12 +19,17 @@ export class TopicResultComponent implements OnInit {
   totalTopics = 0;
   pageSize = 10;
 
-  constructor(private store: Store<AppState>, private router: Router) {}
+  constructor(
+    private store: Store<AppState>, 
+    private router: Router,
+    private cd: ChangeDetectorRef
+  ) {}
 
   ngOnInit() {
     this.store.select(s => s.forum.allTopics).subscribe(res => {
       this.dataSource.data = res.list;
       this.totalTopics = res.totalTopics;
+      this.cd.detectChanges();
     });
   }
 
