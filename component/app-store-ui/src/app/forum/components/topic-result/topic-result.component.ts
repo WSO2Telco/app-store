@@ -1,10 +1,10 @@
 import { Component, OnInit, Input, OnChanges, SimpleChanges, Output, EventEmitter, ChangeDetectorRef } from "@angular/core";
-import { AppState } from "../../../app.data.models";
-import { Store } from "@ngrx/store";
+import { Store, select } from "@ngrx/store";
 import { MatTableDataSource } from "@angular/material/table";
 import { Topic, GetTopicsParam } from "../../forum.data.models";
 import { Router } from '@angular/router';
 import { GetAllTopicsAction } from '../../forum.actions';
+import { getTopics, AppState } from '../../forum.reducer';
 
 @Component({
   selector: "store-topic-result",
@@ -26,11 +26,17 @@ export class TopicResultComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    // this.store.select(s => s.forum.allTopics).subscribe(res => {
-    //   this.dataSource.data = res.list;
-    //   this.totalTopics = res.totalTopics;
-    //   this.cd.detectChanges();
-    // });
+    this.store.select(s => s.forum).subscribe(res => {
+      this.totalTopics = res.totalTopics;
+      this.cd.detectChanges();
+    });
+
+    this.store.select(getTopics).subscribe(res => {
+        this.dataSource.data = res;
+        this.cd.detectChanges();
+    });
+
+    // this.dataSource.data = this.store.pipe(select(getTopics));
   }
 
   onTopicAction(element, action) {

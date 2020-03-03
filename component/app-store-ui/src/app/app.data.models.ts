@@ -8,7 +8,6 @@ export interface AppState {
   apis: ApisState;
   applications: ApplicationsState;
   global: GlobalState;
-  forum: {};
 }
 
 export interface Country {

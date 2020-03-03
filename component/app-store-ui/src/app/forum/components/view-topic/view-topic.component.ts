@@ -8,6 +8,7 @@ import { Actions, ofType } from '@ngrx/effects';
 import { MatDialog } from '@angular/material/dialog';
 import { DeleteConfirmationDialog } from '../delete-confirmation/delete-confirmation';
 import { take } from 'rxjs/operators';
+import { getTopic } from '../../forum.reducer';
 
 @Component({
   selector: "store-view-topic",
@@ -33,7 +34,7 @@ export class ViewTopicComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    // this.store.select(s => s.forum.topicDetail).subscribe(topic => {
+    // this.store.select(getTopic).subscribe(topic => {
     //   this.topic = topic;
     //   this.cd.detectChanges();
     // });
@@ -41,7 +42,13 @@ export class ViewTopicComponent implements OnInit {
     this.route.params.subscribe(params => {
       this.topicId = params['id'];
       this.commentBody.topicID = this.topicId;
-      this.store.dispatch(forumActions.GetTopicDetailAction({payload:this.topicId}));
+
+      this.store.select(getTopic(this.topicId)).pipe(take(1)).subscribe(topic => {
+        console.log("dispatch", this.topicId);
+        if(topic) this.topic = topic;
+        else this.store.dispatch(forumActions.GetTopicDetailAction({payload:this.topicId}));
+        this.cd.detectChanges();
+      });
     });
 
     this.ckeConfig = {
