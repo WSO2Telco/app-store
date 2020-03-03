@@ -1,17 +1,32 @@
-import { ForumState, Topic, TopicDetail, TopicResultPayload } from "./forum.data.models";
+import { ForumState, Topic } from "./forum.data.models";
 import * as forumActions from "./forum.actions";
 import { createReducer, on } from '@ngrx/store';
+import { EntityState, EntityAdapter, createEntityAdapter } from '@ngrx/entity';
 
-const initState: ForumState = {
-  allTopics: new TopicResultPayload,
-  topicDetail: new Topic
-};
+export const forumAdapter: EntityAdapter<Topic> = createEntityAdapter<Topic>();
+
+export const defaultForum: ForumState = {
+  ids: [],
+  entities: {},
+  totalTopics: 0,
+  loading: false,
+  loaded: false
+}
+
+const initState = forumAdapter.getInitialState(defaultForum);
 
 const _forumReducer = createReducer(initState,
 
-  on(forumActions.GetAllTopicsSuccessAction, (state, { payload }) => ({
-      ...state, allTopics: payload
-  })),
+  on(forumActions.GetAllTopicsSuccessAction, (state, { payload }) => {
+    console.log(payload);
+    return forumAdapter.addAll(payload.list, {
+      ...state,
+      entities : {},
+      loaded: true,
+      loading: false,
+      totalTopics: payload.totalTopics
+    })
+  }),
 
   on(forumActions.SearchTopicsSuccessAction, (state, { payload }) => ({
     ...state, allTopics: payload

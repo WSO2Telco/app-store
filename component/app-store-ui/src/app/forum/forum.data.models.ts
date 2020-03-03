@@ -1,6 +1,11 @@
-export interface ForumState {
-  allTopics: TopicResultPayload;
-  topicDetail:Topic;
+import { EntityState } from '@ngrx/entity';
+
+export interface ForumState extends EntityState<Topic> {
+  ids: [],
+  entities : {},
+  totalTopics : 0,
+  loading : false,
+  loaded : false
 }
 
 export class Topic {

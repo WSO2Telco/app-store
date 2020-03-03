@@ -26,11 +26,11 @@ export class TopicResultComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.store.select(s => s.forum.allTopics).subscribe(res => {
-      this.dataSource.data = res.list;
-      this.totalTopics = res.totalTopics;
-      this.cd.detectChanges();
-    });
+    // this.store.select(s => s.forum.allTopics).subscribe(res => {
+    //   this.dataSource.data = res.list;
+    //   this.totalTopics = res.totalTopics;
+    //   this.cd.detectChanges();
+    // });
   }
 
   onTopicAction(element, action) {

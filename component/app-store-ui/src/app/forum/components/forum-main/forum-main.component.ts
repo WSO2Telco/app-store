@@ -26,9 +26,9 @@ export class ForumMainComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.store.select(s => s.forum.allTopics).subscribe(res => {
-      this.topics = res;
-    });
+    // this.store.select(s => s.forum.allTopics).subscribe(res => {
+    //   this.topics = res;
+    // });
 
     this.store.select((s) => s.authentication.tokenDetails).subscribe((auth) => {
       if(auth) this.store.dispatch(forumActions.GetAllTopicsAction({payload: new GetTopicsParam()}));

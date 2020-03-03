@@ -33,10 +33,10 @@ export class ViewTopicComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.store.select(s => s.forum.topicDetail).subscribe(topic => {
-      this.topic = topic;
-      this.cd.detectChanges();
-    });
+    // this.store.select(s => s.forum.topicDetail).subscribe(topic => {
+    //   this.topic = topic;
+    //   this.cd.detectChanges();
+    // });
 
     this.route.params.subscribe(params => {
       this.topicId = params['id'];
