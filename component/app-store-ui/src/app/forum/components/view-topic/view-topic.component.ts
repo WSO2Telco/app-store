@@ -22,6 +22,10 @@ export class ViewTopicComponent implements OnInit {
   public replies:Reply[];
   public topicId:string;
 
+  private topicDetailSubscriber;
+  private commentPostSubscriber;
+  private commentDeleteSubscriber;
+
   public ckeConfig;
   public commentBody = new PostCommentParam();
 
@@ -45,8 +49,7 @@ export class ViewTopicComponent implements OnInit {
       this.topicId = params['id'];
       this.commentBody.topicID = this.topicId;
 
-      this.store.select(getTopic(this.topicId)).pipe(take(1)).subscribe(topic => {
-        console.log("dispatch", this.topicId);
+      this.topicDetailSubscriber = this.store.select(getTopic(this.topicId)).subscribe(topic => {
         if(topic) this.topic = topic;
         else this.store.dispatch(forumActions.GetTopicDetailAction({payload:this.topicId}));
         this.cd.detectChanges();
@@ -72,13 +75,12 @@ export class ViewTopicComponent implements OnInit {
       removeButtons : 'Source,Save,Templates,Cut,Undo,Find,SelectAll,Scayt,Form,Checkbox,Radio,TextField,Textarea,Select,Button,ImageButton,HiddenField,Subscript,Outdent,Indent,CreateDiv,BidiLtr,Language,Unlink,Anchor,Image,Flash,Table,HorizontalRule,Smiley,SpecialChar,PageBreak,Iframe,Styles,Maximize,About,ShowBlocks,BGColor,Format,Font,FontSize,NewPage,Copy,Redo,Replace,Paste,PasteText,Print,Preview,PasteFromWord,RemoveFormat,CopyFormatting,NumberedList,BulletedList,JustifyLeft,JustifyCenter,JustifyRight,JustifyBlock,BidiRtl,Superscript'
     }
 
-    this.actions$.pipe(ofType(forumActions.PostReplySuccessAction)).pipe(take(1)).subscribe(l => {
+    this.commentPostSubscriber = this.actions$.pipe(ofType(forumActions.PostReplySuccessAction)).subscribe(l => {
       this.commentBody.replyText = '';
       this.store.dispatch(forumActions.GetTopicDetailAction({payload:this.topicId}));
-      console.log(this.topicId);
     })
 
-    this.actions$.pipe(ofType(forumActions.DeleteCommentSuccessAction)).subscribe(l => {
+    this.commentDeleteSubscriber = this.actions$.pipe(ofType(forumActions.DeleteCommentSuccessAction)).subscribe(l => {
       this.store.dispatch(forumActions.GetTopicDetailAction({payload:this.topicId}));
     })
   }
@@ -102,5 +104,11 @@ export class ViewTopicComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       if(result=="delete") this.store.dispatch(forumActions.DeleteCommentAction({payload:id}));
     });
+  }
+
+  ngOnDestroy(){
+    this.topicDetailSubscriber.unsubscribe();
+    this.commentPostSubscriber.unsubscribe();
+    this.commentDeleteSubscriber.unsubscribe();
   }
 }
