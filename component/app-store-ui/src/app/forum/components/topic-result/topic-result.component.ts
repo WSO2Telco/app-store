@@ -1,8 +1,8 @@
-import { Component, OnInit, Input, OnChanges, SimpleChanges, Output, EventEmitter, ChangeDetectorRef } from "@angular/core";
+import { Component, OnInit, Input, OnChanges, SimpleChanges, Output, EventEmitter, ChangeDetectorRef, ElementRef, ViewChild } from "@angular/core";
 import { Store, select } from "@ngrx/store";
 import { MatTableDataSource } from "@angular/material/table";
 import { Topic, GetTopicsParam } from "../../forum.data.models";
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { GetAllTopicsAction } from '../../forum.actions';
 import { getTopics, AppState } from '../../forum.reducer';
 
@@ -18,10 +18,13 @@ export class TopicResultComponent implements OnInit {
   dataSource = new MatTableDataSource<Topic>();
   totalTopics = 0;
   pageSize = 10;
+  pageId = 0;
+  @ViewChild('paginator') paginator;
 
   constructor(
     private store: Store<AppState>, 
     private router: Router,
+    private route: ActivatedRoute,
     private cd: ChangeDetectorRef
   ) {}
 
@@ -36,7 +39,19 @@ export class TopicResultComponent implements OnInit {
         this.cd.detectChanges();
     });
 
-    // this.dataSource.data = this.store.pipe(select(getTopics));
+    this.route.params.subscribe(params => {
+      if(params['pageId']) this.pageId = params['pageId']*1-1;
+      let getTopicsParam = new GetTopicsParam()
+      getTopicsParam.page = this.pageId;
+
+      this.paginator.pageIndex = this.pageId;
+
+      this.store.select((s) => s.authentication.tokenDetails).subscribe((auth) => {
+        if(auth) this.store.dispatch(GetAllTopicsAction({payload: getTopicsParam}));
+        this.cd.detectChanges();
+      })
+
+    });
   }
 
   onTopicAction(element, action) {
@@ -49,7 +64,8 @@ export class TopicResultComponent implements OnInit {
   }
 
   changePage(e){
-    console.log(e.pageIndex);
-    this.store.dispatch(GetAllTopicsAction({payload:{page:e.pageIndex, size: 10}}));
+    let page = e.pageIndex+1;
+    let url = (page > 1) ? `/forum/page/${page}` : `/forum`;
+    this.router.navigate([url]);
   }
 }

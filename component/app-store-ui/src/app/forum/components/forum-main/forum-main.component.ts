@@ -8,6 +8,7 @@ import * as globalActions from "../../../app.actions";
 import { BreadcrumbItem } from "../../../app.data.models";
 import { Title } from '@angular/platform-browser';
 import { DeleteConfirmationDialog } from '../delete-confirmation/delete-confirmation';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: "store-forum-main",
@@ -21,20 +22,10 @@ export class ForumMainComponent implements OnInit {
   constructor(
     private store: Store<AppState>, 
     private titleService: Title,
-    public dialog: MatDialog,
-    private cd: ChangeDetectorRef
+    public dialog: MatDialog
   ) {}
 
   ngOnInit() {
-    // this.store.select(s => s.forum.allTopics).subscribe(res => {
-    //   this.topics = res;
-    // });
-
-    this.store.select((s) => s.authentication.tokenDetails).subscribe((auth) => {
-      if(auth) this.store.dispatch(forumActions.GetAllTopicsAction({payload: new GetTopicsParam()}));
-      this.cd.detectChanges();
-    })
-
     this.store.dispatch(globalActions.SetBreadcrumbAction({payload:[new BreadcrumbItem("Forum")]}));
     this.titleService.setTitle("Forum | Apigate API Store");
   }
