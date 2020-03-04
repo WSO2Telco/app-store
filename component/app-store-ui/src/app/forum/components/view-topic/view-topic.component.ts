@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectorRef } from "@angular/core";
+import { Component, OnInit, ChangeDetectorRef, ElementRef, ViewChild } from "@angular/core";
 import { Topic, TopicDetail, Reply, PostCommentParam } from "../../forum.data.models";
 import { AppState } from "../../../app.data.models";
 import { Store } from "@ngrx/store";
@@ -24,6 +24,8 @@ export class ViewTopicComponent implements OnInit {
 
   public ckeConfig;
   public commentBody = new PostCommentParam();
+
+  @ViewChild('topiccontainer') topiccontainer:ElementRef; 
 
   constructor(
     private store: Store<AppState>,
@@ -79,6 +81,10 @@ export class ViewTopicComponent implements OnInit {
     this.actions$.pipe(ofType(forumActions.DeleteCommentSuccessAction)).subscribe(l => {
       this.store.dispatch(forumActions.GetTopicDetailAction({payload:this.topicId}));
     })
+  }
+
+  ngAfterViewInit(){
+    this.topiccontainer.nativeElement.scrollTo(0, 0);
   }
 
   getFirstLetter(name:string): string {
