@@ -57,6 +57,16 @@ export class Reply {
   user: string;
 }
 
+export interface PostCommentResponse {
+  payload: {
+    id: null, 
+    idType: null, 
+    message: null
+  },
+  success: boolean,
+  message: string
+}
+
 export class TopicDetail {
   topic: Topic;
   replies: Reply[];

@@ -3,7 +3,7 @@ import { Injectable } from "@angular/core";
 import { ForumService } from "./forum.service";
 import { HttpErrorResponse } from "@angular/common/http";
 import * as forumActions from "./forum.actions";
-import { TopicResult, GetTopicsParam } from "./forum.data.models";
+import { TopicResult, GetTopicsParam, PostCommentResponse } from "./forum.data.models";
 import { NotificationService } from "../shared/services/notification.service";
 
 import { Actions, createEffect, ofType } from '@ngrx/effects';
@@ -106,9 +106,9 @@ export class ForumEffects {
     ofType(forumActions.PostReplyAction),
     mergeMap(({payload}) => this.service.postComment(payload)
       .pipe(
-        map((result:any) => {
+        map((result:PostCommentResponse) => {
           if (result.success) {
-            return forumActions.PostReplySuccessAction();
+            return forumActions.PostReplySuccessAction({payload:result});
           } else {
             throw Error("Operation Failed");
           }

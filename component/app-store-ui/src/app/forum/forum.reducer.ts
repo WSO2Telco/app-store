@@ -32,14 +32,37 @@ const _forumReducer = createReducer(initState,
     })
   }),
 
-  on(forumActions.SearchTopicsSuccessAction, (state, { payload }) => ({
-    ...state, allTopics: payload
-  })),
+  on(forumActions.SearchTopicsSuccessAction, (state, { payload }) => {
+    return forumAdapter.addAll(payload.list, {
+      ...state,
+      entities: {},
+      loaded: true,
+      loading: false,
+      totalTopics: payload.totalTopics
+    })
+  }),
 
   on(forumActions.GetTopicDetailSuccessAction, (state, { payload }) => {
     return forumAdapter.upsertOne(payload, {
       ...state,
     })
+  }),
+
+  on(forumActions.PostReplyUpdateStoreAction, (state, { payload }) => {
+    return forumAdapter.updateOne(
+      {
+        id: payload.topicId,
+        changes: { ...state.entities[payload.topicId], replies : [...state.entities[payload.topicId].replies, {
+          replyId: payload.commentId,
+          replyText: payload.commentBody,
+          time: new Date(),
+          replyUsername: localStorage.getItem("loggedUser"),
+          topicID: payload.topicId,
+          canModify: true,
+        }] }
+      },
+      state
+    )
   })
 )
 

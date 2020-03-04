@@ -67,8 +67,14 @@ export class ViewTopicComponent implements OnInit {
     }
 
     this.commentPostSubscriber = this.actions$.pipe(ofType(forumActions.PostReplySuccessAction)).subscribe(l => {
+      let commentPosted = {
+        topicId: this.topicId,
+        commentId: l.payload.payload.id,
+        commentBody: this.commentBody.replyText
+      }
+
       this.commentBody.replyText = '';
-      this.store.dispatch(forumActions.GetTopicDetailAction({ payload: this.topicId }));
+      this.store.dispatch(forumActions.PostReplyUpdateStoreAction({ payload: commentPosted }));
     })
 
     this.commentDeleteSubscriber = this.actions$.pipe(ofType(forumActions.DeleteCommentSuccessAction)).subscribe(l => {
