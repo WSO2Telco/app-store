@@ -1,36 +1,39 @@
-.forum-title-container{
+.forum-title-container {
     margin-bottom: 20px;
-    color:white;
-    font-size:2em;
+    color: white;
+    font-size: 2em;
 }
 
-.btn-wrapper{
-    button{
+.btn-wrapper {
+    button {
         margin: 5px;
-        &:last-child{
+        &:last-child {
             margin-right: 0px;
         }
     }
-
 }
 
-.mention{
+.mention {
     color: red;
 }
 
 .editor-pane,
-.preview-pane{
+.preview-pane {
     width: 48%;
     float: left;
 }
 
-.preview-pane-inner{
+.preview-pane-inner {
     padding: 50px 20px;
 }
 
-.preview-label{
+.preview-label {
     color: #999;
     font-weight: 500;
     font-size: 12px;
     letter-spacing: 1px;
+}
+
+.tip {
+    color: #999;
 }

@@ -21,8 +21,6 @@ export class CreateTopicComponent implements OnInit {
   public topic: CreateTopicParam;
 
   public ckeConfig;
-  public apiList;
-  
   public topicContent;
 
   constructor(
@@ -30,30 +28,24 @@ export class CreateTopicComponent implements OnInit {
     private actions: Actions,
     private router: Router,
     private titleService: Title
-  ) {}
+  ) { }
 
   ngOnInit() {
     this.topic = new CreateTopicParam();
 
-    this.store.dispatch(globalActions.SetBreadcrumbAction({payload:[new BreadcrumbItem("Forum", "forum"), new BreadcrumbItem("Create New Topic")]}));
+    this.store.dispatch(globalActions.SetBreadcrumbAction({ payload: [new BreadcrumbItem("Forum", "forum"), new BreadcrumbItem("Create New Topic")] }));
     this.titleService.setTitle("Create New Topic | Apigate API Store");
 
     this.ckeConfig = {
-      extraPlugins : 'mentions',
-      mentions: [ { 
-        feed: ApiRepo.getApis, 
+      extraPlugins: 'mentions',
+      mentions: [{
+        feed: ApiRepo.getApis,
         minChars: 0,
-        outputTemplate : `<a class="mention" href="#/apis/detail/{id}">{name}</a>`,
-        itemTemplate : '<li data-id="{id}">{name}</li>',
+        outputTemplate: `<a class="mention" href="#/apis/detail/{id}">{name}</a>`,
+        itemTemplate: '<li data-id="{id}">{name}</li>',
         marker: '@'
-      } ]
+      }]
     }
-
-    this.store
-      .select(s => s.apis.apiSearchResult)
-      .subscribe((res: ApiSearchResult) => {
-        ApiRepo.list = res.list;
-      });
 
     this.actions.pipe(ofType(forumActions.CreateTopicSuccessAction)).pipe(take(1)).subscribe(topic => {
       this.router.navigate(["/forum/view/", topic.payload.id]);
@@ -61,32 +53,33 @@ export class CreateTopicComponent implements OnInit {
   }
 
   onCreateClick() {
-    if(this.topic.title !='' && this.topic.content !='')
-    this.store.dispatch(forumActions.CreateTopicAction({payload: this.topic}));
+    if (this.topic.title && this.topic.title != '' && this.topic.content != '')
+      this.store.dispatch(forumActions.CreateTopicAction({ payload: this.topic }));
   }
 
-  public onChange( { editor }) {
+  public onChange({ editor }) {
     this.topic.content = editor.getData();
   }
-  
+
 }
 
 export const ApiRepo = {
-  list : null,
   getApis(opts, callback) {
-    if(ApiRepo.list){
-      var matchProperty = 'name',
-      data = ApiRepo.list.filter(function(item) {
-        return item[matchProperty].toLowerCase().indexOf(opts.query.toLowerCase()) == 0;
-      });
+    var xhr = new XMLHttpRequest();
 
-      data = data.sort(function(a, b) {
-        return a[matchProperty].localeCompare(b[matchProperty], undefined, {
-          sensitivity: 'accent'
-        });
-      });
-
-      callback(data);
+    xhr.onreadystatechange = function () {
+      if (xhr.readyState == 4) {
+        if (xhr.status == 200) {
+          let resp = JSON.parse(this.responseText);
+          console.log(resp);
+          callback(resp.list);
+        } else {
+          callback([]);
+        }
+      }
     }
+
+    xhr.open('GET', '/api/am/store/v0.13/apis?query=' + encodeURIComponent(opts.query));
+    xhr.send();
   }
 }
