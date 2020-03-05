@@ -22,7 +22,5 @@ export const PostReplySuccessAction = createAction('[Forum] Post Reply Success �
 export const PostReplyUpdateStoreAction = createAction('[Forum] Post Reply Update Store', props<{ payload: any }>());
 export const PostReplyUpdateStoreSuccessAction = createAction('[Forum] Post Reply Update Store Success ✓');
 
-// export const SetSelectedTopicAction = createAction('[Forum] Set Selected Topic', props<{payload: string}>());
-
 export const GetTopicDetailAction = createAction('[Forum] Get Topic Detail', props<{ payload: string }>());
 export const GetTopicDetailSuccessAction = createAction('[Forum] Get Topic Detail Success ✓', props<{ payload: Topic }>());
