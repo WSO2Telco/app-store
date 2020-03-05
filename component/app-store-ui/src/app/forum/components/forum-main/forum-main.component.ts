@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectorRef } from "@angular/core";
+import { Component, OnInit } from "@angular/core";
 import { AppState } from "../../../app.data.models";
 import { Store } from "@ngrx/store";
 import { GetTopicsParam, TopicResultPayload } from "../../forum.data.models";
@@ -19,36 +19,26 @@ export class ForumMainComponent implements OnInit {
   public searchQuery: string;
 
   constructor(
-    private store: Store<AppState>, 
+    private store: Store<AppState>,
     private titleService: Title,
-    public dialog: MatDialog,
-    private cd: ChangeDetectorRef
-  ) {}
+    public dialog: MatDialog
+  ) { }
 
   ngOnInit() {
-    this.store.select(s => s.forum.allTopics).subscribe(res => {
-      this.topics = res;
-    });
-
-    this.store.select((s) => s.authentication.tokenDetails).subscribe((auth) => {
-      if(auth) this.store.dispatch(forumActions.GetAllTopicsAction({payload: new GetTopicsParam()}));
-      this.cd.detectChanges();
-    })
-
-    this.store.dispatch(globalActions.SetBreadcrumbAction({payload:[new BreadcrumbItem("Forum")]}));
+    this.store.dispatch(globalActions.SetBreadcrumbAction({ payload: [new BreadcrumbItem("Forum")] }));
     this.titleService.setTitle("Forum | Apigate API Store");
   }
 
   onSearchClick() {
-    if(this.searchQuery != '') this.store.dispatch(forumActions.SearchTopicsAction({payload:this.searchQuery}));
-    else this.store.dispatch(forumActions.GetAllTopicsAction({payload: new GetTopicsParam()}));
+    if (this.searchQuery != '') this.store.dispatch(forumActions.SearchTopicsAction({ payload: this.searchQuery }));
+    else this.store.dispatch(forumActions.GetAllTopicsAction({ payload: new GetTopicsParam() }));
   }
 
   onTopicDelete(id) {
     const dialogRef = this.dialog.open(DeleteConfirmationDialog);
 
     dialogRef.afterClosed().subscribe(result => {
-      if(result=="delete") this.store.dispatch(forumActions.DeleteTopicAction({payload:id}));
+      if (result == "delete") this.store.dispatch(forumActions.DeleteTopicAction({ payload: id }));
     });
   }
 }

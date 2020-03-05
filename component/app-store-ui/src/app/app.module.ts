@@ -36,7 +36,6 @@ const reducers: ActionReducerMap<AppState> = {
   global: globalReducer,
   authentication: authReducer,
   apis: apisReducer,
-  forum: forumReducer,
   applications: applicationsReducer,
 };
 

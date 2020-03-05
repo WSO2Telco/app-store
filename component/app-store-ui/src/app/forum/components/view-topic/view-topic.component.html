@@ -1,4 +1,4 @@
-<div fxLayout="row" fxLayoutGap="20px" id="forum-post">
+<div fxLayout="row" fxLayoutGap="20px" id="forum-post" #topiccontainer>
 
     <mat-card fxFlex class="animated fadeIn delay_6" style="margin-bottom:100px;">
         <h1>{{topic?.title}}</h1>
@@ -16,7 +16,7 @@
                         <div>
                             <strong>{{rep.replyUsername}}</strong> <br/>
                             <!-- {{rep.time | date : 'on EEEE, MMM d yyyy, hh:mm a' }} -->
-                            {{rep.time}}
+                            {{rep.time | date: 'EEEE, MMM d yyyy'}}
                         </div>
                     </div>
                     <div class="reply-content">

@@ -9,6 +9,10 @@ const routes = [
         component: ForumMainComponent
     },
     {
+        path: 'page/:pageId',
+        component: ForumMainComponent
+    },
+    {
         path: 'create-topic',
         component: CreateTopicComponent
     },

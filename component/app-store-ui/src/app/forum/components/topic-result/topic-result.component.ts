@@ -1,10 +1,10 @@
-import { Component, OnInit, Input, OnChanges, SimpleChanges, Output, EventEmitter, ChangeDetectorRef } from "@angular/core";
-import { AppState } from "../../../app.data.models";
+import { Component, OnInit, Output, EventEmitter, ChangeDetectorRef, ViewChild } from "@angular/core";
 import { Store } from "@ngrx/store";
 import { MatTableDataSource } from "@angular/material/table";
 import { Topic, GetTopicsParam } from "../../forum.data.models";
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { GetAllTopicsAction } from '../../forum.actions';
+import { getTopics, AppState } from '../../forum.reducer';
 
 @Component({
   selector: "store-topic-result",
@@ -18,18 +18,39 @@ export class TopicResultComponent implements OnInit {
   dataSource = new MatTableDataSource<Topic>();
   totalTopics = 0;
   pageSize = 10;
+  pageId = 0;
+  @ViewChild('paginator') paginator;
 
   constructor(
-    private store: Store<AppState>, 
+    private store: Store<AppState>,
     private router: Router,
+    private route: ActivatedRoute,
     private cd: ChangeDetectorRef
-  ) {}
+  ) { }
 
   ngOnInit() {
-    this.store.select(s => s.forum.allTopics).subscribe(res => {
-      this.dataSource.data = res.list;
+    this.store.select(s => s.forum).subscribe(res => {
       this.totalTopics = res.totalTopics;
       this.cd.detectChanges();
+    });
+
+    this.store.select(getTopics).subscribe(res => {
+      this.dataSource.data = res;
+      this.cd.detectChanges();
+    });
+
+    this.route.params.subscribe(params => {
+      if (params['pageId']) this.pageId = params['pageId'] * 1 - 1;
+      let getTopicsParam = new GetTopicsParam()
+      getTopicsParam.page = this.pageId;
+
+      if(this.paginator) this.paginator.pageIndex = this.pageId;
+
+      this.store.select((s) => s.authentication.tokenDetails).subscribe((auth) => {
+        if (auth) this.store.dispatch(GetAllTopicsAction({ payload: getTopicsParam }));
+        this.cd.detectChanges();
+      })
+
     });
   }
 
@@ -37,13 +58,14 @@ export class TopicResultComponent implements OnInit {
     if (action === "delete") {
       this.whenDelete.emit(element.id);
     }
-    if(action ==='view'){
-      this.router.navigate(["/forum/view/"+element.id]);
+    if (action === 'view') {
+      this.router.navigate(["/forum/view/" + element.id]);
     }
   }
 
-  changePage(e){
-    console.log(e.pageIndex);
-    this.store.dispatch(GetAllTopicsAction({payload:{page:e.pageIndex, size: 10}}));
+  changePage(e) {
+    let page = e.pageIndex + 1;
+    let url = (page > 1) ? `/forum/page/${page}` : `/forum`;
+    this.router.navigate([url]);
   }
 }

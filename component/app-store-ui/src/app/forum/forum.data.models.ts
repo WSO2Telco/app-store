@@ -1,6 +1,11 @@
-export interface ForumState {
-  allTopics: TopicResultPayload;
-  topicDetail:Topic;
+import { EntityState } from '@ngrx/entity';
+
+export interface ForumState extends EntityState<Topic> {
+  ids: [],
+  entities : {},
+  totalTopics : 0,
+  loading : false,
+  loaded : false
 }
 
 export class Topic {
@@ -50,6 +55,16 @@ export class Reply {
   timeStamp: string;
   topicOwner: string;
   user: string;
+}
+
+export interface PostCommentResponse {
+  payload: {
+    id: null, 
+    idType: null, 
+    message: null
+  },
+  success: boolean,
+  message: string
 }
 
 export class TopicDetail {

@@ -66,7 +66,8 @@ export class LoginFormComponent implements OnInit {
 
     this.actions$.pipe(ofType(ClientRegistrationSuccessAction)).pipe(take(1)).subscribe(p => {
       this.store.dispatch(TokenGenerationAction({ "payload": new LoginFormData(this.username, this.password) }));
-      this.store.dispatch(SetLoggedUserAction({ "payload": this.username }))
+      this.store.dispatch(SetLoggedUserAction({ "payload": this.username }));
+      localStorage.setItem("loggedUser", this.username);
     })
 
     this.actions$.pipe(ofType(LoginSuccessAction)).pipe(take(1)).subscribe(l => {
