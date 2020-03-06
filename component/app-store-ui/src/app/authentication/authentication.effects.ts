@@ -42,7 +42,6 @@ export class AuthenticationEffects {
             let msg = (response.message) ? response.message : "Invalid username or password";
             return loginActions.LoginFailedAction({payload: msg});
           } else {
-            this.router.navigate([this.lastAuthRequiredRoute || "home"]);
             return loginActions.LoginSuccessAction({ "payload": response });
           }
         }),
@@ -79,8 +78,8 @@ export class AuthenticationEffects {
           if (!response.error) {
             this.authService.startTimer(response.expires_in);
             localStorage.setItem('rtkn', response.refresh_token);
+            this.router.navigate([this.lastAuthRequiredRoute || "home"]);
             return loginActions.TokenGenerationSuccessAction({ "payload": response });
-
           } else {
             throw Error("Operation Failed");
           }

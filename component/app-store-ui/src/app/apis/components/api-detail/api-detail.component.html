@@ -1,101 +1,123 @@
 <div fxLayout="column" fxLayoutGap="20px">
 
-  <div class="intro-container">
+    <div class="intro-container">
 
-    <div class="pull-left">
-      <img [src]="apiPrefix + api?.thumbnailUrl" class="api-thumb" *ngIf="api?.thumbnailUrl" />
-      <img src="assets/images/apigate-a.png" class="api-thumb" *ngIf="!api.thumbnailUrl" />
+        <div class="pull-left">
+            <img [src]="apiPrefix + api?.thumbnailUrl" class="api-thumb" *ngIf="api?.thumbnailUrl" />
+            <img src="assets/images/apigate-a.png" class="api-thumb" *ngIf="!api?.thumbnailUrl" />
+        </div>
+        <h1>{{api?.name}} <span class="version" aria-label="API Version">{{api?.version}}</span></h1>
+        <div class="pull-right subscribe-btn" *ngIf="loggedUser != null">
+            <button mat-flat-button color="accent" (click)="switchTab('subscription')">Subscribe</button>
+        </div>
+        <div class="status-label" [ngClass]="api?.status"><span class="status-dot"></span> <span class="status-lbl">{{api?.status}}</span></div>
     </div>
-    <h1>{{api.name}} <span class="version" aria-label="API Version">{{api.version}}</span></h1>
-    <div class="pull-right subscribe-btn" *ngIf="loggedUser != null">
-      <button mat-flat-button color="accent" (click)="switchTab('subscription')">Subscribe</button>
+
+    <div class="child-container">
+        <mat-accordion class="api-detail-accordion">
+
+            <mat-expansion-panel expanded="true" (opened)="switchTab('overview')">
+                <mat-expansion-panel-header>
+                    <mat-panel-title>
+                        Overview
+                    </mat-panel-title>
+                </mat-expansion-panel-header>
+                <store-api-overview [apiOverview]="api"></store-api-overview>
+            </mat-expansion-panel>
+
+            <mat-expansion-panel [expanded]="activeTab == 'subscription'" (opened)="switchTab('subscription')" *ngIf="loggedUser != null">
+                <mat-expansion-panel-header>
+                    <mat-panel-title>Subscriptions</mat-panel-title>
+                </mat-expansion-panel-header>
+                <store-api-app-subscriptions></store-api-app-subscriptions>
+            </mat-expansion-panel>
+
+            <mat-expansion-panel (opened)="switchTab('console')">
+                <mat-expansion-panel-header>
+                    <mat-panel-title>
+                        API Console
+                    </mat-panel-title>
+                </mat-expansion-panel-header>
+                <store-api-console></store-api-console>
+            </mat-expansion-panel>
+
+            <mat-expansion-panel (opened)="switchTab('doc')">
+                <mat-expansion-panel-header>
+                    <mat-panel-title>
+                        Documentation
+                    </mat-panel-title>
+                </mat-expansion-panel-header>
+                <store-api-documentation></store-api-documentation>
+            </mat-expansion-panel>
+
+            <mat-expansion-panel (opened)="switchTab('sdk')" *ngIf="loggedUser != null">
+                <mat-expansion-panel-header>
+                    <mat-panel-title>
+                        SDKs
+                    </mat-panel-title>
+                </mat-expansion-panel-header>
+                <store-api-sdk></store-api-sdk>
+            </mat-expansion-panel>
+
+            <mat-expansion-panel (opened)="switchTab('forum')">
+                <mat-expansion-panel-header>
+                    <mat-panel-title>
+                        Forum
+                    </mat-panel-title>
+                </mat-expansion-panel-header>
+
+                <ng-container *ngIf="loggedUser != null; else forumNotLoggedIn">
+                    <table class="forum-table" *ngIf="forumResult?.length > 0; else forumNoContent">
+                        <tr>
+                            <td><strong>Topic</strong></td>
+                            <td><strong>Author</strong></td>
+                            <td><strong>Date</strong></td>
+                            <td><strong>Replies</strong></td>
+                        </tr>
+                        <tr *ngFor="let forumtopic of forumResult" [routerLink]="['/forum/view', forumtopic.id]">
+                            <td>{{forumtopic?.title}}</td>
+                            <td>{{forumtopic?.author}}</td>
+                            <td>{{forumtopic?.date | date: 'EEEE, MMM d yyyy'}}</td>
+                            <td>{{forumtopic?.replyCount}}</td>
+                        </tr>
+                    </table>
+
+                    <ng-template #forumNoContent>
+                        No related discussions found
+                    </ng-template>
+                </ng-container>
+            </mat-expansion-panel>
+            <ng-template #forumNotLoggedIn>
+                Please <button mat-stroked-button (click)="onLoginClick()">login</button> to see related forum topics
+            </ng-template>
+
+        </mat-accordion>
     </div>
-    <div class="status-label" [ngClass]="api.status"><span class="status-dot"></span> <span
-        class="status-lbl">{{api.status}}</span></div>
-  </div>
-
-  <div class="child-container">
-    <mat-accordion class="api-detail-accordion">
-
-      <mat-expansion-panel expanded="true" (opened)="switchTab('overview')">
-        <mat-expansion-panel-header>
-          <mat-panel-title>
-            Overview
-          </mat-panel-title>
-        </mat-expansion-panel-header>
-        <store-api-overview [apiOverview]="api"></store-api-overview>
-      </mat-expansion-panel>
-
-      <mat-expansion-panel [expanded]="activeTab == 'subscription'" (opened)="switchTab('subscription')" *ngIf="loggedUser != null">
-        <mat-expansion-panel-header>
-          <mat-panel-title>Subscriptions</mat-panel-title>
-        </mat-expansion-panel-header>
-        <store-api-app-subscriptions></store-api-app-subscriptions>
-      </mat-expansion-panel>
-
-      <mat-expansion-panel (opened)="switchTab('console')">
-        <mat-expansion-panel-header>
-          <mat-panel-title>
-            API Console
-          </mat-panel-title>
-        </mat-expansion-panel-header>
-        <store-api-console></store-api-console>
-      </mat-expansion-panel>
-
-      <mat-expansion-panel (opened)="switchTab('doc')">
-        <mat-expansion-panel-header>
-          <mat-panel-title>
-            Documentation
-          </mat-panel-title>
-        </mat-expansion-panel-header>
-        <store-api-documentation></store-api-documentation>
-      </mat-expansion-panel>
-
-      <mat-expansion-panel (opened)="switchTab('sdk')" *ngIf="loggedUser != null">
-        <mat-expansion-panel-header>
-          <mat-panel-title>
-            SDKs
-          </mat-panel-title>
-        </mat-expansion-panel-header>
-        <store-api-sdk></store-api-sdk>
-      </mat-expansion-panel>
-
-      <mat-expansion-panel (opened)="switchTab('forum')">
-        <mat-expansion-panel-header>
-          <mat-panel-title>
-            Forum
-          </mat-panel-title>
-        </mat-expansion-panel-header>
-        <store-api-forum></store-api-forum>
-      </mat-expansion-panel>
-
-    </mat-accordion>
-  </div>
 </div>
 
 <div class="similar-apis">
-  <h2>Similar APIs</h2>
+    <h2>Similar APIs</h2>
 
-  <div class="api-list">
+    <div class="api-list">
 
-    <div class="api-info" *ngFor="let simapi of similarApis" (click)="similarApiNavigate(simapi.id)">
-      <div class="api-icon">
-        <img [src]="apiPrefix + api.thumbnailUri" width="100" *ngIf="api.thumbnailUri" />
-        <img src="assets/images/apigate-a.png" width="100" *ngIf="!api.thumbnailUri" />
-      </div>
-      <div class="api-detail-wrap">
-        <div class="name-container">{{simapi.name}}</div>
-        <div class="info-container">
-          <span>Version : {{simapi.version}}</span>
-          <!-- <span >{{api.provider}}</span> -->
-          <span class="star-rating">
+        <div class="api-info" *ngFor="let simapi of similarApis" (click)="similarApiNavigate(simapi.id)">
+            <div class="api-icon">
+                <img [src]="apiPrefix + api?.thumbnailUri" width="100" *ngIf="api?.thumbnailUri" />
+                <img src="assets/images/apigate-a.png" width="100" *ngIf="!api?.thumbnailUri" />
+            </div>
+            <div class="api-detail-wrap">
+                <div class="name-container">{{simapi.name}}</div>
+                <div class="info-container">
+                    <span>Version : {{simapi.version}}</span>
+                    <!-- <span >{{api.provider}}</span> -->
+                    <span class="star-rating">
             <star-rating [starType]="'svg'" [rating]="simapi.stars" [hoverEnabled]="true"></star-rating>
           </span>
+                </div>
+                <div class="clearfix"></div>
+            </div>
         </div>
-        <div class="clearfix"></div>
-      </div>
-    </div>
 
-  </div>
-  <div class="clearfix"></div>
+    </div>
+    <div class="clearfix"></div>
 </div>

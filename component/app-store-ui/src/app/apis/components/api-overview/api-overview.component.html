@@ -1,61 +1,63 @@
 <div class="overview-container">
 
 
-            <div class="field-name-container" fxLayout="row" fxLayoutGap="50px" fxLayoutAlign="start start">
-                <div fxLayout="column" fxFlex="50">
-                    <div class="field" fxFlex><strong>Status</strong></div>
-                    <div class="field-val" fxFlex>{{apiOverview.status}}</div>
-                    <hr />
+    <div class="field-name-container" fxLayout="row" fxLayoutGap="50px" fxLayoutAlign="start start">
+        <div fxLayout="column" fxFlex="50">
+            <div class="field" fxFlex><strong>Status</strong></div>
+            <div class="field-val" fxFlex>{{apiOverview?.status}}</div>
+            <hr />
 
-                    <div class="field" fxFlex><strong>Version</strong></div>
-                    <div class="field-val" fxFlex>{{apiOverview.version}}</div>
-                    <hr />
+            <div class="field" fxFlex><strong>Version</strong></div>
+            <div class="field-val" fxFlex>{{apiOverview?.version}}</div>
+            <hr />
 
-                    <div class="field" fxFlex><strong>Provider</strong></div>
-                    <div class="field-val" fxFlex>{{apiOverview.provider}}</div>
-                    <hr />
+            <div class="field" fxFlex><strong>Provider</strong></div>
+            <div class="field-val" fxFlex>{{apiOverview?.provider}}</div>
+            <hr />
 
-                    <ng-container *ngFor="let endpoint of apiOverview.endpointURLs">
-                        <div class="field" fxFlex><strong>{{endpoint.environmentName}} URLs</strong></div>
-                        <mat-form-field class="overview-full-width" floatLabel="never">
-                            <input matInput placeholder="HTTP URL" #httpUrl value={{endpoint.environmentURLs.http}} readonly="readonly">
-                            <span matPrefix>HTTP &nbsp; : &nbsp;</span>
-                            <button mat-icon-button matSuffix (click)="copyToClipboard(httpUrl)" [attr.aria-label]="'Hide password'">
+            <ng-container *ngFor="let endpoint of apiOverview?.endpointURLs">
+                <div class="field" fxFlex><strong>{{endpoint?.environmentName}} URLs</strong></div>
+                <mat-form-field class="overview-full-width" floatLabel="never">
+                    <input matInput placeholder="HTTP URL" #httpUrl value={{endpoint.environmentURLs.http}} readonly="readonly">
+                    <span matPrefix>HTTP &nbsp; : &nbsp;</span>
+                    <button mat-icon-button matSuffix (click)="copyToClipboard(httpUrl)" [attr.aria-label]="'Hide password'">
                                 <mat-icon>file_copy</mat-icon>
                             </button>
-                        </mat-form-field>
-                        
-                        <mat-form-field class="overview-full-width" floatLabel="never">
-                            <input matInput placeholder="HTTPS URL" #httpsUrl value={{endpoint.environmentURLs.https}} readonly="readonly">
-                            <span matPrefix>HTTPS : &nbsp;</span>
-                            <button mat-icon-button matSuffix (click)="copyToClipboard(httpsUrl)" [attr.aria-label]="'Hide password'">
+                </mat-form-field>
+
+                <mat-form-field class="overview-full-width" floatLabel="never">
+                    <input matInput placeholder="HTTPS URL" #httpsUrl value={{endpoint.environmentURLs.https}} readonly="readonly">
+                    <span matPrefix>HTTPS : &nbsp;</span>
+                    <button mat-icon-button matSuffix (click)="copyToClipboard(httpsUrl)" [attr.aria-label]="'Hide password'">
                                 <mat-icon>file_copy</mat-icon>
                             </button>
-                        </mat-form-field>
-                    </ng-container>
-                </div>
+                </mat-form-field>
+            </ng-container>
+        </div>
 
-                <div fxLayout="column" fxFlex="50">
-                    <div class="field" fxFlex><strong>Description</strong></div>
-                    <div class="description-box">{{apiOverview.description}} <span *ngIf="!apiOverview.description">N/A</span></div>
-                    <br/>
-                    <div class="field" fxFlex><strong>Ratings</strong></div>
-                    <div><star-rating [starType]="'svg'" [rating]="3" [hoverEnabled]="true"></star-rating></div>
-                    <hr/>
-
-                    <ng-container *ngIf="apiOverview.businessInformation?.technicalOwner || apiOverview.businessInformation?.businessOwner">
-                    <div class="field" fxFlex><strong>Contact Details</strong></div>
-                    <div *ngIf="apiOverview.businessInformation?.technicalOwner">Technical : {{apiOverview.businessInformation.technicalOwner}} <span *ngIf="apiOverview.businessInformation.technicalOwnerEmail">&lt;<a href="mailto:{{apiOverview.businessInformation.technicalOwnerEmail}}">{{apiOverview.businessInformation.technicalOwnerEmail}}</a>&gt;</span></div>
-                    <div *ngIf="apiOverview.businessInformation?.businessOwner">Business : {{apiOverview.businessInformation.businessOwner}} <span *ngIf="apiOverview.businessInformation.businessOwnerEmail">&lt;<a href="mailto:{{apiOverview.businessInformation.businessOwnerEmail}}">{{apiOverview.businessInformation.businessOwnerEmail}}</a>&gt;</span></div>
-                    </ng-container>
-                </div>
+        <div fxLayout="column" fxFlex="50">
+            <div class="field" fxFlex><strong>Description</strong></div>
+            <div class="description-box">{{apiOverview?.description}} <span *ngIf="!apiOverview?.description">N/A</span></div>
+            <br/>
+            <div class="field" fxFlex><strong>Ratings</strong></div>
+            <div>
+                <star-rating [starType]="'svg'" [rating]="3" [hoverEnabled]="true"></star-rating>
             </div>
-            <div class="field-name-container" fxLayout="row">
-                
-            </div>
+            <hr/>
+
+            <ng-container *ngIf="apiOverview?.businessInformation?.technicalOwner || apiOverview?.businessInformation?.businessOwner">
+                <div class="field" fxFlex><strong>Contact Details</strong></div>
+                <div *ngIf="apiOverview?.businessInformation?.technicalOwner">Technical : {{apiOverview.businessInformation.technicalOwner}} <span *ngIf="apiOverview?.businessInformation.technicalOwnerEmail">&lt;<a href="mailto:{{apiOverview?.businessInformation.technicalOwnerEmail}}">{{apiOverview.businessInformation.technicalOwnerEmail}}</a>&gt;</span></div>
+                <div *ngIf="apiOverview?.businessInformation?.businessOwner">Business : {{apiOverview.businessInformation.businessOwner}} <span *ngIf="apiOverview?.businessInformation.businessOwnerEmail">&lt;<a href="mailto:{{apiOverview?.businessInformation.businessOwnerEmail}}">{{apiOverview.businessInformation.businessOwnerEmail}}</a>&gt;</span></div>
+            </ng-container>
+        </div>
+    </div>
+    <div class="field-name-container" fxLayout="row">
+
+    </div>
 
 
 
 
-    
+
 </div>

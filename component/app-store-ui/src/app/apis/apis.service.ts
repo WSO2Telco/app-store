@@ -80,4 +80,8 @@ export class ApisService {
         return this.http.delete(`${ApiEndpoints.apis.applications}/${subscriptionId}`);
     }
 
+    searchForum(searchTerm:string){
+        let url = `${ApiEndpoints.forum.search}/${encodeURI(searchTerm)}`;
+        return this.http.get(url);
+    }
 }

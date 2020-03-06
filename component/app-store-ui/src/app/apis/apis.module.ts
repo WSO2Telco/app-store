@@ -14,7 +14,6 @@ import { OperatorTagComponent } from './components/operator-tag/operator-tag.com
 import { ApiOverviewComponent } from './components/api-overview/api-overview.component';
 import { ApiConsoleComponent } from './components/api-console/api-console.component';
 import { ApiDocumentationComponent } from './components/api-documentation/api-documentation.component';
-import { ApiForumComponent } from './components/api-forum/api-forum.component';
 import { StarRatingModule } from 'angular-star-rating';
 import { ApiAppSubscriptionsComponent } from './components/api-app-subscriptions/api-app-subscriptions.component';
 import { ApiTagComponent } from './components/api-tag/api-tag.component';
@@ -39,7 +38,6 @@ import { ApiSdkComponent } from './components/api-sdk/api-sdk.component';
     ApiOverviewComponent,
     ApiConsoleComponent,
     ApiDocumentationComponent,
-    ApiForumComponent,
     ApiTagComponent,
     ApiSdkComponent,
     ApiAppSubscriptionsComponent],

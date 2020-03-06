@@ -8,7 +8,7 @@ import { NotificationService } from '../shared/services/notification.service';
 import * as apiActions from './apis.actions';
 import {
   ApiSearchResult,
-  ApplicationsResult, SubscribeResult, ApiOverview, TagListResult,
+  ApplicationsResult, SubscribeResult, ApiOverview, TagListResult, TopicResult,
 } from './apis.models';
 import { Actions, ofType, createEffect } from '@ngrx/effects';
 import { ApplicationListResult } from '../applications/applications.data.models';
@@ -198,6 +198,19 @@ export class ApisEffects {
     mergeMap(({ payload }) => this.apiService.subscribe(payload)
       .pipe(
         map((result: SubscribeResult) => (apiActions.DoSubscribeSuccessAction({ "payload": result }))),
+        catchError((e: HttpErrorResponse) => {
+          this.notification.error(e.message);
+          return EMPTY
+        })
+      )
+    )
+  ));
+
+  forumSearch$ = createEffect(() => this.actions$.pipe(
+    ofType(apiActions.SearchForumTopicsAction),
+    mergeMap(({ payload }) => this.apiService.searchForum(payload)
+      .pipe(
+        map((result: TopicResult) => (apiActions.SearchForumTopicsSuccessAction({ payload: result.payload }))),
         catchError((e: HttpErrorResponse) => {
           this.notification.error(e.message);
           return EMPTY
