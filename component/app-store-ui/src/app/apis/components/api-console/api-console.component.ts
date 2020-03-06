@@ -10,49 +10,51 @@ import {
 import { SwaggerUIBundle, SwaggerUIStandalonePreset } from 'swagger-ui-dist';
 import { Store } from '@ngrx/store';
 import { AppState } from '../../../app.data.models';
-import { ApiEndpoints } from '../../../config/api.endpoints';
+import { Actions, ofType } from '@ngrx/effects';
+import { GetApiOverviewSuccessAction } from '../../apis.actions';
 
 @Component({
   selector: 'store-api-console',
   templateUrl: './api-console.component.html',
   styleUrls: ['./api-console.component.scss']
 })
-export class ApiConsoleComponent implements OnInit, AfterViewInit {
+export class ApiConsoleComponent implements OnInit {
   @ViewChild('swagger', { static: true }) container: ElementRef;
-  public api;
+  private apiSubscription;
 
-  constructor(private store: Store<AppState>, ) { }
+  constructor(
+    private actions$: Actions
+  ) { }
 
   ngOnInit() {
-    
+    this.apiSubscription = this.actions$.pipe(ofType(GetApiOverviewSuccessAction)).subscribe(resp => {
+      if (resp) {
+        const ui = SwaggerUIBundle({
+          spec: JSON.parse(resp.payload.apiDefinition),
+          domNode: this.container.nativeElement.querySelector('.swagger-container'),
+          presets: [SwaggerUIBundle.presets.apis, SwaggerUIStandalonePreset],
+          plugins: [
+            SwaggerUIBundle.plugins.DownloadUrl,
+            () => {
+              return {
+                components: {
+                  Topbar: () => null,
+                  Info: () => null
+                }
+              };
+            }
+          ],
+          docExpansion: 'list',
+          jsonEditor: false,
+          defaultModelRendering: 'schema',
+          showRequestHeaders: true,
+          layout: 'StandaloneLayout'
+        });
+      }
+    })
   }
 
-  ngAfterViewInit() {
-    this.store.select((s) => s.apis.selectedApi)
-    .subscribe((overview) => {
-      let api = overview;
-
-      const ui = SwaggerUIBundle({
-        spec : JSON.parse(api.apiDefinition),
-        domNode: this.container.nativeElement.querySelector('.swagger-container'),
-        presets: [SwaggerUIBundle.presets.apis, SwaggerUIStandalonePreset],
-        plugins: [
-          SwaggerUIBundle.plugins.DownloadUrl,
-          () => {
-            return {
-              components: {
-                Topbar: () => null,
-                Info: () => null
-              }
-            };
-          }
-        ],
-        docExpansion: 'list',
-        jsonEditor: false,
-        defaultModelRendering: 'schema',
-        showRequestHeaders: true,
-        layout: 'StandaloneLayout'
-      });
-    });    
+  ngOnDestroy(): void {
+    this.apiSubscription.unsubscribe();
   }
 }

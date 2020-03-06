@@ -1,13 +1,10 @@
 import { ApisState, ApiSearchResult, ApiStatus, ApiOverview } from './apis.models';
-import { ApisService } from './apis.service';
 import {
-    ApiSearchSuccessAction, GetApiOverviewSuccessAction, GetUserApplicationsSuccessAction,
+    ApiSearchSuccessAction, GetUserApplicationsSuccessAction,
     AddOperatorToSelectionAction, RemoveOperatorFromSelectionAction, RemoveAllOperatorFromSelectionAction, GetUserSubscriptionsSuccessAction, GetAvailableApplicationSuccessAction
 } from './apis.actions';
 import { Operator } from '../app.data.models';
 import { createReducer, on } from '@ngrx/store';
-import { GetTopicDetailSuccessAction } from '../forum/forum.actions';
-import { ApplicationListResult } from '../applications/applications.data.models';
 
 const initialState: ApisState = {
     apiSearchResult: new ApiSearchResult(),
@@ -28,12 +25,9 @@ const _apisReducer = createReducer(initialState,
     on(ApiSearchSuccessAction, (state, { payload }) => ({
         ...state, apiSearchResult: payload
     })),
+
     on(GetAvailableApplicationSuccessAction, (state, { payload }) => ({
         ...state, availableApp: payload
-    })),
-
-    on(GetApiOverviewSuccessAction, (state, { payload }) => ({
-        ...state, selectedApi: payload
     })),
 
     on(GetUserApplicationsSuccessAction, (state, { payload }) => ({

@@ -5,12 +5,13 @@ import { CreateTopicParam } from "../../forum.data.models";
 import * as forumActions from "../../forum.actions";
 import { Actions, ofType } from "@ngrx/effects";
 import { Router } from "@angular/router";
+import { ApiEndpoints } from '../../../config/api.endpoints';
 
 import * as globalActions from "../../../app.actions";
 import { BreadcrumbItem } from "../../../app.data.models";
 import { Title } from '@angular/platform-browser';
-import { ApiSearchResult } from '../../../apis/apis.models';
 import { take } from 'rxjs/operators';
+
 
 @Component({
   selector: "store-create-topic",
@@ -79,7 +80,7 @@ export const ApiRepo = {
       }
     }
 
-    xhr.open('GET', '/api/am/store/v0.13/apis?query=' + encodeURIComponent(opts.query));
+    xhr.open('GET', ApiEndpoints.apis.search + '?query=' + encodeURIComponent(opts.query));
     xhr.send();
   }
 }

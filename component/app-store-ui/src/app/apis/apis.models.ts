@@ -187,9 +187,30 @@ export class AddNewSubsParam {
     ) { }
 }
 
-
 export class SubscribeResult {
     public error: boolean;
     public message: string;
 }
 
+// Forum Data Models
+export class TopicResult {
+    payload: TopicResultPayload;
+    success: boolean;
+    message: string;
+}
+
+export class TopicResultPayload {
+    totalTopics: number;
+    nextPage: number;
+    list: Topic[]
+}
+
+export class Topic {
+    id: number;
+    title: string;
+    author: string;
+    date: string;
+    replies: [];
+    replyCount: number;
+    content: string;
+}
