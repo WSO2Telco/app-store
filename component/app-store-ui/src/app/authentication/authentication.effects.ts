@@ -6,14 +6,12 @@ import * as loginActions from "./authentication.actions";
 import { AuthenticationService } from "./authentication.service";
 import { Injectable } from "@angular/core";
 import { HttpErrorResponse } from "@angular/common/http";
-import {
-  LoginFormData, LoginResponseData, ClientRegParam,
-  TokenGenerationParam, RegClientData, TokenData
-} from "./authentication.models";
+import { LoginFormData, LoginResponseData, RegClientData, TokenData } from "./authentication.models";
 import { NotificationService } from "../shared/services/notification.service";
 import { Router } from "@angular/router";
 import { AppState } from "../app.data.models";
 import { Store } from "@ngrx/store";
+import { BnNgIdleService } from 'bn-ng-idle';
 
 @Injectable()
 export class AuthenticationEffects {
@@ -24,7 +22,8 @@ export class AuthenticationEffects {
     private authService: AuthenticationService,
     private notification: NotificationService,
     private router: Router,
-    private store: Store<AppState>
+    private store: Store<AppState>,
+    private bnIdle: BnNgIdleService
   ) {
     this.store
       .select(s => s.authentication.lastAuthRequiredRoute)
@@ -40,12 +39,12 @@ export class AuthenticationEffects {
         map((response: LoginResponseData) => {
           if (response.error) {
             let msg = (response.message) ? response.message : "Invalid username or password";
-            return loginActions.LoginFailedAction({payload: msg});
+            return loginActions.LoginFailedAction({ payload: msg });
           } else {
             return loginActions.LoginSuccessAction({ "payload": response });
           }
         }),
-        catchError( (e: HttpErrorResponse) => of(loginActions.LoginFailedAction({payload: e.message})) )
+        catchError((e: HttpErrorResponse) => of(loginActions.LoginFailedAction({ payload: e.message })))
       )
     )
   ));
@@ -57,6 +56,14 @@ export class AuthenticationEffects {
         map((response: RegClientData) => {
           if (!response.error) {
             localStorage.setItem('tkx', btoa(response.clientId + ':' + response.clientSecret));
+
+            this.bnIdle.startWatching(180).subscribe((res) => {
+              if (res) {
+                this.store.dispatch(loginActions.DoLogoutAction());
+                localStorage.setItem("autologout", "true");
+              }
+            })
+
             return loginActions.ClientRegistrationSuccessAction({ "payload": response })
           } else {
             throw Error("Operation Failed");
@@ -114,6 +121,8 @@ export class AuthenticationEffects {
     mergeMap(() => this.authService.logout()
       .pipe(
         map(() => {
+          this.bnIdle.stopTimer();
+          location.replace("/");
           return loginActions.DoLogoutSuccessAction();
         }),
         catchError((e: HttpErrorResponse) => {

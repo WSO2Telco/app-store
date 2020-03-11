@@ -1,28 +1,43 @@
-mat-card{
-    margin-bottom:20px;
+mat-card {
+    margin-bottom: 20px;
 }
 
-.welcome-note{
+.auto-logout-bar {
+    padding: 10px 20px;
+    margin-bottom: 20px;
+    background: #eee;
+    font-size: 13px;
+    border-radius: 3px;
+    text-transform: uppercase;
+    text-align: center;
+    a {
+        cursor: pointer;
+        font-size: 0.9em;
+        margin-left: 8px;
+        color: #666;
+        &:hover {
+            text-decoration: underline;
+        }
+    }
+}
+
+.welcome-note {
     margin-bottom: 20px;
     background: #fff;
-    align-items: center; 
-
-    .caption{
+    align-items: center;
+    .caption {
         max-width: 500px;
         padding: 20px;
-
         * {
             font-size: 18px;
             line-height: 22px;
             font-weight: 500;
         }
-
-        h1{
-            font-size:28px;
+        h1 {
+            font-size: 28px;
             margin-top: 10px;
         }
-
-        .caption-text{
+        .caption-text {
             color: #999;
             margin-top: 40px;
         }

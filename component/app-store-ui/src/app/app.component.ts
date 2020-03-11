@@ -7,7 +7,6 @@ import { DoLogoutAction, TokenRefreshAction } from './authentication/authenticat
 import * as globalActions from './app.actions';
 import { ToggleLeftPanelAction } from './app.actions';
 import { Router } from '@angular/router';
-import { BnNgIdleService } from 'bn-ng-idle';
 
 @Component({
   selector: 'store-root',
@@ -26,13 +25,9 @@ export class AppComponent implements OnInit {
   constructor(
     private store: Store<AppState>,
     private ref: ChangeDetectorRef,
-    private router: Router,
-    private bnIdle: BnNgIdleService) {
-    this.bnIdle.startWatching(180).subscribe((res) => {
-      if (res) {
-        this.store.dispatch(DoLogoutAction());
-      }
-    })
+    private router: Router
+  ) {
+    
   }
 
   ngOnInit(): void {
