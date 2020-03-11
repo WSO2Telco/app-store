@@ -40,12 +40,17 @@ export class DashboardComponent implements OnInit {
     pagination: false,
     autoplay: true
   };
+  public autoLogout = false;
 
   constructor(private store: Store<AppState>, private titleService: Title) {}
 
   ngOnInit() {
     this.store.dispatch(globalActions.SetBreadcrumbAction({payload:[new BreadcrumbItem("Home")]}));
     this.titleService.setTitle("Apigate API Store");
+
+    let autologout = localStorage.getItem('autologout');
+    if(autologout == "true") this.autoLogout = true;
+    localStorage.removeItem('autologout');
   }
 
   public onIndexChange(index: number) {

@@ -63,11 +63,11 @@ export class AuthenticationService {
                 'Content-Type': 'application/json'
             })
         };
+
         localStorage.removeItem('tkx');
-        localStorage.removeItem('rtkn')
-        this.router.navigate(["home"]);
-        return this.http.get(ApiEndpoints.authentication.logout, httpOptions).pipe(
-            map((data: any) => new LogoutResponseData(data)));
+        localStorage.removeItem('rtkn');
+        
+        return this.http.get(ApiEndpoints.authentication.logout, httpOptions).pipe(map((data: any) => new LogoutResponseData(data)));
     }
 
     signup(param: SigUpUserParam): Observable<LoginResponseData> {
