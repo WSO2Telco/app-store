@@ -31,14 +31,7 @@ export class ApiDetailComponent implements OnInit, OnDestroy {
 
   public forumResult;
 
-  //temp
-  similarApis = [
-    { id: '594fcf74-77c7-40ae-96cc-f3b0bdc1a9a3', name: "API 1", version: "1.0", provider: "admin", stars: 5 },
-    { id: '438eecf2-a96b-42a2-9123-17d6c6cf6a5a', name: "APIWithReallyReallyLongName", version: "1.0", provider: "admin", stars: 3.5 },
-    { id: '438eecf2-a96b-42a2-9123-17d6c6cf6a5a', name: "API 3", version: "1.0", provider: "admin", stars: 2 },
-    { id: '438eecf2-a96b-42a2-9123-17d6c6cf6a5a', name: "API 4", version: "1.0", provider: "admin", stars: 2 },
-    { id: '438eecf2-a96b-42a2-9123-17d6c6cf6a5a', name: "API 5", version: "1.0", provider: "admin", stars: 2 },
-  ]
+  similarApis = []
 
   private subscriptions = {
     apiOverview: null
