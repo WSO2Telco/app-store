@@ -1,42 +1,32 @@
 .header {
-  height: 150px;
-  font-size:2em;
-  text-align:center;
-  line-height: 140px;
-
-  h2 {
-    line-height: 150px;
     text-align: center;
-    padding: 0;
-    margin: 0;
-  }
+    padding: 50px 0;
+    h2 {
+        margin: 5px 0 0;
+        font-size: 25px;
+    }
 }
 
 .form-container {
-  padding: 20px;
-  min-height: 300px;
-  margin: 50px 20px;
- 
-  * {
-    width: 100%;
-  }
+    padding: 20px;
+    min-height: 300px;
+    margin: 50px 20px;
+    * {
+        width: 100%;
+    }
 }
 
 .login-error {
-  color: #f00;
-  margin: -10px 0 25px;
+    color: #f00;
+    margin: -10px 0 25px;
 }
 
-.fpwHidden{
-  display: none;
-}
-
-#forgotPW{
-  color: red;
-  text-decoration: underline;
-  cursor: pointer;
-}
-
-.forgotPWBack{
-  color: green !important;
+.bottom-link {
+    margin-top: 20px;
+    cursor: pointer;
+    display: inline-block;
+    text-decoration: none;
+    &:hover {
+        text-decoration: underline;
+    }
 }

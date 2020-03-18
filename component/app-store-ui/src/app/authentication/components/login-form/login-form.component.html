@@ -1,46 +1,56 @@
 <div>
-  <div class="header">
-    Sign In
-  </div>
+    <div class="header">
+        <img src="/assets/images/logo_white.svg" alt="Logo" width="150" />
 
-  <mat-card class="form-container">
-    <form [formGroup]="loginForm" class="loginForm" (ngSubmit)="onLoginClick()">
-      <mat-card-content>
-        <mat-form-field>
-          <input matInput autocomplete="off" placeholder="Username" formControlName="username" />
-          <mat-error *ngIf="f?.username?.errors?.required">
-            Please enter username
-          </mat-error>
-        </mat-form-field>
-        <mat-form-field>
-          <input matInput type="password" autocomplete="off" placeholder="Password" formControlName="password" />
-          <mat-error *ngIf="f?.password?.errors?.required">
-            Please enter password
-          </mat-error>
-        </mat-form-field>
-      </mat-card-content>
+        <h2 *ngIf="!forgotPwShow">
+            Sign in
+        </h2>
+        <h2 *ngIf="forgotPwShow">
+            Forgot Password
+        </h2>
+    </div>
 
-      <div class="login-error" *ngIf="loginError && loginForm.valid">
-        {{loginError}}
-      </div>
+    <mat-card class="form-container">
+        <form [formGroup]="loginForm" *ngIf="!forgotPwShow" class="loginForm" (ngSubmit)="onLoginClick()">
+            <mat-card-content>
+                <mat-form-field>
+                    <input matInput autocomplete="off" placeholder="Username" formControlName="username" />
+                    <mat-error *ngIf="f?.username?.errors?.required">
+                        Please enter username
+                    </mat-error>
+                </mat-form-field>
+                <mat-form-field>
+                    <input matInput type="password" autocomplete="off" placeholder="Password" formControlName="password" />
+                    <mat-error *ngIf="f?.password?.errors?.required">
+                        Please enter password
+                    </mat-error>
+                </mat-form-field>
+            </mat-card-content>
 
-      <button mat-raised-button color="accent" style="width:100%">Login</button>
-    </form>
-    <form [formGroup]="fpwForm" #formDirective="ngForm" novalidate class="fpwForm fpwHidden" (ngSubmit)="onfpwLoginClick(fpwForm,formDirective)">
-      <mat-card-content>
-        Enter username and submit to receive password reset link to your email address.
-        <br>
-        <mat-form-field>
-          <input matInput autocomplete="off" placeholder="Username" name="username" formControlName="username" />
-          <mat-error *ngIf="fpwForm.hasError('required', 'username')">
-            Please enter username
-          </mat-error>
-        </mat-form-field>
-      </mat-card-content>
+            <div class="login-error" *ngIf="loginError && loginForm.valid">
+                {{loginError}}
+            </div>
 
-      <button mat-raised-button color="accent" style="width:100%">Submit</button>
-    </form>
-    <h4 id="forgotPW">Forgot Password?</h4>
-  </mat-card>
+            <button mat-raised-button color="accent" style="width:100%">Login</button>
+
+            <a class="bottom-link" (click)="switchForgotPw(true)">Forgot Password?</a>
+        </form>
+        <form [formGroup]="fpwForm" #formDirective="ngForm" novalidate class="fpwForm" *ngIf="forgotPwShow" (ngSubmit)="onfpwLoginClick(fpwForm,formDirective)">
+            <mat-card-content>
+                Enter username and submit to receive password reset link to your email address.
+                <br>
+                <mat-form-field>
+                    <input matInput autocomplete="off" placeholder="Username" name="username" formControlName="username" />
+                    <mat-error *ngIf="fpwForm.hasError('required', 'username')">
+                        Please enter username
+                    </mat-error>
+                </mat-form-field>
+            </mat-card-content>
+
+            <button mat-raised-button color="accent" style="width:100%">Submit</button>
+
+            <a class="bottom-link" (click)="switchForgotPw(false)">&#8592; Sign in</a>
+        </form>
+    </mat-card>
 
 </div>

@@ -1,12 +1,12 @@
 import { ChangeDetectionStrategy, Component, OnInit, Output, EventEmitter, ChangeDetectorRef } from '@angular/core';
-import { LoginFormData, ForgetPasswordParam } from '../../authentication.models';
+import { FormBuilder, FormGroup, Validators, FormGroupDirective } from '@angular/forms';
 import { Store } from '@ngrx/store';
-import { AppState } from '../../../app.data.models';
-import { DoLoginAction, ClientRegistrationAction, ClientRegistrationSuccessAction, TokenGenerationAction, SetLoggedUserAction, LoginSuccessAction, LoginFailedAction, ForgetPwAction, ForgetPwSuccessAction } from '../../authentication.actions';
 import { Actions, ofType } from '@ngrx/effects';
 import { take } from 'rxjs/operators';
-import { FormBuilder, FormGroup, Validators, FormGroupDirective } from '@angular/forms';
-declare var jQuery: any;
+
+import { LoginFormData, ForgetPasswordParam } from '../../authentication.models';
+import { AppState } from '../../../app.data.models';
+import { DoLoginAction, ClientRegistrationAction, ClientRegistrationSuccessAction, TokenGenerationAction, SetLoggedUserAction, LoginSuccessAction, LoginFailedAction, ForgetPwAction, ForgetPwSuccessAction } from '../../authentication.actions';
 
 @Component({
   selector: 'store-login-form',
@@ -22,6 +22,7 @@ export class LoginFormComponent implements OnInit {
   public fpwForm: FormGroup;
   public loginError: string;
   public FpwError: string;
+  public forgotPwShow = false;
 
   @Output()
   public loginClick: EventEmitter<LoginFormData> = new EventEmitter();
@@ -44,26 +45,6 @@ export class LoginFormComponent implements OnInit {
   }
 
   ngOnInit() {
-
-    (function ($) {
-      $(document).ready(function () {
-        $("#forgotPW").click(function () {
-          $(".loginForm").toggle('slow', function () {
-            $('.fpwForm').toggleClass('fpwHidden');
-            if ($("#forgotPW").text() == "Forgot Password?") {
-              $("#forgotPW").text("<< Back to Login");
-              $("#forgotPW").addClass('forgotPWBack');
-            }
-            else {
-              $("#forgotPW").text("Forgot Password?");
-              $("#forgotPW").removeClass('forgotPWBack');
-            }
-          });
-        });
-      });
-    })(jQuery);
-
-
     this.actions$.pipe(ofType(ClientRegistrationSuccessAction)).pipe(take(1)).subscribe(p => {
       this.store.dispatch(TokenGenerationAction({ "payload": new LoginFormData(this.username, this.password) }));
       this.store.dispatch(SetLoggedUserAction({ "payload": this.username }));
@@ -81,6 +62,10 @@ export class LoginFormComponent implements OnInit {
   }
 
   get f() { return this.loginForm.controls; }
+
+  switchForgotPw(action){
+    this.forgotPwShow = action;
+  }
 
   onLoginClick() {
     this.loginError = null;
