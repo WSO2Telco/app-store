@@ -38,7 +38,6 @@
         "css-star-rating": "^1.2.4",
         "font-awesome": "^4.7.0",
         "intro.js": "^2.9.3",
-        "jquery": "^3.4.1",
         "material-design-icons-iconfont": "^5.0.1",
         "ngrx-store-localstorage": "^8.0.0",
         "ngx-swiper-wrapper": "^9.0.0",

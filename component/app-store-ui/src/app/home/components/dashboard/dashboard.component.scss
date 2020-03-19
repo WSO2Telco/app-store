@@ -5,16 +5,15 @@ mat-card {
 .auto-logout-bar {
     padding: 10px 20px;
     margin-bottom: 20px;
-    background: #eee;
-    font-size: 13px;
+    background: #c00;
+    font-size: 14px;
     border-radius: 3px;
-    text-transform: uppercase;
     text-align: center;
+    color: #fff;
     a {
         cursor: pointer;
         font-size: 0.9em;
         margin-left: 8px;
-        color: #666;
         &:hover {
             text-decoration: underline;
         }

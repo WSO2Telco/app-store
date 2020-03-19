@@ -2,92 +2,97 @@
 @import "~@angular/material/prebuilt-themes/indigo-pink.css";
 // @import "~css-star-rating/scss/star-rating.scss";
 @import "./_mixing.scss";
-
 html,
 body {
-  left: 0;
-  top: 0;
-  bottom: 0;
+    left: 0;
+    top: 0;
+    bottom: 0;
 }
 
-body{
-  font-family: "Roboto", sans-serif;
-  font-size: 12px;
+body {
+    font-family: "Roboto", sans-serif;
+    font-size: 12px;
 }
 
 body snack-bar-container {
-  border-radius: 0px !important;
-  padding: 0px !important;
+    border-radius: 0px !important;
+    padding: 0px !important;
 }
 
-h1, h2, h3, h4, h5, h6{
-  font-weight: 500; 
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-weight: 500;
 }
 
 .information-container {
-  display: none;
+    display: none;
 }
 
 .scheme-container {
-  margin-top: 30px;
+    margin-top: 30px;
 }
 
-.mat-grid-tile.selected .mat-figure{
-  font-size:2em !important;
-}
-.mat-grid-tile.appName .mat-figure{
-  font-weight: 100;
-  font-size: 2em;
-  text-transform: uppercase;
+.mat-grid-tile.selected .mat-figure {
+    font-size: 2em !important;
 }
 
-.fr-toolbar{
-  border-top:1px;
+.mat-grid-tile.appName .mat-figure {
+    font-weight: 100;
+    font-size: 2em;
+    text-transform: uppercase;
+}
+
+.fr-toolbar {
+    border-top: 1px;
 }
 
 .clearfix {
-  clear: both;
+    clear: both;
 }
 
 img {
-  max-width: 100%;
+    max-width: 100%;
 }
 
-.delay_1{
- @include animation-delay(0.1s);
+.delay_1 {
+    @include animation-delay(0.1s);
 }
 
-.delay_2{
- @include animation-delay(0.2s);
+.delay_2 {
+    @include animation-delay(0.2s);
 }
 
-.delay_3{
- @include animation-delay(0.3s);
+.delay_3 {
+    @include animation-delay(0.3s);
 }
 
-.delay_4{
- @include animation-delay(0.4s);
+.delay_4 {
+    @include animation-delay(0.4s);
 }
 
-.delay_6{
- @include animation-delay(0.6s);
+.delay_6 {
+    @include animation-delay(0.6s);
 }
 
-.delay_8{
- @include animation-delay(0.8s);
+.delay_8 {
+    @include animation-delay(0.8s);
 }
 
-.delay_1s{
- @include animation-delay(1s);
+.delay_1s {
+    @include animation-delay(1s);
 }
 
-.delay_1_2{
- @include animation-delay(1.2s);
+.delay_1_2 {
+    @include animation-delay(1.2s);
 }
 
-.swiper-container{
-  .swiper-button-prev,
-  .swiper-button-next{
-    display: none;
-  }
+.swiper-container {
+    .swiper-button-prev,
+    .swiper-button-next {
+        display: none;
+    }
 }
