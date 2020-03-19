@@ -1,35 +1,30 @@
-.theme-apigate-blue{
+.theme-apigate-blue {
     $primary: #231F20;
     $accent: #00AEEF;
     $foreground: #FAFAFA;
-
-    .menu-wrapper{
+    .menu-wrapper {
         .mat-nav-list .mat-list-item {
             color: #231F20;
-
             &.selected {
                 color: $accent;
             }
         }
-
-        .sub-menu-wrap{
-            &.sub-selected{
-                .mat-expansion-panel-header{
+        .sub-menu-wrap {
+            &.sub-selected {
+                .mat-expansion-panel-header {
                     border-left: 2px solid $accent;
                 }
-                .mat-expansion-panel-header-title{
+                .mat-expansion-panel-header-title {
                     color: $accent;
                 }
-    
-                .mat-expansion-indicator{
-                    &:after{
+                .mat-expansion-indicator {
+                    &:after {
                         color: $accent;
                     }
                 }
             }
         }
-
-        .mat-expansion-panel-header-title{
+        .mat-expansion-panel-header-title {
             font-size: 12px;
             font-weight: normal;
         }
@@ -37,14 +32,14 @@
 }
 
 // Component Header
-.intro-container{
-    h1{
+.intro-container {
+    h1 {
         font-size: 28px;
         margin: 0;
         margin-bottom: 20px;
         font-weight: 500;
     }
-    .intro-text{
+    .intro-text {
         width: 50%;
         color: #666;
         font-size: 13px;
@@ -58,9 +53,8 @@
 }
 
 //API Icons
-.api-info{
-    
-    .api-icon{
+.api-info {
+    .api-icon {
         width: 60px;
         height: 60px;
         border-radius: 60px;
@@ -68,8 +62,7 @@
         flex: 1 1 100%;
         overflow: hidden;
         border: 1px solid;
-        
-        img{
+        img {
             width: 60px;
             height: 60px;
             object-fit: cover;
@@ -77,26 +70,47 @@
     }
 }
 
+.table-view {
+    .rating {
+        width: 25%;
+        float: left;
+    }
+}
 
-.overview-container{
-    .rating{
+.grid-view {
+    .rating {
         justify-content: left;
-        
-        .star-container{
+        margin: 0;
+        .star-container {
+            margin: 0;
+            .star svg {
+                width: 13px;
+            }
+        }
+    }
+    .rating.medium .star {
+        width: 15px;
+    }
+}
+
+.overview-container {
+    .rating {
+        justify-content: left;
+        .star-container {
             margin: 0;
         }
     }
 }
 
-footer{
+footer {
     margin: 30px auto 10px;
     text-align: center
 }
 
-.cke_textarea_inline{
+.cke_textarea_inline {
     min-height: 200px;
 }
 
-.soft-bold{
+.soft-bold {
     font-weight: 500;
 }
