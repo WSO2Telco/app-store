@@ -27,7 +27,7 @@ export class SearchApplicationsComponent implements OnInit {
   searchQuery: string = '';
   public clientData: ClientRegParam;
   length: number;
-  pageSize: number = 5;
+  pageSize: number = 10;
   pageIndex: number = 0;
   appResult;
   @ViewChild('scheduledOrdersPaginator') paginator: MatPaginator;
@@ -108,16 +108,4 @@ export class SearchApplicationsComponent implements OnInit {
     this.store.dispatch(applicationsActions.GetAllApplicationsAction({ "payload": new GetApplicationsParam(0, this.pageSize, 0, this.searchQuery) }))
   }
 
-  onPageChanged(e) {
-    let offset = e.pageSize * e.pageIndex;
-    this.pageSize = e.pageSize;
-    this.store.dispatch(applicationsActions.GetAllApplicationsAction({ "payload": new GetApplicationsParam(0, this.pageSize, offset, this.searchQuery) }))
-  }
-
-  paginate(direction) {
-    if (direction == 'next') this.pageIndex++;
-    if (direction == 'prev') this.pageIndex--;
-    let offset = this.pageSize * this.pageIndex;
-    this.store.dispatch(applicationsActions.GetAllApplicationsAction({ "payload": new GetApplicationsParam(this.pageIndex, this.pageSize, offset, this.searchQuery) }))
-  }
 }
