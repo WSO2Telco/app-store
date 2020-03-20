@@ -16,6 +16,7 @@ import { BreadcrumbItem } from "../../../app.data.models";
 import { Title } from '@angular/platform-browser';
 import { ClientRegParam } from '../../../authentication/authentication.models';
 import { ConfirmDialogComponent } from '../../../commons/components/confirm-dialog/confirm-dialog.component';
+import { MatPaginator } from '@angular/material/paginator';
 @Component({
   selector: 'store-search-applications',
   templateUrl: './search-applications.component.html',
@@ -25,24 +26,24 @@ export class SearchApplicationsComponent implements OnInit {
   dataSource = new MatTableDataSource<Application>();
   searchQuery: string = '';
   public clientData: ClientRegParam;
-  length: number = 0;
-  pageSize: number = 10;
+  length: number;
+  pageSize: number = 5;
   pageIndex: number = 0;
   appResult;
-   @ViewChild(MatSort, {static: true}) sort: MatSort;
+  @ViewChild('scheduledOrdersPaginator') paginator: MatPaginator;
+  @ViewChild(MatSort, { static: true }) sort: MatSort;
 
   constructor(private store: Store<AppState>, private router: Router, private titleService: Title, private actions$: Actions, private dialog: MatDialog) { }
 
   ngOnInit() {
     this.clientData = new ClientRegParam();
-
     this.store.select((s) => s.authentication.tokenDetails).subscribe((auth) => {
       if (auth) {
-        this.store.dispatch(applicationsActions.GetAllApplicationsAction({ "payload": new GetApplicationsParam(0, 10, 0, '') }))
+        this.store.dispatch(applicationsActions.GetAllAvailableApplicationsAction({}))
       }
     })
 
-    this.actions$.pipe(ofType(applicationsActions.GetAllApplicationsSuccessAction)).subscribe(p => {
+    this.actions$.pipe(ofType(applicationsActions.GetAllAvailableApplicationsSuccessAction)).subscribe(p => {
       if (p) {
         this.store
           .select(s => s.applications.allApplications)
@@ -56,6 +57,10 @@ export class SearchApplicationsComponent implements OnInit {
     this.store.dispatch(globalActions.SetBreadcrumbAction({ payload: [new BreadcrumbItem("Applications")] }));
     this.titleService.setTitle("Apps | Apigate API Store");
     this.dataSource.sort = this.sort;
+  }
+
+  ngAfterViewInit() {
+    this.dataSource.paginator = this.paginator
   }
 
   onAppAction(app, action) {
@@ -104,6 +109,9 @@ export class SearchApplicationsComponent implements OnInit {
   }
 
   onPageChanged(e) {
+    let offset = e.pageSize * e.pageIndex;
+    this.pageSize = e.pageSize;
+    this.store.dispatch(applicationsActions.GetAllApplicationsAction({ "payload": new GetApplicationsParam(0, this.pageSize, offset, this.searchQuery) }))
   }
 
   paginate(direction) {
