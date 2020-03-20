@@ -53,7 +53,8 @@ export class ApiAppSubscriptionsComponent implements OnInit {
       .select(s => s.apis.availableApp)
       .subscribe(apps => {
         this.appResult = apps.list;
-
+        this.appResult = this.appResult.filter(
+          appArr => appArr.status == "APPROVED");
       });
 
   }
