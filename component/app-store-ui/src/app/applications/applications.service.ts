@@ -23,6 +23,10 @@ export class ApplicationsService {
     })
   }
 
+  getAllAvailableApplications(): Observable<ApplicationListResult> {
+    return this.http.get<ApplicationListResult>(ApiEndpoints.applications.applications, {});
+  }
+
   getAllApplications(param: GetApplicationsParam): Observable<ApplicationListResult> {
     const searchParams = new HttpParams()
       .append('limit', <any>param.limit)
@@ -52,7 +56,7 @@ export class ApplicationsService {
     );
   }
 
-  updateApplication(appId,param: CreateApplicationParam): Observable<CreateAppResponseData> {
+  updateApplication(appId, param: CreateApplicationParam): Observable<CreateAppResponseData> {
     return this.http.put(`${ApiEndpoints.applications.applications}/${appId}`, param).pipe(
       map((data: any) => new CreateAppResponseData())
     );
@@ -79,17 +83,17 @@ export class ApplicationsService {
   }
 
   regenerateAccessToken(payload): Observable<any> {
-    const httpBasicClient:HttpClient = new HttpClient(this.handler);
+    const httpBasicClient: HttpClient = new HttpClient(this.handler);
 
     const body = new HttpParams()
-    .set('grant_type', 'client_credentials')
-    .set('scope', 'test')
-    .set('validity_period', payload.validity)
-    
+      .set('grant_type', 'client_credentials')
+      .set('scope', 'test')
+      .set('validity_period', payload.validity)
+
     const httpOptions = {
       headers: new HttpHeaders({
-          'Content-Type': 'application/x-www-form-urlencoded',
-          'Authorization': 'Basic ' + payload.auth
+        'Content-Type': 'application/x-www-form-urlencoded',
+        'Authorization': 'Basic ' + payload.auth
       })
     };
     return httpBasicClient.post<TokenData>(ApiEndpoints.authentication.tokenGeneration, body.toString(), httpOptions);
