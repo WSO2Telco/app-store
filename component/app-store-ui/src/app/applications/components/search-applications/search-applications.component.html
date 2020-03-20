@@ -62,11 +62,11 @@
               <mat-icon>visibility</mat-icon>
             </button>
             <button mat-icon-button matTooltip="Edit" *ngIf="element.status != 'CREATED'"
-            (click)="onAppAction(element,'edit')">
-            <mat-icon>edit</mat-icon>
-          </button>
-          <button mat-icon-button *ngIf="element.status == 'CREATED'">
-          </button>
+              (click)="onAppAction(element,'edit')">
+              <mat-icon>edit</mat-icon>
+            </button>
+            <button mat-icon-button *ngIf="element.status == 'CREATED'">
+            </button>
             <button mat-icon-button matTooltip="Delete" (click)="openDialog(element,$event)">
               <mat-icon class="danger">delete</mat-icon>
             </button>
@@ -80,23 +80,11 @@
         (click)="onAppAction(row,'view')"></tr>
     </table>
     <ng-container *ngIf="dataSource.data.length == 0">
-      <h2 align="center">No applications available</h2>
+      <div class="no-result">No Results Found !!</div>
     </ng-container>
 
-    <div align="right">
-      <button mat-icon-button type="button" class="mat-paginator-navigation-previous" (click)="paginate('prev')"
-        [disabled]="!appResult?.previous">
-        <svg class="mat-paginator-icon" viewBox="0 0 24 24" focusable="false">
-          <path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z" />
-        </svg>
-      </button>
-      <button mat-icon-button type="button" class="mat-paginator-navigation-next" (click)="paginate('next')"
-        [disabled]="!appResult?.next">
-        <svg class="mat-paginator-icon" viewBox="0 0 24 24" focusable="false">
-          <path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z" />
-        </svg>
-      </button>
-    </div>
+      <mat-paginator #scheduledOrdersPaginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+
   </div>
 
 </div>
