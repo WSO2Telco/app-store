@@ -17,6 +17,19 @@ export class ApplicationsEffects {
     private notification: NotificationService
   ) { }
 
+  getAllAvailableApps$ = createEffect(() => this.actions$.pipe(
+    ofType(applicationsActions.GetAllAvailableApplicationsAction),
+    mergeMap(({ }) => this.service.getAllAvailableApplications()
+      .pipe(
+        map((response: ApplicationListResult) => applicationsActions.GetAllAvailableApplicationsSuccessAction({ "payload": response })),
+        catchError((e: HttpErrorResponse) => {
+          this.notification.error(e.message);
+          return EMPTY
+        })
+      )
+    )
+  ));
+
   getAllApps$ = createEffect(() => this.actions$.pipe(
     ofType(applicationsActions.GetAllApplicationsAction),
     mergeMap(({ payload }) => this.service.getAllApplications(payload)

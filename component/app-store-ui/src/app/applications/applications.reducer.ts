@@ -11,8 +11,13 @@ const initialState: ApplicationsState = {
 
 const _applicationsReducer = createReducer(initialState,
 
-  on(applicationsActions.GetAllApplicationsSuccessAction , (state, { payload }) => ({
-      ...state, allApplications: payload
+  on(applicationsActions.GetAllAvailableApplicationsSuccessAction, (state, { payload }) => ({
+    ...state, allApplications: payload
+  })),
+
+
+  on(applicationsActions.GetAllApplicationsSuccessAction, (state, { payload }) => ({
+    ...state, allApplications: payload
   })),
 
   on(applicationsActions.SetSelectedApplicationsAction, (state, { payload }) => ({
@@ -24,7 +29,7 @@ const _applicationsReducer = createReducer(initialState,
   })),
 
   on(applicationsActions.GetApplicationSubscriptionsSuccessAction, (state, { payload }) => ({
-      ...state, appSubscriptions: payload
+    ...state, appSubscriptions: payload
   }))
 );
 
