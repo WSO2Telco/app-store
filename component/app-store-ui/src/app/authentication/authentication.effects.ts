@@ -122,7 +122,7 @@ export class AuthenticationEffects {
       .pipe(
         map(() => {
           this.bnIdle.stopTimer();
-          location.replace("/");
+          location.replace("/app-store");
           return loginActions.DoLogoutSuccessAction();
         }),
         catchError((e: HttpErrorResponse) => {

@@ -11,7 +11,7 @@ import { FormGroup, FormBuilder, Validators, FormGroupDirective } from '@angular
 
 import * as applicationActions from "../../../applications/applications.actions";
 import { Actions, ofType } from '@ngrx/effects';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { take } from 'rxjs/operators';
 
 @Component({
@@ -33,6 +33,7 @@ export class CreateApplicationComponent implements OnInit {
     private fb: FormBuilder,
     private actions$: Actions,
     private route: ActivatedRoute,
+    private router: Router
   ) {
     this.formCreateApp = this.fb.group({
       appName: ['', [Validators.required, Validators.maxLength(70)]],
@@ -80,6 +81,7 @@ export class CreateApplicationComponent implements OnInit {
           this.submitted = false;
           formDirective.resetForm();
           this.formCreateApp.reset();
+          this.router.navigate(["applications"]);
         })
       } else {
         this.store.dispatch(applicationActions.UpdateApplicationsAction({ "appId": this.appData.applicationId, "payload": this.application }))
@@ -88,6 +90,7 @@ export class CreateApplicationComponent implements OnInit {
           this.submitted = false;
           formDirective.resetForm();
           this.formCreateApp.reset();
+          this.router.navigate(["applications"]);
         })
       }
     }
