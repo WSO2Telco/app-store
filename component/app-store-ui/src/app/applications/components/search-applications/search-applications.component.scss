@@ -1,63 +1,67 @@
 @import "../../../../styles/mixing";
-
 .intro-container,
 .search-container {
-  min-width: 300px;
+    min-width: 300px;
 }
 
 .tbl-container {
-  @include animation-delay(0.5s);
-
-  .mat-paginator-container {
-    padding-top: 20px;
-    padding-bottom: 20px;
-  }
-  mat-header-cell {
-    font-size: 1.2em;
-    &.action-container {
-      text-align: right;
-      padding-right: 15px;
+    @include animation-delay(0.5s);
+    .mat-paginator-container {
+        padding-top: 20px;
+        padding-bottom: 20px;
     }
-  }
-
-  mat-cell {
-    &.action-container {
-      text-align: right;
+    mat-header-cell {
+        &.action-container {
+            text-align: right;
+            padding-right: 15px;
+        }
     }
-  }
+    .mat-header-row {
+        // background-color: mat-color($primary, darker);
+        .mat-header-cell {
+            color: #231F20;
+            font-weight: 600;
+            font-size: 1.2em;
+        }
+    }
+    mat-cell {
+        &.action-container {
+            text-align: right;
+        }
+    }
 }
 
 .mat-icon-button {
-  padding: 0;
-  min-width: 0;
-  width: 40px;
-  height: 40px;
-  flex-shrink: 0;
-  line-height: 40px;
-  border-radius: 50%;
+    padding: 0;
+    min-width: 0;
+    width: 40px;
+    height: 40px;
+    flex-shrink: 0;
+    line-height: 40px;
+    border-radius: 50%;
 }
 
 .danger {
-  color: red !important;
+    color: red !important;
 }
 
 .mat-paginator-icon {
-  width: 28px;
-  fill: currentColor;
+    width: 28px;
+    fill: currentColor;
 }
 
 table {
-  width: 100%;
+    width: 100%;
 }
 
 th.mat-sort-header-sorted {
-  color: black;
+    color: black;
 }
 
 .no-result {
-  background: url("assets/images/search-bg.png") no-repeat 37% top;
-  padding: 80px 0 100px 23%;
-  text-align: center;
-  font-size: 16px;
-  letter-spacing: 2px;
+    background: url("assets/images/search-bg.png") no-repeat 37% top;
+    padding: 80px 0 100px 23%;
+    text-align: center;
+    font-size: 16px;
+    letter-spacing: 2px;
 }

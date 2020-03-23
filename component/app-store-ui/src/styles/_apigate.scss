@@ -103,8 +103,48 @@
 }
 
 footer {
-    margin: 30px auto 10px;
-    text-align: center
+    margin: 40px auto 20px;
+    text-align: center;
+    border-top: 1px solid #aaa;
+    padding-top: 20px;
+    color: #aaa;
+    .footer-links {
+        margin-bottom: 10px;
+        ul {
+            margin: 0;
+            padding: 0;
+            li {
+                list-style: none;
+                margin: 0;
+                padding: 0;
+                display: inline-block;
+                a {
+                    text-decoration: none;
+                    display: inline-block;
+                    padding: 6px 10px;
+                    color: #333;
+                    border: 1px solid transparent;
+                    border-radius: 2px;
+                    transition: all 0.5s;
+                    &:hover {
+                        border-color: #333;
+                    }
+                    &.social {
+                        border-radius: 15px;
+                        width: 28px;
+                        padding: 6px 0;
+                        &:hover {
+                            background: #333;
+                            color: #fff;
+                        }
+                    }
+                }
+                &.separator {
+                    margin: 0 10px;
+                }
+            }
+        }
+    }
 }
 
 .cke_textarea_inline {

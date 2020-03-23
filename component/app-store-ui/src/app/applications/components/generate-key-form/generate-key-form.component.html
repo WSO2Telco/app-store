@@ -1,112 +1,112 @@
 <div class="gen-key-container">
-  <div *ngIf="!keyObject" class="no-key">
-    <mat-icon>info</mat-icon> No {{envLabel}} Keys Found
-  </div>
-  
-  <div fxLayout="column">
-    <section class="grant-type-section" fxFlex>
-      <div *ngIf="keyObject" class="key-block">
-        <span class="key-label">Consumer Key : </span><span class="app-key" matTooltip="Click to copy the key" matTooltipPosition="right" (click)="clickToCopy(keyObject.consumerKey)">{{keyObject.consumerKey}}</span><br/><br/>
-        <span class="key-label">Consumer Secret : </span><span class="app-key" matTooltip="Click to copy the secret" matTooltipPosition="right" (click)="clickToCopy(keyObject.consumerSecret)">
+    <div *ngIf="!keyObject" class="no-key">
+        <mat-icon>info</mat-icon> No {{envLabel}} Keys Found
+    </div>
+
+    <div fxLayout="column">
+        <section class="grant-type-section" fxFlex>
+            <div *ngIf="keyObject" class="key-block">
+                <span class="key-label">Consumer Key : </span><span class="app-key" matTooltip="Click to copy the key" matTooltipPosition="right" (click)="clickToCopy(keyObject.consumerKey)">{{keyObject.consumerKey}}</span><br/><br/>
+                <span class="key-label">Consumer Secret : </span><span class="app-key" matTooltip="Click to copy the secret" matTooltipPosition="right" (click)="clickToCopy(keyObject.consumerSecret)">
           <span *ngIf="!keySecretVisibility">&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;</span>
-          <span *ngIf="keySecretVisibility">{{keyObject.consumerSecret}}</span>
-        </span> 
-        <div class="icon-wrap">
-          <mat-icon *ngIf="!keySecretVisibility" (click)="switchKeyVisibility(true)">visibility</mat-icon>
-          <mat-icon *ngIf="keySecretVisibility" (click)="switchKeyVisibility(false)">visibility_off</mat-icon>
-          <mat-icon (click)="resetKey()">refresh</mat-icon>
-        </div>
-      </div>
-      <div class="gt-title"><span>Grant Types</span></div>
-      <div class="gt-caption">The application can use the following grant types to generate access tokens. You can enable or disable grant types for this application based on the application requirement.</div>
-      <div class="key-grant-type" *ngFor="let t of grantTypes">
-        <mat-checkbox class="ck-gt" value="t.value" [(ngModel)]="t.checked" [disabled]="(t.value == 'implicit' || t.value == 'authorization_code') && (!keyPayload.callbackUrl || keyPayload.callbackUrl.length <= 0)">{{t.name}}</mat-checkbox>
-      </div>
-    </section>
-    <form [formGroup]="keygenForm">
-      <mat-form-field class="fullwidth-field">
-        <input type="url" matInput placeholder="Callback URL" formControlName="keyUrl" />
-        <mat-error *ngIf="f?.keyUrl?.errors?.required">
-          Callback URL is required
-        </mat-error>
-        <mat-error *ngIf="f?.keyUrl?.errors?.pattern">
-          Enter valid Callback URL
-        </mat-error>
-      </mat-form-field>
-      <mat-form-field class="validity-field">
-        <input matInput placeholder="Validity period" formControlName="keyValidity" />
-        <span matSuffix> seconds</span>
-        <mat-error *ngIf="f?.keyValidity?.errors?.required">
-          Validity Period URL is required
-        </mat-error>
-        <mat-error *ngIf="f?.keyValidity?.errors?.min">
-          Enter positive value or -1 for Unlimited
-        </mat-error>
-        <mat-error *ngIf="f?.keyValidity?.errors?.pattern">
-          Enter value in seconds
-        </mat-error>
-      </mat-form-field>
-      <div fxLayoutAlign="end center">
-        <button mat-raised-button class="generate"  color="accent" (click)="generateKey()"><span *ngIf="!keyObject">Generate</span><span *ngIf="keyObject">Update</span></button>
-      </div>
-    </form>
+                <span *ngIf="keySecretVisibility">{{keyObject.consumerSecret}}</span>
+                </span>
+                <div class="icon-wrap">
+                    <mat-icon *ngIf="!keySecretVisibility" (click)="switchKeyVisibility(true)">visibility</mat-icon>
+                    <mat-icon *ngIf="keySecretVisibility" (click)="switchKeyVisibility(false)">visibility_off</mat-icon>
+                    <mat-icon (click)="resetKey()">refresh</mat-icon>
+                </div>
+            </div>
+            <div class="gt-title"><span>Grant Types</span></div>
+            <div class="gt-caption">The application can use the following grant types to generate access tokens. You can enable or disable grant types for this application based on the application requirement.</div>
+            <div class="key-grant-type" *ngFor="let t of grantTypes">
+                <mat-checkbox class="ck-gt" value="t.value" [(ngModel)]="t.checked" [disabled]="(t.value == 'implicit' || t.value == 'authorization_code') && (!keyPayload.callbackUrl || keyPayload.callbackUrl.length <= 0)">{{t.name}}</mat-checkbox>
+            </div>
+        </section>
+        <form [formGroup]="keygenForm">
+            <mat-form-field class="fullwidth-field">
+                <input type="url" matInput placeholder="Callback URL" formControlName="keyUrl" />
+                <mat-error *ngIf="f?.keyUrl?.errors?.required">
+                    Callback URL is required
+                </mat-error>
+                <mat-error *ngIf="f?.keyUrl?.errors?.pattern">
+                    Enter valid Callback URL
+                </mat-error>
+            </mat-form-field>
+            <mat-form-field class="validity-field">
+                <input matInput placeholder="Validity period" formControlName="keyValidity" />
+                <span matSuffix> seconds</span>
+                <mat-error *ngIf="f?.keyValidity?.errors?.required">
+                    Validity Period URL is required
+                </mat-error>
+                <mat-error *ngIf="f?.keyValidity?.errors?.min">
+                    Enter positive value or -1 for Unlimited
+                </mat-error>
+                <mat-error *ngIf="f?.keyValidity?.errors?.pattern">
+                    Enter value in seconds
+                </mat-error>
+            </mat-form-field>
+            <div fxLayoutAlign="end center">
+                <button mat-raised-button class="generate" color="accent" (click)="generateKey()"><span *ngIf="!keyObject">Generate</span><span *ngIf="keyObject">Update</span></button>
+            </div>
+        </form>
 
-    <hr />
+        <hr />
 
-    <div class="access-token-block" *ngIf="keyObject" [ngClass]="{expanded: accessTokenExpanded}">
-      <h3 (click)="accessTokenExpand()">Access Token</h3>
-      <div class="access-token-content" *ngIf="accessTokenExpanded">
-        
-        <div>
-          <mat-form-field>
-            <mat-label>Grant Type</mat-label>
-            <mat-select [(ngModel)]="accessTokenGrant">
-              <mat-option value="password" selected="true">Password</mat-option>
-              <mat-option value="client_credentials" [disabled]="!clientCredEnabled">Client Credentials</mat-option>
-            </mat-select>
-          </mat-form-field>
+        <div class="access-token-block" *ngIf="keyObject" [ngClass]="{expanded: accessTokenExpanded}">
+            <h3 (click)="accessTokenExpand()">Access Token</h3>
+            <div class="access-token-content" *ngIf="accessTokenExpanded">
 
-          <mat-form-field *ngIf="accessTokenGrant == 'password'">
-            <input matInput placeholder="Username" [(ngModel)]="accessTokenUser">
-          </mat-form-field>
+                <div>
+                    <mat-form-field>
+                        <mat-label>Grant Type</mat-label>
+                        <mat-select [(ngModel)]="accessTokenGrant">
+                            <mat-option value="password" selected="true">Password</mat-option>
+                            <mat-option value="client_credentials" [disabled]="!clientCredEnabled">Client Credentials</mat-option>
+                        </mat-select>
+                    </mat-form-field>
 
-          <mat-form-field>
-            <input type="number" matInput placeholder="Validity Period" [(ngModel)]="accessTokenValidity">
-            <span matSuffix> seconds</span>
-          </mat-form-field>
-        </div>
-<div class="code-wrap" (click)="copyAccessToken()">
-<pre>
+                    <mat-form-field *ngIf="accessTokenGrant == 'password'">
+                        <input matInput placeholder="Username" [(ngModel)]="accessTokenUser">
+                    </mat-form-field>
+
+                    <mat-form-field>
+                        <input type="number" matInput placeholder="Validity Period" [(ngModel)]="accessTokenValidity">
+                        <span matSuffix> seconds</span>
+                    </mat-form-field>
+                </div>
+                <div class="code-wrap" (click)="copyAccessToken()">
+                    <pre>
 curl <strong>-k -d</strong> "<span class="code-blue">grant_type={{accessTokenGrant}}<span *ngIf="accessTokenGrant == 'password'">&username={{accessTokenUser}}&password=Password</span></span>" \
      <strong>-H</strong> "<span class="code-blue">Authorization: Basic <span matTooltip="Base64(consumer-key:consumer-secret)" matTooltipPosition="above">{{accessTokenAuth}}</span></span>" \
       https://192.168.56.1:8243/token
 </pre>
-<div class="copy-icon">
-  <mat-icon>filter_none</mat-icon>&nbsp;
-  <span class="copy-label">Copy</span>
-</div>
-</div>
+                    <div class="copy-icon">
+                        <mat-icon>filter_none</mat-icon>&nbsp;
+                        <span class="copy-label">Copy</span>
+                    </div>
+                </div>
 
-        <div class="test-access-token" *ngIf="keyObject.token?.accessToken">
-          <div class="block-title">Test Access Token</div>
+                <div class="test-access-token" *ngIf="keyObject.token?.accessToken">
+                    <div class="block-title">Test Access Token</div>
 
-          <div class="caption">Token below has a validity period of <span class="soft-bold">{{keyObject.token?.validityTime}}</span> seconds. And the token has ( <span class="soft-bold" *ngFor="let scope of keyObject.token.tokenScopes">{{scope}} </span> ) scopes.</div>
+                    <div class="caption">Token below has a validity period of <span class="soft-bold">{{keyObject.token?.validityTime}}</span> seconds. And the token has ( <span class="soft-bold" *ngFor="let scope of keyObject.token.tokenScopes">{{scope}} </span> ) scopes.</div>
 
-          <div class="generated-access-token key-block">
-            <span class="app-key" matTooltip="Click to copy the secret" matTooltipPosition="right" (click)="clickToCopy(keyObject.token?.accessToken)">
+                    <div class="generated-access-token key-block">
+                        <span class="app-key" matTooltip="Click to copy the token" matTooltipPosition="below" (click)="clickToCopy(keyObject.token?.accessToken)">
               <span *ngIf="!accessTokenVisible">&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;</span>
-              <span *ngIf="accessTokenVisible">{{keyObject.token?.accessToken}}</span>
-            </span> 
-            <div class="icon-wrap">
-              <mat-icon *ngIf="!accessTokenVisible" (click)="switchAccessTokenVisibility(true)" matTooltip="Show Access Token">visibility</mat-icon>
-              <mat-icon *ngIf="accessTokenVisible" (click)="switchAccessTokenVisibility(false)" matTooltip="Hide Access Token">visibility_off</mat-icon>
-              <mat-icon *ngIf="clientCredEnabled" (click)="resetAccessToken()" matTooltip="Regenerate Access Token">refresh</mat-icon>
+                        <span *ngIf="accessTokenVisible">{{keyObject.token?.accessToken}}</span>
+                        </span>
+                        <div class="icon-wrap">
+                            <mat-icon *ngIf="!accessTokenVisible" (click)="switchAccessTokenVisibility(true)" matTooltip="Show Access Token">visibility</mat-icon>
+                            <mat-icon *ngIf="accessTokenVisible" (click)="switchAccessTokenVisibility(false)" matTooltip="Hide Access Token">visibility_off</mat-icon>
+                            <mat-icon *ngIf="clientCredEnabled" (click)="resetAccessToken()" matTooltip="Regenerate Access Token">refresh</mat-icon>
+                        </div>
+                    </div>
+                </div>
+
             </div>
-          </div>
         </div>
-        
-      </div>
     </div>
-  </div>
 
 </div>
