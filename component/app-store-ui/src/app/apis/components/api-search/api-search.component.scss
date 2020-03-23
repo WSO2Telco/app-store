@@ -1,194 +1,197 @@
-.mat-card{
+.mat-card {
     box-shadow: none;
 }
 
-.filter-container{
-    mat-form-field{
+.filter-container {
+    mat-form-field {
         width: 100%;
     }
 }
 
-.search-container{
+.search-container {
     margin-bottom: 20px;
 }
 
-.mat-header-cell{
+.mat-header-cell {
     font-size: 14px;
     font-weight: 900;
 }
 
-mat-paginator{
+mat-paginator {
     padding: 20px;
 }
 
-.search-Container{
-    .search-txt{
+.search-Container {
+    .search-txt {
         padding-top: 20px;
         padding-right: 20px;
         font-weight: 900;
     }
-    
-    .search-input{
+    .search-input {
         margin-left: 20px;
         width: 30%;
     }
-
-    .search{
+    .search {
         margin-left: 20px;
     }
 }
 
-.api-info{
+.api-info {
     cursor: pointer;
 }
 
-.switch-view-icons{
-    .mat-icon{
+.switch-view-icons {
+    .mat-icon {
         color: #bbb;
         cursor: pointer;
-
-        &.active{
+        &.active {
             color: #000;
             cursor: default;
         }
     }
 }
 
-.result-wrapper{
+.result-wrapper {
     display: flex;
     flex-wrap: wrap;
-    
-    .api-info{
+    .api-info {
         display: flex;
         border-radius: 5px;
         padding: 10px;
         transition: background 0.5s;
-
-        &.tbl-header{
+        &.tbl-header {
             display: none;
         }
-
-        &:hover{
+        &:hover {
             background: #eee;
         }
     }
-
-    &.grid-view{
-        .api-info{
+    &.grid-view {
+        .api-info {
             max-width: 30%;
             min-width: 30%;
             width: 30%;
-            box-shadow: 0px 0px 2px 1px #888;
+            box-shadow: 0px 0px 2px 1px #aaa;
             margin: 0.5%;
-
-            @media (max-width: 1200px){
+            overflow: hidden;
+            padding-bottom: 15px;
+            @media (max-width: 1200px) {
                 max-width: 45%;
                 min-width: 45%;
                 width: 45%;
             }
+            .api-icon {
+                width: 90px;
+                height: 90px;
+                border-color: #aaa;
+                img {
+                    width: 90px;
+                    height: 90px;
+                }
+            }
         }
-
-        .icon-wrap{
+        .icon-wrap {
             flex: 1;
-            width: 80px;
-            max-width: 80px;
-            min-width: 80px;
+            width: 110px;
+            max-width: 110px;
+            min-width: 100px;
+            margin-left: -23px;
+            margin-top: -23px;
         }
-
-        .api-detail-wrap{
+        .api-detail-wrap {
             flex: 1;
             display: flex;
             flex-direction: column;
             min-width: 0;
         }
-
         .name-container {
             flex: 1;
-            display: inline-block;
+            display: flex;
             align-items: center;
             font-weight: 500;
-            font-size: 18px;
+            font-size: 20px;
             overflow: hidden;
             text-overflow: ellipsis;
             white-space: nowrap;
         }
-
         .info-container {
-            display: flex;
+            display: block;
             flex: 1;
             align-items: center;
-
             span {
-                flex: 1;
+                width: 40%;
+                float: left;
+                margin-top: 5px;
+                position: relative;
+                padding-left: 22px;
+            }
+            .mat-icon {
+                font-size: 16px;
+                position: absolute;
+                top: 0px;
+                left: 0;
+                color: #777;
             }
         }
     }
-    
-    &.table-view{
+    &.table-view {
         display: block;
-
-        .api-info{
+        .api-info {
             max-width: none;
             min-width: none;
             width: auto;
             box-shadow: none;
-            border-bottom: 1px solid rgba(0,0,0,.12);
-
-            &.tbl-header{
+            border-bottom: 1px solid rgba(0, 0, 0, .12);
+            &.tbl-header {
                 display: block;
                 font-weight: 500;
-
-                &:hover{
+                &:hover {
                     background: none;
                 }
             }
         }
-
-        .icon-wrap{
+        .icon-wrap {
             display: inline-block;
             width: 5%;
             min-width: 30px;
-
-            .api-icon{
+            .api-icon {
                 width: 25px;
                 height: 25px;
-
-                img{
+                img {
                     width: 25px;
                     height: 25px;
                 }
             }
         }
-
-        .api-detail-wrap{
+        .api-detail-wrap {
             display: inline-block;
             width: 90%;
-
-            .name-container{
+            .name-container {
                 display: inline-block;
                 width: 50%;
                 overflow: hidden;
                 text-overflow: ellipsis;
             }
-
             .info-container {
                 display: inline-block;
                 width: 50%;
+                .mat-icon {
+                    display: none;
+                }
             }
         }
-
         .info-container span {
-            width: 30%;
-            display: inline-block;
+            width: 25%;
             text-align: center;
+            float: left;
+            padding-top: 5px;
         }
     }
 }
 
-.api-filter-message{
+.api-filter-message {
     color: #777;
-
-    span{
+    span {
         font-weight: 500;
         text-transform: capitalize;
     }
