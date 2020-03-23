@@ -37,7 +37,7 @@
                 <mat-icon [ngClass]="{'active' : view == 'grid'}" title="Switch to grid view" (click)="switchView('grid')">
                     view_module</mat-icon>
             </div>
-            <div *ngIf="apiCategory!='all'" class="api-filter-message">Filtered to <span>{{apiCategory}}</span> APIs</div>
+            <div *ngIf="apiCategory!='All'" class="api-filter-message">Filtered to <span>{{apiCategory}}</span> APIs</div>
             <div class="clearfix"></div>
         </div>
         <div class="result-wrapper" [ngClass]="{ 'table-view' : view == 'list', 'grid-view' : view == 'grid'}">
