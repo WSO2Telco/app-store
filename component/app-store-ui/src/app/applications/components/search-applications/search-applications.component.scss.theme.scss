@@ -1,32 +1,25 @@
 @import '~@angular/material/theming';
 @mixin applications-search-theme($theme) {
-  $background: map-get($theme, background);
-  $primary: map-get($theme, primary);
-  $accent: map-get($theme, accent);
-
-  .tbl-container {
-    mat-header-row{
-        // background-color: mat-color($primary, darker);
-        mat-header-cell{
-            color: #231F20;
-            font-weight: 600;
+    $background: map-get($theme, background);
+    $primary: map-get($theme, primary);
+    $accent: map-get($theme, accent);
+    .tbl-container {
+        .mat-header-row {
+            // background-color: mat-color($primary, darker);
+            .mat-header-cell {
+                color: #231F20;
+                font-weight: 600;
+            }
         }
-    }
-
-    mat-cell{
-        &.action-container{
-            mat-icon{
-                color:map_get($mat-grey, 600);
-                &:hover{
-                    color:mat-color($accent);
+        .mat-cell {
+            &.action-container {
+                .mat-icon {
+                    color: map_get($mat-grey, 600);
+                    &:hover {
+                        color: mat-color($accent);
+                    }
                 }
             }
         }
     }
-
-    .mat-paginator-container{
-        background-color:map_get($mat-grey, 200),
-    }
-  }
-
 }

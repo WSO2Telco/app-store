@@ -1,90 +1,86 @@
 <div fxLayout="column" fxLayoutGap="20px">
 
-  <div class="intro-container">
-    <h1 class="animated fadeInDown">Applications</h1>
-    <div class="intro-text animated fadeIn">
-      <p>Logical collection of APIs that allows you to use a single access token to invoke a collection of APIs and to
-        subscribe to one API multiple times with different SLA levels.</p>
-      <p><strong class="notice">*</strong> The "DefaultApplication" is pre-created and allows unlimited access by
-        default.</p>
-    </div>
-  </div>
-
-  <div>
-    <div class="pull-right">
-      <div class="search-Container animated fadeIn">
-        <form #searchForm="ngForm" novalidate (ngSubmit)="onSearchClick()" fxLayout="row" fxLayoutGap="20px">
-          <mat-form-field class="search-input" fxFlex="80%">
-            <input matInput placeholder="Filter by..." name="searchQuery" [(ngModel)]="searchQuery">
-          </mat-form-field>
-          <button class="search" mat-mini-fab color="accent"><i class="fa fa-search" aria-hidden="true"></i></button>
-        </form>
-      </div>
+    <div class="intro-container">
+        <h1 class="animated fadeInDown">Applications</h1>
+        <div class="intro-text animated fadeIn">
+            <p>Logical collection of APIs that allows you to use a single access token to invoke a collection of APIs and to subscribe to one API multiple times with different SLA levels.</p>
+            <p><strong class="notice">*</strong> The "DefaultApplication" is pre-created and allows unlimited access by default.
+            </p>
+        </div>
     </div>
 
     <div>
-      <button mat-raised-button matTooltip="Create new application" color="accent"
-        [routerLink]="['/applications/create']">+ &nbsp; New</button>
+        <div class="pull-right">
+            <div class="search-Container animated fadeIn">
+                <form #searchForm="ngForm" novalidate (ngSubmit)="onSearchClick()" fxLayout="row" fxLayoutGap="20px">
+                    <mat-form-field class="search-input" fxFlex="80%">
+                        <input matInput placeholder="Filter by..." name="searchQuery" [(ngModel)]="searchQuery">
+                    </mat-form-field>
+                    <button class="search" mat-mini-fab color="accent"><i class="fa fa-search" aria-hidden="true"></i></button>
+                </form>
+            </div>
+        </div>
+
+        <div>
+            <button mat-raised-button matTooltip="Create new application" color="accent" [routerLink]="['/applications/create']">+ &nbsp; New</button>
+        </div>
     </div>
-  </div>
 
-  <div class="tbl-container Xmat-elevation-z8 animated fadeIn">
-    <table mat-table #table matSort [dataSource]="dataSource" class="mat-elevation-z8">
+    <div class="tbl-container animated fadeIn">
+        <table mat-table #table matSort [dataSource]="dataSource">
 
-      <ng-container matColumnDef="name">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header> Name </th>
-        <td mat-cell *matCellDef="let element"> {{element.name}} </td>
-      </ng-container>
+            <ng-container matColumnDef="name">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Name </th>
+                <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+            </ng-container>
 
-      <ng-container matColumnDef="throttlingTier">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header> Tier </th>
-        <td mat-cell *matCellDef="let element"> {{element.throttlingTier}}
-        <td>
-      </ng-container>
+            <ng-container matColumnDef="throttlingTier">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Tier </th>
+                <td mat-cell *matCellDef="let element"> {{element.throttlingTier}}
+                    <td>
+            </ng-container>
 
-      <ng-container matColumnDef="status">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header> Workflow Status </th>
-        <td mat-cell *matCellDef="let element"> {{element.status}}
-        <td>
-      </ng-container>
+            <ng-container matColumnDef="status">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Workflow Status </th>
+                <td mat-cell *matCellDef="let element"> {{element.status}}
+                    <td>
+            </ng-container>
 
-      <ng-container matColumnDef="apiCount">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header> Subscriptions </th>
-        <td mat-cell *matCellDef="let element"> {{element.apiCount}}
-        <td>
-      </ng-container>
+            <ng-container matColumnDef="apiCount">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Subscriptions </th>
+                <td mat-cell *matCellDef="let element"> {{element.apiCount}}
+                    <td>
+            </ng-container>
 
-      <ng-container matColumnDef="action">
-        <th mat-header-cell class="action-container" *matHeaderCellDef> Actions </th>
-        <td mat-cell class="action-container" *matCellDef="let element">
-          <div class="button-row">
-            <button mat-icon-button matTooltip="View" (click)="onAppAction(element,'view')">
+            <ng-container matColumnDef="action">
+                <th mat-header-cell class="action-container" *matHeaderCellDef> Actions </th>
+                <td mat-cell class="action-container" *matCellDef="let element">
+                    <div class="button-row">
+                        <button mat-icon-button matTooltip="View" (click)="onAppAction(element,'view')">
               <mat-icon>visibility</mat-icon>
             </button>
-            <button mat-icon-button matTooltip="Edit" *ngIf="element.status != 'CREATED'"
-              (click)="onAppAction(element,'edit')">
+                        <button mat-icon-button matTooltip="Edit" *ngIf="element.status != 'CREATED'" (click)="onAppAction(element,'edit')">
               <mat-icon>edit</mat-icon>
             </button>
-            <button mat-icon-button *ngIf="element.status == 'CREATED'">
+                        <button mat-icon-button *ngIf="element.status == 'CREATED'">
             </button>
-            <button mat-icon-button matTooltip="Delete" (click)="openDialog(element,$event)">
+                        <button mat-icon-button matTooltip="Delete" (click)="openDialog(element,$event)">
               <mat-icon class="danger">delete</mat-icon>
             </button>
-          </div>
-        <td>
-      </ng-container>
+                    </div>
+                    <td>
+            </ng-container>
 
 
-      <tr mat-header-row *matHeaderRowDef="[ 'name','throttlingTier','status','apiCount','action']"></tr>
-      <tr mat-row *matRowDef="let row; columns: [ 'name','throttlingTier','status','apiCount','action'];"
-        (click)="onAppAction(row,'view')"></tr>
-    </table>
-    <ng-container *ngIf="dataSource.data.length == 0">
-      <div class="no-result">No Results Found !!</div>
-    </ng-container>
+            <tr mat-header-row *matHeaderRowDef="[ 'name','throttlingTier','status','apiCount','action']"></tr>
+            <tr mat-row *matRowDef="let row; columns: [ 'name','throttlingTier','status','apiCount','action'];" (click)="onAppAction(row,'view')"></tr>
+        </table>
+        <ng-container *ngIf="dataSource.data.length == 0">
+            <div class="no-result">No Results Found !!</div>
+        </ng-container>
 
-    <mat-paginator #scheduledOrdersPaginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+        <mat-paginator #scheduledOrdersPaginator [pageSizeOptions]="[5, 10, 20]"></mat-paginator>
 
-  </div>
+    </div>
 
 </div>
