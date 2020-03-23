@@ -41,6 +41,7 @@ export class DashboardComponent implements OnInit {
     autoplay: true
   };
   public autoLogout = false;
+  public username:string = null;
 
   constructor(private store: Store<AppState>, private titleService: Title) {}
 
@@ -51,6 +52,10 @@ export class DashboardComponent implements OnInit {
     let autologout = localStorage.getItem('autologout');
     if(autologout == "true") this.autoLogout = true;
     localStorage.removeItem('autologout');
+
+    this.store.select((s) => s.authentication.loggedUser).subscribe((user) => {
+      this.username = user;
+    })
   }
 
   public onIndexChange(index: number) {
