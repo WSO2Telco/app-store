@@ -1,33 +1,30 @@
 @import "../../../../styles/mixing";
-
-.thumbnail-wrapper{
-  a{
-    text-decoration: none;
-  }
-  .thumbnail-card{
-    box-shadow: 1px 1px 4px rgba(0, 0, 0, 0.4);
-    height: 160px;
-    width: 200px;
-    padding: 20px;
-    overflow: hidden;
-    cursor: pointer;
-    position: relative;
-    margin: 5px auto;
-    transition: all 0.4s;
-
-    &:hover{
-      box-shadow: 1px 2px 6px rgba(0, 0, 0, 0.2);
+.thumbnail-wrapper {
+    a {
+        text-decoration: none;
     }
-  }
-
-  .name-container{
-    font-size: 14px;
-    font-weight: 500;
-    margin: 10px 0 20px;
-  }
-
-  .description{
-    font-size: 12px;
-    color: #666;
-  }
+    .thumbnail-card {
+        box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.6);
+        height: 160px;
+        width: 200px;
+        padding: 20px;
+        overflow: hidden;
+        cursor: pointer;
+        position: relative;
+        margin: 5px auto;
+        transition: all 0.4s;
+        border-radius: 3px;
+        &:hover {
+            box-shadow: 1px 2px 6px rgba(0, 0, 0, 0.2);
+        }
+    }
+    .name-container {
+        font-size: 14px;
+        font-weight: 500;
+        margin: 10px 0 20px;
+    }
+    .description {
+        font-size: 12px;
+        color: #666;
+    }
 }
