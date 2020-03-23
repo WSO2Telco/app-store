@@ -1,4 +1,4 @@
-<div *ngIf="autoLogout" class="auto-logout-bar">Logged out automatically due to 3 minutes of inactivity.. <a (click)="autoLogout = false;">(Dismiss)</a></div>
+<div *ngIf="autoLogout && !username" class="auto-logout-bar">Logged out automatically due to 3 minutes of inactivity.. <a (click)="autoLogout = false;">(Dismiss)</a></div>
 
 <div>
     <div class="welcome-note animated fadeIn" fxLayout.gt-md="row" fxLayoutGap="20px">
