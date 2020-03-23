@@ -2,9 +2,9 @@ import { Operator, Country, Tier } from '../app.data.models';
 import { ApplicationListResult } from '../applications/applications.data.models';
 
 export enum ApiStatus {
-    all = 'all',
-    prototyped = 'prototyped',
-    published = 'published'
+    all = 'All',
+    prototyped = 'Prototyped',
+    published = 'Published'
 }
 
 export class ApiSearchParam {
