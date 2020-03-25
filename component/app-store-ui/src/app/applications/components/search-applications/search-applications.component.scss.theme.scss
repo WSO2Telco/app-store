@@ -5,13 +5,15 @@
     $accent: map-get($theme, accent);
     .tbl-container {
         .mat-header-row {
-            // background-color: mat-color($primary, darker);
             .mat-header-cell {
                 color: #231F20;
                 font-weight: 600;
             }
         }
         .mat-cell {
+            &:hover {
+                cursor: pointer;
+            }
             &.action-container {
                 .mat-icon {
                     color: map_get($mat-grey, 600);

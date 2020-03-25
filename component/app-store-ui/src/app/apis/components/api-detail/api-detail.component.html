@@ -13,8 +13,31 @@
         <div class="status-label" [ngClass]="api?.status"><span class="status-dot"></span> <span class="status-lbl">{{api?.status}}</span></div>
     </div>
 
+    <div class="overview">
+        <store-api-overview [apiOverview]="api"></store-api-overview>
+    </div>
     <div class="child-container">
-        <mat-accordion class="api-detail-accordion">
+        <mat-tab-group>
+            <mat-tab>
+                <ng-template mat-tab-label>
+                    The <em>best</em> pasta
+                </ng-template>
+                <h1>Best pasta restaurants</h1>
+                <p>...</p>
+            </mat-tab>
+            <mat-tab>
+                <ng-template mat-tab-label>
+                    <mat-icon>thumb_down</mat-icon> The worst sushi
+                </ng-template>
+                <h1>Terrible sushi restaurants</h1>
+                <p>...</p>
+            </mat-tab>
+        </mat-tab-group>
+
+
+
+
+        <!-- <mat-accordion class="api-detail-accordion">
 
             <mat-expansion-panel expanded="true" (opened)="switchTab('overview')">
                 <mat-expansion-panel-header>
@@ -91,7 +114,7 @@
                 Please <button mat-stroked-button (click)="onLoginClick()">login</button> to see related forum topics
             </ng-template>
 
-        </mat-accordion>
+        </mat-accordion> -->
     </div>
 </div>
 

@@ -19,6 +19,8 @@ import { ApiAppSubscriptionsComponent } from './components/api-app-subscriptions
 import { ApiTagComponent } from './components/api-tag/api-tag.component';
 import { TagCloudModule } from 'angular-tag-cloud-module';
 import { ApiSdkComponent } from './components/api-sdk/api-sdk.component';
+import { MatTabsModule } from '@angular/material/tabs';
+
 
 @NgModule({
   imports: [
@@ -28,7 +30,8 @@ import { ApiSdkComponent } from './components/api-sdk/api-sdk.component';
     StarRatingModule.forRoot(),
     TagCloudModule,
     StoreModule.forFeature('apis', apisReducer),
-    EffectsModule.forFeature([ApisEffects])
+    EffectsModule.forFeature([ApisEffects]),
+    MatTabsModule
   ],
   declarations: [
     ApiSearchComponent,
