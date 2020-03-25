@@ -50,12 +50,12 @@ export class ApiSubscriptionComponent implements OnInit {
   ngOnInit() {
 
     this.store.dispatch(LoadCountriesAction());
-    this.store.dispatch(GetUserApplicationsAction);
+    this.store.dispatch(GetUserApplicationsAction({payload : null}));
   }
 
   onCountryChange() {
     this.store.dispatch(LoadOperatorsAction({ payload: this.selectedCountry }));
-    this.store.dispatch(RemoveAllOperatorFromSelectionAction);
+    this.store.dispatch(RemoveAllOperatorFromSelectionAction({payload : null}));
   }
 
   onOperatorChange() {
@@ -104,6 +104,6 @@ export class ApiSubscriptionComponent implements OnInit {
     this.selectedCountry = null;
     this.selectedOperator = null;
     this.selectedTier = null;
-    this.store.dispatch(RemoveAllOperatorFromSelectionAction);
+    this.store.dispatch(RemoveAllOperatorFromSelectionAction({payload : null}));
   }
 }
