@@ -7,9 +7,6 @@
             <img src="assets/images/apigate-a.png" class="api-thumb" *ngIf="!api?.thumbnailUrl" />
         </div>
         <h1>{{api?.name}} <span class="version" aria-label="API Version">{{api?.version}}</span></h1>
-        <div class="pull-right subscribe-btn" *ngIf="loggedUser != null">
-            <button mat-flat-button color="accent" (click)="switchTab('subscription')">Subscribe</button>
-        </div>
         <div class="status-label" [ngClass]="api?.status"><span class="status-dot"></span> <span class="status-lbl">{{api?.status}}</span></div>
     </div>
 
