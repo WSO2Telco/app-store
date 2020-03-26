@@ -21,6 +21,7 @@ export class ApiAppSubscriptionsComponent implements OnInit {
   public datasource: MatTableDataSource<Subscription> = new MatTableDataSource();
   api_id: string;
   appResult;
+  subscriptionList;
 
   constructor(
     private store: Store<AppState>,
@@ -38,7 +39,10 @@ export class ApiAppSubscriptionsComponent implements OnInit {
     this.store
       .select(s => s.apis.apiSubscriptions)
       .subscribe(res => {
-        if (res && res.list) this.datasource.data = res.list
+        if (res && res.list) {
+          this.datasource.data = res.list;
+          this.subscriptionList = res.list;
+        }
       });
 
     this.store
@@ -57,10 +61,15 @@ export class ApiAppSubscriptionsComponent implements OnInit {
           appArr => appArr.status == "APPROVED");
       });
 
+      this.mapAppName('3335664f-33c4-46a7-84ff-9e5dcbc1093a');
   }
 
   openDialog(event: any) {
-    var mapResult = this.appResult.map(appArr => ({ value: appArr.applicationId, viewValue: appArr.name }));
+    var mapResult = this.appResult.filter(appArr => {
+      return !this.subscriptionList.some(function(sub) {
+        return appArr.applicationId == sub.applicationId;
+    });
+    });
     event.stopPropagation();
     const dialogRef = this.dialog.open(ActionDialogComponent, {
       width: '380px',
@@ -85,6 +94,11 @@ export class ApiAppSubscriptionsComponent implements OnInit {
       }
     }
     );
+  }
+
+  mapAppName(id){
+    let app = this.appResult.find(itm => itm.applicationId == id);
+    return app.name
   }
 
 
