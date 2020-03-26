@@ -1,4 +1,4 @@
-<div fxLayout="column" fxLayoutGap="20px">
+<div fxLayout="column" fxLayoutGap="20px" class="api-details-component">
 
     <div class="intro-container">
 
@@ -16,21 +16,60 @@
     <div class="overview">
         <store-api-overview [apiOverview]="api"></store-api-overview>
     </div>
-    <div class="child-container">
-        <mat-tab-group>
-            <mat-tab>
+    <div class="detail-container">
+        <mat-tab-group animationDuration="0ms" disableRipple>
+            <mat-tab *ngIf="loggedUser != null" [isActive]="activeTab == 'subscription'">
                 <ng-template mat-tab-label>
-                    The <em>best</em> pasta
+                    <i class="fa fa-2x fa-folder"></i> Subscriptions
                 </ng-template>
-                <h1>Best pasta restaurants</h1>
-                <p>...</p>
+                <store-api-app-subscriptions></store-api-app-subscriptions>
             </mat-tab>
             <mat-tab>
                 <ng-template mat-tab-label>
-                    <mat-icon>thumb_down</mat-icon> The worst sushi
+                    <i class="fa fa-2x fa-terminal"></i> API Console
                 </ng-template>
-                <h1>Terrible sushi restaurants</h1>
-                <p>...</p>
+                <store-api-console></store-api-console>
+            </mat-tab>
+            <mat-tab>
+                <ng-template mat-tab-label>
+                    <i class="fa fa-2x fa-file"></i> Documentation
+                </ng-template>
+                <store-api-documentation></store-api-documentation>
+            </mat-tab>
+            <mat-tab>
+                <ng-template mat-tab-label>
+                    <i class="fa fa-2x fa-cube"></i> SDKs
+                </ng-template>
+                <store-api-sdk></store-api-sdk>
+            </mat-tab>
+            <mat-tab>
+                <ng-template mat-tab-label>
+                    <i class="fa fa-2x fa-comment"></i> Forum
+                </ng-template>
+
+                <ng-container *ngIf="loggedUser != null; else forumNotLoggedIn">
+                    <table class="forum-table" *ngIf="forumResult?.length > 0; else forumNoContent">
+                        <tr>
+                            <td><strong>Topic</strong></td>
+                            <td><strong>Author</strong></td>
+                            <td><strong>Date</strong></td>
+                            <td><strong>Replies</strong></td>
+                        </tr>
+                        <tr *ngFor="let forumtopic of forumResult" [routerLink]="['/forum/view', forumtopic.id]">
+                            <td>{{forumtopic?.title}}</td>
+                            <td>{{forumtopic?.author}}</td>
+                            <td>{{forumtopic?.date | date: 'EEEE, MMM d yyyy'}}</td>
+                            <td>{{forumtopic?.replyCount}}</td>
+                        </tr>
+                    </table>
+
+                    <ng-template #forumNoContent>
+                        No related discussions found
+                    </ng-template>
+                </ng-container>
+                <ng-template #forumNotLoggedIn>
+                    Please <button mat-stroked-button (click)="onLoginClick()">login</button> to see related forum topics
+                </ng-template>
             </mat-tab>
         </mat-tab-group>
 
@@ -109,10 +148,10 @@
                         No related discussions found
                     </ng-template>
                 </ng-container>
+                <ng-template #forumNotLoggedIn>
+                    Please <button mat-stroked-button (click)="onLoginClick()">login</button> to see related forum topics
+                </ng-template>
             </mat-expansion-panel>
-            <ng-template #forumNotLoggedIn>
-                Please <button mat-stroked-button (click)="onLoginClick()">login</button> to see related forum topics
-            </ng-template>
 
         </mat-accordion> -->
     </div>

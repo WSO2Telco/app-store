@@ -25,7 +25,6 @@ export class ApiDetailComponent implements OnInit, OnDestroy {
 
   public api: ApiOverview;
   public apiPrefix = ApiEndpoints.apiContext;
-  public activeTab = 'overview';
   public api_id;
   public loggedUser: string;
 
@@ -92,10 +91,6 @@ export class ApiDetailComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.subscriptions.apiOverview.unsubscribe();
     this.cd.detach();
-  }
-
-  switchTab(tab) {
-    this.activeTab = tab;
   }
 
   similarApiNavigate(id) {

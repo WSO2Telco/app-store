@@ -1,30 +1,21 @@
 @import '../../../../styles/mixing';
-
-
-mat-grid-tile{
-    color : white;
+mat-grid-tile {
+    color: white;
     @include transition(all 0.2s ease-in);
-    
-    &.selected{
-        .mat-figure{
+    &.selected {
+        .mat-figure {
             font-size: 2em !important;
         }
     }
-
-    &.default{
-        color:black;
+    &.default {
+        color: black;
         cursor: pointer;
     }
 }
 
-.child-container{
-    min-height : 300px;
-}
-
-.status-label{
+.status-label {
     padding-bottom: 10px;
-
-    .status-dot{
+    .status-dot {
         display: inline-block;
         background: #bbb;
         height: 10px;
@@ -32,8 +23,7 @@ mat-grid-tile{
         line-height: 1;
         border-radius: 10px;
     }
-
-    .status-lbl{
+    .status-lbl {
         text-transform: uppercase;
         letter-spacing: 0.5px;
         margin-left: 5px;
@@ -41,33 +31,34 @@ mat-grid-tile{
         font-weight: 500;
         color: #999;
     }
-
-    &.inactive{
-        .status-dot{
+    &.inactive {
+        .status-dot {
             background: #bbb;
         }
     }
-
-    &.APPROVED{
-        .status-dot{
+    &.APPROVED {
+        .status-dot {
             background: #35b569;
         }
     }
 }
 
-.intro-container{
-    h1{
+.intro-container {
+    h1 {
         margin-bottom: 10px;
     }
 }
 
-.subscription-tab{
-    mat-cell:last-of-type, mat-footer-cell:last-of-type, mat-header-cell:last-of-type,
-    mat-cell:first-of-type, mat-footer-cell:first-of-type, mat-header-cell:first-of-type{
+.subscription-tab {
+    mat-cell:last-of-type,
+    mat-footer-cell:last-of-type,
+    mat-header-cell:last-of-type,
+    mat-cell:first-of-type,
+    mat-footer-cell:first-of-type,
+    mat-header-cell:first-of-type {
         padding: 0;
     }
-
-    .add-btn{
+    .add-btn {
         padding: 10px 0;
     }
 }
