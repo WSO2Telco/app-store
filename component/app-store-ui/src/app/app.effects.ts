@@ -48,6 +48,27 @@ export class AppGlobalEffects {
     )
   ));
 
+  updateTheme$ = createEffect(() => this.actions$.pipe(
+    ofType(appActions.AppThemeChangeAction),
+    mergeMap(({ payload }) => this.appService.UpdateTheme(payload)
+      .pipe(
+        map((response) => {
+          if (response.error) {
+            this.notification.error('New Theme update failed ');
+            throw response;
+          } else {
+            this.notification.success('New Theme successfully updated ');
+            return appActions.AppThemeChangeSuccessAction({ "payload": response });
+          }
+        }),
+        catchError((e: HttpErrorResponse) => {
+          this.notification.error('New Theme update failed');
+          return EMPTY
+        })
+      )
+    )
+  ));
+
 }
 
 

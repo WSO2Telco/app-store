@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { AppState } from '../../../app.data.models';
+import { AppState, ThemeData } from '../../../app.data.models';
 import { AppThemeChangeAction } from '../../../app.actions';
+import { Actions, ofType } from '@ngrx/effects';
 
 @Component({
   selector: 'store-theme',
@@ -10,9 +11,10 @@ import { AppThemeChangeAction } from '../../../app.actions';
 })
 export class ThemeComponent implements OnInit {
 
-  public selectedTheme: string;
+  public selectedTheme: string = 'none';
   public particleAnimation: boolean;
   public meunBackImage: boolean;
+  public username: string = null;
 
   public allThemes = [
     {
@@ -38,13 +40,19 @@ export class ThemeComponent implements OnInit {
     },
   ];
 
-  constructor(private store: Store<AppState>) { }
+  constructor(private store: Store<AppState>, private actions$: Actions) { }
 
   ngOnInit() {
     this.store.select((s) => s.global.layout.appTheme).subscribe((theme) => this.selectedTheme = theme);
+
+    this.store.select((s) => s.authentication.loggedUser).subscribe((user) => {
+      this.username = user;
+    })
+
   }
 
   onChange(e) {
-    this.store.dispatch(AppThemeChangeAction({payload: e.value}));
+    this.store.dispatch(AppThemeChangeAction({ payload: new ThemeData(this.username, e.value ) }));
   }
+
 }
