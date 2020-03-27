@@ -1,6 +1,7 @@
 import { GlobalState, BreadcrumbItem } from './app.data.models';
-import { ToggleRightPanelAction, ToggleLeftPanelAction, LoadCountriesSuccessAction, LoadOperatorsSuccessAction, AppThemeChangeAction, SetBreadcrumbAction } from './app.actions';
+import { ToggleRightPanelAction, ToggleLeftPanelAction, LoadCountriesSuccessAction, LoadOperatorsSuccessAction, AppThemeChangeAction, SetBreadcrumbAction, AppThemeChangeSuccessAction } from './app.actions';
 import { createReducer, on } from '@ngrx/store';
+import { GetThemeSuccessAction } from '../app/authentication/authentication.actions';
 
 const initState: GlobalState = {
     layout: {
@@ -20,17 +21,21 @@ const initState: GlobalState = {
 const _globalReducer = createReducer(initState,
 
     on(ToggleRightPanelAction, (state, { payload }) => ({
-        ...state, layout : { ...state.layout, rightNavOpened: <boolean>payload }
+        ...state, layout: { ...state.layout, rightNavOpened: <boolean>payload }
     })),
 
     on(ToggleLeftPanelAction, (state, { payload }) => ({
-        ...state, layout : { ...state.layout, leftNavOpened: <boolean>payload }
+        ...state, layout: { ...state.layout, leftNavOpened: <boolean>payload }
     })),
 
     on(AppThemeChangeAction, (state, { payload }) => ({
+        ...state, layout: { ...state.layout, appTheme: payload.theme }
+    })),
+
+    on(GetThemeSuccessAction, (state, { payload }) => ({
         ...state, layout: { ...state.layout, appTheme: payload }
     })),
-    
+
     on(LoadCountriesSuccessAction, (state, { payload }) => ({
         ...state, mccAndmnc: { ...state.mccAndmnc, countries: payload }
     })),
@@ -39,7 +44,7 @@ const _globalReducer = createReducer(initState,
         ...state, mccAndmnc: { ...state.mccAndmnc, operators: payload }
     })),
 
-    on(SetBreadcrumbAction, (state, {payload}) => ({
+    on(SetBreadcrumbAction, (state, { payload }) => ({
         ...state, breadcrumb: payload
     }))
 

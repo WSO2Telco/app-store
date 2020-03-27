@@ -12,7 +12,7 @@ import { Actions, ofType } from '@ngrx/effects';
 export class ThemeComponent implements OnInit {
 
   public selectedTheme: string = 'none';
-  public particleAnimation: string;
+  public particleAnimation: boolean;
   public meunBackImage: boolean;
   public username: string = null;
 
