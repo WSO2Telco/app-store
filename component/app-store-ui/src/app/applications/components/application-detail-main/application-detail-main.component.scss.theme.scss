@@ -1,24 +1,22 @@
 @import "~@angular/material/theming";
 @mixin application-detail-theme($theme) {
-  $background: map-get($theme, background);
-  $primary: map-get($theme, primary);
-  $accent: map-get($theme, accent);
-
-  .title-card {
-    background-color: mat-color($primary, darker);
-    color: mat-color($background, card);
-  }
-
-  mat-grid-tile {
-    &.selected {
-      background-color: mat-color($accent);
+    $background: map-get($theme, background);
+    $primary: map-get($theme, primary);
+    $accent: map-get($theme, accent);
+    .title-card {
+        background-color: mat-color($primary, darker);
+        color: mat-color($background, card);
     }
-    &.default{
-        background-color:  map_get($mat-grey, 300)
+    .mat-grid-tile {
+        &.selected {
+            background-color: mat-color($accent);
+        }
+        &.default {
+            background-color: map_get($mat-grey, 300)
+        }
+        &.appName {
+            background-color: mat-color($primary, darker);
+            color: map_get($mat-grey, 200)
+        }
     }
-    &.appName{
-        background-color: mat-color($primary,darker);
-        color:  map_get($mat-grey, 200)
-    }
-  }
 }

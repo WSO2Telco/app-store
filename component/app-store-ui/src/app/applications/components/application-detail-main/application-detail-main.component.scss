@@ -13,6 +13,14 @@ mat-grid-tile {
     }
 }
 
+.overview-container {
+    padding: 10px;
+    font-size: 1.1em;
+    .field {
+        text-transform: uppercase;
+    }
+}
+
 .status-label {
     padding-bottom: 10px;
     .status-dot {
@@ -50,12 +58,12 @@ mat-grid-tile {
 }
 
 .subscription-tab {
-    mat-cell:last-of-type,
-    mat-footer-cell:last-of-type,
-    mat-header-cell:last-of-type,
-    mat-cell:first-of-type,
-    mat-footer-cell:first-of-type,
-    mat-header-cell:first-of-type {
+    .mat-cell:last-of-type,
+    .mat-footer-cell:last-of-type,
+    .mat-header-cell:last-of-type,
+    .mat-cell:first-of-type,
+    .mat-footer-cell:first-of-type,
+    .mat-header-cell:first-of-type {
         padding: 0;
     }
     .add-btn {

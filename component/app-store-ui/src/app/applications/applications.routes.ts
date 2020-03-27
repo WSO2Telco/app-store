@@ -18,7 +18,7 @@ const routes = [
     },
     {
         path: ':appId',
-        redirectTo: ':appId/overview',
+        redirectTo: ':appId/prod-key',
         pathMatch: 'full'
     },
     {

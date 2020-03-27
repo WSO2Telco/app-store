@@ -67,7 +67,7 @@ export class SearchApplicationsComponent implements OnInit {
     switch (action) {
 
       case 'view': {
-        this.router.navigate([`applications/${app.applicationId}/overview`]);
+        this.router.navigate([`applications/${app.applicationId}/prod-key`]);
         break;
       }
 
