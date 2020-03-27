@@ -70,7 +70,7 @@ export class SignUpComponent implements OnInit {
     if (this.formSignupApp.invalid) {
       return;
     } else {
-      this.user.allFieldsValues = this.formSignupApp.value.firstName + '|' + this.formSignupApp.value.lastName + '|' + this.formSignupApp.value.email;
+      this.user.allFieldsValues = this.formSignupApp.value.firstName + '|' + this.formSignupApp.value.lastName + '|||' + this.formSignupApp.value.email;
       this.user.username = this.formSignupApp.value.userName;
       this.user.password = this.formSignupApp.value.password;
       this.store.dispatch(SignupUserAction({ "payload": this.user }));
