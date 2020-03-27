@@ -8,6 +8,7 @@ export const ApiEndpoints = {
     login: appStoreApi + "/auth/login",
     logout: appStoreApi + "/auth/logout",
     signup: appStoreApi + "/user/add",
+    theme: appStoreApi + "/user/theme/",
     changePassword: appStoreApi + "/user/change-password-by-user",
     updateForgetPassword: appStoreApi + "/user/update-password",
     forgetPassword: appStoreApi + "/user/forget-password",
