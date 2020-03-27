@@ -102,6 +102,42 @@
     }
 }
 
+.api-details-component {
+    .detail-container {
+        min-height: 300px;
+        .mat-tab-body-wrapper {
+            padding: 15px;
+            font-size: 16px;
+        }
+        .mat-tab-label {
+            height: 70px;
+        }
+        .mat-tab-label-content {
+            flex-direction: column;
+        }
+        .mat-ink-bar {
+            display: none;
+        }
+        .mat-tab-labels {
+            background: #ececec;
+            padding-left: 6px;
+            border-top: 5px solid #ececec;
+            .mat-tab-label-active {
+                background: #fff;
+                opacity: 1;
+                .theme-apigate-blue & {
+                    color: #00AEEF;
+                }
+            }
+            i {
+                font-weight: bold;
+                margin: 5px auto;
+                font-size: 22px;
+            }
+        }
+    }
+}
+
 footer {
     margin: 40px auto 20px;
     text-align: center;

@@ -5,25 +5,13 @@
 
 .content-card {
     height: 100%;
-    mat-card-content {
+    .mat-card-content {
         height: 100%;
     }
 }
 
-.forum-table {
-    width: 100%;
-    td {
-        padding: 10px;
-        cursor: pointer;
-        margin-bottom: 5px;
-    }
-    tr {
-        background: transparent;
-        transition: 0.5s all;
-        &:hover {
-            background: #f6f6f6;
-        }
-    }
+.overview {
+    padding: 10px;
 }
 
 .api-name {
@@ -43,7 +31,7 @@
     }
 }
 
-mat-expansion-panel-header {
+.mat-expansion-panel-header {
     @include transition(all 0.2s ease-in);
 }
 

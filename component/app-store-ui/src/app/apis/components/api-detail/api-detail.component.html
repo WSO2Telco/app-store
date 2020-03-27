@@ -1,4 +1,4 @@
-<div fxLayout="column" fxLayoutGap="20px">
+<div fxLayout="column" fxLayoutGap="20px" class="api-details-component">
 
     <div class="intro-container">
 
@@ -7,91 +7,82 @@
             <img src="assets/images/apigate-a.png" class="api-thumb" *ngIf="!api?.thumbnailUrl" />
         </div>
         <h1>{{api?.name}} <span class="version" aria-label="API Version">{{api?.version}}</span></h1>
-        <div class="pull-right subscribe-btn" *ngIf="loggedUser != null">
-            <button mat-flat-button color="accent" (click)="switchTab('subscription')">Subscribe</button>
-        </div>
         <div class="status-label" [ngClass]="api?.status"><span class="status-dot"></span> <span class="status-lbl">{{api?.status}}</span></div>
     </div>
 
-    <div class="child-container">
-        <mat-accordion class="api-detail-accordion">
-
-            <mat-expansion-panel expanded="true" (opened)="switchTab('overview')">
-                <mat-expansion-panel-header>
-                    <mat-panel-title>
-                        Overview
-                    </mat-panel-title>
-                </mat-expansion-panel-header>
-                <store-api-overview [apiOverview]="api"></store-api-overview>
-            </mat-expansion-panel>
-
-            <mat-expansion-panel [expanded]="activeTab == 'subscription'" (opened)="switchTab('subscription')" *ngIf="loggedUser != null">
-                <mat-expansion-panel-header>
-                    <mat-panel-title>Subscriptions</mat-panel-title>
-                </mat-expansion-panel-header>
+    <div class="overview">
+        <store-api-overview [apiOverview]="api"></store-api-overview>
+    </div>
+    <div class="detail-container">
+        <mat-tab-group animationDuration="0ms" disableRipple>
+            <mat-tab *ngIf="loggedUser != null" [isActive]="activeTab == 'subscription'">
+                <ng-template mat-tab-label>
+                    <i class="fa fa-2x fa-folder"></i> Subscriptions
+                </ng-template>
                 <store-api-app-subscriptions></store-api-app-subscriptions>
-            </mat-expansion-panel>
-
-            <mat-expansion-panel (opened)="switchTab('console')">
-                <mat-expansion-panel-header>
-                    <mat-panel-title>
-                        API Console
-                    </mat-panel-title>
-                </mat-expansion-panel-header>
+            </mat-tab>
+            <mat-tab>
+                <ng-template mat-tab-label>
+                    <i class="fa fa-2x fa-terminal"></i> API Console
+                </ng-template>
                 <store-api-console></store-api-console>
-            </mat-expansion-panel>
-
-            <mat-expansion-panel (opened)="switchTab('doc')">
-                <mat-expansion-panel-header>
-                    <mat-panel-title>
-                        Documentation
-                    </mat-panel-title>
-                </mat-expansion-panel-header>
+            </mat-tab>
+            <mat-tab>
+                <ng-template mat-tab-label>
+                    <i class="fa fa-2x fa-file"></i> Documentation
+                </ng-template>
                 <store-api-documentation></store-api-documentation>
-            </mat-expansion-panel>
-
-            <mat-expansion-panel (opened)="switchTab('sdk')" *ngIf="loggedUser != null">
-                <mat-expansion-panel-header>
-                    <mat-panel-title>
-                        SDKs
-                    </mat-panel-title>
-                </mat-expansion-panel-header>
+            </mat-tab>
+            <mat-tab>
+                <ng-template mat-tab-label>
+                    <i class="fa fa-2x fa-cube"></i> SDKs
+                </ng-template>
                 <store-api-sdk></store-api-sdk>
-            </mat-expansion-panel>
-
-            <mat-expansion-panel (opened)="switchTab('forum')">
-                <mat-expansion-panel-header>
-                    <mat-panel-title>
-                        Forum
-                    </mat-panel-title>
-                </mat-expansion-panel-header>
+            </mat-tab>
+            <mat-tab>
+                <ng-template mat-tab-label>
+                    <i class="fa fa-2x fa-comment"></i> Forum
+                </ng-template>
 
                 <ng-container *ngIf="loggedUser != null; else forumNotLoggedIn">
-                    <table class="forum-table" *ngIf="forumResult?.length > 0; else forumNoContent">
-                        <tr>
-                            <td><strong>Topic</strong></td>
-                            <td><strong>Author</strong></td>
-                            <td><strong>Date</strong></td>
-                            <td><strong>Replies</strong></td>
-                        </tr>
-                        <tr *ngFor="let forumtopic of forumResult" [routerLink]="['/forum/view', forumtopic.id]">
-                            <td>{{forumtopic?.title}}</td>
-                            <td>{{forumtopic?.author}}</td>
-                            <td>{{forumtopic?.date | date: 'EEEE, MMM d yyyy'}}</td>
-                            <td>{{forumtopic?.replyCount}}</td>
-                        </tr>
-                    </table>
+
+                    <mat-table #table [dataSource]="forumResult" *ngIf="forumResult?.length > 0; else forumNoContent">
+                        <ng-container matColumnDef="title">
+                            <mat-header-cell *matHeaderCellDef> Topic</mat-header-cell>
+                            <mat-cell *matCellDef="let element">{{element.title}}</mat-cell>
+                        </ng-container>
+
+                        <ng-container matColumnDef="author">
+                            <mat-header-cell *matHeaderCellDef> Author</mat-header-cell>
+                            <mat-cell *matCellDef="let element">{{element.author}}</mat-cell>
+                        </ng-container>
+
+                        <ng-container matColumnDef="date">
+                            <mat-header-cell *matHeaderCellDef> Date</mat-header-cell>
+                            <mat-cell *matCellDef="let element">{{element.date | date: 'EEEE, MMM d yyyy'}}</mat-cell>
+                        </ng-container>
+
+                        <ng-container matColumnDef="replyCount">
+                            <mat-header-cell *matHeaderCellDef> Comments</mat-header-cell>
+                            <mat-cell *matCellDef="let element">{{element.replyCount}}</mat-cell>
+                        </ng-container>
+
+                        <mat-header-row *matHeaderRowDef="[ 'title', 'author', 'date', 'replyCount']"></mat-header-row>
+                        <mat-row *matRowDef="let row; columns: [ 'title', 'author', 'date', 'replyCount' ];" [routerLink]="['/forum/view', row.id]"></mat-row>
+                    </mat-table>
 
                     <ng-template #forumNoContent>
-                        No related discussions found
+                        <h3><i class="fa fa-info-circle"></i> No Discussions Found</h3>
+                        <div>
+                            <p>No forum discussions have been associated with this API so far.</p>
+                        </div>
                     </ng-template>
                 </ng-container>
-            </mat-expansion-panel>
-            <ng-template #forumNotLoggedIn>
-                Please <button mat-stroked-button (click)="onLoginClick()">login</button> to see related forum topics
-            </ng-template>
-
-        </mat-accordion>
+                <ng-template #forumNotLoggedIn>
+                    Please <button mat-stroked-button (click)="onLoginClick()">login</button> to see related forum topics
+                </ng-template>
+            </mat-tab>
+        </mat-tab-group>
     </div>
 </div>
 

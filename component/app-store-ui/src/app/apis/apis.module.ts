@@ -9,7 +9,6 @@ import { EffectsModule } from '@ngrx/effects';
 import { apisReducer } from './apis.reducers';
 import { ApisEffects } from './apis.effects';
 import { ApiDetailComponent } from './components/api-detail/api-detail.component';
-import { ApiSubscriptionComponent } from './components/api-subscription/api-subscription.component';
 import { OperatorTagComponent } from './components/operator-tag/operator-tag.component';
 import { ApiOverviewComponent } from './components/api-overview/api-overview.component';
 import { ApiConsoleComponent } from './components/api-console/api-console.component';
@@ -19,6 +18,7 @@ import { ApiAppSubscriptionsComponent } from './components/api-app-subscriptions
 import { ApiTagComponent } from './components/api-tag/api-tag.component';
 import { TagCloudModule } from 'angular-tag-cloud-module';
 import { ApiSdkComponent } from './components/api-sdk/api-sdk.component';
+import { MatTabsModule } from '@angular/material/tabs';
 
 @NgModule({
   imports: [
@@ -28,12 +28,12 @@ import { ApiSdkComponent } from './components/api-sdk/api-sdk.component';
     StarRatingModule.forRoot(),
     TagCloudModule,
     StoreModule.forFeature('apis', apisReducer),
-    EffectsModule.forFeature([ApisEffects])
+    EffectsModule.forFeature([ApisEffects]),
+    MatTabsModule
   ],
   declarations: [
     ApiSearchComponent,
     ApiDetailComponent,
-    ApiSubscriptionComponent,
     OperatorTagComponent,
     ApiOverviewComponent,
     ApiConsoleComponent,
@@ -41,7 +41,6 @@ import { ApiSdkComponent } from './components/api-sdk/api-sdk.component';
     ApiTagComponent,
     ApiSdkComponent,
     ApiAppSubscriptionsComponent],
-  providers: [ApisService],
-  entryComponents: [ApiSubscriptionComponent]
+  providers: [ApisService]
 })
 export class ApisModule { }
