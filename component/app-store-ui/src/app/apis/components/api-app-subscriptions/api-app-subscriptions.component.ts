@@ -60,8 +60,6 @@ export class ApiAppSubscriptionsComponent implements OnInit {
         this.appResult = this.appResult.filter(
           appArr => appArr.status == "APPROVED");
       });
-
-      this.mapAppName('3335664f-33c4-46a7-84ff-9e5dcbc1093a');
   }
 
   openDialog(event: any) {
@@ -97,8 +95,11 @@ export class ApiAppSubscriptionsComponent implements OnInit {
   }
 
   mapAppName(id){
-    let app = this.appResult.find(itm => itm.applicationId == id);
-    return app.name
+    if(this.appResult.length > 0){
+      let app = this.appResult.find(itm => itm.applicationId == id);
+      return app.name
+    }
+    else return "";
   }
 
 
