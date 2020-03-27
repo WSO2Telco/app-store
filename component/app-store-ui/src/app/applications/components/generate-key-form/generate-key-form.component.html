@@ -95,7 +95,7 @@ curl <strong>-k -d</strong> "<span class="code-blue">grant_type={{accessTokenGra
                     <div class="generated-access-token key-block">
                         <span class="app-key" matTooltip="Click to copy the token" matTooltipPosition="below" (click)="clickToCopy(keyObject.token?.accessToken)">
               <span *ngIf="!accessTokenVisible">&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;</span>
-                        <span *ngIf="accessTokenVisible">{{keyObject.token?.accessToken}}</span>
+                        <span *ngIf="accessTokenVisible">{{generatedToken}}</span>
                         </span>
                         <div class="icon-wrap">
                             <mat-icon *ngIf="!accessTokenVisible" (click)="switchAccessTokenVisibility(true)" matTooltip="Show Access Token">visibility</mat-icon>

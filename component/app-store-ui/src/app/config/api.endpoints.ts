@@ -13,7 +13,7 @@ export const ApiEndpoints = {
     forgetPassword: appStoreApi + "/user/forget-password",
     clientRegistration: baseUrl.protocol + '//' + baseUrl.host + '/client-registration/v0.13/register',
     tokenGeneration: baseUrl.protocol + '//' + baseUrl.host + '/oauth2/token',
-
+    tokenRevoke: baseUrl.protocol + '//' + baseUrl.host + '/oauth2/revoke',
   },
   apis: {
     search: apiContext + '/apis',
@@ -36,11 +36,11 @@ export const ApiEndpoints = {
   },
   subscriptions: apiContext + '/subscriptions',
   forum: {
-    topicList     : appStoreApi + "/forumUser/forum/list",
-    createTopic   : appStoreApi + "/forumUser/forum/createTopic",
-    deleteTopic   : appStoreApi + "/forumUser/forum/deleteTopic",
-    postReply     : appStoreApi + "/forumUser/forum/postReply",
-    deleteReply   : appStoreApi + "/forumUser/forum/deleteReply",
-    search        : appStoreApi + "/forumUser/forum/search"
+    topicList: appStoreApi + "/forumUser/forum/list",
+    createTopic: appStoreApi + "/forumUser/forum/createTopic",
+    deleteTopic: appStoreApi + "/forumUser/forum/deleteTopic",
+    postReply: appStoreApi + "/forumUser/forum/postReply",
+    deleteReply: appStoreApi + "/forumUser/forum/deleteReply",
+    search: appStoreApi + "/forumUser/forum/search"
   }
 };
