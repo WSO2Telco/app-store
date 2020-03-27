@@ -76,3 +76,13 @@ export class BreadcrumbItem
     public bcClass:string = ""
   ){}
 }
+
+export class UpdateThemeResponseData {
+  constructor(
+      public error: boolean = false,
+      public message: string = '') { }
+}
+
+export class ThemeData {
+  constructor(public username: string, public theme: string) { }
+}

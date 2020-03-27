@@ -3,9 +3,9 @@ import {of as observableOf, empty as observableEmpty,  Observable } from 'rxjs';
 
 import {map} from 'rxjs/operators';
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { ApiEndpoints } from './config/api.endpoints';
-import { Country, CountryOperator, Operator, Tier } from './app.data.models';
+import { Country, CountryOperator, Operator, Tier, UpdateThemeResponseData, ThemeData } from './app.data.models';
 
 @Injectable()
 export class AppService {
@@ -65,6 +65,19 @@ export class AppService {
         } else {
             return this.operatorAdaptor(this.loadCountries(), country);
         }
+    }
+
+    UpdateTheme(param: ThemeData) {
+        const httpOption = {
+            headers: new HttpHeaders({
+                'Content-Type': 'application/json'
+            })
+        };
+
+        return this.http.post(ApiEndpoints.authentication.theme, param, httpOption).pipe(
+            map((data: any) =>
+                new UpdateThemeResponseData(data.error, data.message)
+            ));
     }
 
 }

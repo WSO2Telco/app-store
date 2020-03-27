@@ -3,10 +3,9 @@ import { FormBuilder, FormGroup, Validators, FormGroupDirective } from '@angular
 import { Store } from '@ngrx/store';
 import { Actions, ofType } from '@ngrx/effects';
 import { take } from 'rxjs/operators';
-
 import { LoginFormData, ForgetPasswordParam } from '../../authentication.models';
 import { AppState } from '../../../app.data.models';
-import { DoLoginAction, ClientRegistrationAction, ClientRegistrationSuccessAction, TokenGenerationAction, SetLoggedUserAction, LoginSuccessAction, LoginFailedAction, ForgetPwAction, ForgetPwSuccessAction } from '../../authentication.actions';
+import { DoLoginAction, ClientRegistrationAction, ClientRegistrationSuccessAction, TokenGenerationAction, SetLoggedUserAction, LoginSuccessAction, LoginFailedAction, ForgetPwAction, ForgetPwSuccessAction, GetThemeAction } from '../../authentication.actions';
 
 @Component({
   selector: 'store-login-form',
@@ -55,15 +54,20 @@ export class LoginFormComponent implements OnInit {
       this.store.dispatch(ClientRegistrationAction({ "payload": new LoginFormData(this.username, this.password) }));
     })
 
+    this.actions$.pipe(ofType(LoginSuccessAction)).pipe(take(1)).subscribe(l => {
+      this.store.dispatch(GetThemeAction({ "payload": this.username }));
+    })
+
     this.actions$.pipe(ofType(LoginFailedAction)).subscribe(msg => {
       this.loginError = msg.payload;
       this.cd.detectChanges();
     })
+
   }
 
   get f() { return this.loginForm.controls; }
 
-  switchForgotPw(action){
+  switchForgotPw(action) {
     this.forgotPwShow = action;
   }
 
@@ -80,7 +84,7 @@ export class LoginFormComponent implements OnInit {
   }
 
 
-  onfpwLoginClick(form:any, formDirective: FormGroupDirective) {
+  onfpwLoginClick(form: any, formDirective: FormGroupDirective) {
 
     if (this.fpwForm.valid) {
       this.username = this.fpwForm.value.username;
