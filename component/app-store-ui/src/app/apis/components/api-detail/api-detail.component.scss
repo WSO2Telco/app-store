@@ -14,22 +14,6 @@
     padding: 10px;
 }
 
-.forum-table {
-    width: 100%;
-    td {
-        padding: 10px;
-        cursor: pointer;
-        margin-bottom: 5px;
-    }
-    tr {
-        background: transparent;
-        transition: 0.5s all;
-        &:hover {
-            background: #efefef;
-        }
-    }
-}
-
 .api-name {
     font-weight: 600;
     font-size: 2.5em;

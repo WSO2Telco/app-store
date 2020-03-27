@@ -120,7 +120,8 @@
         }
         .mat-tab-labels {
             background: #ececec;
-            padding-left: 10px;
+            padding-left: 6px;
+            border-top: 5px solid #ececec;
             .mat-tab-label-active {
                 background: #fff;
                 opacity: 1;
