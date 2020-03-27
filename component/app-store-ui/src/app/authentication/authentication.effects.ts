@@ -216,4 +216,23 @@ export class AuthenticationEffects {
     )
   ));
 
+
+  getThemeInfo$ = createEffect(() => this.actions$.pipe(
+    ofType(loginActions.GetThemeAction),
+    mergeMap(({ payload }) => this.authService.getThemeData(payload)
+      .pipe(
+        map((response) => {
+          if (response == null) {
+            throw response;
+          } else {
+            return loginActions.GetThemeSuccessAction({ "payload": response });
+          }
+        }),
+        catchError((e: HttpErrorResponse) => {
+          return EMPTY
+        })
+      )
+    )
+  ));
+
 }

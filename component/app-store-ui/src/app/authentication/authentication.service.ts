@@ -121,6 +121,10 @@ export class AuthenticationService {
         return !!this.loginData;
     }
 
+    getThemeData(param): Observable<string> {
+        return this.http.get<string>(ApiEndpoints.authentication.theme + param);
+    }
+
     clientAppRegistration(loginData: LoginFormData) {
 
         const param: ClientRegParam = new ClientRegParam();

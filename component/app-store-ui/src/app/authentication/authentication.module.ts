@@ -11,11 +11,13 @@ import { AuthenticationService } from './authentication.service';
 import { MyAccountComponent } from './components/my-account/my-account.component';
 import { helpComponent } from './components/help/help.component';
 import { ResetPasswordComponent } from './components/reset-password/reset-password.component';
+import { BrowserModule } from '@angular/platform-browser';
 
 @NgModule({
   imports: [
     CommonModule,
     SharedModule,
+    BrowserModule,
     StoreModule.forFeature('authentication', authReducer),
     EffectsModule.forFeature([AuthenticationEffects]),
   ],

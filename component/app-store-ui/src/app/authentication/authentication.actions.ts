@@ -8,6 +8,12 @@ export const LoginFailedAction = createAction('[Auth] Login Failed Action', prop
 export const DoLogoutAction = createAction('[Auth] Logout');
 export const DoLogoutSuccessAction = createAction('[Auth] Logout Success ✓');
 
+export const GetThemeAction = createAction('[Auth] Get Theme', props<{ payload: string }>());
+export const GetThemeSuccessAction = createAction('[Auth] Get Theme Success ✓', props<{ payload: string }>());
+
+export const SetThemeAction = createAction('[Auth] Set Theme');
+export const SetThemeSuccessAction = createAction('[Auth] Set Theme Success ✓');
+
 export const SetLastAuthRequiredRouteAction = createAction('[Auth] Set Last Auth Required Route', props<{payload: string}>());
 export const SetLoggedUserAction = createAction('[Auth] Set Logged User', props<{payload: string}>());
 
