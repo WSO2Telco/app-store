@@ -60,7 +60,7 @@ export class SubscriptionResult {
 
 export class CreateAppResponseData {
   message: string;
-  description:string;
+  description: string;
 }
 
 export class Subscription {
@@ -86,7 +86,7 @@ export class ApplicationDetails {
   description: string;
   status: string;
   name: string;
-  tokenType:string;
+  tokenType: string;
   keys: ApplicationDetailsKeys[];
 }
 
@@ -96,17 +96,23 @@ export class ApplicationDetailsKeys {
   keyState: string;
   keyType: string;
   supportedGrantTypes: string[];
-  token: any;
+  token: AppKeyToken;
   callbackUrl: string;
 }
 
-export class GenerateKeyPayload{
-  validityTime:number = 3600;
+export class AppKeyToken {
+  accessToken: string;
+  validityTime: number;
+  tokenScopes: string[];
+}
+
+export class GenerateKeyPayload {
+  validityTime: number = 3600;
   keyType: string;
-  accessAllowDomains:string[] = ["ALL"];
-  scopes:string[] = [ "am_application_scope", "default" ];
-  supportedGrantTypes:string[];
-  callbackUrl:string;
+  accessAllowDomains: string[] = ["ALL"];
+  scopes: string[] = ["am_application_scope", "default"];
+  supportedGrantTypes: string[];
+  callbackUrl: string;
 }
 
 // export class GeneratedKey {

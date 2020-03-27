@@ -27,6 +27,7 @@ export class GenerateKeyFormComponent implements OnInit, OnDestroy {
   public keyPayload:GenerateKeyPayload = new GenerateKeyPayload();
   public keySecretVisibility:boolean = false;
   public clientCredEnabled = false;
+  public generatedToken;
 
   public accessTokenExpanded = true; // = false;
   public accessTokenUser;
@@ -106,6 +107,8 @@ export class GenerateKeyFormComponent implements OnInit, OnDestroy {
     this.storeSelect = this.store.select((s) => s.applications.selectedApplication.keys).subscribe((appDetails) => {
       this.keyObject = appDetails.find(i => i.keyType == this.keyEnv);
       if(this.keyObject){
+        this.generatedToken = this.keyObject.token.accessToken;
+
         this.grantTypes.forEach((t, i) => {
           this.grantTypes[i].checked = this.keyObject.supportedGrantTypes.includes(t.value)
         })
@@ -128,7 +131,8 @@ export class GenerateKeyFormComponent implements OnInit, OnDestroy {
     })
 
     this.actions$.pipe(ofType(RegenerateAccessTokenSuccessAction)).subscribe(p => {
-      this.keyObject.token.accessToken = p.payload.access_token;
+      this.generatedToken = p.payload.access_token;
+      this.cd.detectChanges();
     })
   }
 
@@ -169,7 +173,7 @@ export class GenerateKeyFormComponent implements OnInit, OnDestroy {
   }
 
   resetAccessToken(){
-    const payload = {"auth":this.accessTokenAuth, "validity":this.accessTokenValidity}
+    const payload = {"auth":this.accessTokenAuth, "validity":this.accessTokenValidity, token : this.generatedToken}
     this.store.dispatch(RegenerateAccessTokenAction({ 'payload' : payload}))
   }
 

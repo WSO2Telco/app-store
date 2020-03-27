@@ -99,4 +99,19 @@ export class ApplicationsService {
     return httpBasicClient.post<TokenData>(ApiEndpoints.authentication.tokenGeneration, body.toString(), httpOptions);
   }
 
+  revokeAccessToken(payload): Observable<any>{
+    const httpBasicClient: HttpClient = new HttpClient(this.handler);
+    const revokeBody = new HttpParams()
+      .set('token', payload.token)
+
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/x-www-form-urlencoded',
+        'Authorization': 'Basic ' + payload.auth
+      })
+    };
+
+    return httpBasicClient.post(ApiEndpoints.authentication.tokenRevoke, revokeBody.toString(), httpOptions);
+  }
+
 }

@@ -187,6 +187,21 @@ export class ApplicationsEffects {
 
   accessTokenRegenerate$ = createEffect(() => this.actions$.pipe(
     ofType(applicationsActions.RegenerateAccessTokenAction),
+    mergeMap(({ payload }) => this.service.revokeAccessToken(payload)
+      .pipe(
+        map((response) => {
+          return applicationsActions.RegenerateAccessTokenAction2({ "payload": payload })
+        }),
+        catchError((e: HttpErrorResponse) => {
+          this.notification.error(e.message);
+          return EMPTY
+        })
+      )
+    )
+  ));
+
+  accessTokenRegenerateStep2$ = createEffect(() => this.actions$.pipe(
+    ofType(applicationsActions.RegenerateAccessTokenAction),
     mergeMap(({ payload }) => this.service.regenerateAccessToken(payload)
       .pipe(
         map((response) => {
