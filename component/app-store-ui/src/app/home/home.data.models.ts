@@ -4,6 +4,7 @@ export class ThumbnailParam {
     public route: string,
     public styleClass:string = 'default',
     public icon: string,
+    public description:string,
     public externalUrl: string = null
   ) {}
 }
