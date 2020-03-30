@@ -4,23 +4,23 @@
       <mat-card-content>
         <mat-icon>{{param.icon}}</mat-icon>
         <div class="name-container">
-        {{param.name}}
+          {{param.name}}
         </div>
         <div class="description">
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque non porta urna.
+          {{param.description}}
         </div>
       </mat-card-content>
     </mat-card>
   </a>
-  <a [href]="param.externalUrl" *ngIf="param.externalUrl">
+  <a target="_blank" [href]="param.externalUrl" *ngIf="param.externalUrl">
     <mat-card class="thumbnail-card">
       <mat-card-content>
         <mat-icon>{{param.icon}}</mat-icon>
         <div class="name-container">
-        {{param.name}}
+          {{param.name}}
         </div>
         <div class="description">
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque non porta urna.
+          {{param.description}}
         </div>
       </mat-card-content>
     </mat-card>
