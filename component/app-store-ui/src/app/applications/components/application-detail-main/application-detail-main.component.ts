@@ -25,6 +25,7 @@ import { ApplicationsService } from '../../applications.service';
 export class ApplicationDetailMainComponent implements OnInit {
   appId: string;
   activatedTab: string;
+  activatedTabIndex:number = 0;
   appStatus: string = 'active';
 
   appData:ApplicationDetails;
@@ -45,6 +46,12 @@ export class ApplicationDetailMainComponent implements OnInit {
       this.store.dispatch(
         applicationsActions.GetApplicationDetailsAction({ "payload": this.appId })
       );
+
+      switch(this.activatedTab){
+        case 'prod-key' : this.activatedTabIndex = 0; break;
+        case 'sandbox-key' : this.activatedTabIndex = 1; break;
+        case 'subscriptions' : this.activatedTabIndex = 2; break;
+      }
     })
 
     this.actions$.pipe(ofType(applicationsActions.GetApplicationDetailsSuccessAction)).pipe(take(1)).subscribe(p => {
@@ -82,8 +89,13 @@ export class ApplicationDetailMainComponent implements OnInit {
     
   }
 
-  switchTab(tab) {
-    this.activatedTab = tab;
-    this.location.replaceState(`/applications/${this.appId}/${tab}`);
+  switchTab(e) {
+    this.activatedTabIndex = e.index;
+    switch(this.activatedTabIndex){
+      case 0 : this.activatedTab = 'prod-key'; break;
+      case 1 : this.activatedTab = 'sandbox-key'; break;
+      case 2 : this.activatedTab = 'subscriptions'; break;
+    }
+    this.location.replaceState(`/applications/${this.appId}/${this.activatedTab}`);
   }
 }

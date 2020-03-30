@@ -12,12 +12,14 @@ import { CreateApplicationComponent } from './components/create-application/crea
 import { ApplicationDetailMainComponent } from './components/application-detail-main/application-detail-main.component';
 import { GenerateKeyFormComponent } from './components/generate-key-form/generate-key-form.component';
 import { ApplicationSubscriptionsComponent, DialogAppAddSubscription } from './components/application-subscriptions/application-subscriptions.component';
+import { MatTabsModule } from '@angular/material/tabs';
 
 @NgModule({
   imports: [
     CommonModule,
     SharedModule,
     ApplicationsRoutes,
+    MatTabsModule,
     StoreModule.forFeature('apis', applicationsReducer),
     EffectsModule.forFeature([ApplicationsEffects])
   ],

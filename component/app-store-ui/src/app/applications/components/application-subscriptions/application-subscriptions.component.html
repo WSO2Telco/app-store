@@ -1,54 +1,37 @@
-<div class="add-btn">
-  <!--   <button mat-raised-button color="accent" (click)="newSubscription()">Add Subscription</button> -->
+<h3 *ngIf="datasource.data.length == 0"><i class="fa fa-folder" aria-hidden="true"></i> No subscriptions</h3>
+<div class="add-btn ">
+    <!--   <button mat-raised-button color="accent " (click)="newSubscription() ">Add Subscription</button> -->
 </div>
-<div class="subs-tbl-container animated fadeIn">
-  <mat-table #table [dataSource]="datasource">
+<div class="subs-tbl-container animated fadeIn " *ngIf="datasource.data.length > 0">
+    <mat-table #table [dataSource]="datasource">
 
-    <ng-container matColumnDef="name">
-      <mat-header-cell *matHeaderCellDef> API Name </mat-header-cell>
-      <mat-cell *matCellDef="let element"> {{element.apiIdentifier}}<br>{{element.apiVersion}} </mat-cell>
-    </ng-container>
-    
-   <!--   <ng-container matColumnDef="provider">
-      <mat-header-cell *matHeaderCellDef> API Provider </mat-header-cell>
-      <mat-cell *matCellDef="let element"> {{element.apiProvider}}</mat-cell>
-    </ng-container>
-    
-   <ng-container matColumnDef="description">
-      <mat-header-cell *matHeaderCellDef> Description </mat-header-cell>
-      <mat-cell *matCellDef="let element"> {{element.description}}</mat-cell>
-    </ng-container> -->
+        <ng-container matColumnDef="name">
+            <mat-header-cell *matHeaderCellDef> API Name </mat-header-cell>
+            <mat-cell *matCellDef="let element"> {{element.apiIdentifier}}<br>{{element.apiVersion}} </mat-cell>
+        </ng-container>
 
-    <ng-container matColumnDef="tier">
-      <mat-header-cell *matHeaderCellDef> Subscription Tier </mat-header-cell>
-      <mat-cell *matCellDef="let element"> {{element.tier}} </mat-cell>
-    </ng-container>
+        <ng-container matColumnDef="tier">
+            <mat-header-cell *matHeaderCellDef> Subscription Tier </mat-header-cell>
+            <mat-cell *matCellDef="let element"> {{element.tier}} </mat-cell>
+        </ng-container>
 
-    <!-- <ng-container matColumnDef="hubAdminStatus">
-      <mat-header-cell *matHeaderCellDef> Hub Admin Approval Status </mat-header-cell>
-      <mat-cell *matCellDef="let element"> {{element.subStatus}} </mat-cell>
-    </ng-container> -->
+        <ng-container matColumnDef="oppAprovalStatus">
+            <mat-header-cell *matHeaderCellDef> Operator Approval Status </mat-header-cell>
+            <mat-cell *matCellDef="let element"> {{element.status}} </mat-cell>
+        </ng-container>
 
-    <ng-container matColumnDef="oppAprovalStatus">
-      <mat-header-cell *matHeaderCellDef> Operator Approval Status </mat-header-cell>
-      <mat-cell *matCellDef="let element"> {{element.status}} </mat-cell>
-    </ng-container>
+        <ng-container matColumnDef="action">
+            <mat-header-cell class="action-container" *matHeaderCellDef>Action</mat-header-cell>
+            <mat-cell class="action-container" *matCellDef="let element">
+                <div class="button-row">
+                    <button mat-icon-button matTooltip="Unsubscribe" (click)="onAction(element,'unsubscribe')">
+                        <mat-icon >delete</mat-icon> Unsubscribe
+                    </button>
+                </div>
+            </mat-cell>
+        </ng-container>
 
-    <ng-container matColumnDef="action">
-      <mat-header-cell class="action-container" *matHeaderCellDef >Action</mat-header-cell>
-      <mat-cell class="action-container" *matCellDef="let element" >
-        <div class="button-row">
-
-          <button mat-icon-button matTooltip="Unsubscribe" (click)="onAction(element,'unsubscribe')">
-            <mat-icon >delete</mat-icon> Unsubscribe
-          </button>
-
-        </div>
-      </mat-cell>
-    </ng-container>
-
-
-    <mat-header-row *matHeaderRowDef="[ 'name','tier','oppAprovalStatus','action']"></mat-header-row>
-    <mat-row *matRowDef="let row; columns: [ 'name','tier','oppAprovalStatus','action'];"></mat-row>
-  </mat-table>
+        <mat-header-row *matHeaderRowDef="[ 'name','tier','oppAprovalStatus','action']"></mat-header-row>
+        <mat-row *matRowDef="let row; columns: [ 'name','tier','oppAprovalStatus','action'];"></mat-row>
+    </mat-table>
 </div>

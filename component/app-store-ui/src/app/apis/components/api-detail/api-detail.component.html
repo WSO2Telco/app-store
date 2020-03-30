@@ -1,4 +1,4 @@
-<div fxLayout="column" fxLayoutGap="20px" class="api-details-component">
+<div fxLayout="column" fxLayoutGap="20px" class="api-app-details-component">
 
     <div class="intro-container">
 
@@ -15,7 +15,7 @@
     </div>
     <div class="detail-container">
         <mat-tab-group animationDuration="0ms" disableRipple>
-            <mat-tab *ngIf="loggedUser != null" [isActive]="activeTab == 'subscription'">
+            <mat-tab *ngIf="loggedUser != null">
                 <ng-template mat-tab-label>
                     <i class="fa fa-2x fa-folder"></i> Subscriptions
                 </ng-template>
