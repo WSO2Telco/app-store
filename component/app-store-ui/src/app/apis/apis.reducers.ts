@@ -44,9 +44,6 @@ const _apisReducer = createReducer(initialState,
 
     on(RemoveAllOperatorFromSelectionAction, (state, { payload }) => ({
         ...state, selectedOperators: []
-    })),
-    on(GetUserSubscriptionsSuccessAction, (state, { payload }) => ({
-        ...state, apiSubscriptions: payload
     }))
 );
 
