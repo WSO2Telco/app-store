@@ -50,6 +50,10 @@
     fill: currentColor;
 }
 
+.app-list-table {
+    max-width: 75%;
+}
+
 table {
     width: 100%;
 }
@@ -67,6 +71,6 @@ th.mat-sort-header-sorted {
 }
 
 .mat-row:hover {
-  background-color: #eeeeee;
-  cursor: pointer;
-} 
+    background-color: #eeeeee;
+    cursor: pointer;
+}

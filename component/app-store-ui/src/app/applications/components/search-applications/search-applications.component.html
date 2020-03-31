@@ -26,7 +26,7 @@
         </div>
     </div>
 
-    <div class="tbl-container animated fadeIn">
+    <div class="tbl-container animated fadeIn app-list-table">
         <table mat-table #table matSort [dataSource]="dataSource">
 
             <ng-container matColumnDef="name">
@@ -53,7 +53,7 @@
             </ng-container>
 
             <ng-container matColumnDef="action">
-                <th mat-header-cell class="action-container" *matHeaderCellDef> Actions </th>
+                <th mat-header-cell class="action-container" *matHeaderCellDef></th>
                 <td mat-cell class="action-container" *matCellDef="let element">
                     <div class="button-row">
                         <button mat-icon-button matTooltip="View" (click)="onAppAction(element,'view')">
@@ -72,8 +72,8 @@
             </ng-container>
 
 
-            <tr mat-header-row *matHeaderRowDef="[ 'name','throttlingTier','status','apiCount','action']"></tr>
-            <tr mat-row *matRowDef="let row; columns: [ 'name','throttlingTier','status','apiCount','action'];" (click)="onAppAction(row,'view')"></tr>
+            <tr mat-header-row *matHeaderRowDef="[ 'name','throttlingTier','status','action']"></tr>
+            <tr mat-row *matRowDef="let row; columns: [ 'name','throttlingTier','status','action'];" (click)="onAppAction(row,'view')"></tr>
         </table>
         <ng-container *ngIf="dataSource.data.length == 0">
             <div class="no-result">No Results Found !!</div>
