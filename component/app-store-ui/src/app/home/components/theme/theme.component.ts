@@ -49,10 +49,16 @@ export class ThemeComponent implements OnInit {
       this.username = user;
     })
 
+    this.store.select((s) => s.global.layout.menuBackImage).subscribe((flag) => this.meunBackImage = flag);
+
   }
 
   onChange(e) {
-    this.store.dispatch(AppThemeChangeAction({ payload: new ThemeData(this.username, e.value ) }));
+    this.store.dispatch(AppThemeChangeAction({ payload: new ThemeData(this.username, e.value + '_' + this.meunBackImage) }));
+  }
+
+  onBackgroundToggle(e) {
+    this.store.dispatch(AppThemeChangeAction({ payload: new ThemeData(this.username, this.selectedTheme + '_' + e.checked) }));
   }
 
 }
