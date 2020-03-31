@@ -1,11 +1,13 @@
 import { Component, OnInit, ViewChild } from "@angular/core";
 import { ResetPasswordParam } from "../../authentication.models";
-import { AppState } from "../../../app.data.models";
+import { AppState,BreadcrumbItem } from "../../../app.data.models";
 import { Store } from "@ngrx/store";
 import { Actions, ofType } from '@ngrx/effects';
 import { NgForm, FormGroup, FormBuilder, Validators, FormControl, FormGroupDirective } from '@angular/forms';
 import { ChangeUserPwAction, ChangeUserPwSuccessAction } from '../../authentication.actions';
 import { ErrorStateMatcher } from '@angular/material/core';
+//Breadcrumbs
+import * as globalActions from "../../../app.actions";
 
 export class UpdatePwErrorStateMatcher implements ErrorStateMatcher {
   isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
@@ -37,6 +39,7 @@ export class MyAccountComponent implements OnInit {
 
   ngOnInit() {
     this.param = new ResetPasswordParam();
+    this.store.dispatch(globalActions.SetBreadcrumbAction({ payload: [new BreadcrumbItem("My Account")] }));
   }
 
   checkPasswords(group: FormGroup) { 

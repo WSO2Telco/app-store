@@ -1,8 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { AppState, ThemeData } from '../../../app.data.models';
+import { BreadcrumbItem,AppState, ThemeData } from '../../../app.data.models';
 import { AppThemeChangeAction } from '../../../app.actions';
 import { Actions, ofType } from '@ngrx/effects';
+
+//Breadcrumbs
+import * as globalActions from "../../../app.actions";
 
 @Component({
   selector: 'store-theme',
@@ -43,6 +46,7 @@ export class ThemeComponent implements OnInit {
   constructor(private store: Store<AppState>, private actions$: Actions) { }
 
   ngOnInit() {
+    this.store.dispatch(globalActions.SetBreadcrumbAction({ payload: [new BreadcrumbItem("Theme")] }));
     this.store.select((s) => s.global.layout.appTheme).subscribe((theme) => this.selectedTheme = theme);
 
     this.store.select((s) => s.authentication.loggedUser).subscribe((user) => {
