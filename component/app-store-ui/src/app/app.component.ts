@@ -36,7 +36,7 @@ export class AppComponent implements OnInit {
       .subscribe(val => this.rightNavOpened = val);
 
     this.store.select((s) => s.global.layout.appTheme).subscribe((theme) => this.selectedTheme = theme);
-
+    this.store.select((s) => s.global.layout.menuBackImage).subscribe((flag) => this.menuBackImage = flag);
     this.store.select(store => store.global.layout.leftNavOpened)
       .subscribe(val => {
         this.leftNavOpened = val;
