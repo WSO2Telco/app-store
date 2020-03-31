@@ -173,7 +173,8 @@ export class GenerateKeyFormComponent implements OnInit, OnDestroy {
   }
 
   resetAccessToken(){
-    const payload = {"auth":this.accessTokenAuth, "validity":this.accessTokenValidity, token : this.generatedToken}
+    const keyValidity = (this.accessTokenValidity > 0) ? this.accessTokenValidity : 9223372036854776;
+    const payload = {"auth":this.accessTokenAuth, "validity": keyValidity, token : this.generatedToken}
     this.store.dispatch(RegenerateAccessTokenAction({ 'payload' : payload}))
   }
 
