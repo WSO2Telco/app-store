@@ -9,7 +9,7 @@ const initState: GlobalState = {
         leftNavOpened: false,
         appTheme: 'theme-apigate-blue',
         particleAnimation: true,
-        menuBackImage: true
+        menuBackImage: false
     },
     mccAndmnc: {
         countries: null,
@@ -29,11 +29,11 @@ const _globalReducer = createReducer(initState,
     })),
 
     on(AppThemeChangeAction, (state, { payload }) => ({
-        ...state, layout: { ...state.layout, appTheme: payload.theme }
+        ...state, layout: { ...state.layout, appTheme: payload.theme.split('_')[0], menuBackImage: eval(payload.theme.split('_')[1]) }
     })),
 
     on(GetThemeSuccessAction, (state, { payload }) => ({
-        ...state, layout: { ...state.layout, appTheme: payload }
+        ...state, layout: { ...state.layout, appTheme: payload.split('_')[0], menuBackImage: eval(payload.split('_')[1]) }
     })),
 
     on(LoadCountriesSuccessAction, (state, { payload }) => ({
