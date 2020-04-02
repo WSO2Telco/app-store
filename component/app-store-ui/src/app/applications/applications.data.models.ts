@@ -39,6 +39,7 @@ export class Application {
 
 export class CreateApplicationParam {
   name: string;
+  tokenType: string;
   description: string;
   throttlingTier: string = "Unlimited";
 }
@@ -78,7 +79,7 @@ export interface AppSubscriptionParam {
 }
 
 export class ApplicationDetails {
-  groupId: string
+  groupId: string;
   callbackUrl: string;
   subscriber: string;
   throttlingTier: string;

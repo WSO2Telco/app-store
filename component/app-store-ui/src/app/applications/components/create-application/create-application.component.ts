@@ -25,8 +25,10 @@ export class CreateApplicationComponent implements OnInit {
   appData: ApplicationDetails;
   formCreateApp: FormGroup;
   submitted = false;
+  tokenTypes: string[];
   public appDescription: string;
   public appName: string;
+  public appTokenType: string;
   constructor(
     private store: Store<AppState>,
     private titleService: Title,
@@ -37,9 +39,10 @@ export class CreateApplicationComponent implements OnInit {
   ) {
     this.formCreateApp = this.fb.group({
       appName: ['', [Validators.required, Validators.maxLength(70)]],
+      appTokenType: ['OAUTH', [Validators.required]],
       appDescription: ['']
     });
-
+    this.tokenTypes = ["OAUTH","JWT"];
   }
 
   ngOnInit() {
@@ -55,8 +58,9 @@ export class CreateApplicationComponent implements OnInit {
 
         this.actions$.pipe(ofType(applicationActions.GetApplicationDetailsSuccessAction)).pipe(take(1)).subscribe(p => {
           if (p) {
-            this.appData = p.payload
+            this.appData = p.payload;
             this.formCreateApp.controls.appName.setValue(this.appData.name);
+            this.formCreateApp.controls.appTokenType.setValue(this.appData.tokenType);
             this.formCreateApp.controls.appDescription.setValue(this.appData.description);
           }
         })
@@ -72,6 +76,7 @@ export class CreateApplicationComponent implements OnInit {
       return;
     } else {
       this.application.name = this.formCreateApp.value.appName;
+      this.application.tokenType = this.formCreateApp.value.appTokenType;
       this.application.description = this.formCreateApp.value.appDescription;
 
       if (!this.appData) {
