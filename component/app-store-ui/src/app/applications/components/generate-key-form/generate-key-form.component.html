@@ -33,9 +33,9 @@
                     Enter valid Callback URL
                 </mat-error>
             </mat-form-field>
-            <mat-form-field class="validity-field">
+            <mat-form-field *ngIf="!keyObject" class="validity-field">
                 <input matInput placeholder="Validity period" formControlName="keyValidity" />
-                <span matSuffix> seconds</span>
+                <span matSuffix> Seconds</span>
                 <mat-error *ngIf="f?.keyValidity?.errors?.required">
                     Validity Period URL is required
                 </mat-error>
@@ -47,7 +47,7 @@
                 </mat-error>
             </mat-form-field>
             <div fxLayoutAlign="end center">
-                <button mat-raised-button class="generate" color="accent" (click)="generateKey()"><span *ngIf="!keyObject">Generate</span><span *ngIf="keyObject">Update</span></button>
+                <button mat-raised-button class="generate" color="accent" (click)="generateKey()"><span *ngIf="!keyObject">Generate Keys</span><span *ngIf="keyObject">Update</span></button>
             </div>
         </form>
 
