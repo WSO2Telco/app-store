@@ -33,7 +33,7 @@ export class GenerateKeyFormComponent implements OnInit, OnDestroy {
   public accessTokenUser;
   public accessTokenGrant = 'password';
   public accessTokenAuth;
-  public accessTokenValidity:number = 3600;
+  public accessTokenValidity:string = "3600";
   public accessTokenVisible = false;
 
   private storeSelect;
@@ -173,7 +173,11 @@ export class GenerateKeyFormComponent implements OnInit, OnDestroy {
   }
 
   resetAccessToken(){
-    const keyValidity = (this.accessTokenValidity > 0) ? this.accessTokenValidity : 9223372036854776;
+    if (!/^([-]?[1-9]\d*|0)$/.test(this.accessTokenValidity)) {
+      this.notification.error("Error regenerating access token. Invalid value value for validity period");
+      return;
+    }
+    const keyValidity = (parseInt(this.accessTokenValidity) > 0) ? parseInt(this.accessTokenValidity) : 9223372036854776;
     const payload = {"auth":this.accessTokenAuth, "validity": keyValidity, token : this.generatedToken}
     this.store.dispatch(RegenerateAccessTokenAction({ 'payload' : payload}))
   }
