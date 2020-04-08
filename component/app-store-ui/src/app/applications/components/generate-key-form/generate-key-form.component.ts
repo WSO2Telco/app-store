@@ -104,6 +104,19 @@ export class GenerateKeyFormComponent implements OnInit, OnDestroy {
     this.envLabel = (this.keyEnv == 'PRODUCTION') ? "Production" : "Sandbox";
     this.keyPayload.keyType = this.keyEnv;
 
+    this.retrieveKeyObject();
+
+    this.store.select((s) => s.authentication.loggedUser).subscribe((user) => {
+      this.accessTokenUser = user;
+    });
+
+    this.actions$.pipe(ofType(RegenerateAccessTokenSuccessAction)).subscribe(p => {
+      this.generatedToken = p.payload.access_token;
+      this.cd.detectChanges();
+    })
+  }
+
+  retrieveKeyObject() {
     this.storeSelect = this.store.select((s) => s.applications.selectedApplication.keys).subscribe((appDetails) => {
       this.keyObject = appDetails.find(i => i.keyType == this.keyEnv);
       if(this.keyObject){
@@ -111,10 +124,10 @@ export class GenerateKeyFormComponent implements OnInit, OnDestroy {
 
         this.grantTypes.forEach((t, i) => {
           this.grantTypes[i].checked = this.keyObject.supportedGrantTypes.includes(t.value)
-        })
+        });
 
         this.keygenForm.setValue({
-          keyUrl: this.keyObject.callbackUrl, 
+          keyUrl: this.keyObject.callbackUrl,
           keyValidity: this.keyObject.token.validityTime
         });
 
@@ -125,15 +138,6 @@ export class GenerateKeyFormComponent implements OnInit, OnDestroy {
       }
       this.cd.detectChanges();
     });
-
-    this.store.select((s) => s.authentication.loggedUser).subscribe((user) => {
-      this.accessTokenUser = user;
-    })
-
-    this.actions$.pipe(ofType(RegenerateAccessTokenSuccessAction)).subscribe(p => {
-      this.generatedToken = p.payload.access_token;
-      this.cd.detectChanges();
-    })
   }
 
   switchKeyVisibility(action){
@@ -162,6 +166,7 @@ export class GenerateKeyFormComponent implements OnInit, OnDestroy {
       else{
         this.store.dispatch(GenerateAppKeyAction({ 'appId' : this.appId, 'payload' : this.keyPayload}))
       }
+      this.retrieveKeyObject();
     }
     
   }
