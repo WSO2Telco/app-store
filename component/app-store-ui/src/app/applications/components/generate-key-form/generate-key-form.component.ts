@@ -28,6 +28,7 @@ export class GenerateKeyFormComponent implements OnInit, OnDestroy {
   public keySecretVisibility:boolean = false;
   public clientCredEnabled = false;
   public generatedToken;
+  public generatedTokenValidity;
 
   public accessTokenExpanded = true; // = false;
   public accessTokenUser;
@@ -92,7 +93,7 @@ export class GenerateKeyFormComponent implements OnInit, OnDestroy {
   ) {
     this.route.params.subscribe(params => {
       this.appId = params['appId'];
-    })
+    });
 
     this.keygenForm = this.fb.group({
       keyUrl: ['', [ Validators.pattern('(https?://)?([\\da-z.-]+)\\.([a-z.]{2,6})[/\\w .-]*/?') ]],
@@ -112,6 +113,7 @@ export class GenerateKeyFormComponent implements OnInit, OnDestroy {
 
     this.actions$.pipe(ofType(RegenerateAccessTokenSuccessAction)).subscribe(p => {
       this.generatedToken = p.payload.access_token;
+      this.generatedTokenValidity = p.payload.expires_in;
       this.cd.detectChanges();
     })
   }
@@ -121,6 +123,7 @@ export class GenerateKeyFormComponent implements OnInit, OnDestroy {
       this.keyObject = appDetails.find(i => i.keyType == this.keyEnv);
       if(this.keyObject){
         this.generatedToken = this.keyObject.token.accessToken;
+        this.generatedTokenValidity = this.keyObject.token.validityTime;
 
         this.grantTypes.forEach((t, i) => {
           this.grantTypes[i].checked = this.keyObject.supportedGrantTypes.includes(t.value)
@@ -179,8 +182,8 @@ export class GenerateKeyFormComponent implements OnInit, OnDestroy {
 
   resetAccessToken(){
     const keyValidity = (this.accessTokenValidity > 0) ? this.accessTokenValidity : 9223372036854776;
-    const payload = {"auth":this.accessTokenAuth, "validity": keyValidity, token : this.generatedToken}
-    this.store.dispatch(RegenerateAccessTokenAction({ 'payload' : payload}))
+    const payload = {"auth":this.accessTokenAuth, "validity": keyValidity, token : this.generatedToken};
+    this.store.dispatch(RegenerateAccessTokenAction({ 'payload' : payload}));
   }
 
   callbackUpdate(value){
@@ -196,7 +199,7 @@ export class GenerateKeyFormComponent implements OnInit, OnDestroy {
       e.clipboardData.setData('text/plain', text);
       e.preventDefault();
       document.removeEventListener('copy', event);
-    }
+    };
     document.addEventListener('copy', event);
     document.execCommand('copy');
     this.notification.success('Copied to clipboard');
