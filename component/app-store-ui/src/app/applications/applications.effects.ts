@@ -130,7 +130,7 @@ export class ApplicationsEffects {
           }
         }),
         catchError((e: HttpErrorResponse) => {
-          this.notification.error(e.error);
+          this.notification.error("Application Delete Unsuccessfull");
           return EMPTY
         })
       )
