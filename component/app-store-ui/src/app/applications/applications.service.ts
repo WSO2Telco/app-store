@@ -92,7 +92,7 @@ export class ApplicationsService {
 
     const httpOptions = {
       headers: new HttpHeaders({
-        'Content-Type': 'application/x-www-form-urlencoded',
+        'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8',
         'Authorization': 'Basic ' + payload.auth
       })
     };
@@ -106,7 +106,7 @@ export class ApplicationsService {
 
     const httpOptions = {
       headers: new HttpHeaders({
-        'Content-Type': 'application/x-www-form-urlencoded',
+        'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8',
         'Authorization': 'Basic ' + payload.auth
       })
     };
