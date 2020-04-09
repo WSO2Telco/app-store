@@ -98,7 +98,7 @@ export class SearchApplicationsComponent implements OnInit {
         this.store.dispatch(applicationsActions.DeleteApplicationsAction({ "appId": app.applicationId }))
 
         this.actions$.pipe(ofType(applicationsActions.DeleteApplicationSuccessAction)).subscribe(p => {
-          this.store.dispatch(applicationsActions.GetAllApplicationsAction({ "payload": new GetApplicationsParam(0, 10, 0, '') }))
+          this.store.dispatch(applicationsActions.GetAllAvailableApplicationsAction({}))
         })
       }
     });
