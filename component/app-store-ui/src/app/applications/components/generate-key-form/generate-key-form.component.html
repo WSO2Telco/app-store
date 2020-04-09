@@ -93,7 +93,7 @@ curl <strong>-k -d</strong> "<span class="code-blue">grant_type={{accessTokenGra
                     <div class="caption">Token below has a validity period of <span class="soft-bold">{{generatedTokenValidity}}</span> seconds. And the token has ( <span class="soft-bold" *ngFor="let scope of keyObject.token.tokenScopes">{{scope}} </span> ) scopes.</div>
 
                     <div class="generated-access-token key-block">
-                        <span class="app-key" matTooltip="Click to copy the token" matTooltipPosition="below" (click)="clickToCopy(keyObject.token?.accessToken)">
+                        <span class="app-key" matTooltip="Click to copy the token" matTooltipPosition="below" (click)="clickToCopy(generatedToken)">
               <span *ngIf="!accessTokenVisible">&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;</span>
                         <span *ngIf="accessTokenVisible">{{generatedToken}}</span>
                         </span>
