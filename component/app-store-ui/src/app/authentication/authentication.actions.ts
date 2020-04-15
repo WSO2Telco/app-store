@@ -19,6 +19,7 @@ export const SetLoggedUserAction = createAction('[Auth] Set Logged User', props<
 
 export const SignupUserAction = createAction('[Auth] Signup', props<{payload: SigUpUserParam}>());
 export const SignupUserSuccessAction = createAction('[Auth] Signup Success ✓', props<{payload: any}>());
+export const SignupUserFailedAction = createAction('[Auth] Signup Failed Action', props<{payload: string}>());
 
 export const ChangeUserPwAction = createAction('[Auth] Change Password', props<{payload: ResetPasswordParam}>());
 export const ChangeUserPwSuccessAction = createAction('[Auth] Change Password Success ✓', props<{payload: any}>());

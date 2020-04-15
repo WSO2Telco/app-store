@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 
 //Breadcrumbs
 import * as globalActions from "../../../app.actions";
@@ -8,7 +8,7 @@ import { AppState } from '../../../app.data.models';
 import { Store } from '@ngrx/store';
 import { NgForm, FormGroup, FormBuilder, Validators, FormGroupDirective, AbstractControl, FormControl } from '@angular/forms';
 import { Actions, ofType } from '@ngrx/effects';
-import { SignupUserSuccessAction, SignupUserAction } from '../../../authentication/authentication.actions';
+import { SignupUserSuccessAction, SignupUserAction, SignupUserFailedAction } from '../../../authentication/authentication.actions';
 import { ErrorStateMatcher } from '@angular/material/core';
 import { SigUpUserParam } from '../../../authentication/authentication.models';
 
@@ -32,12 +32,14 @@ export class SignUpComponent implements OnInit {
   matcher = new SignUpErrorStateMatcher();
   formSignupApp: FormGroup;
   submitted = false;
+  public loginError: string;
 
   constructor(
     private store: Store<AppState>,
     private titleService: Title,
     private fb: FormBuilder,
     private actions$: Actions,
+    private cd: ChangeDetectorRef,
 
   ) {
   this.formSignupApp = this.fb.group({
@@ -51,9 +53,13 @@ export class SignUpComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.user = new SigUpUserParam();
     this.store.dispatch(globalActions.SetBreadcrumbAction({ payload: [new BreadcrumbItem("SignUp")] }));
     this.titleService.setTitle("Create New App | Apigate API Store");
+
+    this.actions$.pipe(ofType(SignupUserFailedAction)).subscribe(msg => {
+      this.loginError = msg.payload;
+      this.cd.detectChanges();
+    })
   }
 
   checkPasswords(group: FormGroup) { 
@@ -70,16 +76,18 @@ export class SignUpComponent implements OnInit {
     if (this.formSignupApp.invalid) {
       return;
     } else {
-      this.user.allFieldsValues = this.formSignupApp.value.firstName + '|' + this.formSignupApp.value.lastName + '|||' + this.formSignupApp.value.email;
-      this.user.username = this.formSignupApp.value.userName;
-      this.user.password = this.formSignupApp.value.password;
-      this.store.dispatch(SignupUserAction({ "payload": this.user }));
+      let allFieldsValues = this.formSignupApp.value.firstName + '|' + this.formSignupApp.value.lastName + '|||' + this.formSignupApp.value.email;
+      let username = this.formSignupApp.value.userName;
+      let password = this.formSignupApp.value.password;
+      this.store.dispatch(SignupUserAction({ "payload": new SigUpUserParam (username,password,allFieldsValues) }));
 
       this.actions$.pipe(ofType(SignupUserSuccessAction)).subscribe(p => {
         this.submitted = false;
         formDirective.resetForm();
         this.formSignupApp.reset();
       })
+
+      this.submitted = false;
     }
   }
 

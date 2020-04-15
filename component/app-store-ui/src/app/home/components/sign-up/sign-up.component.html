@@ -41,7 +41,8 @@
             <mat-error *ngIf="formSignupApp.hasError('required', 'userName')">User Name is Required </mat-error>
             <mat-error *ngIf="formSignupApp.hasError('minlength', 'userName')">Minimum 5 characters Should be there
             </mat-error>
-            <mat-error *ngIf="formSignupApp.hasError('pattern', 'userName')">The User Name contains one or more illigale characters(!"#$%&'()*+,-./:;&lt;=>?@[]^_`&#123;|&#125;~) </mat-error>
+            <mat-error *ngIf="formSignupApp.hasError('pattern', 'userName')">The User Name contains one or more illigale
+              characters(!"#$%&'()*+,-./:;&lt;=>?@[]^_`&#123;|&#125;~) </mat-error>
           </mat-form-field>
 
           <mat-form-field>
@@ -68,6 +69,9 @@
         </div>
 
       </form>
+      <div class="login-error" *ngIf="loginError && formSignupApp.valid">
+        {{loginError}}
+      </div>
     </mat-card-content>
   </mat-card>
 

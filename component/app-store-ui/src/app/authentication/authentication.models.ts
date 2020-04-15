@@ -79,9 +79,9 @@ export class LogoutResponseData {
 }
 
 export class SigUpUserParam {
-    username: string;
-    password: string;
-    allFieldsValues: string;
+    constructor(public username: string,
+        public password: string,
+        public allFieldsValues: string) { }
 }
 
 export class ResetPasswordParam {
@@ -92,7 +92,7 @@ export class ResetPasswordParam {
 export class ForgetResetPasswordParam {
     username: string;
     newPassword: string;
-    code:string;
+    code: string;
 }
 
 
