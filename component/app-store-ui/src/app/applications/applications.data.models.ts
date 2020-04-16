@@ -38,10 +38,12 @@ export class Application {
 }
 
 export class CreateApplicationParam {
-  name: string;
-  tokenType: string;
-  description: string;
-  throttlingTier: string = "Unlimited";
+  constructor(
+    public name: string,
+    public tokenType: string,
+    public description: string,
+    public throttlingTier: string = "Unlimited") {
+  }
 }
 
 export class TabTile {

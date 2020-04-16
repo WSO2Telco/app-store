@@ -6,7 +6,7 @@ import * as loginActions from "./authentication.actions";
 import { AuthenticationService } from "./authentication.service";
 import { Injectable } from "@angular/core";
 import { HttpErrorResponse } from "@angular/common/http";
-import { LoginFormData, LoginResponseData, RegClientData, TokenData } from "./authentication.models";
+import { LoginFormData, LoginResponseData, RegClientData, TokenData, SigUpUserParam } from "./authentication.models";
 import { NotificationService } from "../shared/services/notification.service";
 import { Router } from "@angular/router";
 import { AppState } from "../app.data.models";
@@ -135,20 +135,18 @@ export class AuthenticationEffects {
 
   signup$ = createEffect(() => this.actions$.pipe(
     ofType(loginActions.SignupUserAction),
-    mergeMap(({ payload }) => this.authService.signup(payload)
+    mergeMap(({ payload }) => this.authService.signup(new SigUpUserParam(payload.username, payload.password, payload.allFieldsValues))
       .pipe(
         map((response) => {
           if (response.error) {
-            this.notification.error(response.message);
+            let msg = (response.message) ? response.message : "Invalid username or password";
+            return loginActions.SignupUserFailedAction({ payload: msg });
           } else {
             this.notification.success('User added successfully. You can now sign into the API store using the new user account');
             return loginActions.SignupUserSuccessAction({ "payload": response });
           }
         }),
-        catchError((e: HttpErrorResponse) => {
-          this.notification.error(e.message);
-          return EMPTY
-        })
+        catchError((e: HttpErrorResponse) => of(loginActions.SignupUserFailedAction({ payload: e.message })))
       )
     )
   ));

@@ -7,12 +7,13 @@ import { BreadcrumbItem } from "../../../app.data.models";
 import { Title } from '@angular/platform-browser';
 import { AppState } from '../../../app.data.models';
 import { Store } from '@ngrx/store';
-import { FormGroup, FormBuilder, Validators, FormGroupDirective } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators, FormGroupDirective, FormControl, NgForm } from '@angular/forms';
 
 import * as applicationActions from "../../../applications/applications.actions";
 import { Actions, ofType } from '@ngrx/effects';
 import { ActivatedRoute, Router } from '@angular/router';
 import { take } from 'rxjs/operators';
+import { NotificationService } from '../../../shared/services/notification.service';
 
 @Component({
   selector: 'store-create-application',
@@ -21,7 +22,6 @@ import { take } from 'rxjs/operators';
 })
 export class CreateApplicationComponent implements OnInit {
 
-  application: CreateApplicationParam = new CreateApplicationParam();
   appData: ApplicationDetails;
   formCreateApp: FormGroup;
   submitted = false;
@@ -29,20 +29,22 @@ export class CreateApplicationComponent implements OnInit {
   public appDescription: string;
   public appName: string;
   public appTokenType: string;
+
   constructor(
     private store: Store<AppState>,
     private titleService: Title,
     private fb: FormBuilder,
     private actions$: Actions,
     private route: ActivatedRoute,
-    private router: Router
+    private router: Router,
+    private notification: NotificationService
   ) {
     this.formCreateApp = this.fb.group({
-      appName: ['', [Validators.required, Validators.maxLength(70)]],
-      appTokenType: ['OAUTH', [Validators.required]],
-      appDescription: ['']
-    });
-    this.tokenTypes = ["OAUTH","JWT"];
+      appName: ['', [Validators.required, Validators.maxLength(70), Validators.pattern('^[^<>{}\"/\'/\`/|;:,~!?@#$%^=&*\\]\\\\()\\[¿§«»ω⊙¤°℃℉€¥£¢¡®©+]*$')]],
+      appTokenType: ['', [Validators.required]],
+      appDescription: ['', [Validators.maxLength(500)]]
+    }, {});
+    this.tokenTypes = ["OAUTH", "JWT"];
   }
 
   ngOnInit() {
@@ -66,6 +68,10 @@ export class CreateApplicationComponent implements OnInit {
         })
       }
     })
+
+    this.actions$.pipe(ofType(applicationActions.CreateApplicationFailedAction)).subscribe(msg => {
+      this.notification.error(msg.payload);
+    })
   }
 
   get f() { return this.formCreateApp.controls; }
@@ -75,12 +81,12 @@ export class CreateApplicationComponent implements OnInit {
     if (!this.formCreateApp.valid) {
       return;
     } else {
-      this.application.name = this.formCreateApp.value.appName;
-      this.application.tokenType = this.formCreateApp.value.appTokenType;
-      this.application.description = this.formCreateApp.value.appDescription;
+      let name = this.formCreateApp.value.appName;
+      let tokenType = this.formCreateApp.value.appTokenType;
+      let description = this.formCreateApp.value.appDescription;
 
       if (!this.appData) {
-        this.store.dispatch(applicationActions.CreateApplicationsAction({ "payload": this.application }))
+        this.store.dispatch(applicationActions.CreateApplicationsAction({ "payload": new CreateApplicationParam(name, tokenType, description) }))
 
         this.actions$.pipe(ofType(applicationActions.CreateApplicationSuccessAction)).subscribe(p => {
           this.submitted = false;
@@ -89,7 +95,7 @@ export class CreateApplicationComponent implements OnInit {
           this.router.navigate(["applications"]);
         })
       } else {
-        this.store.dispatch(applicationActions.UpdateApplicationsAction({ "appId": this.appData.applicationId, "payload": this.application }))
+        this.store.dispatch(applicationActions.UpdateApplicationsAction({ "appId": this.appData.applicationId, "payload": new CreateApplicationParam(name, tokenType, description) }))
 
         this.actions$.pipe(ofType(applicationActions.UpdateApplicationSuccessAction)).subscribe(p => {
           this.submitted = false;
