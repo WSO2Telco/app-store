@@ -96,7 +96,7 @@ export class ApplicationsService {
         'Authorization': 'Basic ' + payload.auth
       })
     };
-    return httpBasicClient.post<TokenData>(ApiEndpoints.authentication.tokenGeneration, body.toString(), httpOptions);
+    return httpBasicClient.post<TokenData>(ApiEndpoints.authentication.tokenRegeneration, body.toString(), httpOptions);
   }
 
   revokeAccessToken(payload): Observable<any>{
