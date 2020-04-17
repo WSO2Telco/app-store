@@ -34,11 +34,9 @@ export class ApiInterceptor implements HttpInterceptor {
 
         return next.handle(request).pipe(
             catchError((err: any) => {
-                if (err instanceof HttpErrorResponse) {
-                    if (err.status === 401) {
-                        this.store.dispatch(loginActions.DoLogoutAction());
-                        return new Observable<HttpEvent<any>>();
-                    }
+                if (err instanceof HttpErrorResponse && err.status === 401) {
+                    this.store.dispatch(loginActions.DoLogoutAction());
+                    return new Observable<HttpEvent<any>>();
                 } else{
                     return throwError(err);
                 }
