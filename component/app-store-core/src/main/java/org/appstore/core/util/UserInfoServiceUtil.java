@@ -4,7 +4,19 @@ import org.apache.axis2.AxisFault;
 import org.apache.axis2.client.Options;
 import org.apache.axis2.client.ServiceClient;
 import org.apache.axis2.transport.http.HTTPConstants;
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpResponse;
+import org.apache.http.client.methods.CloseableHttpResponse;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.StringEntity;
+import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.impl.client.HttpClients;
+import org.apache.http.util.EntityUtils;
+import org.appstore.core.dto.ServerType;
 import org.appstore.core.exception.ApiException;
+import org.wso2.carbon.apimgt.hostobjects.internal.HostObjectComponent;
+import org.wso2.carbon.apimgt.hostobjects.internal.ServiceReferenceHolder;
 import org.wso2.carbon.apimgt.impl.APIConstants;
 import org.wso2.carbon.apimgt.impl.APIManagerConfiguration;
 import org.wso2.carbon.apimgt.impl.utils.APIUtil;
@@ -13,12 +25,13 @@ import org.wso2.carbon.captcha.mgt.beans.xsd.CaptchaInfoBean;
 import org.wso2.carbon.core.util.PermissionUpdateUtil;
 import org.wso2.carbon.identity.mgt.stub.UserInformationRecoveryServiceIdentityMgtServiceExceptionException;
 import org.wso2.carbon.identity.mgt.stub.UserInformationRecoveryServiceStub;
-import org.wso2.carbon.apimgt.hostobjects.internal.HostObjectComponent;
-import org.wso2.carbon.apimgt.hostobjects.internal.ServiceReferenceHolder;
 import org.wso2.carbon.identity.mgt.stub.beans.VerificationBean;
 import org.wso2.carbon.um.ws.api.stub.RemoteUserStoreManagerServiceStub;
 import org.wso2.carbon.utils.multitenancy.MultitenantUtils;
 
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.Unmarshaller;
+import java.io.StringReader;
 import java.net.URL;
 import java.rmi.RemoteException;
 import java.util.logging.Level;
@@ -53,7 +66,7 @@ public class UserInfoServiceUtil {
         initUserInfoRecoveryService();
     }
 
-    private void initUserInfoRecoveryService () {
+    private void initUserInfoRecoveryService() {
         try {
             APIManagerConfiguration config = HostObjectComponent.getAPIManagerConfiguration();
             String url = config.getFirstProperty(APIConstants.AUTH_MANAGER_URL);
@@ -69,7 +82,7 @@ public class UserInfoServiceUtil {
     }
 
     public static UserInfoServiceUtil getInstance() {
-        if(userInfoServiceUtil == null) {
+        if (userInfoServiceUtil == null) {
             userInfoServiceUtil = new UserInfoServiceUtil();
         }
         return userInfoServiceUtil;
@@ -83,9 +96,17 @@ public class UserInfoServiceUtil {
     }
 
     public VerificationBean sendNotification(String username) throws RemoteException, UserInformationRecoveryServiceIdentityMgtServiceExceptionException {
-        CaptchaInfoBean captchaInfoBean = stub.getCaptcha();
-        VerificationBean userBean = stub.verifyUser(username, captchaInfoBean);
-        return stub.sendRecoveryNotification(username, userBean.getKey(), "email");
+
+
+        if (isIsEnable()) {
+            sendNotifFromIS(username);
+        } else {
+            CaptchaInfoBean captchaInfoBean = stub.getCaptcha();
+            VerificationBean userBean = stub.verifyUser(username, captchaInfoBean);
+            return stub.sendRecoveryNotification(username, userBean.getKey(), "email");
+        }
+
+        return null;
     }
 
     public VerificationBean updatePassword(String username, String confirmationCode, /*CaptchaInfoBean captchaInfoBean,*/ String newPassword) throws RemoteException, UserInformationRecoveryServiceIdentityMgtServiceExceptionException {
@@ -94,7 +115,7 @@ public class UserInfoServiceUtil {
         return stub.updatePassword(username, verificationBean.getKey(), newPassword);
     }
 
-    public static String getSessionCookie () {
+    public static String getSessionCookie() {
         String authenticationServiceName = "AuthenticationAdmin";
         AuthenticationAdminStub authenticationAdminStub;
         String sessionCookie = null;
@@ -156,8 +177,8 @@ public class UserInfoServiceUtil {
         return theme;
     }
 
-    public static boolean setTheme (String username, String claimValue) {
-        boolean status = UserInfoServiceUtil.setUserFieldDTO(username,"http://wso2.org/claims/usertheme", claimValue, "default");
+    public static boolean setTheme(String username, String claimValue) {
+        boolean status = UserInfoServiceUtil.setUserFieldDTO(username, "http://wso2.org/claims/usertheme", claimValue, "default");
         return status;
     }
 
@@ -213,5 +234,68 @@ public class UserInfoServiceUtil {
             logger.log(Level.CONFIG, "Error while updating user details " + e);
         }
         return status;
+    }
+
+
+    public void sendNotifFromIS(String username) {
+
+        try {
+
+            APIManagerConfiguration apiManagerConfiguration = ServiceReferenceHolder.getInstance().getAPIManagerConfigurationService().getAPIManagerConfiguration();
+            String url = apiManagerConfiguration.getFirstProperty("APIKeyValidator.ServerURL").replace("/services", "");
+            String notifyUrl = url.concat("api/identity/recovery/v0.9/recover-password?type=email&notify=true");
+            CloseableHttpClient client = HttpClients.createDefault();
+            HttpPost httpPost = new HttpPost(notifyUrl);
+            String json = "{\"user\": {\"username\": \"" + username + "\",\"realm\": \"PRIMARY\",\"tenant-domain\":\"carbon.super\"},\"properties\": []}";
+            StringEntity entity = new StringEntity(json);
+            httpPost.setEntity(entity);
+            httpPost.addHeader("Accept", "application/json");
+            httpPost.addHeader("Content-type", "application/json");
+            httpPost.addHeader("Authorization", "Basic YWRtaW46YWRtaW4=");
+            httpPost.addHeader("X-XSS-Protection", "0");
+            CloseableHttpResponse response = client.execute(httpPost);
+            client.close();
+
+        } catch (Exception e) {
+            System.out.println(e);
+
+        }
+
+    }
+
+
+    public boolean isIsEnable() {
+        boolean isenableIS = false;
+        try {
+
+            APIManagerConfiguration apiManagerConfiguration = ServiceReferenceHolder.getInstance().getAPIManagerConfigurationService().getAPIManagerConfiguration();
+            String serviceCheckUrl = apiManagerConfiguration.getFirstProperty("APIKeyValidator.ServerURL").concat("Version");
+
+            CloseableHttpClient client = HttpClients.createDefault();
+            HttpGet httpGet = new HttpGet(serviceCheckUrl);
+            httpGet.addHeader("Content-type", "application/xml");
+            HttpResponse response = client.execute(httpGet);
+            HttpEntity httpEntity = response.getEntity();
+            String apiOutput = EntityUtils.toString(httpEntity);
+
+            //unmarshale xml response
+            JAXBContext jaxbContext = JAXBContext.newInstance(ServerType.class);
+            Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
+            ServerType serverType = (ServerType) jaxbUnmarshaller.unmarshal(new StringReader(apiOutput));
+
+            if (serverType.getReturnval().contains("WSO2 Identity Server")) {
+                isenableIS = true;
+            } else {
+                isenableIS = false;
+            }
+
+            client.close();
+
+
+        } catch (Exception e) {
+            logger.log(Level.SEVERE, "version.aar not found " + e);
+        }
+
+        return isenableIS;
     }
 }
