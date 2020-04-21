@@ -124,12 +124,12 @@ export class BusinessInfo {
 
 export interface ApisState {
     apiSearchResult: ApiSearchResult;
-    selectedApi: ApiOverview;
-    apiStatus: ApiStatus[];
-    userApplications: Application[];
-    selectedOperators: Operator[];
-    isSubscriptionSuccess: boolean;
-    apiSubscriptions: SubscriptionResult;
+    // selectedApi: ApiOverview;
+    // apiStatus: ApiStatus[];
+    // userApplications: Application[];
+    // selectedOperators: Operator[];
+    // isSubscriptionSuccess: boolean;
+    // apiSubscriptions: SubscriptionResult;
     availableApp: ApplicationListResult;
 }
 
