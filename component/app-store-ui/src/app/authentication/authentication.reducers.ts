@@ -32,9 +32,13 @@ const _authReducer = createReducer(initState,
         ...state, loginData: payload, menuData: loggedInMenu
     })),
 
-    on(loginActions.DoLogoutAction, (state, { }) => ({
+    on(loginActions.DoLogoutSuccessAction, (state, { }) => ({
         ...state, loginData: null, registeredAppData: null, tokenDetails: null, menuData: defaultMenu, loggedUser: null
     })),
+
+    /* on(loginActions.DoLogoutAction, (state, { }) => ({
+        ...state, loginData: null, registeredAppData: null, tokenDetails: null, menuData: defaultMenu, loggedUser: null
+    })), */
 
     on(loginActions.SetLastAuthRequiredRouteAction, (state, { payload }) => ({
         ...state, lastAuthRequiredRoute: payload
