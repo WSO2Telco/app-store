@@ -30,7 +30,7 @@ import { applicationsReducer } from "./applications/applications.reducer";
 import { AppGuard } from "./app.guards";
 import { forumReducer } from "./forum/forum.reducer";
 import { ApiInterceptor } from './shared/api.interceptor';
-import { BnNgIdleService } from 'bn-ng-idle'; // import bn-ng-idle service
+import {NgIdleModule} from '@ng-idle/core'
 
 const reducers: ActionReducerMap<AppState> = {
   global: globalReducer,
@@ -45,9 +45,10 @@ export function localStorageSyncReducer(
   return localStorageSync({
     keys: ["global", "authentication", "apis", "applications", "forum"],
     rehydrate: true,
-    storage: sessionStorage
+    storage: localStorage,
   })(reducer);
 }
+
 const metaReducers: Array<MetaReducer<any, any>> = [localStorageSyncReducer];
 
 @NgModule({
@@ -70,7 +71,8 @@ const metaReducers: Array<MetaReducer<any, any>> = [localStorageSyncReducer];
     EffectsModule.forRoot([AppGlobalEffects]),
     StoreDevtoolsModule.instrument({
       maxAge: 25 //  Retains last 25 states
-    })
+    }),
+    NgIdleModule.forRoot()
   ],
   providers: [
     AppService,
@@ -79,8 +81,7 @@ const metaReducers: Array<MetaReducer<any, any>> = [localStorageSyncReducer];
       provide: HTTP_INTERCEPTORS,
       useClass: ApiInterceptor,
       multi: true
-    },
-    BnNgIdleService
+    }
   ],
   bootstrap: [AppComponent]
 })
