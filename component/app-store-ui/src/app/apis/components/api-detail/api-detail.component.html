@@ -37,7 +37,14 @@
                 <ng-template mat-tab-label>
                     <i class="fa fa-2x fa-cube"></i> SDKs
                 </ng-template>
-                <store-api-sdk></store-api-sdk>
+
+                <ng-container *ngIf="loggedUser != null; else sdkNotLoggedIn">
+                    <store-api-sdk></store-api-sdk>
+                </ng-container>
+
+                <ng-template #sdkNotLoggedIn>
+                    Please <button mat-stroked-button (click)="onLoginClick()">login</button> to see SDK download options.
+                </ng-template>
             </mat-tab>
             <mat-tab>
                 <ng-template mat-tab-label>
