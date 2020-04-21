@@ -28,13 +28,12 @@ export class GenerateKeyFormComponent implements OnInit, OnDestroy {
   public keySecretVisibility:boolean = false;
   public clientCredEnabled = false;
   public generatedToken;
-  public generatedTokenValidity;
 
   public accessTokenExpanded = true; // = false;
   public accessTokenUser;
   public accessTokenGrant = 'password';
   public accessTokenAuth;
-  public accessTokenValidity:string = "3600";
+  public accessTokenValidity:number = 3600;
   public accessTokenVisible = false;
 
   private storeSelect;
@@ -93,7 +92,7 @@ export class GenerateKeyFormComponent implements OnInit, OnDestroy {
   ) {
     this.route.params.subscribe(params => {
       this.appId = params['appId'];
-    });
+    })
 
     this.keygenForm = this.fb.group({
       keyUrl: ['', [ Validators.pattern('(https?://)?([\\da-z.-]+)\\.([a-z.]{2,6})[/\\w .-]*/?') ]],
@@ -105,32 +104,17 @@ export class GenerateKeyFormComponent implements OnInit, OnDestroy {
     this.envLabel = (this.keyEnv == 'PRODUCTION') ? "Production" : "Sandbox";
     this.keyPayload.keyType = this.keyEnv;
 
-    this.retrieveKeyObject();
-
-    this.store.select((s) => s.authentication.loggedUser).subscribe((user) => {
-      this.accessTokenUser = user;
-    });
-
-    this.actions$.pipe(ofType(RegenerateAccessTokenSuccessAction)).subscribe(p => {
-      this.generatedToken = p.payload.access_token;
-      this.generatedTokenValidity = p.payload.expires_in;
-      this.cd.detectChanges();
-    })
-  }
-
-  retrieveKeyObject() {
     this.storeSelect = this.store.select((s) => s.applications.selectedApplication.keys).subscribe((appDetails) => {
       this.keyObject = appDetails.find(i => i.keyType == this.keyEnv);
       if(this.keyObject){
         this.generatedToken = this.keyObject.token.accessToken;
-        this.generatedTokenValidity = this.keyObject.token.validityTime;
 
         this.grantTypes.forEach((t, i) => {
           this.grantTypes[i].checked = this.keyObject.supportedGrantTypes.includes(t.value)
-        });
+        })
 
         this.keygenForm.setValue({
-          keyUrl: this.keyObject.callbackUrl,
+          keyUrl: this.keyObject.callbackUrl, 
           keyValidity: this.keyObject.token.validityTime
         });
 
@@ -141,6 +125,15 @@ export class GenerateKeyFormComponent implements OnInit, OnDestroy {
       }
       this.cd.detectChanges();
     });
+
+    this.store.select((s) => s.authentication.loggedUser).subscribe((user) => {
+      this.accessTokenUser = user;
+    })
+
+    this.actions$.pipe(ofType(RegenerateAccessTokenSuccessAction)).subscribe(p => {
+      this.generatedToken = p.payload.access_token;
+      this.cd.detectChanges();
+    })
   }
 
   switchKeyVisibility(action){
@@ -169,7 +162,6 @@ export class GenerateKeyFormComponent implements OnInit, OnDestroy {
       else{
         this.store.dispatch(GenerateAppKeyAction({ 'appId' : this.appId, 'payload' : this.keyPayload}))
       }
-      this.retrieveKeyObject();
     }
     
   }
@@ -181,13 +173,9 @@ export class GenerateKeyFormComponent implements OnInit, OnDestroy {
   }
 
   resetAccessToken(){
-    if (!/^([-]?[1-9]\d*|0)$/.test(this.accessTokenValidity)) {
-      this.notification.error("Error regenerating access token. Invalid value value for validity period");
-      return;
-    }
-    const keyValidity = (parseInt(this.accessTokenValidity) > 0) ? parseInt(this.accessTokenValidity) : 9223372036854776;
-    const payload = {"auth":this.accessTokenAuth, "validity": keyValidity, token : this.generatedToken};
-    this.store.dispatch(RegenerateAccessTokenAction({ 'payload' : payload}));
+    const keyValidity = (this.accessTokenValidity > 0) ? this.accessTokenValidity : 9223372036854776;
+    const payload = {"auth":this.accessTokenAuth, "validity": keyValidity, token : this.generatedToken}
+    this.store.dispatch(RegenerateAccessTokenAction({ 'payload' : payload}))
   }
 
   callbackUpdate(value){
@@ -203,7 +191,7 @@ export class GenerateKeyFormComponent implements OnInit, OnDestroy {
       e.clipboardData.setData('text/plain', text);
       e.preventDefault();
       document.removeEventListener('copy', event);
-    };
+    }
     document.addEventListener('copy', event);
     document.execCommand('copy');
     this.notification.success('Copied to clipboard');
