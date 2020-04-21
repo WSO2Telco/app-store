@@ -21,7 +21,7 @@ export class AuthenticationService {
     private tokenData: TokenData;
     private httpBasicClient: HttpClient;
     private tokenTimer;
-    private loggedUser:string;
+    private loggedUser: string;
 
     constructor(private http: HttpClient, private store: Store<AppState>, handler: HttpBackend, private router: Router) {
         this.store.select((s) => s.authentication.loginData).subscribe((auth) => {
@@ -64,9 +64,10 @@ export class AuthenticationService {
             })
         };
 
-        localStorage.removeItem('tkx');
-        localStorage.removeItem('rtkn');
-        
+        let keysToRemove = ["global", "authentication", "apis", "applications", "forum", "tkx", "rtkn", "loggedUser"];
+        keysToRemove.forEach(k =>
+            localStorage.removeItem(k))
+
         return this.http.get(ApiEndpoints.authentication.logout, httpOptions).pipe(map((data: any) => new LogoutResponseData(data)));
     }
 
@@ -135,7 +136,7 @@ export class AuthenticationService {
         const httpOptions = {
             headers: new HttpHeaders({
                 'Content-Type': 'application/json',
-                'Authorization': 'Basic '+ btoa(`${loginData.username}:${loginData.password}`)
+                'Authorization': 'Basic ' + btoa(`${loginData.username}:${loginData.password}`)
             })
         };
 
@@ -148,11 +149,11 @@ export class AuthenticationService {
 
     tokenGeneration(loginData) {
         const body = new HttpParams()
-        .set('grant_type', 'password')
-        .set('scope', 'apim:subscribe')
-        .set('username', loginData.username)
-        .set('password', loginData.password);
-        
+            .set('grant_type', 'password')
+            .set('scope', 'apim:subscribe')
+            .set('username', loginData.username)
+            .set('password', loginData.password);
+
         const httpOptions = {
             headers: new HttpHeaders({
                 'Content-Type': 'application/x-www-form-urlencoded',
@@ -164,11 +165,11 @@ export class AuthenticationService {
 
     tokenRefresh() {
         const rtkn = localStorage.getItem('rtkn');
-        if(!rtkn) return EMPTY;
+        if (!rtkn) return EMPTY;
 
         const body = new HttpParams()
-        .set('grant_type', 'refresh_token')
-        .set('refresh_token', rtkn);
+            .set('grant_type', 'refresh_token')
+            .set('refresh_token', rtkn);
 
         const httpOptions = {
             headers: new HttpHeaders({
@@ -183,7 +184,7 @@ export class AuthenticationService {
         clearTimeout(this.tokenTimer);
         this.tokenTimer = setTimeout(() => {
             this.store.dispatch(TokenRefreshAction());
-        },  (expire*1000)-60);
+        }, (expire * 1000) - 60);
     }
 
 }
