@@ -3,10 +3,12 @@ import { OnInit, ChangeDetectorRef } from '@angular/core';
 import { LoginMenuAction, LoginMenuActionTypes } from './authentication/authentication.models';
 import { Store } from '@ngrx/store';
 import { AppState } from './app.data.models';
-import { DoLogoutAction, TokenRefreshAction } from './authentication/authentication.actions';
+import { DoLogoutAction, TokenRefreshAction, DoLogoutSuccessAction } from './authentication/authentication.actions';
 import * as globalActions from './app.actions';
 import { ToggleLeftPanelAction } from './app.actions';
 import { Router } from '@angular/router';
+import { Actions, ofType } from '@ngrx/effects';
+import { Idle, DEFAULT_INTERRUPTSOURCES } from '@ng-idle/core';
 
 @Component({
   selector: 'store-root',
@@ -22,12 +24,29 @@ export class AppComponent implements OnInit {
   public particleAnimation: boolean;
   public menuBackImage: boolean;
 
+  idleState = 'Not started.';
+  timedOut = false;
+
   constructor(
     private store: Store<AppState>,
     private ref: ChangeDetectorRef,
-    private router: Router
+    private router: Router,
+    private actions: Actions,
+    private idle: Idle
   ) {
+    // sets an idle timeout of 2.5min
+    idle.setIdle(150);
+    // sets a timeout period of 0.5 min. after 150 seconds of inactivity, the user will be considered timed out.
+    idle.setTimeout(30);
+    // sets the default interrupts, in this case, things like clicks, scrolls, touches to the document
+    idle.setInterrupts(DEFAULT_INTERRUPTSOURCES);
     
+    idle.onIdleEnd.subscribe(() => this.idleState = 'No longer idle.');
+
+    idle.onIdleStart.subscribe(() => this.idleState = 'You\'ve gone idle!');
+    idle.onTimeoutWarning.subscribe((countdown) => this.idleState = 'You will time out in ' + countdown + ' seconds!');
+
+    this.reset();
   }
 
   ngOnInit(): void {
@@ -54,8 +73,26 @@ export class AppComponent implements OnInit {
       this.store.dispatch(ToggleLeftPanelAction({ "payload": true }));
     }, 200);
 
-    let rtkn = localStorage.getItem('rtkn');
-    if (rtkn) this.store.dispatch(TokenRefreshAction());
+    let authtkn = localStorage.getItem('tkx')
+
+    this.actions.pipe(ofType(DoLogoutSuccessAction)).subscribe(p => {
+      location.replace("/app-store");
+    })
+
+    window.addEventListener('storage', (event) => {
+      if (event.storageArea == localStorage) {
+        let authData = localStorage.getItem('authentication');
+        if (authData == undefined || authData == null) {
+          this.store.dispatch(DoLogoutAction());
+        }
+      }
+    }, false);
+  }
+
+  reset() {
+    this.idle.watch();
+    this.idleState = 'Started.';
+    this.timedOut = false;
   }
 
   onMenuSelect(event: LoginMenuAction) {
