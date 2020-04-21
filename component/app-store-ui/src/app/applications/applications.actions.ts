@@ -17,6 +17,7 @@ export const GetApplicationSubscriptionsSuccessAction = createAction('[App] Get 
 
 export const CreateApplicationsAction = createAction('[App] Create App', props<{ payload: CreateApplicationParam }>());
 export const CreateApplicationSuccessAction = createAction('[App] Create App Success ✓', props<{ payload: CreateAppResponseData }>());
+export const CreateApplicationFailedAction = createAction('[App] Create App Failed ✓', props<{ payload: string }>());
 
 export const DeleteApplicationsAction = createAction('[App] Delete App', props<{ appId: string }>());
 export const DeleteApplicationSuccessAction = createAction('[App] Delete App Success ✓', props<{ payload: any }>());

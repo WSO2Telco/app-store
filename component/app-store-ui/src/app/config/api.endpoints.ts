@@ -14,7 +14,8 @@ export const ApiEndpoints = {
     forgetPassword: appStoreApi + "/user/forget-password",
     clientRegistration: baseUrl.protocol + '//' + baseUrl.host + '/client-registration/v0.13/register',
     tokenGeneration: baseUrl.protocol + '//' + baseUrl.host + '/oauth2/token',
-    tokenRevoke: baseUrl.protocol + '//' + baseUrl.host + '/oauth2/revoke',
+    tokenRegeneration: appStoreApi + '/token/generate',
+    tokenRevoke: appStoreApi + '/token/revoke',
   },
   apis: {
     search: apiContext + '/apis',

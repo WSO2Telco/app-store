@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Actions, Effect, createEffect, ofType } from '@ngrx/effects';
 
-import { EMPTY } from 'rxjs';
+import { EMPTY, of } from 'rxjs';
 import { mergeMap, catchError, map } from 'rxjs/operators';
 import { ApplicationsService } from './applications.service';
 import * as applicationsActions from './applications.actions';
@@ -76,16 +76,13 @@ export class ApplicationsEffects {
         map((response: CreateAppResponseData) => {
           if (response.message) {
             this.notification.error(response.message);
-            throw response;
+            return applicationsActions.CreateApplicationFailedAction({ "payload": response.message })
           } else {
             this.notification.success("Application created successfully");
             return applicationsActions.CreateApplicationSuccessAction({ "payload": response });
           }
         }),
-        catchError((e: HttpErrorResponse) => {
-          this.notification.error(e.error.description);
-          return EMPTY
-        })
+        catchError((e: HttpErrorResponse) => of(applicationsActions.CreateApplicationFailedAction({ payload: e.error.description })))
       )
     )
   ));
@@ -130,7 +127,7 @@ export class ApplicationsEffects {
           }
         }),
         catchError((e: HttpErrorResponse) => {
-          this.notification.error(e.error);
+          this.notification.error("Application Delete Unsuccessfull");
           return EMPTY
         })
       )

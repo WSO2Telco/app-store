@@ -11,6 +11,7 @@ import { NotificationService } from "../../../shared/services/notification.servi
 import * as applicationsActions from '../../applications.actions';
 import { Actions, ofType } from '@ngrx/effects';
 import { ActivatedRoute } from '@angular/router';
+import { UnsubscribeAction, UnsubscribeSuccessAction } from '../../../apis/apis.actions';
 
 @Component({
   selector: 'store-application-subscriptions',
@@ -20,6 +21,7 @@ import { ActivatedRoute } from '@angular/router';
 export class ApplicationSubscriptionsComponent implements OnInit {
 
   public datasource: MatTableDataSource<Subscription> = new MatTableDataSource();
+  appId:string;
 
   constructor(
     private store: Store<AppState>,
@@ -27,18 +29,20 @@ export class ApplicationSubscriptionsComponent implements OnInit {
     private notification: NotificationService,
     private actions$: Actions,
     private route: ActivatedRoute,
+    private cd: ChangeDetectorRef
   ) { }
 
   ngOnInit() {
     this.actions$.pipe(ofType(applicationsActions.GetApplicationSubscriptionsSuccessAction)).subscribe(p => {
       if (p) {
         this.store.select(s => s.applications.appSubscriptions).subscribe(res => (this.datasource.data = res.list));
+        this.cd.detectChanges();
       }
     });
 
     this.route.params.subscribe(params => {
-      let appId = params['appId'];
-      this.store.dispatch(applicationsActions.GetApplicationSubscriptionsAction({ "payload": appId }));
+      this.appId = params['appId'];
+      this.store.dispatch(applicationsActions.GetApplicationSubscriptionsAction({ "payload": this.appId }));
     })
   }
 
@@ -50,18 +54,19 @@ export class ApplicationSubscriptionsComponent implements OnInit {
           title: "Confirm Unsubscribe",
           message:
             'Are you sure you want to unsubscribe from "' +
-            sub.apiName +
-            " - " +
-            sub.apiVersion +
+            sub.apiIdentifier +
             '"?'
         }
       });
-
-      ref.afterClosed().subscribe(res => {
-        if (res) {
-          this.notification.success("Subscription successfully deleted");
+      ref.afterClosed().subscribe((confirmed: boolean) => {
+        if (confirmed) {
+            this.store.dispatch(UnsubscribeAction({ subscriptionId: sub.subscriptionId }));
+ 
+            this.actions$.pipe(ofType(UnsubscribeSuccessAction)).subscribe(p => {
+                this.store.dispatch(applicationsActions.GetApplicationSubscriptionsAction({ "payload": this.appId}));           
+            })
         }
-      });
+    });
     }
   }
 

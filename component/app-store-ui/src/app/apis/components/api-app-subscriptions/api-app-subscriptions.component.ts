@@ -98,21 +98,20 @@ export class ApiAppSubscriptionsComponent implements OnInit {
 
     //unsubscribe
     onAction(sub, action) {
+        
         if (action === "unsubscribe") {
             const ref = this.dialog.open(ConfirmDialogComponent, {
                 data: {
                     title: "Confirm Unsubscribe",
                     message:
-                        'Are you sure you want to unsubscribe the subscription id "' +
-                        sub.subscriptionId + '"?'
+                        'Are you sure you want to unsubscribe the Application of "' +
+                        this.mapAppName(sub.applicationId) + '"?'
                 }
             });
 
             ref.afterClosed().subscribe((confirmed: boolean) => {
                 if (confirmed) {
                     this.store.dispatch(UnsubscribeAction({ subscriptionId: sub.subscriptionId }));
-                    this.notification.success("Successfully unsubscribe the Subscription");
-
 
                     this.actions$.pipe(ofType(UnsubscribeSuccessAction)).subscribe(p => {
                         this.store.dispatch(GetUserSubscriptionsAction({ "payload": this.api_id }));

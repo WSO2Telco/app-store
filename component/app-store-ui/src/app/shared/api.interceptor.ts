@@ -1,10 +1,12 @@
 import { Injectable } from '@angular/core';
-import { HttpRequest, HttpHandler, HttpEvent, HttpInterceptor } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { HttpRequest, HttpHandler, HttpEvent, HttpInterceptor, HttpErrorResponse } from '@angular/common/http';
+import { Observable, throwError } from 'rxjs';
 import { AuthenticationService } from '../authentication/authentication.service';
 import { TokenData } from '../authentication/authentication.models';
 import { Store } from '@ngrx/store';
 import { AppState } from '../app.data.models';
+import {catchError} from "rxjs/operators";
+import * as loginActions from "../authentication/authentication.actions";
 
 
 @Injectable()
@@ -30,6 +32,15 @@ export class ApiInterceptor implements HttpInterceptor {
             });
         }
 
-        return next.handle(request);
+        return next.handle(request).pipe(
+            catchError((err: any) => {
+                if (err instanceof HttpErrorResponse && err.status === 401) {
+                    this.store.dispatch(loginActions.DoLogoutAction());
+                    return new Observable<HttpEvent<any>>();
+                } else{
+                    return throwError(err);
+                }
+            })
+        );
     }
 }

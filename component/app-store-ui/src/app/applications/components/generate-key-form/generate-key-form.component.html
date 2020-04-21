@@ -33,9 +33,9 @@
                     Enter valid Callback URL
                 </mat-error>
             </mat-form-field>
-            <mat-form-field class="validity-field">
+            <mat-form-field *ngIf="!keyObject" class="validity-field">
                 <input matInput placeholder="Validity period" formControlName="keyValidity" />
-                <span matSuffix> seconds</span>
+                <span matSuffix> Seconds</span>
                 <mat-error *ngIf="f?.keyValidity?.errors?.required">
                     Validity Period URL is required
                 </mat-error>
@@ -47,7 +47,7 @@
                 </mat-error>
             </mat-form-field>
             <div fxLayoutAlign="end center">
-                <button mat-raised-button class="generate" color="accent" (click)="generateKey()"><span *ngIf="!keyObject">Generate</span><span *ngIf="keyObject">Update</span></button>
+                <button mat-raised-button class="generate" color="accent" (click)="generateKey()"><span *ngIf="!keyObject">Generate Keys</span><span *ngIf="keyObject">Update</span></button>
             </div>
         </form>
 
@@ -71,7 +71,7 @@
                     </mat-form-field>
 
                     <mat-form-field>
-                        <input type="number" matInput placeholder="Validity Period" [(ngModel)]="accessTokenValidity">
+                        <input type="text" pattern="^([-]?[1-9]\d*|0)$" oninput="validity.valid" matInput placeholder="Validity Period" [(ngModel)]="accessTokenValidity">
                         <span matSuffix> seconds</span>
                     </mat-form-field>
                 </div>
@@ -90,10 +90,10 @@ curl <strong>-k -d</strong> "<span class="code-blue">grant_type={{accessTokenGra
                 <div class="test-access-token" *ngIf="keyObject.token?.accessToken">
                     <div class="block-title">Test Access Token</div>
 
-                    <div class="caption">Token below has a validity period of <span class="soft-bold">{{keyObject.token?.validityTime}}</span> seconds. And the token has ( <span class="soft-bold" *ngFor="let scope of keyObject.token.tokenScopes">{{scope}} </span> ) scopes.</div>
+                    <div class="caption">Token below has a validity period of <span class="soft-bold">{{generatedTokenValidity}}</span> seconds. And the token has ( <span class="soft-bold" *ngFor="let scope of keyObject.token.tokenScopes">{{scope}} </span> ) scopes.</div>
 
                     <div class="generated-access-token key-block">
-                        <span class="app-key" matTooltip="Click to copy the token" matTooltipPosition="below" (click)="clickToCopy(keyObject.token?.accessToken)">
+                        <span class="app-key" matTooltip="Click to copy the token" matTooltipPosition="below" (click)="clickToCopy(generatedToken)">
               <span *ngIf="!accessTokenVisible">&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;</span>
                         <span *ngIf="accessTokenVisible">{{generatedToken}}</span>
                         </span>
