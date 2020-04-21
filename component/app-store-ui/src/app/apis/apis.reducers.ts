@@ -1,18 +1,18 @@
 import { ApisState, ApiSearchResult, ApiStatus, ApiOverview } from './apis.models';
-import { ApiSearchSuccessAction, GetUserApplicationsSuccessAction, GetAvailableApplicationSuccessAction } from './apis.actions';
+import { ApiSearchSuccessAction, GetAvailableApplicationSuccessAction } from './apis.actions';
 import { createReducer, on } from '@ngrx/store';
 
 const initialState: ApisState = {
     apiSearchResult: new ApiSearchResult(),
-    selectedApi: new ApiOverview,
-    apiStatus: [
-        ApiStatus.all,
-        ApiStatus.published,
-        ApiStatus.prototyped],
-    userApplications: [],
-    selectedOperators: [],
-    isSubscriptionSuccess: false,
-    apiSubscriptions: null,
+    // selectedApi: new ApiOverview,
+    // apiStatus: [
+    //     ApiStatus.all,
+    //     ApiStatus.published,
+    //     ApiStatus.prototyped],
+    // userApplications: [],
+    // selectedOperators: [],
+    // isSubscriptionSuccess: false,
+    // apiSubscriptions: null,
     availableApp: null
 };
 
@@ -26,9 +26,9 @@ const _apisReducer = createReducer(initialState,
         ...state, availableApp: payload
     })),
 
-    on(GetUserApplicationsSuccessAction, (state, { payload }) => ({
-        ...state, userApplications: payload
-    })),
+    // on(GetUserApplicationsSuccessAction, (state, { payload }) => ({
+    //     ...state, userApplications: payload
+    // })),
 
     // on(AddOperatorToSelectionAction, (state, { payload }) => ({
     //     ...state, selectedOperators: [...state.selectedOperators.filter((op: Operator) => op.mnc !== payload.mnc), payload]

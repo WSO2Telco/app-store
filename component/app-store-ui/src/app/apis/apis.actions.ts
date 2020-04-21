@@ -14,8 +14,8 @@ export const ResetApiOverviewAction = createAction('[API] Reset API Overview');
 export const GetApiTagAction = createAction('[API] Get API Tag', props());
 export const GetApiTagSuccessAction = createAction('[API] Get API Tag Success ✓', props<{ payload: TagListResult }>());
 
-export const GetUserApplicationsAction = createAction('[API] Get User Apps', props<{ payload: any }>());
-export const GetUserApplicationsSuccessAction = createAction('[API] Get User Apps Success ✓', props<{ payload: Application[] }>());
+// export const GetUserApplicationsAction = createAction('[API] Get User Apps', props<{ payload: any }>());
+// export const GetUserApplicationsSuccessAction = createAction('[API] Get User Apps Success ✓', props<{ payload: Application[] }>());
 
 export const GetUserSubscriptionsAction = createAction('[API] Get User Subscriptions', props<{ payload: string }>());
 export const GetUserSubscriptionsSuccessAction = createAction('[API] Get User Subscriptions Success ✓', props<{ payload: any }>());

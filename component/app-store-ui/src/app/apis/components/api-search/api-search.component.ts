@@ -24,7 +24,7 @@ import { GetApplicationsParam } from '../../../applications/applications.data.mo
 export class ApiSearchComponent implements OnInit {
   apiSearchResult: ApiSummary[];
   apipaginatorData: paginationData[];
-  apiStatus: ApiStatus[];
+  apiStatus: ApiStatus[] = [ApiStatus.all, ApiStatus.prototyped, ApiStatus.published];
   searchQuery: string;
   apiCategory: ApiStatus = ApiStatus.all;
   // MatPaginator Inputs
@@ -52,10 +52,6 @@ export class ApiSearchComponent implements OnInit {
         this.length = res.pagination.total;
         this.ref.markForCheck();
       });
-
-    this.store
-      .select(s => s.apis.apiStatus)
-      .subscribe(res => (this.apiStatus = res));
 
     this.route.queryParams.subscribe(params => {
       this.offsetSize = parseInt(params['page']) || 0;
