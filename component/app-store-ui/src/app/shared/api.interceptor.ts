@@ -5,7 +5,7 @@ import { AuthenticationService } from '../authentication/authentication.service'
 import { TokenData } from '../authentication/authentication.models';
 import { Store } from '@ngrx/store';
 import { AppState } from '../app.data.models';
-import {catchError} from "rxjs/operators";
+import { catchError } from "rxjs/operators";
 import * as loginActions from "../authentication/authentication.actions";
 
 
@@ -32,7 +32,9 @@ export class ApiInterceptor implements HttpInterceptor {
             });
         }
 
-        return next.handle(request).pipe(
+        return next.handle(request);
+
+       /*  return next.handle(request).pipe(
             catchError((err: any) => {
                 if (err instanceof HttpErrorResponse && err.status === 401) {
                     this.store.dispatch(loginActions.DoLogoutAction());
@@ -41,6 +43,6 @@ export class ApiInterceptor implements HttpInterceptor {
                     return throwError(err);
                 }
             })
-        );
+        ); */
     }
 }
