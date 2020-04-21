@@ -29,12 +29,12 @@ export const DoNewSubscribeSuccessAction = createAction('[API] Do new App Subscr
 export const UnsubscribeAction = createAction('[API] unsubscribe Subscription', props<{ subscriptionId: string }>());
 export const UnsubscribeSuccessAction = createAction('[API] unsubscribe Subscription Success ✓', props<{ payload: any }>());
 
-export const GetApiSdkAction = createAction('[API] Do Api Sdk', props<{ payload: sdkParam }>());
-export const GetApiSdkSuccessAction = createAction('[API] Do Api Sdk Success ✓', props<{ payload: any }>());
+// export const GetApiSdkAction = createAction('[API] Do Api Sdk', props<{ payload: sdkParam }>());
+// export const GetApiSdkSuccessAction = createAction('[API] Do Api Sdk Success ✓', props<{ payload: any }>());
 
-export const AddOperatorToSelectionAction = createAction('[API] Add Operator To Selection', props<{ payload: Operator }>());
-export const RemoveOperatorFromSelectionAction = createAction('[API] Remove Operator From Selection', props<{ payload: Operator }>());
-export const RemoveAllOperatorFromSelectionAction = createAction('[API] Remove All Operators From Selection', props<{ payload: any }>());
+// export const AddOperatorToSelectionAction = createAction('[API] Add Operator To Selection', props<{ payload: Operator }>());
+// export const RemoveOperatorFromSelectionAction = createAction('[API] Remove Operator From Selection', props<{ payload: Operator }>());
+// export const RemoveAllOperatorFromSelectionAction = createAction('[API] Remove All Operators From Selection', props<{ payload: any }>());
 
 export const GetAvailableApplicationAction = createAction('[API] Get Available Apps', props<{}>());
 export const GetAvailableApplicationSuccessAction = createAction('[API] Get Available Apps Success ✓', props<{ payload: ApplicationListResult }>());
