@@ -6,11 +6,16 @@ import {
     ApiSearchParam, ApiSearchResult, ApplicationsResult,
     SubscribeParam, SubscribeResult, ApiOverview, TagListResult, sdkParam, AddNewSubsParam
 } from './apis.models';
+import { NotificationService } from '../shared/services/notification.service';
 
 @Injectable()
 export class ApisService {
 
-    constructor(private http: HttpClient, private handler: HttpBackend) { }
+    constructor(
+        private http: HttpClient, 
+        private handler: HttpBackend,
+        private notification: NotificationService
+    ) { }
 
     search(param: ApiSearchParam): Observable<any> {
         const searchParams = new HttpParams()
@@ -47,12 +52,31 @@ export class ApisService {
         return this.http.get<TagListResult>(ApiEndpoints.apis.tag);
     }
 
-    getApiSdk(param: sdkParam): Observable<any> {
+    getApiSdk(param: sdkParam) {
         let data = '?apiId=' + param.apiId + '&language=' + param.lang;
 
-        const headerParams = new HttpHeaders()
-            .append('Content-Type', 'application/json')
-        return this.http.post<any>(ApiEndpoints.apis.sdk + data, headerParams);
+        let body = { filename: param.apiId };
+
+        this.http.post(
+            ApiEndpoints.apis.sdk + data,
+            body,
+            {
+                responseType: "blob",
+                headers: new HttpHeaders().append("Content-Type", "application/json")
+            }
+        ).subscribe(
+            data => {
+                let blob = new Blob([data], { type: "application/zip" });
+                let url = window.URL.createObjectURL(blob);
+                let pwa = window.open(url);
+                if (!pwa || pwa.closed || typeof pwa.closed == 'undefined') {
+                    this.notification.error("Please disable your Pop-up blocker and try again.");
+                }
+            },
+            err => {
+                this.notification.error("Error : No SDK found for "+param.lang);
+            }
+        );;
     }
 
     newApiSubscription(param: AddNewSubsParam): Observable<any> {
@@ -80,7 +104,7 @@ export class ApisService {
         return this.http.delete(`${ApiEndpoints.apis.applications}/${subscriptionId}`);
     }
 
-    searchForum(searchTerm:string){
+    searchForum(searchTerm: string) {
         let url = `${ApiEndpoints.forum.search}/${encodeURI(searchTerm)}`;
         return this.http.get(url);
     }
