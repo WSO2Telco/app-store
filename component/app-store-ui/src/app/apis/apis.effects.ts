@@ -61,18 +61,18 @@ export class ApisEffects {
     )
   ));
 
-  apiSdk$ = createEffect(() => this.actions$.pipe(
-    ofType(apiActions.GetApiSdkAction),
-    mergeMap(({ payload }) => this.apiService.getApiSdk(payload)
-      .pipe(
-        map((result: any) => (apiActions.GetApiSdkSuccessAction({ "payload": result }))),
-        catchError((e: HttpErrorResponse) => {
-          this.notification.error(e.message);
-          return EMPTY
-        })
-      )
-    )
-  ));
+  // apiSdk$ = createEffect(() => this.actions$.pipe(
+  //   ofType(apiActions.GetApiSdkAction),
+  //   mergeMap(({ payload }) => this.apiService.getApiSdk(payload)
+  //     .pipe(
+  //       map((result: any) => (apiActions.GetApiSdkSuccessAction({ "payload": result }))),
+  //       catchError((e: HttpErrorResponse) => {
+  //         this.notification.error(e.message);
+  //         return EMPTY
+  //       })
+  //     )
+  //   )
+  // ));
 
   addNewSubscription$ = createEffect(() => this.actions$.pipe(
     ofType(apiActions.DoNewSubscribeAction),
@@ -98,38 +98,6 @@ export class ApisEffects {
       )
     )
   ));
-
-  /*   apiSdk$ = createEffect(() => this.actions$.pipe(
-      ofType(apiActions.GetApiSdkAction),
-      mergeMap(({ payload }) => this.apiService.getApiSdk(payload)
-        .pipe(
-          map((result: any) => {
-            debugger;
-            if (result.error) {
-              result.message = 'Load application error';
-              throw result;
-            } else {
-              debugger;
-              this.downloadFile(result)
-              console.log('hit');
-              return (apiActions.GetApiSdkSuccessAction({ "payload": result }))
-            }
-          }),
-          catchError((e: HttpErrorResponse) => {
-            this.notification.error(e.message);
-            return EMPTY
-          })
-        )
-      )
-    ));
-  
-    downloadFile(data: any) {
-      console.log('dsds');
-      const blob = new Blob([data], { type: 'text/csv' });
-      const url = window.URL.createObjectURL(blob);
-      window.open(url);
-    }
-   */
 
   deleteSubscription$ = createEffect(() => this.actions$.pipe(
     ofType(apiActions.UnsubscribeAction),
