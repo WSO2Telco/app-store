@@ -8,6 +8,8 @@ import { BreadcrumbItem, AppState } from "../../../app.data.models";
 import { Store } from '@ngrx/store';
 import { Title } from '@angular/platform-browser';
 import { SwiperConfigInterface } from 'ngx-swiper-wrapper';
+import { Idle } from '@ng-idle/core';
+import { DoLogoutAction } from '../../../authentication/authentication.actions';
 
 @Component({
   selector: "store-dashboard",
@@ -42,8 +44,21 @@ export class DashboardComponent implements OnInit {
   };
   public autoLogout = false;
   public username:string = null;
+  idleState = 'Not started.';
+  timedOut = false;
 
-  constructor(private store: Store<AppState>, private titleService: Title) {}
+  constructor(private store: Store<AppState>, private titleService: Title,private idle: Idle) {
+
+    idle.onTimeout.subscribe(() => {
+      this.idleState = 'Timed out!';
+      this.timedOut = true;
+      let authtkn = localStorage.getItem('tkx')
+      if (authtkn) {
+        this.store.dispatch(DoLogoutAction());
+      }
+      this.reset();
+    });
+  }
 
   ngOnInit() {
     this.store.dispatch(globalActions.SetBreadcrumbAction({payload:[new BreadcrumbItem("Home")]}));
@@ -56,6 +71,12 @@ export class DashboardComponent implements OnInit {
     this.store.select((s) => s.authentication.loggedUser).subscribe((user) => {
       this.username = user;
     })
+  }
+
+  reset() {
+    this.idle.watch();
+    this.idleState = 'Started.';
+    this.timedOut = false;
   }
 
   public onIndexChange(index: number) {
