@@ -61,7 +61,7 @@ public class TokenService {
 
         try (CloseableHttpClient httpClient = HttpClients.createDefault();
              CloseableHttpResponse response = httpClient.execute(request)) {
-            String responseString = EntityUtils.toString(response.getEntity(), StandardCharsets.UTF_8);
+            String responseString = EntityUtils.toString(response.getEntity(), StandardCharsets.UTF_8.name());
             logger.log(Level.INFO, "{0} : REVOKE", requestBody);
             return Response.status(Response.Status.OK).entity(responseString).build();
         } catch (IOException e) {
@@ -108,7 +108,7 @@ public class TokenService {
 
         try (CloseableHttpClient httpClient = HttpClients.createDefault();
              CloseableHttpResponse response = httpClient.execute(request)) {
-            String responseString = EntityUtils.toString(response.getEntity(), StandardCharsets.UTF_8);
+            String responseString = EntityUtils.toString(response.getEntity(), StandardCharsets.UTF_8.name());
             logger.log(Level.INFO, "{0} : TOKEN", responseString);
             return Response.status(Response.Status.OK).entity(responseString).build();
         } catch (IOException e) {
