@@ -17,7 +17,7 @@
 
         <ng-container matColumnDef="oppAprovalStatus">
             <mat-header-cell *matHeaderCellDef> Operator Approval Status </mat-header-cell>
-            <mat-cell *matCellDef="let element"> {{element.status}} </mat-cell>
+            <mat-cell *matCellDef="let element"> {{element.apiIdentifier.split('-')[0]}}-{{element.status}} </mat-cell>
         </ng-container>
 
         <ng-container matColumnDef="action">
