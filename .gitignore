@@ -19,4 +19,3 @@ component/app-store-ui/app-store-ui.iml
 /component/app-store-core/app-store-core.iml
 *.iml
 /component/app-store-core/app-store-core.iml
-/package-lock.json
