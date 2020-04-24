@@ -33,7 +33,6 @@
 			<ref bean="AuthenticationServiceBean" />
 			<ref bean="MockServiceBean" />
 			<ref bean="UserServiceBean" />
-			<ref bean="TokenServiceBean" />
 		</jaxrs:serviceBeans>
 
 	</jaxrs:server>
@@ -46,8 +45,6 @@
 		class="com.wso2telco.dep.storeservice.resource.MockService" />
 	<bean id="UserServiceBean"
 		class="com.wso2telco.dep.storeservice.resource.UserService" />
-	<bean id="TokenServiceBean"
-		  class="com.wso2telco.dep.storeservice.resource.TokenService" />
 	 <bean id="authenticationFilter"
 		class="org.appstore.core.authfilter.Authentication" /> 
 </beans>
