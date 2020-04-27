@@ -52,9 +52,11 @@ public class SwaggerDefServiceUtil {
 
         //get value for security Definitions
         APIManagerConfiguration apiManagerConfiguration = ServiceReferenceHolder.getInstance().getAPIManagerConfigurationService().getAPIManagerConfiguration();
-        String SecurityAuthUrl = apiManagerConfiguration.getProperty("OAuthConfigurations.RevokeAPIURL").get(0).replace("revoke", "authorize");
+//        String SecurityAuthUrl = apiManagerConfiguration.getProperty("OAuthConfigurations.RevokeAPIURL").get(0).replace("revoke", "authorize");
+        String SecurityAuthUrl = StringUtils.substringAfterLast(apiManagerConfiguration.getProperty("APIGateway.Environments.Environment.GatewayEndpoint").get(0), ",").concat("/authorize");
         String secAuthType = (apiManagerConfiguration.getProperty("OAuthConfigurations.TokenEndPointName").get(0).contains("auth2")) ? "oauth2" : "";
-        String hostUrl = apiManagerConfiguration.getProperty("OAuthConfigurations.RevokeAPIURL").get(0).replace("revoke", "").replace("https://","").replace("/","");
+//        String hostUrl = apiManagerConfiguration.getProperty("OAuthConfigurations.RevokeAPIURL").get(0).replace("revoke", "").replace("https://","").replace("/","");
+        String hostUrl = StringUtils.substringAfterLast(apiManagerConfiguration.getProperty("APIGateway.Environments.Environment.GatewayEndpoint").get(0), ",").replace("https://","");
 
 
         String SecurrityDef = "\"securityDefinitions\":{ \"default\":{ \"type\": \"" + secAuthType + "\",\"authorizationUrl\": \"" + SecurityAuthUrl + "\", \"flow\": \"implicit\", \"scopes\":{} }}";
