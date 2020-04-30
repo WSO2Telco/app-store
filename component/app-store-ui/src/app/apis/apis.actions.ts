@@ -1,7 +1,7 @@
 import { createAction, props } from '@ngrx/store';
 import { ApiSearchParam, ApiSearchResult, Application, SubscribeParam, ApiOverview, ApplicationSearchParam, tagData, TagListResult, sdkParam, Subscription, AddNewSubsParam } from './apis.models';
 import { Operator } from '../app.data.models';
-import { ApplicationListResult } from '../applications/applications.data.models';
+import { ApplicationListResult, ApplicationDetails } from '../applications/applications.data.models';
 import { TopicResultPayload } from '../forum/forum.data.models';
 
 export const DoApiSearchAction = createAction('[API] Search', props<{ payload: ApiSearchParam }>());
@@ -38,6 +38,9 @@ export const UnsubscribeSuccessAction = createAction('[API] unsubscribe Subscrip
 
 export const GetAvailableApplicationAction = createAction('[API] Get Available Apps', props<{}>());
 export const GetAvailableApplicationSuccessAction = createAction('[API] Get Available Apps Success ✓', props<{ payload: ApplicationListResult }>());
+
+export const GetSelectedAppAction = createAction('[API] Get Selected Apps',  props<{ payload: string }>());
+export const GetSelectedAppSuccessAction = createAction('[API] Get Selected Apps Success ✓',  props<{ payload: ApplicationDetails }>());
 
 export const SearchForumTopicsAction = createAction('[API] Search Forum Topics', props<{ payload: string }>());
 export const SearchForumTopicsSuccessAction = createAction('[API] Search Forum Topics Success ✓', props<{ payload: TopicResultPayload }>());
