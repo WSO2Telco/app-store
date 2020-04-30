@@ -30,7 +30,7 @@ import { applicationsReducer } from "./applications/applications.reducer";
 import { AppGuard } from "./app.guards";
 import { forumReducer } from "./forum/forum.reducer";
 import { ApiInterceptor } from './shared/api.interceptor';
-import {NgIdleModule} from '@ng-idle/core'
+import {NgIdleModule} from '@ng-idle/core';
 
 const reducers: ActionReducerMap<AppState> = {
   global: globalReducer,
