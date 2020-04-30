@@ -30,7 +30,8 @@
               "node_modules/jsoneditor/dist/jsoneditor.min.css"
             ],
             "scripts": [
-              "node_modules/intro.js/intro.js"
+              "node_modules/intro.js/intro.js",
+              "node_modules/jquery/dist/jquery.min.js"
             ]
           },
           "configurations": {
