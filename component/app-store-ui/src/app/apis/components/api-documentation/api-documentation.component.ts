@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-
 @Component({
   selector: 'store-api-documentation',
   templateUrl: './api-documentation.component.html',
@@ -7,9 +6,14 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ApiDocumentationComponent implements OnInit {
 
-  constructor() { }
+  constructor() {
+  }
 
   ngOnInit() {
+  }
+
+  submit() {
+
   }
 
 }

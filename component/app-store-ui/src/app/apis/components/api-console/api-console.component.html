@@ -1,5 +1,63 @@
-<div>
-  <div #swagger>
-    <div class="swagger-container"></div>
-  </div>
+<mat-card class="animated fadeIn">
+  <mat-card-content>
+    <div class="intro-container">
+      <h3 class="animated fadeInDown"> API definition and Invoke API</h3>
+      <ng-container *ngIf="loggedUser == null;">
+        <div class="no-key">
+          <mat-icon>info</mat-icon> You require an access token to try the API invoke. Please login and subscribe to the API
+          to generate an access token.
+        </div>
+      </ng-container>
+    </div>
+    <div>
+      <ng-container *ngIf="loggedUser != null;">
+        <div class="button-row">
+          <label>Try:</label>
+          <ng-container class="content">
+            <mat-select placeholder="Application List" [(ngModel)]="selectedApp"
+              (selectionChange)="onAppChange($event)">
+              <mat-option *ngFor="let app of subscriptionList" [value]="app.applicationId">
+                {{mapAppName(app.applicationId)}}
+              </mat-option>
+            </mat-select>
+          </ng-container>
+        </div>
+        <div class="button-row">
+          <label>Using:</label>
+          <ng-container class="content">
+            <mat-select placeholder="Enviorment Type" [disabled]="selectedApp == null" [(ngModel)]="selectedEnv"
+              (ngModelChange)="retrieveEnvKeyObject()">
+              <mat-option>None</mat-option>
+              <mat-option *ngFor="let env of listOfEnv" [value]="env.val">{{env.name}}</mat-option>
+            </mat-select>
+          </ng-container>
+        </div>
+
+        <div class="button-row">
+          <ng-container *ngIf="(accessToken == null && loggedUser != null)">
+            <div class="no-key">
+              <mat-icon>info</mat-icon> No access token found <br>
+              Please select an application or The selected application does not have an access token for the selected
+              environment. Go to the application
+              page and generate keys.
+            </div>
+          </ng-container>
+        </div>
+        <div class="button-row">
+          <label>Set Request Header:</label>
+          <div class="content">
+            <mat-form-field appearance="fill" class="tokenField">
+              <input matInput [(ngModel)]="accessToken" (change)="checkOnKeyPress($event)" placeholder="Access Token"
+                type="text">
+              <span matPrefix>Authorization : Bearer&nbsp;&nbsp;</span>
+            </mat-form-field>
+          </div>
+        </div>
+      </ng-container>
+    </div>
+  </mat-card-content>
+</mat-card>
+
+<div #swagger>
+  <div class="swagger-container"></div>
 </div>

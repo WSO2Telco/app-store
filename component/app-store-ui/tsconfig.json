@@ -4,6 +4,7 @@
     "downlevelIteration": true,
     "importHelpers": true,
     "outDir": "./dist/out-tsc",
+    "types": ["jquery"],
     "sourceMap": true,
     "declaration": false,
     "moduleResolution": "node",
