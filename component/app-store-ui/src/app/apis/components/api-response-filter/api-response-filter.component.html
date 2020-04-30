@@ -1,0 +1,4 @@
+<json-editor [options]="editorOptions" [data]="data" (change)="getData($event)"></json-editor>
+<br>
+<div class="pull-left"> <button (click)="SaveContent()" mat-flat-button color="primary"><i class="fa fa-download" aria-hidden="true"></i> Download </button></div>
+<div class="pull-right"> <button (click)="onCloseClick()" mat-flat-button color="accent"><i class="fa fa-info-circle" aria-hidden="true"></i> Close </button></div>
