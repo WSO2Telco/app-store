@@ -1,26 +1,44 @@
-import { ApisState, ApiSearchResult, ApiStatus, ApiOverview } from './apis.models';
+import { ApiListDetail, paginationData, ApiEntityState } from './apis.models';
 import { ApiSearchSuccessAction, GetAvailableApplicationSuccessAction } from './apis.actions';
-import { createReducer, on } from '@ngrx/store';
+import { createReducer, on, createFeatureSelector, createSelector } from '@ngrx/store';
+import { EntityAdapter, createEntityAdapter } from '@ngrx/entity';
+import * as fromRoot from '../app.data.models';
+import { ApplicationListResult } from '../applications/applications.data.models';
 
-const initialState: ApisState = {
-    apiSearchResult: new ApiSearchResult(),
-    // selectedApi: new ApiOverview,
-    // apiStatus: [
-    //     ApiStatus.all,
-    //     ApiStatus.published,
-    //     ApiStatus.prototyped],
-    // userApplications: [],
-    // selectedOperators: [],
-    // isSubscriptionSuccess: false,
-    // apiSubscriptions: null,
-    availableApp: null
-};
+export const apiListAdapter: EntityAdapter<ApiListDetail> = createEntityAdapter<ApiListDetail>();
 
-const _apisReducer = createReducer(initialState,
+export const defaultApiList: ApiEntityState = {
+    ids: [],
+    entities: {},
+    loading: false,
+    loaded: false,
+    previous: "",
+    next: "",
+    count: 0,
+    availableApp: new ApplicationListResult(),
+    pagination: new paginationData()
+}
 
-    on(ApiSearchSuccessAction, (state, { payload }) => ({
-        ...state, apiSearchResult: payload
-    })),
+export interface AppState extends fromRoot.AppState {
+    apis: ApiEntityState
+}
+
+const initState = apiListAdapter.getInitialState(defaultApiList);
+
+const _apisReducer = createReducer(initState,
+
+    on(ApiSearchSuccessAction, (state, { payload }) => {
+        return apiListAdapter.addAll(payload.list, {
+            ...state,
+            entities: {},
+            loaded: true,
+            loading: false,
+            count: payload.count,
+            previous: payload.previous,
+            next: payload.next,
+            pagination : payload.pagination
+        })
+    }),
 
     on(GetAvailableApplicationSuccessAction, (state, { payload }) => ({
         ...state, availableApp: payload
@@ -46,3 +64,13 @@ const _apisReducer = createReducer(initialState,
 export function apisReducer(state, action) {
     return _apisReducer(state, action);
 }
+
+
+/*
+  Forum Selectors
+*/
+
+const getApiFeatureState = createFeatureSelector<ApiEntityState>("apis");
+
+export const getApis = createSelector(getApiFeatureState, apiListAdapter.getSelectors().selectAll);
+export const getApi = (id: string) => createSelector(getApiFeatureState, state => state.entities[id]);

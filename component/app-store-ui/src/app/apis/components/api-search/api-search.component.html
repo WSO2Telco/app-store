@@ -55,7 +55,7 @@
                 </div>
             </div>
 
-            <div class="api-info" *ngFor="let api of apiSearchResult" [routerLink]="'/apis/detail/' + api.id">
+            <div class="api-info" *ngFor="let api of apiList" [routerLink]="'/apis/detail/' + api.id">
                 <div class="icon-wrap">
                     <div class="api-icon">
                         <img [src]="apiPrefix + api.thumbnailUri" width="100" *ngIf="api.thumbnailUri" />

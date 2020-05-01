@@ -63,7 +63,7 @@ export class ApiDetailComponent implements OnInit, OnDestroy {
 
     this.route.params.subscribe(p => {
       this.api_id = p['apiId'];
-      this.store.dispatch(apiActions.ResetApiOverviewAction());
+      // this.store.dispatch(apiActions.ResetApiOverviewAction());
       if (this.api_id != '') this.store.dispatch(GetApiOverviewAction({ "payload": this.api_id }));
     })
 

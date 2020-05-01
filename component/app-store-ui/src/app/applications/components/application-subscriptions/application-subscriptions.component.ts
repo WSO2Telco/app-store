@@ -6,7 +6,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { AppState } from '../../../app.data.models';
 import { Subscription } from "../../applications.data.models";
 import { ConfirmDialogComponent } from "../../../commons/components/confirm-dialog/confirm-dialog.component";
-import { ApiSearchResult, ApiSummary } from '../../../apis/apis.models';
+// import { ApiSearchResult, ApiSummary } from '../../../apis/apis.models';/
 import { NotificationService } from "../../../shared/services/notification.service";
 import * as applicationsActions from '../../applications.actions';
 import { Actions, ofType } from '@ngrx/effects';
@@ -87,7 +87,7 @@ export class ApplicationSubscriptionsComponent implements OnInit {
   templateUrl: 'dialog-add-subscription.html'
 })
 export class DialogAppAddSubscription implements OnInit {
-  apis: ApiSummary[];
+  apis: [];
 
   constructor(
     private store: Store<AppState>,
@@ -95,11 +95,11 @@ export class DialogAppAddSubscription implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.store
-      .select(s => s.apis.apiSearchResult)
-      .subscribe((res: ApiSearchResult) => {
-        this.apis = res.list;
-        this.ref.markForCheck();
-      });
+    // this.store
+    //   .select(s => s.apis.apiSearchResult)
+    //   .subscribe((res: ApiSearchResult) => {
+    //     this.apis = res.list;
+    //     this.ref.markForCheck();
+    //   });
   }
 }

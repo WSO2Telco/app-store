@@ -35,7 +35,6 @@ import {NgIdleModule} from '@ng-idle/core'
 const reducers: ActionReducerMap<AppState> = {
   global: globalReducer,
   authentication: authReducer,
-  apis: apisReducer,
   applications: applicationsReducer,
 };
 

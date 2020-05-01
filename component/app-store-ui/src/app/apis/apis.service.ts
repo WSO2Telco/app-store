@@ -3,7 +3,7 @@ import { ApiEndpoints } from '../config/api.endpoints';
 import { Observable } from 'rxjs';
 import { HttpClient, HttpParams, HttpHeaders, HttpBackend } from '@angular/common/http';
 import {
-    ApiSearchParam, ApiSearchResult, ApplicationsResult,
+    ApiSearchParam, ApplicationsResult,
     SubscribeParam, SubscribeResult, ApiOverview, TagListResult, sdkParam, AddNewSubsParam
 } from './apis.models';
 import { NotificationService } from '../shared/services/notification.service';
@@ -25,7 +25,7 @@ export class ApisService {
             .append('offset', <any>param.offset);
         const headerParams = new HttpHeaders()
             .append('Content-Type', 'application/json')
-        return this.http.get<ApiSearchResult>(ApiEndpoints.apis.search, { params: searchParams, headers: headerParams });
+        return this.http.get(ApiEndpoints.apis.search, { params: searchParams, headers: headerParams });
     }
 
     // getUserApplicationsActions(appId: string): Observable<ApplicationsResult> {

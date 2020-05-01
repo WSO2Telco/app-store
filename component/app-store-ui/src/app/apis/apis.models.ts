@@ -1,5 +1,6 @@
 import { Operator, Country, Tier } from '../app.data.models';
 import { ApplicationListResult } from '../applications/applications.data.models';
+import { EntityState } from '@ngrx/entity';
 
 export enum ApiStatus {
     all = 'All',
@@ -19,38 +20,62 @@ export class ApiSearchParam {
     }
 }
 
-export class ApiSearchResult {
-    constructor(
-        public list: ApiSummary[] = [],
-        public count: number = 0,
-        public isMore: boolean = false,
-        public isMonetizationEnabled: boolean = false,
-        public error: any = null,
-        public message: string = null,
-        public isRatingActivated: boolean = false,
-        public pagination: paginationData = new paginationData) { }
+// export class ApiSearchResult {
+//     constructor(
+//         public list: ApiSummary[] = [],
+//         public count: number = 0,
+//         public isMore: boolean = false,
+//         public isMonetizationEnabled: boolean = false,
+//         public error: any = null,
+//         public message: string = null,
+//         public isRatingActivated: boolean = false,
+//         public pagination: paginationData = new paginationData) { }
+// }
+
+export class ApiListDetail {
+    context: string;
+    description: string;
+    id: number;
+    name: string;
+    provider: string;
+    scopes: []
+    status: string;
+    thumbnailUri: string;
+    version: any
 }
 
-export class ApiSummary {
-    constructor(
-        public id: string = '',
-        public name: string = '',
-        public provider: string = '',
-        public version: string = '',
-        public context: string = '',
-        public status: string = '',
-        public thumbnailUrl: string = '',
-        public visibility: string = '',
-        public visibleRoles: string = '',
-        public description: string = '',
-        public apiOwner: string = '',
-        public isAdvertiseOnly: boolean = false,
-        public apiBusinessOwner: string = '',
-        public rates: number = 0,
-        public tiers: string[] = null,
-        public scopes: string[] = null,
-        public monetizationCategory: string = '') { }
+export interface ApiEntityState extends EntityState<ApiListDetail> {
+    ids: [],
+    entities: {},
+    loading: false,
+    loaded: false
+    count: 0,
+    next: "",
+    previous: ""
+    availableApp: ApplicationListResult,
+    pagination: paginationData
 }
+
+// export class ApiSummary {
+//     constructor(
+//         public id: string = '',
+//         public name: string = '',
+//         public provider: string = '',
+//         public version: string = '',
+//         public context: string = '',
+//         public status: string = '',
+//         public thumbnailUrl: string = '',
+//         public visibility: string = '',
+//         public visibleRoles: string = '',
+//         public description: string = '',
+//         public apiOwner: string = '',
+//         public isAdvertiseOnly: boolean = false,
+//         public apiBusinessOwner: string = '',
+//         public rates: number = 0,
+//         public tiers: string[] = null,
+//         public scopes: string[] = null,
+//         public monetizationCategory: string = '') { }
+// }
 
 export class paginationData {
     total: number;
@@ -122,16 +147,11 @@ export class BusinessInfo {
     businessOwnerEmail: string = null;
 }
 
-export interface ApisState {
-    apiSearchResult: ApiSearchResult;
-    // selectedApi: ApiOverview;
-    // apiStatus: ApiStatus[];
-    // userApplications: Application[];
-    // selectedOperators: Operator[];
-    // isSubscriptionSuccess: boolean;
-    // apiSubscriptions: SubscriptionResult;
-    availableApp: ApplicationListResult;
-}
+// export interface ApisState {
+//     // apiSearchResult: ApiSearchResult;
+//     availableApp: ApplicationListResult;
+//     pagination: paginationData;
+// }
 
 export class SubscriptionResult {
     count: number;
