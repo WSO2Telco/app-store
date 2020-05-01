@@ -77,17 +77,6 @@ export class ApiSearchComponent implements OnInit {
       }
     })
 
-    /*  this.actions$.pipe(ofType(applicationsActions.GetAllApplicationsSuccessAction)).subscribe(p => {
-       if (p) {
-         this.store
-           .select(s => s.applications.allApplications)
-           .subscribe(apps => {
-             this.dataSource.data = apps.list;
-             this.appResult = apps;
-           });
-       }
-     }) */
-
   }
 
   openDialog(): void {

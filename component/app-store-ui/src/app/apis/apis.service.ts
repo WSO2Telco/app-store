@@ -7,6 +7,7 @@ import {
     SubscribeParam, SubscribeResult, ApiOverview, TagListResult, sdkParam, AddNewSubsParam
 } from './apis.models';
 import { NotificationService } from '../shared/services/notification.service';
+import { ApplicationDetails } from '../applications/applications.data.models';
 
 @Injectable()
 export class ApisService {
@@ -99,6 +100,10 @@ export class ApisService {
     getAvailableApplications(): Observable<any> {
         return this.http.get<any>(ApiEndpoints.apis.availableApp);
     }
+
+    getSelectedAppDetails(appId: string): Observable<ApplicationDetails> {
+        return this.http.get<ApplicationDetails>(`${ApiEndpoints.applications.applications}/${appId}`);
+      }
 
     deleteSubscription(subscriptionId): Observable<any> {
         return this.http.delete(`${ApiEndpoints.apis.applications}/${subscriptionId}`);

@@ -11,7 +11,7 @@ import {
   ApplicationsResult, SubscribeResult, ApiOverview, TagListResult, TopicResult,
 } from './apis.models';
 import { Actions, ofType, createEffect } from '@ngrx/effects';
-import { ApplicationListResult } from '../applications/applications.data.models';
+import { ApplicationListResult, ApplicationDetails } from '../applications/applications.data.models';
 
 @Injectable()
 export class ApisEffects {
@@ -61,19 +61,6 @@ export class ApisEffects {
     )
   ));
 
-  // apiSdk$ = createEffect(() => this.actions$.pipe(
-  //   ofType(apiActions.GetApiSdkAction),
-  //   mergeMap(({ payload }) => this.apiService.getApiSdk(payload)
-  //     .pipe(
-  //       map((result: any) => (apiActions.GetApiSdkSuccessAction({ "payload": result }))),
-  //       catchError((e: HttpErrorResponse) => {
-  //         this.notification.error(e.message);
-  //         return EMPTY
-  //       })
-  //     )
-  //   )
-  // ));
-
   addNewSubscription$ = createEffect(() => this.actions$.pipe(
     ofType(apiActions.DoNewSubscribeAction),
     mergeMap(({ payload }) => this.apiService.newApiSubscription(payload)
@@ -91,6 +78,19 @@ export class ApisEffects {
     mergeMap(({ }) => this.apiService.getAvailableApplications()
       .pipe(
         map((response: ApplicationListResult) => (apiActions.GetAvailableApplicationSuccessAction({ "payload": response }))),
+        catchError((e: HttpErrorResponse) => {
+          this.notification.error(e.message);
+          return EMPTY
+        })
+      )
+    )
+  ));
+
+  getSelectedAppDetails$ = createEffect(() => this.actions$.pipe(
+    ofType(apiActions.GetSelectedAppAction),
+    mergeMap(({ payload }) => this.apiService.getSelectedAppDetails(payload)
+      .pipe(
+        map((response: ApplicationDetails) => apiActions.GetSelectedAppSuccessAction({ "payload": response })),
         catchError((e: HttpErrorResponse) => {
           this.notification.error(e.message);
           return EMPTY
