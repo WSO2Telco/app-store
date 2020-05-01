@@ -1,20 +1,15 @@
 import { Component, OnInit, ChangeDetectorRef } from "@angular/core";
-import { AppState } from "../../../app.data.models";
 import { Store } from "@ngrx/store";
 import { DoApiSearchAction, GetAvailableApplicationAction } from "../../apis.actions";
-import { ApiSearchParam, ApiSearchResult, ApiSummary, ApiStatus, paginationData } from "../../apis.models";
+import { ApiSearchParam, ApiStatus } from "../../apis.models";
 import { MatDialog } from "@angular/material/dialog";
-import { PageEvent } from "@angular/material/paginator";
-import { Router, ActivatedRoute } from "@angular/router";
-
-//Breadcrumbs
+import { ActivatedRoute } from "@angular/router";
 import * as globalActions from "../../../app.actions";
 import { BreadcrumbItem } from "../../../app.data.models";
 import { Title } from '@angular/platform-browser';
 import { ApiEndpoints } from '../../../config/api.endpoints';
 import { ApiTagComponent } from '../api-tag/api-tag.component';
-import { GetAllApplicationsAction } from '../../../applications/applications.actions';
-import { GetApplicationsParam } from '../../../applications/applications.data.models';
+import { getApis, AppState } from '../../apis.reducers';
 
 @Component({
   selector: "store-api-search",
@@ -22,41 +17,39 @@ import { GetApplicationsParam } from '../../../applications/applications.data.mo
   styleUrls: ["./api-search.component.scss"]
 })
 export class ApiSearchComponent implements OnInit {
-  apiSearchResult: ApiSummary[];
-  apipaginatorData: paginationData[];
-  apiStatus: ApiStatus[] = [ApiStatus.all, ApiStatus.prototyped, ApiStatus.published];
-  searchQuery: string;
-  apiCategory: ApiStatus = ApiStatus.all;
-  // MatPaginator Inputs
-  pageSize: number = 5;
-  offsetSize: number = 0;
-  length: number;
-  // MatPaginator Output
-  pageEvent: PageEvent;
-  apiPrefix = ApiEndpoints.apiContext;
   public view: string = "grid";
-  tagName: string;
+  public apiPrefix = ApiEndpoints.apiContext;
+  public length: number;
+
+  public apiList;
+
+  public searchQuery: string;
+  public apiStatus: ApiStatus[] = [ApiStatus.all, ApiStatus.prototyped, ApiStatus.published];
+  public apiCategory: ApiStatus = ApiStatus.all;
+  public pageSize: number = 5;
+  public offsetSize: number = 0;
 
   constructor(
     private store: Store<AppState>,
-    private router: Router,
     private ref: ChangeDetectorRef,
     private titleService: Title,
     private route: ActivatedRoute,
     public dialog: MatDialog
   ) {
-    this.store
-      .select(s => s.apis.apiSearchResult)
-      .subscribe((res: ApiSearchResult) => {
-        this.apiSearchResult = res.list;
-        this.length = res.pagination.total;
-        this.ref.markForCheck();
-      });
+
+    this.store.select(s => s.apis).subscribe(res => {
+      this.length = res.pagination.total;
+      this.ref.markForCheck();
+    });
+
+    this.store.select(getApis).subscribe(res => {
+      this.apiList = res;
+      this.ref.markForCheck();
+    });
 
     this.route.queryParams.subscribe(params => {
       this.offsetSize = parseInt(params['page']) || 0;
       this.pageSize = parseInt(params['perPage']) || 5;
-
     });
   }
 
@@ -67,8 +60,8 @@ export class ApiSearchComponent implements OnInit {
     this.view = (localStorage.getItem('resultview')) ? localStorage.getItem('resultview') : 'grid';
 
     this.route.params.subscribe(p => {
-      this.tagName = p['tag'];
-      if (this.tagName != undefined) this.store.dispatch(DoApiSearchAction({ "payload": new ApiSearchParam(this.apiCategory, 'tag:' + this.tagName, this.pageSize, 0) }));
+      let tag = p['tag'];
+      if (tag != undefined) this.store.dispatch(DoApiSearchAction({ "payload": new ApiSearchParam(this.apiCategory, 'tag:' + tag, this.pageSize, 0) }));
     })
 
     this.store.select((s) => s.authentication.tokenDetails).subscribe((auth) => {
@@ -76,7 +69,6 @@ export class ApiSearchComponent implements OnInit {
         this.store.dispatch(GetAvailableApplicationAction({}))
       }
     })
-
   }
 
   openDialog(): void {
@@ -85,16 +77,8 @@ export class ApiSearchComponent implements OnInit {
     });
   }
 
-  applyFilter(value: string) {
-    value = value.trim().toLocaleLowerCase();
-  }
-
   onSearchClick() {
     this.store.dispatch(DoApiSearchAction({ "payload": new ApiSearchParam(this.apiCategory, this.searchQuery, this.pageSize, 0) }));
-  }
-
-  onApiSelected($event) {
-    this.router.navigate(["/apis/detail/", $event.id]);
   }
 
   onCategoryChange() {

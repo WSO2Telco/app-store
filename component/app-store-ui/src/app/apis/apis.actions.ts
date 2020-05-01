@@ -1,15 +1,15 @@
 import { createAction, props } from '@ngrx/store';
-import { ApiSearchParam, ApiSearchResult, Application, SubscribeParam, ApiOverview, ApplicationSearchParam, tagData, TagListResult, sdkParam, Subscription, AddNewSubsParam } from './apis.models';
+import { ApiSearchParam, Application, SubscribeParam, ApiOverview, ApplicationSearchParam, tagData, TagListResult, sdkParam, Subscription, AddNewSubsParam } from './apis.models';
 import { Operator } from '../app.data.models';
 import { ApplicationListResult, ApplicationDetails } from '../applications/applications.data.models';
 import { TopicResultPayload } from '../forum/forum.data.models';
 
 export const DoApiSearchAction = createAction('[API] Search', props<{ payload: ApiSearchParam }>());
-export const ApiSearchSuccessAction = createAction('[API] Search Success ✓', props<{ payload: ApiSearchResult }>());
+export const ApiSearchSuccessAction = createAction('[API] Search Success ✓', props<{ payload: any }>());
 
 export const GetApiOverviewAction = createAction('[API] Get API Overview', props<{ payload: string }>());
 export const GetApiOverviewSuccessAction = createAction('[API] Get API Overview Success ✓', props<{ payload: ApiOverview }>());
-export const ResetApiOverviewAction = createAction('[API] Reset API Overview');
+// export const ResetApiOverviewAction = createAction('[API] Reset API Overview');
 
 export const GetApiTagAction = createAction('[API] Get API Tag', props());
 export const GetApiTagSuccessAction = createAction('[API] Get API Tag Success ✓', props<{ payload: TagListResult }>());

@@ -7,7 +7,7 @@ import { ApisService } from './apis.service';
 import { NotificationService } from '../shared/services/notification.service';
 import * as apiActions from './apis.actions';
 import {
-  ApiSearchResult,
+  // ApiSearchResult,
   ApplicationsResult, SubscribeResult, ApiOverview, TagListResult, TopicResult,
 } from './apis.models';
 import { Actions, ofType, createEffect } from '@ngrx/effects';
@@ -26,7 +26,7 @@ export class ApisEffects {
     ofType(apiActions.DoApiSearchAction),
     mergeMap(({ payload }) => this.apiService.search(payload)
       .pipe(
-        map((result: ApiSearchResult) => (apiActions.ApiSearchSuccessAction({ "payload": result }))),
+        map((result: any) => (apiActions.ApiSearchSuccessAction({ "payload": result }))),
         catchError((e: HttpErrorResponse) => {
           this.notification.error(e.message);
           return EMPTY
