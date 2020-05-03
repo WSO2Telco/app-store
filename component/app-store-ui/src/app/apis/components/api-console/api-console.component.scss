@@ -23,13 +23,14 @@
     width: 160px;
   }
 
-  mat-select {
+  mat-select,
+  p {
     display: inline-block;
     width: 400px !important;
   }
 
-  .tokenField{
-   // display: inline-block;
+  .tokenField {
+    // display: inline-block;
     width: 600px !important;
   }
 
