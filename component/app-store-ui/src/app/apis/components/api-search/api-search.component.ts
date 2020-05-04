@@ -37,13 +37,13 @@ export class ApiSearchComponent implements OnInit {
     public dialog: MatDialog
   ) {
 
-    this.store.select(s => s.apis).subscribe(res => {
-      this.length = res.pagination.total;
+    this.store.select(s => s.apis.pagination).subscribe(res => {
+      if(res) this.length = res.total;
       this.ref.markForCheck();
     });
 
     this.store.select(getApis).subscribe(res => {
-      this.apiList = res;
+      if(res) this.apiList = res;
       this.ref.markForCheck();
     });
 
