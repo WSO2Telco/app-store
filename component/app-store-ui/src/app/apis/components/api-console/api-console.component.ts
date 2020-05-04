@@ -73,11 +73,10 @@ export class ApiConsoleComponent implements OnInit {
       this.subscriptionList = (res.payload && res.payload.list) ? res.payload.list : [];
     })
 
-    if(this.apiOverview != undefined)
-    {
+    if (this.apiOverview != undefined) {
       this.partialSwaggerURL = swaggerApiContext + this.apiOverview.context + '/' + this.apiOverview.provider
     }
-    else{
+    else {
       this.apiSubscription = this.actions$.pipe(ofType(GetApiOverviewSuccessAction)).subscribe(resp => {
         if (resp) {
           this.partialSwaggerURL = swaggerApiContext + resp.payload.context + '/' + resp.payload.provider
@@ -149,7 +148,7 @@ export class ApiConsoleComponent implements OnInit {
       this.keyObject = appDetails.find(i => i.keyType == this.selectedEnv);
       if (this.keyObject) {
         this.accessToken = this.keyObject.token.accessToken;
-        
+
       } else {
         this.accessToken = null;
       }
@@ -189,7 +188,7 @@ export class ApiConsoleComponent implements OnInit {
         return request;
       },
       responseInterceptor: function (resp) {
-        if ((resp.status == '200') && !(resp.body.swagger)) {
+        if (((resp.status == '200') || (resp.status == '201') || (resp.status == '202') || (resp.status == '204')) && !(resp.body.swagger)) {
           component.openPOPUP(resp.body);
         }
         return resp;
