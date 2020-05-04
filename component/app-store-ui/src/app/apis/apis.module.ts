@@ -13,7 +13,7 @@ import { OperatorTagComponent } from './components/operator-tag/operator-tag.com
 import { ApiOverviewComponent } from './components/api-overview/api-overview.component';
 import { ApiConsoleComponent } from './components/api-console/api-console.component';
 import { ApiDocumentationComponent } from './components/api-documentation/api-documentation.component';
-import { StarRatingModule } from 'angular-star-rating';
+// import { StarRatingModule } from 'angular-star-rating';
 import { ApiAppSubscriptionsComponent } from './components/api-app-subscriptions/api-app-subscriptions.component';
 import { ApiTagComponent } from './components/api-tag/api-tag.component';
 import { TagCloudModule } from 'angular-tag-cloud-module';
@@ -28,7 +28,7 @@ import { ApiResponseFilterComponent } from './components/api-response-filter/api
     CommonModule,
     SharedModule,
     ApisRoutes,
-    StarRatingModule.forRoot(),
+    // StarRatingModule.forRoot(),
     TagCloudModule,
     StoreModule.forFeature('apis', apisReducer),
     EffectsModule.forFeature([ApisEffects]),

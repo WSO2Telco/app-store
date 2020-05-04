@@ -47,7 +47,7 @@
                 <div class="api-detail-wrap">
                     <div class="name-container">API Name</div>
                     <div class="info-container">
-                        <span>Rating</span>
+                        <!-- <span>Rating</span> -->
                         <span>Version</span>
                         <span>Provider</span>
                         <span>Status</span>
@@ -55,7 +55,7 @@
                 </div>
             </div>
 
-            <div class="api-info" *ngFor="let api of apiSearchResult" [routerLink]="'/apis/detail/' + api.id">
+            <div class="api-info" *ngFor="let api of apiList" [routerLink]="'/apis/detail/' + api.id">
                 <div class="icon-wrap">
                     <div class="api-icon">
                         <img [src]="apiPrefix + api.thumbnailUri" width="100" *ngIf="api.thumbnailUri" />
@@ -65,7 +65,7 @@
                 <div class="api-detail-wrap">
                     <div class="name-container">{{api.name}}</div>
                     <div class="info-container">
-                        <star-rating starType="svg" showHalfStars="true" readOnly="true" [rating]="5"></star-rating>
+                        <!-- <star-rating starType="svg" showHalfStars="true" readOnly="true" [rating]="5"></star-rating> -->
                         <div>
                             <span><mat-icon matTooltipPosition="after" matTooltip="API Version">update</mat-icon> {{api.version}}</span>
                             <span><mat-icon matTooltipPosition="after" matTooltip="API Provider">person</mat-icon> {{api.provider}}</span>

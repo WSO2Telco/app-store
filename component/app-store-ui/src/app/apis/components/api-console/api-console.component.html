@@ -1,64 +1,58 @@
 <mat-card class="animated fadeIn">
-  <mat-card-content>
-    <ng-container *ngIf="loggedUser != null;">
-      <div class="intro-container">
-        <h3 class="animated fadeInDown"> API definition and Invoke API</h3>
-      </div>
-      <div>
-
-        <div class="button-row">
-          <label>Try:</label>
-          <ng-container class="content">
-            <ng-container *ngIf="subscriptionList.length != 0">
-              <mat-select placeholder="Application List" [(ngModel)]="selectedApp"
-                (ngModelChange)="onAppChange($event)">
-                <mat-option *ngFor="let app of subscriptionList" [value]="app.applicationId">
-                  {{mapAppName(app.applicationId)}}
-                </mat-option>
-              </mat-select>
-            </ng-container>
-            <ng-container *ngIf="subscriptionList.length == 0">
-              <p>No Application Found. Please subscriber first</p>
-            </ng-container>
-          </ng-container>
-        </div>
-        <div class="button-row">
-          <label>Using:</label>
-          <ng-container class="content">
-            <mat-select placeholder="Enviorment Type" [disabled]="selectedApp == null" [(ngModel)]="selectedEnv"
-              (ngModelChange)="retrieveEnvKeyObject()">
-              <mat-option>None</mat-option>
-              <mat-option *ngFor="let env of listOfEnv" [value]="env.val">{{env.name}}</mat-option>
-            </mat-select>
-          </ng-container>
-        </div>
-
-        <div class="button-row">
-          <ng-container *ngIf="(accessToken == null && loggedUser != null)">
-            <div class="no-key">
-              <mat-icon>info</mat-icon> No access token found <br>
-              Please select an application or The selected application does not have an access token for the selected
-              environment. Go to the application
-              page and generate keys.
+    <mat-card-content>
+        <ng-container *ngIf="loggedUser != null;">
+            <div class="intro-container">
+                <h3 class="animated fadeInDown"> API definition and Invoke API</h3>
             </div>
-          </ng-container>
-        </div>
-        <div class="button-row">
-          <label>Set Request Header:</label>
-          <div class="content">
-            <mat-form-field appearance="fill" class="tokenField">
-              <input matInput [(ngModel)]="accessToken" disabled placeholder="Access Token"
-                type="text">
-              <span matPrefix>Authorization : Bearer&nbsp;&nbsp;</span>
-            </mat-form-field>
-          </div>
-        </div>
+            <div>
 
-      </div>
-    </ng-container>
-  </mat-card-content>
+                <div class="button-row">
+                    <label>Try:</label>
+                    <ng-container class="content">
+                        <ng-container *ngIf="subscriptionList.length > 0">
+                            <mat-select placeholder="Application List" [(ngModel)]="selectedApp" (ngModelChange)="onAppChange($event)">
+                                <mat-option *ngFor="let app of subscriptionList" [value]="app.applicationId">
+                                    {{mapAppName(app.applicationId)}}
+                                </mat-option>
+                            </mat-select>
+                        </ng-container>
+                        <ng-container *ngIf="subscriptionList.length == 0">
+                            <p>No Application Found. Please subscriber first</p>
+                        </ng-container>
+                    </ng-container>
+                </div>
+                <div class="button-row">
+                    <label>Using:</label>
+                    <ng-container class="content">
+                        <mat-select placeholder="Enviorment Type" [disabled]="selectedApp == null" [(ngModel)]="selectedEnv" (ngModelChange)="retrieveEnvKeyObject()">
+                            <mat-option>None</mat-option>
+                            <mat-option *ngFor="let env of listOfEnv" [value]="env.val">{{env.name}}</mat-option>
+                        </mat-select>
+                    </ng-container>
+                </div>
+
+                <div class="button-row">
+                    <ng-container *ngIf="(accessToken == null && loggedUser != null)">
+                        <div class="no-key">
+                            <mat-icon>info</mat-icon> No access token found <br> Please select an application or The selected application does not have an access token for the selected environment. Go to the application page and generate keys.
+                        </div>
+                    </ng-container>
+                </div>
+                <div class="button-row">
+                    <label>Set Request Header:</label>
+                    <div class="content">
+                        <mat-form-field appearance="fill" class="tokenField">
+                            <input matInput [(ngModel)]="accessToken" disabled placeholder="Access Token" type="text">
+                            <span matPrefix>Authorization : Bearer&nbsp;&nbsp;</span>
+                        </mat-form-field>
+                    </div>
+                </div>
+
+            </div>
+        </ng-container>
+    </mat-card-content>
 </mat-card>
 
 <div #swagger>
-  <div class="swagger-container"></div>
+    <div class="swagger-container"></div>
 </div>
