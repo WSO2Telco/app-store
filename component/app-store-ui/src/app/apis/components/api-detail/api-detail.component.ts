@@ -63,7 +63,7 @@ export class ApiDetailComponent implements OnInit, OnDestroy {
       // this.store.dispatch(apiActions.ResetApiOverviewAction());
       setTimeout(() => {
         if (this.api_id != '') this.store.dispatch(GetApiOverviewAction({ "payload": this.api_id }));
-      }, 1000)
+      }, 500)
 
       this.apiSubscriber = this.store.select(getApi(this.api_id)).subscribe(apiEntity => {
         if (apiEntity) {
@@ -90,7 +90,7 @@ export class ApiDetailComponent implements OnInit, OnDestroy {
       this.api = overview;
       this.apiFullyLoaded = true;
 
-      this.store.dispatch(apiActions.GetUserSubscriptionsAction({ "payload": this.api_id }));
+      if(this.loggedUser) this.store.dispatch(apiActions.GetUserSubscriptionsAction({ "payload": this.api_id }));
 
       if (!this.apiEntityLoaded) {
         this.store.dispatch(
