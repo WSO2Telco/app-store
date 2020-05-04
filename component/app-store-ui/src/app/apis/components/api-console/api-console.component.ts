@@ -56,7 +56,6 @@ export class ApiConsoleComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-
     let logUser = this.store.select((s) => s.authentication.loggedUser)
       .subscribe((overview) => {
         this.loggedUser = overview;
@@ -74,48 +73,53 @@ export class ApiConsoleComponent implements OnInit {
       this.subscriptionList = (res.payload && res.payload.list) ? res.payload.list : [];
     })
 
-    this.apiSubscription = this.actions$.pipe(ofType(GetApiOverviewSuccessAction)).subscribe(resp => {
-      if (resp) {
-        this.partialSwaggerURL = swaggerApiContext + resp.payload.context + '/' + resp.payload.provider
-        const ui = SwaggerUIBundle({
-          spec: JSON.parse(resp.payload.apiDefinition),
-          domNode: this.container.nativeElement.querySelector('.swagger-container'),
-          presets: [SwaggerUIBundle.presets.apis, SwaggerUIStandalonePreset],
-          plugins: [
-            SwaggerUIBundle.plugins.DownloadUrl,
-            () => {
-              return {
-                components: {
-                  Topbar: () => null,
-                  Info: () => null
-                }
-              };
-            }
-          ],
-          requestInterceptor: function (request) {
-            //Intercept the request and inject Bearer token
-            var url = resp.payload.endpointURLs[0].environmentURLs.https;
-            var authorizationHeader = 'Authorization';
-            var key = this.accessToken;
-            if (key && key.trim() != "") {
-              request.headers[authorizationHeader] = "Bearer " + key;
-            } else {
-              request.headers[authorizationHeader] = "Bearer ";
-            }
-            return request;
-          },
-          docExpansion: 'list',
-          jsonEditor: true,
-          defaultModelRendering: 'schema',
-          showRequestHeaders: true,
-          layout: 'StandaloneLayout',
-          deepLinking: true,
-          showExtensions: true,
-          showCommonExtensions: true,
-          sorter: "alpha",
-        });
-      }
-    })
+    if (this.apiOverview != undefined) {
+      this.partialSwaggerURL = swaggerApiContext + this.apiOverview.context + '/' + this.apiOverview.provider
+    }
+    else {
+      this.apiSubscription = this.actions$.pipe(ofType(GetApiOverviewSuccessAction)).subscribe(resp => {
+        if (resp) {
+          this.partialSwaggerURL = swaggerApiContext + resp.payload.context + '/' + resp.payload.provider
+          const ui = SwaggerUIBundle({
+            spec: JSON.parse(resp.payload.apiDefinition),
+            domNode: this.container.nativeElement.querySelector('.swagger-container'),
+            presets: [SwaggerUIBundle.presets.apis, SwaggerUIStandalonePreset],
+            plugins: [
+              SwaggerUIBundle.plugins.DownloadUrl,
+              () => {
+                return {
+                  components: {
+                    Topbar: () => null,
+                    Info: () => null
+                  }
+                };
+              }
+            ],
+            requestInterceptor: function (request) {
+              //Intercept the request and inject Bearer token
+              var url = resp.payload.endpointURLs[0].environmentURLs.https;
+              var authorizationHeader = 'Authorization';
+              var key = this.accessToken;
+              if (key && key.trim() != "") {
+                request.headers[authorizationHeader] = "Bearer " + key;
+              } else {
+                request.headers[authorizationHeader] = "Bearer ";
+              }
+              return request;
+            },
+            docExpansion: 'list',
+            jsonEditor: true,
+            defaultModelRendering: 'schema',
+            showRequestHeaders: true,
+            layout: 'StandaloneLayout',
+            deepLinking: true,
+            showExtensions: true,
+            showCommonExtensions: true,
+            sorter: "alpha",
+          });
+        }
+      })
+    }
     this.swaggerUiOperation();
   }
 
@@ -123,11 +127,11 @@ export class ApiConsoleComponent implements OnInit {
     this.apiSubscription.unsubscribe();
   }
 
-  onAppChange(event) {
+  onAppChange() {
     this.accessToken = null;
     this.selectedEnv = null;
     this.store.dispatch(
-      GetSelectedAppAction({ "payload": event.value })
+      GetSelectedAppAction({ "payload": this.selectedApp })
     );
 
     this.storeSelectApp = this.store.select((s) => s.apis.selectedApplication).subscribe((appDetails) => {
@@ -144,20 +148,12 @@ export class ApiConsoleComponent implements OnInit {
       this.keyObject = appDetails.find(i => i.keyType == this.selectedEnv);
       if (this.keyObject) {
         this.accessToken = this.keyObject.token.accessToken;
-        this.reInitiateSwagger(this.accessToken)
+
       } else {
         this.accessToken = null;
       }
-      this.cd.detectChanges();
+      this.reInitiateSwagger(this.accessToken)
     });
-  }
-
-  checkOnKeyPress(e) {
-    if (e.which == 13 || e.keyCode == 13) {
-      return false;
-    } else {
-      // this.reInitiateSwagger(e.target.value)
-    }
   }
 
   reInitiateSwagger(event) {
@@ -192,7 +188,7 @@ export class ApiConsoleComponent implements OnInit {
         return request;
       },
       responseInterceptor: function (resp) {
-        if ((resp.status == '200') && !(resp.body.swagger)) {
+        if (((resp.status == '200') || (resp.status == '201') || (resp.status == '202') || (resp.status == '204')) && !(resp.body.swagger)) {
           component.openPOPUP(resp.body);
         }
         return resp;

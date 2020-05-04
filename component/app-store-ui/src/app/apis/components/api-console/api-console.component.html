@@ -1,25 +1,25 @@
 <mat-card class="animated fadeIn">
   <mat-card-content>
-    <div class="intro-container">
-      <h3 class="animated fadeInDown"> API definition and Invoke API</h3>
-      <ng-container *ngIf="loggedUser == null;">
-        <div class="no-key">
-          <mat-icon>info</mat-icon> You require an access token to try the API invoke. Please login and subscribe to the API
-          to generate an access token.
-        </div>
-      </ng-container>
-    </div>
-    <div>
-      <ng-container *ngIf="loggedUser != null;">
+    <ng-container *ngIf="loggedUser != null;">
+      <div class="intro-container">
+        <h3 class="animated fadeInDown"> API definition and Invoke API</h3>
+      </div>
+      <div>
+
         <div class="button-row">
           <label>Try:</label>
           <ng-container class="content">
-            <mat-select placeholder="Application List" [(ngModel)]="selectedApp"
-              (selectionChange)="onAppChange($event)">
-              <mat-option *ngFor="let app of subscriptionList" [value]="app.applicationId">
-                {{mapAppName(app.applicationId)}}
-              </mat-option>
-            </mat-select>
+            <ng-container *ngIf="subscriptionList.length != 0">
+              <mat-select placeholder="Application List" [(ngModel)]="selectedApp"
+                (ngModelChange)="onAppChange($event)">
+                <mat-option *ngFor="let app of subscriptionList" [value]="app.applicationId">
+                  {{mapAppName(app.applicationId)}}
+                </mat-option>
+              </mat-select>
+            </ng-container>
+            <ng-container *ngIf="subscriptionList.length == 0">
+              <p>No Application Found. Please subscriber first</p>
+            </ng-container>
           </ng-container>
         </div>
         <div class="button-row">
@@ -47,14 +47,15 @@
           <label>Set Request Header:</label>
           <div class="content">
             <mat-form-field appearance="fill" class="tokenField">
-              <input matInput [(ngModel)]="accessToken" (change)="checkOnKeyPress($event)" placeholder="Access Token"
+              <input matInput [(ngModel)]="accessToken" disabled placeholder="Access Token"
                 type="text">
               <span matPrefix>Authorization : Bearer&nbsp;&nbsp;</span>
             </mat-form-field>
           </div>
         </div>
-      </ng-container>
-    </div>
+
+      </div>
+    </ng-container>
   </mat-card-content>
 </mat-card>
 
