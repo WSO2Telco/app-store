@@ -26,7 +26,7 @@
                 <ng-template mat-tab-label>
                     <i class="fa fa-2x fa-folder"></i> Subscriptions
                 </ng-template>
-                <store-api-app-subscriptions></store-api-app-subscriptions>
+                <store-api-app-subscriptions [apiTiers]="api?.tiers"></store-api-app-subscriptions>
             </mat-tab>
             <mat-tab>
                 <ng-template mat-tab-label>
