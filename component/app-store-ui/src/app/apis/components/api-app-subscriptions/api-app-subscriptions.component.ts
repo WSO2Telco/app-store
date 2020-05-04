@@ -2,7 +2,6 @@ import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { MatDialog } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
-import { AppState } from '../../../app.data.models';
 import { NotificationService } from "../../../shared/services/notification.service";
 import { Subscription, GetApplicationsParam } from "../../../applications/applications.data.models";
 import { GetUserSubscriptionsAction, DoNewSubscribeAction, DoNewSubscribeSuccessAction, UnsubscribeAction, UnsubscribeSuccessAction, GetUserSubscriptionsSuccessAction } from '../../apis.actions';
@@ -11,6 +10,7 @@ import { Actions, ofType } from '@ngrx/effects';
 import { ActionDialogComponent } from '../../../commons/components/action-dialog/action-dialog.component';
 import { AddNewSubsParam } from '../../apis.models';
 import { ConfirmDialogComponent } from '../../../commons/components/confirm-dialog/confirm-dialog.component';
+import { AppState } from '../../apis.reducers';
 
 @Component({
     selector: 'store-api-app-subscriptions',
@@ -36,7 +36,7 @@ export class ApiAppSubscriptionsComponent implements OnInit {
 
         this.route.params.subscribe(p => {
             this.api_id = p['apiId'];
-            this.store.dispatch(GetUserSubscriptionsAction({ "payload": this.api_id }));
+            // this.store.dispatch(GetUserSubscriptionsAction({ "payload": this.api_id }));
         })
 
         this.store

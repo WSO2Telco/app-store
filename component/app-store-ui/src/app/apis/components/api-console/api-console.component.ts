@@ -10,7 +10,6 @@ import {
 
 import { SwaggerUIBundle, SwaggerUIStandalonePreset } from 'swagger-ui-dist';
 import { Store } from '@ngrx/store';
-import { AppState } from '../../../app.data.models';
 import { Actions, ofType } from '@ngrx/effects';
 import * as applicationsActions from '../../../applications/applications.actions';
 import { GetApiOverviewSuccessAction, GetUserSubscriptionsSuccessAction, GetSelectedAppAction } from '../../apis.actions';
@@ -20,6 +19,8 @@ import { MatDialog } from '@angular/material/dialog';
 import { ConfirmDialogComponent } from '../../../commons/components/confirm-dialog/confirm-dialog.component';
 import { ApiResponseFilterComponent } from '../api-response-filter/api-response-filter.component';
 import { ApplicationDetailsKeys } from '../../../applications/applications.data.models';
+import { AppState } from '../../apis.reducers';
+import { ApisService } from '../../apis.service';
 
 const baseUrl = new URL(window.location.href);
 const swaggerApiContext = baseUrl.protocol + '//' + baseUrl.host + '/app-store/public/api/swagger';
@@ -45,6 +46,7 @@ export class ApiConsoleComponent implements OnInit {
 
   private storeSelect;
   private storeSelectApp;
+  private keyArray: ApplicationDetailsKeys[];
   public keyObject: ApplicationDetailsKeys;
   public accessToken;
 
@@ -52,14 +54,15 @@ export class ApiConsoleComponent implements OnInit {
     private actions$: Actions,
     public dialog: MatDialog,
     private store: Store<AppState>,
-    private cd: ChangeDetectorRef
+    private cd: ChangeDetectorRef,
+    private apiSvc: ApisService
   ) { }
 
   ngOnInit() {
     let logUser = this.store.select((s) => s.authentication.loggedUser)
-      .subscribe((overview) => {
-        this.loggedUser = overview;
-      });
+    .subscribe((user) => {
+      this.loggedUser = user;
+    });
 
     this.store
       .select(s => s.apis.availableApp)
@@ -71,17 +74,19 @@ export class ApiConsoleComponent implements OnInit {
 
     this.actions$.pipe(ofType(GetUserSubscriptionsSuccessAction)).subscribe(res => {
       this.subscriptionList = (res.payload && res.payload.list) ? res.payload.list : [];
+      console.log(this.subscriptionList);
+      this.cd.detectChanges();
     })
 
-    if (this.apiOverview != undefined) {
-      this.partialSwaggerURL = swaggerApiContext + this.apiOverview.context + '/' + this.apiOverview.provider
-    }
-    else {
-      this.apiSubscription = this.actions$.pipe(ofType(GetApiOverviewSuccessAction)).subscribe(resp => {
-        if (resp) {
-          this.partialSwaggerURL = swaggerApiContext + resp.payload.context + '/' + resp.payload.provider
+    // if (this.apiOverview != undefined) {
+    //   this.partialSwaggerURL = swaggerApiContext + this.apiOverview.context + '/' + this.apiOverview.provider
+    // }
+    // else {
+      // this.apiSubscription = this.actions$.pipe(ofType(GetApiOverviewSuccessAction)).subscribe(resp => {
+        // if (resp) {
+          this.partialSwaggerURL = swaggerApiContext + this.apiOverview.context + '/' + this.apiOverview.provider;
           const ui = SwaggerUIBundle({
-            spec: JSON.parse(resp.payload.apiDefinition),
+            spec: JSON.parse(this.apiOverview.apiDefinition),
             domNode: this.container.nativeElement.querySelector('.swagger-container'),
             presets: [SwaggerUIBundle.presets.apis, SwaggerUIStandalonePreset],
             plugins: [
@@ -97,7 +102,7 @@ export class ApiConsoleComponent implements OnInit {
             ],
             requestInterceptor: function (request) {
               //Intercept the request and inject Bearer token
-              var url = resp.payload.endpointURLs[0].environmentURLs.https;
+              var url = this.apiOverview.endpointURLs[0].environmentURLs.https;
               var authorizationHeader = 'Authorization';
               var key = this.accessToken;
               if (key && key.trim() != "") {
@@ -117,35 +122,33 @@ export class ApiConsoleComponent implements OnInit {
             showCommonExtensions: true,
             sorter: "alpha",
           });
-        }
-      })
-    }
+        // }
+      // })
+    // }
     this.swaggerUiOperation();
   }
 
   ngOnDestroy(): void {
-    this.apiSubscription.unsubscribe();
+    // this.apiSubscription.unsubscribe();
   }
 
-  onAppChange() {
+  onAppChange(appId) {
     this.accessToken = null;
     this.selectedEnv = null;
-    this.store.dispatch(
-      GetSelectedAppAction({ "payload": this.selectedApp })
-    );
-
-    this.storeSelectApp = this.store.select((s) => s.apis.selectedApplication).subscribe((appDetails) => {
-      this.fullSwaggerURL = this.partialSwaggerURL + '/' + appDetails.subscriber;
+    this.keyArray = null;
+    console.log(this.selectedApp);
+    this.apiSvc.getSelectedAppDetails(this.selectedApp).subscribe(resp => {
+      this.fullSwaggerURL = this.partialSwaggerURL + '/' + resp.subscriber;
+      this.keyArray = resp.keys;
     });
-
   }
 
 
   retrieveEnvKeyObject() {
 
-    this.storeSelect = this.store.select((s) => s.apis.selectedApplication.keys).subscribe((appDetails) => {
+    // this.storeSelect = this.store.select((s) => s.apis.selectedApplication.keys).subscribe((appDetails) => {
 
-      this.keyObject = appDetails.find(i => i.keyType == this.selectedEnv);
+      this.keyObject = this.keyArray.find(i => i.keyType == this.selectedEnv);
       if (this.keyObject) {
         this.accessToken = this.keyObject.token.accessToken;
 
@@ -153,7 +156,7 @@ export class ApiConsoleComponent implements OnInit {
         this.accessToken = null;
       }
       this.reInitiateSwagger(this.accessToken)
-    });
+    // });
   }
 
   reInitiateSwagger(event) {

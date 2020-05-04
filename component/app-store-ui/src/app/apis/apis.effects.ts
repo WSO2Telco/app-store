@@ -7,7 +7,7 @@ import { ApisService } from './apis.service';
 import { NotificationService } from '../shared/services/notification.service';
 import * as apiActions from './apis.actions';
 import {
-  ApiSearchResult,
+  // ApiSearchResult,
   ApplicationsResult, SubscribeResult, ApiOverview, TagListResult, TopicResult,
 } from './apis.models';
 import { Actions, ofType, createEffect } from '@ngrx/effects';
@@ -26,7 +26,7 @@ export class ApisEffects {
     ofType(apiActions.DoApiSearchAction),
     mergeMap(({ payload }) => this.apiService.search(payload)
       .pipe(
-        map((result: ApiSearchResult) => (apiActions.ApiSearchSuccessAction({ "payload": result }))),
+        map((result: any) => (apiActions.ApiSearchSuccessAction({ "payload": result }))),
         catchError((e: HttpErrorResponse) => {
           this.notification.error(e.message);
           return EMPTY
@@ -120,26 +120,26 @@ export class ApisEffects {
     )
   ));
 
-  userApplications$ = createEffect(() => this.actions$.pipe(
-    ofType(apiActions.GetUserApplicationsAction),
-    mergeMap(({ payload }) => this.apiService.getUserApplicationsActions(payload)
-      .pipe(
-        map((result: ApplicationsResult) => {
-          if (result.error) {
-            result.message = 'Load application error';
-            throw result;
-          } else {
-            const approvedApps = result.applications.filter((app) => app.status === 'APPROVED');
-            return (apiActions.GetUserApplicationsSuccessAction({ "payload": approvedApps || [] }))
-          }
-        }),
-        catchError((e: HttpErrorResponse) => {
-          this.notification.error(e.message);
-          return EMPTY
-        })
-      )
-    )
-  ));
+  // userApplications$ = createEffect(() => this.actions$.pipe(
+  //   ofType(apiActions.GetUserApplicationsAction),
+  //   mergeMap(({ payload }) => this.apiService.getUserApplicationsActions(payload)
+  //     .pipe(
+  //       map((result: ApplicationsResult) => {
+  //         if (result.error) {
+  //           result.message = 'Load application error';
+  //           throw result;
+  //         } else {
+  //           const approvedApps = result.applications.filter((app) => app.status === 'APPROVED');
+  //           return (apiActions.GetUserApplicationsSuccessAction({ "payload": approvedApps || [] }))
+  //         }
+  //       }),
+  //       catchError((e: HttpErrorResponse) => {
+  //         this.notification.error(e.message);
+  //         return EMPTY
+  //       })
+  //     )
+  //   )
+  // ));
 
   userSubscriptions$ = createEffect(() => this.actions$.pipe(
     ofType(apiActions.GetUserSubscriptionsAction),

@@ -15,6 +15,7 @@ import { GetAllApplicationsAction } from '../../../applications/applications.act
 import { GetApplicationsParam } from '../../../applications/applications.data.models';
 import { Actions, ofType } from '@ngrx/effects';
 import { SetLastAuthRequiredRouteAction } from '../../../authentication/authentication.actions';
+import { getApi } from '../../apis.reducers';
 
 @Component({
   selector: 'store-api-detail',
@@ -22,6 +23,10 @@ import { SetLastAuthRequiredRouteAction } from '../../../authentication/authenti
   styleUrls: ['./api-detail.component.scss']
 })
 export class ApiDetailComponent implements OnInit, OnDestroy {
+
+  private apiSubscriber;
+  private apiEntityLoaded = false;
+  public apiFullyLoaded = false;
 
   public api: ApiOverview;
   public apiPrefix = ApiEndpoints.apiContext;
@@ -47,14 +52,6 @@ export class ApiDetailComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
 
-    this.store.dispatch(
-      globalActions.SetBreadcrumbAction({
-        payload: [
-          new BreadcrumbItem("APIs", "apis"),
-          new BreadcrumbItem("API Details")
-        ]
-      })
-    );
 
     let logUser = this.store.select((s) => s.authentication.loggedUser)
       .subscribe((overview) => {
@@ -63,23 +60,50 @@ export class ApiDetailComponent implements OnInit, OnDestroy {
 
     this.route.params.subscribe(p => {
       this.api_id = p['apiId'];
-      this.store.dispatch(apiActions.ResetApiOverviewAction());
-      if (this.api_id != '') this.store.dispatch(GetApiOverviewAction({ "payload": this.api_id }));
+      // this.store.dispatch(apiActions.ResetApiOverviewAction());
+      setTimeout(() => {
+        if (this.api_id != '') this.store.dispatch(GetApiOverviewAction({ "payload": this.api_id }));
+      }, 500)
+
+      this.apiSubscriber = this.store.select(getApi(this.api_id)).subscribe(apiEntity => {
+        if (apiEntity) {
+          this.api = apiEntity;
+          this.store.dispatch(
+            globalActions.SetBreadcrumbAction({
+              payload: [
+                new BreadcrumbItem("APIs", "apis"),
+                new BreadcrumbItem(apiEntity.name + " - " + apiEntity.version)
+              ]
+            })
+          );
+          this.titleService.setTitle(apiEntity.name + " | Apigate API Store");
+          if (this.loggedUser) this.store.dispatch(apiActions.SearchForumTopicsAction({ payload: apiEntity.name }));
+          this.apiEntityLoaded = true;
+        }
+        this.cd.detectChanges();
+      });
+
     })
 
     this.subscriptions.apiOverview = this.actions$.pipe(ofType(apiActions.GetApiOverviewSuccessAction)).subscribe(resp => {
       let overview = resp.payload;
       this.api = overview;
-      this.store.dispatch(
-        globalActions.SetBreadcrumbAction({
-          payload: [
-            new BreadcrumbItem("APIs", "apis"),
-            new BreadcrumbItem(overview.name + " - " + overview.version)
-          ]
-        })
-      );
-      this.titleService.setTitle(overview.name + " | Apigate API Store");
-      if (this.loggedUser) this.store.dispatch(apiActions.SearchForumTopicsAction({ payload: overview.name }));
+      this.apiFullyLoaded = true;
+
+      if(this.loggedUser) this.store.dispatch(apiActions.GetUserSubscriptionsAction({ "payload": this.api_id }));
+
+      if (!this.apiEntityLoaded) {
+        this.store.dispatch(
+          globalActions.SetBreadcrumbAction({
+            payload: [
+              new BreadcrumbItem("APIs", "apis"),
+              new BreadcrumbItem(overview.name + " - " + overview.version)
+            ]
+          })
+        );
+        this.titleService.setTitle(overview.name + " | Apigate API Store");
+        if (this.loggedUser) this.store.dispatch(apiActions.SearchForumTopicsAction({ payload: overview.name }));
+      }
       this.cd.detectChanges();
     })
 
