@@ -61,6 +61,19 @@ export class ApisEffects {
     )
   ));
 
+  // apiSdk$ = createEffect(() => this.actions$.pipe(
+  //   ofType(apiActions.GetApiSdkAction),
+  //   mergeMap(({ payload }) => this.apiService.getApiSdk(payload)
+  //     .pipe(
+  //       map((result: any) => (apiActions.GetApiSdkSuccessAction({ "payload": result }))),
+  //       catchError((e: HttpErrorResponse) => {
+  //         this.notification.error(e.message);
+  //         return EMPTY
+  //       })
+  //     )
+  //   )
+  // ));
+
   addNewSubscription$ = createEffect(() => this.actions$.pipe(
     ofType(apiActions.DoNewSubscribeAction),
     mergeMap(({ payload }) => this.apiService.newApiSubscription(payload)
