@@ -173,3 +173,17 @@
         }
     }
 }
+
+.no-key {
+    display: flex;
+    align-items: center;
+    background: #fafafa;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    margin-bottom: 8px;
+  
+    .mat-icon {
+      margin-right: 5px;
+    }
+  }

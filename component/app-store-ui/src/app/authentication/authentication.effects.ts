@@ -39,7 +39,7 @@ export class AuthenticationEffects {
             let msg = (response.message) ? response.message : "Invalid username or password";
             return loginActions.LoginFailedAction({ payload: msg });
           } else {
-            localStorage.setItem("autologout", "true");
+            localStorage.setItem("autologout", "false");
             return loginActions.LoginSuccessAction({ "payload": response });
           }
         }),
