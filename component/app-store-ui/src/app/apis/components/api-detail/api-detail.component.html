@@ -3,16 +3,22 @@
     <div class="intro-container">
 
         <div class="pull-left">
+            <img [src]="apiPrefix + api?.thumbnailUri" class="api-thumb" *ngIf="api?.thumbnailUri && !api?.thumbnailUrl" />
             <img [src]="apiPrefix + api?.thumbnailUrl" class="api-thumb" *ngIf="api?.thumbnailUrl" />
-            <img src="assets/images/apigate-a.png" class="api-thumb" *ngIf="!api?.thumbnailUrl" />
+            <img src="assets/images/apigate-a.png" class="api-thumb" *ngIf="!api?.thumbnailUri && !api?.thumbnailUrl" />
         </div>
         <h1>{{api?.name}} <span class="version" aria-label="API Version">{{api?.version}}</span></h1>
-        <div class="status-label" [ngClass]="api?.status"><span class="status-dot"></span> <span
-                class="status-lbl">{{api?.status}}</span></div>
+        <div class="status-label" [ngClass]="api?.status"><span class="status-dot"></span> <span class="status-lbl">{{api?.status}}</span></div>
     </div>
 
     <div class="overview">
         <store-api-overview [apiOverview]="api"></store-api-overview>
+        <div class="loading-card" *ngIf="!apiFullyLoaded">
+            <div class="bars nomargin">
+                <div class="bar bar1 loading"></div>
+                <div class="bar bar2 loading"></div>
+            </div>
+        </div>
     </div>
     <div class="detail-container">
         <mat-tab-group animationDuration="0ms" disableRipple>
@@ -27,18 +33,22 @@
                     <i class="fa fa-2x fa-terminal"></i> API Console
                 </ng-template>
 
-                <ng-container *ngIf="loggedUser != null; else consoleNotLoggedIn">
+                <ng-container *ngIf="apiFullyLoaded; else consoleNotLoaded">
+                    <div class="no-key" *ngIf="!loggedUser">
+                        <mat-icon>info</mat-icon>
+                        You require an access token to try the API invoke. Please &nbsp;<button mat-stroked-button (click)="onLoginClick()">login</button> &nbsp;and subscribe to the API to generate an access token.
+                    </div>
                     <store-api-console [apiOverview]="api"></store-api-console>
                 </ng-container>
 
-                <ng-template #consoleNotLoggedIn>
-                    <div class="no-key">
-                        <mat-icon>info</mat-icon>
-                        You require an access token to try the API invoke. Please &nbsp;<button mat-stroked-button
-                            (click)="onLoginClick()">login</button> &nbsp;and subscribe to the API to generate an access
-                        token.
+                <ng-template #consoleNotLoaded>
+                    <div class="loading-card">
+                        <div class="bars">
+                            <div class="bar bar1 loading"></div>
+                            <div class="bar bar2 loading"></div>
+                            <div class="bar bar3 loading"></div>
+                        </div>
                     </div>
-                    <store-api-console [apiOverview]="api"></store-api-console>
                 </ng-template>
 
             </mat-tab>
@@ -58,8 +68,7 @@
                 </ng-container>
 
                 <ng-template #sdkNotLoggedIn>
-                    Please <button mat-stroked-button (click)="onLoginClick()">login</button> to see SDK download
-                    options.
+                    Please <button mat-stroked-button (click)="onLoginClick()">login</button> to see SDK download options.
                 </ng-template>
             </mat-tab>
             <mat-tab>
@@ -91,8 +100,7 @@
                         </ng-container>
 
                         <mat-header-row *matHeaderRowDef="[ 'title', 'author', 'date', 'replyCount']"></mat-header-row>
-                        <mat-row *matRowDef="let row; columns: [ 'title', 'author', 'date', 'replyCount' ];"
-                            [routerLink]="['/forum/view', row.id]"></mat-row>
+                        <mat-row *matRowDef="let row; columns: [ 'title', 'author', 'date', 'replyCount' ];" [routerLink]="['/forum/view', row.id]"></mat-row>
                     </mat-table>
 
                     <ng-template #forumNoContent>
@@ -103,8 +111,7 @@
                     </ng-template>
                 </ng-container>
                 <ng-template #forumNotLoggedIn>
-                    Please <button mat-stroked-button (click)="onLoginClick()">login</button> to see related forum
-                    topics
+                    Please <button mat-stroked-button (click)="onLoginClick()">login</button> to see related forum topics
                 </ng-template>
             </mat-tab>
         </mat-tab-group>

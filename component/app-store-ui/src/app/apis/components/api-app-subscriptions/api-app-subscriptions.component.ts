@@ -36,7 +36,7 @@ export class ApiAppSubscriptionsComponent implements OnInit {
 
         this.route.params.subscribe(p => {
             this.api_id = p['apiId'];
-            this.store.dispatch(GetUserSubscriptionsAction({ "payload": this.api_id }));
+            // this.store.dispatch(GetUserSubscriptionsAction({ "payload": this.api_id }));
         })
 
         this.store

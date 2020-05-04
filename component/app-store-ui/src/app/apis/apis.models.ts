@@ -117,6 +117,7 @@ export class ApiOverview {
     tiers: Tier[];
     subscribed: boolean;
     thumbnailUrl: string;
+    thumbnailUri: string;
     bizOwner: string;
     bizOwnerMail: string;
     techOwner: string;
