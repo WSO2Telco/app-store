@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef, Input } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { MatDialog } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
@@ -22,6 +22,7 @@ export class ApiAppSubscriptionsComponent implements OnInit {
     appResult;
     subscriptionList = [];
     loadingSubscriptions: boolean = true;
+    @Input() public apiTiers;
 
     constructor(
         private store: Store<AppState>,
@@ -33,6 +34,8 @@ export class ApiAppSubscriptionsComponent implements OnInit {
     ) { }
 
     ngOnInit() {
+
+        console.log(this.apiTiers);
 
         this.route.params.subscribe(p => {
             this.api_id = p['apiId'];
@@ -74,7 +77,15 @@ export class ApiAppSubscriptionsComponent implements OnInit {
 
         dialogRef.afterClosed().subscribe(result => {
             if (result) {
-                this.store.dispatch(DoNewSubscribeAction({ "payload": new AddNewSubsParam('Unlimited', this.api_id, result) }));
+                let tier = "Default";
+                if(this.apiTiers.length > 0){
+                    if(this.apiTiers.includes("Unlimited")) tier = "Unlimited";
+                    else{
+                        tier = (this.apiTiers.includes("Default")) ? "Default" : this.apiTiers[0];
+                    }
+                }
+
+                this.store.dispatch(DoNewSubscribeAction({ "payload": new AddNewSubsParam(tier, this.api_id, result) }));
 
                 this.actions$.pipe(ofType(DoNewSubscribeSuccessAction)).subscribe(p => {
                     if (p) {
