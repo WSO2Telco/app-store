@@ -84,6 +84,7 @@ export class AppComponent implements OnInit {
         let authData = localStorage.getItem('authentication');
         if (authData == undefined || authData == null) {
           this.store.dispatch(DoLogoutAction());
+          return;
         }
       }
     }, false);
