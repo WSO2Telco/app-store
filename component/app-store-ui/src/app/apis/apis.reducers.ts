@@ -1,5 +1,5 @@
 import { ApiListDetail, paginationData, ApiEntityState } from './apis.models';
-import { ApiSearchSuccessAction, GetAvailableApplicationSuccessAction, GetSelectedAppSuccessAction } from './apis.actions';
+import { ApiSearchSuccessAction, GetAvailableApplicationSuccessAction, GetUserSubscriptionsSuccessAction } from './apis.actions';
 import { createReducer, on, createFeatureSelector, createSelector } from '@ngrx/store';
 import { EntityAdapter, createEntityAdapter } from '@ngrx/entity';
 import * as fromRoot from '../app.data.models';
@@ -16,7 +16,8 @@ export const defaultApiList: ApiEntityState = {
     next: "",
     count: 0,
     availableApp: new ApplicationListResult(),
-    pagination: new paginationData()
+    pagination: new paginationData(),
+    subscriptionDetails : null
 }
 
 export interface AppState extends fromRoot.AppState {
@@ -48,8 +49,8 @@ const _apisReducer = createReducer(initState,
     //     ...state, userApplications: payload
     // })),
 
-    on(GetSelectedAppSuccessAction, (state, { payload }) => ({
-        ...state, selectedApplication: payload
+    on(GetUserSubscriptionsSuccessAction, (state, { payload }) => ({
+        ...state, subscriptionDetails: payload
     }))
 
     // on(AddOperatorToSelectionAction, (state, { payload }) => ({

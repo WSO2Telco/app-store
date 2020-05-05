@@ -21,7 +21,7 @@ export class ApiAppSubscriptionsComponent implements OnInit {
     api_id: string;
     appResult;
     subscriptionList = [];
-    loadingSubscriptions: boolean = true;
+    loadingSubscriptions: boolean;
     @Input() public apiTiers;
 
     constructor(
@@ -46,11 +46,13 @@ export class ApiAppSubscriptionsComponent implements OnInit {
                     appArr => appArr.status == "APPROVED");
             });
 
-        this.actions$.pipe(ofType(GetUserSubscriptionsSuccessAction)).subscribe(res => {
-            this.subscriptionList = (res.payload && res.payload.list) ? res.payload.list : [];
-            this.loadingSubscriptions = false;
-            this.cd.detectChanges();
-        })
+        this.store
+            .select(s => s.apis.subscriptionDetails)
+            .subscribe(subscriptions => {
+                this.subscriptionList = (subscriptions.list) ? subscriptions.list : [];
+                this.loadingSubscriptions = false;
+                this.cd.detectChanges();
+            });
     }
 
     openDialog(event: any) {
@@ -74,9 +76,9 @@ export class ApiAppSubscriptionsComponent implements OnInit {
         dialogRef.afterClosed().subscribe(result => {
             if (result) {
                 let tier = "Default";
-                if(this.apiTiers.length > 0){
-                    if(this.apiTiers.includes("Unlimited")) tier = "Unlimited";
-                    else{
+                if (this.apiTiers.length > 0) {
+                    if (this.apiTiers.includes("Unlimited")) tier = "Unlimited";
+                    else {
                         tier = (this.apiTiers.includes("Default")) ? "Default" : this.apiTiers[0];
                     }
                 }
@@ -105,7 +107,7 @@ export class ApiAppSubscriptionsComponent implements OnInit {
 
     //unsubscribe
     onAction(sub, action) {
-        
+
         if (action === "unsubscribe") {
             const ref = this.dialog.open(ConfirmDialogComponent, {
                 data: {

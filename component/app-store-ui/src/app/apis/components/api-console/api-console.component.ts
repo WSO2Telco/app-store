@@ -61,10 +61,12 @@ export class ApiConsoleComponent implements OnInit {
         this.appResult = (this.appResult != null) ? this.appResult.filter(appArr => appArr.status == "APPROVED") : [];
       });
 
-    this.actions$.pipe(ofType(GetUserSubscriptionsSuccessAction)).subscribe(res => {
-      this.subscriptionList = (res.payload && res.payload.list) ? res.payload.list : [];
-      this.cd.detectChanges();
-    })
+    this.store
+      .select(s => s.apis.subscriptionDetails)
+      .subscribe(subscriptions => {
+        this.subscriptionList = (subscriptions != null) ? subscriptions.list : [];
+        this.cd.detectChanges();
+      });
 
     this.partialSwaggerURL = swaggerApiContext + this.apiOverview.context + '/' + this.apiOverview.provider;
     const ui = SwaggerUIBundle({
