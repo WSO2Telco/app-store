@@ -1,18 +1,8 @@
-import {
-  Component,
-  OnInit,
-  ViewChild,
-  ElementRef,
-  AfterViewInit,
-  Input,
-  ChangeDetectorRef
-} from '@angular/core';
-
+import { Component, OnInit, ViewChild, ElementRef, Input, ChangeDetectorRef } from '@angular/core';
 import { SwaggerUIBundle, SwaggerUIStandalonePreset } from 'swagger-ui-dist';
 import { Store } from '@ngrx/store';
 import { Actions, ofType } from '@ngrx/effects';
-import * as applicationsActions from '../../../applications/applications.actions';
-import { GetApiOverviewSuccessAction, GetUserSubscriptionsSuccessAction, GetSelectedAppAction } from '../../apis.actions';
+import { GetUserSubscriptionsSuccessAction } from '../../apis.actions';
 import { ApiOverview } from '../../apis.models';
 import * as jQuery from "jquery";
 import { MatDialog } from '@angular/material/dialog';
@@ -60,16 +50,15 @@ export class ApiConsoleComponent implements OnInit {
 
   ngOnInit() {
     let logUser = this.store.select((s) => s.authentication.loggedUser)
-    .subscribe((user) => {
-      this.loggedUser = user;
-    });
+      .subscribe((user) => {
+        this.loggedUser = user;
+      });
 
     this.store
       .select(s => s.apis.availableApp)
       .subscribe(apps => {
         this.appResult = apps.list;
-        this.appResult = this.appResult.filter(
-          appArr => appArr.status == "APPROVED");
+        this.appResult = (this.appResult != null) ? this.appResult.filter(appArr => appArr.status == "APPROVED") : [];
       });
 
     this.actions$.pipe(ofType(GetUserSubscriptionsSuccessAction)).subscribe(res => {
@@ -77,52 +66,43 @@ export class ApiConsoleComponent implements OnInit {
       this.cd.detectChanges();
     })
 
-    // if (this.apiOverview != undefined) {
-    //   this.partialSwaggerURL = swaggerApiContext + this.apiOverview.context + '/' + this.apiOverview.provider
-    // }
-    // else {
-      // this.apiSubscription = this.actions$.pipe(ofType(GetApiOverviewSuccessAction)).subscribe(resp => {
-        // if (resp) {
-          this.partialSwaggerURL = swaggerApiContext + this.apiOverview.context + '/' + this.apiOverview.provider;
-          const ui = SwaggerUIBundle({
-            spec: JSON.parse(this.apiOverview.apiDefinition),
-            domNode: this.container.nativeElement.querySelector('.swagger-container'),
-            presets: [SwaggerUIBundle.presets.apis, SwaggerUIStandalonePreset],
-            plugins: [
-              SwaggerUIBundle.plugins.DownloadUrl,
-              () => {
-                return {
-                  components: {
-                    Topbar: () => null,
-                    Info: () => null
-                  }
-                };
-              }
-            ],
-            requestInterceptor: function (request) {
-              //Intercept the request and inject Bearer token
-              var authorizationHeader = 'Authorization';
-              var key = this.accessToken;
-              if (key && key.trim() != "") {
-                request.headers[authorizationHeader] = "Bearer " + key;
-              } else {
-                request.headers[authorizationHeader] = "Bearer ";
-              }
-              return request;
-            },
-            docExpansion: 'list',
-            jsonEditor: true,
-            defaultModelRendering: 'schema',
-            showRequestHeaders: true,
-            layout: 'StandaloneLayout',
-            deepLinking: false,
-            showExtensions: true,
-            showCommonExtensions: true,
-            sorter: "alpha",
-          });
-        // }
-      // })
-    // }
+    this.partialSwaggerURL = swaggerApiContext + this.apiOverview.context + '/' + this.apiOverview.provider;
+    const ui = SwaggerUIBundle({
+      spec: JSON.parse(this.apiOverview.apiDefinition),
+      domNode: this.container.nativeElement.querySelector('.swagger-container'),
+      presets: [SwaggerUIBundle.presets.apis, SwaggerUIStandalonePreset],
+      plugins: [
+        SwaggerUIBundle.plugins.DownloadUrl,
+        () => {
+          return {
+            components: {
+              Topbar: () => null,
+              Info: () => null
+            }
+          };
+        }
+      ],
+      requestInterceptor: function (request) {
+        //Intercept the request and inject Bearer token
+        var authorizationHeader = 'Authorization';
+        var key = this.accessToken;
+        if (key && key.trim() != "") {
+          request.headers[authorizationHeader] = "Bearer " + key;
+        } else {
+          request.headers[authorizationHeader] = "Bearer ";
+        }
+        return request;
+      },
+      docExpansion: 'list',
+      jsonEditor: true,
+      defaultModelRendering: 'schema',
+      showRequestHeaders: true,
+      layout: 'StandaloneLayout',
+      deepLinking: false,
+      showExtensions: true,
+      showCommonExtensions: true,
+      sorter: "alpha",
+    });
     this.swaggerUiOperation();
   }
 
@@ -142,18 +122,14 @@ export class ApiConsoleComponent implements OnInit {
 
 
   retrieveEnvKeyObject() {
+    this.keyObject = this.keyArray.find(i => i.keyType == this.selectedEnv);
+    if (this.keyObject) {
+      this.accessToken = this.keyObject.token.accessToken;
 
-    // this.storeSelect = this.store.select((s) => s.apis.selectedApplication.keys).subscribe((appDetails) => {
-
-      this.keyObject = this.keyArray.find(i => i.keyType == this.selectedEnv);
-      if (this.keyObject) {
-        this.accessToken = this.keyObject.token.accessToken;
-
-      } else {
-        this.accessToken = null;
-      }
-      this.reInitiateSwagger(this.accessToken)
-    // });
+    } else {
+      this.accessToken = null;
+    }
+    this.reInitiateSwagger(this.accessToken)
   }
 
   reInitiateSwagger(event) {
