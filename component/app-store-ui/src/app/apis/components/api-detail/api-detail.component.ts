@@ -31,7 +31,7 @@ export class ApiDetailComponent implements OnInit, OnDestroy {
   public api: ApiOverview;
   public apiPrefix = ApiEndpoints.apiContext;
   public api_id;
-  public loggedUser: string;
+  public loggedUser: boolean;
 
   public forumResult;
 
@@ -53,9 +53,16 @@ export class ApiDetailComponent implements OnInit, OnDestroy {
   ngOnInit() {
 
 
-    let logUser = this.store.select((s) => s.authentication.loggedUser)
-      .subscribe((overview) => {
-        this.loggedUser = overview;
+    let logUser = this.store.select((s) => s.authentication.tokenDetails)
+      .subscribe((token) => {
+        if (token) {
+          this.loggedUser = true;
+          if (this.apiFullyLoaded) {
+            this.store.dispatch(apiActions.SearchForumTopicsAction({ payload: this.api.name }));
+            this.store.dispatch(apiActions.GetUserSubscriptionsAction({ "payload": this.api_id }));
+          }
+        }
+        else this.loggedUser = false;
       });
 
     this.route.params.subscribe(p => {
@@ -88,7 +95,7 @@ export class ApiDetailComponent implements OnInit, OnDestroy {
       this.api = overview;
       this.apiFullyLoaded = true;
 
-      if(this.loggedUser) this.store.dispatch(apiActions.GetUserSubscriptionsAction({ "payload": this.api_id }));
+      if (this.loggedUser) this.store.dispatch(apiActions.GetUserSubscriptionsAction({ "payload": this.api_id }));
 
       if (!this.apiEntityLoaded) {
         this.store.dispatch(
