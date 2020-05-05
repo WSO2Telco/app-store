@@ -66,52 +66,43 @@ export class ApiConsoleComponent implements OnInit {
       this.cd.detectChanges();
     })
 
-    // if (this.apiOverview != undefined) {
-    //   this.partialSwaggerURL = swaggerApiContext + this.apiOverview.context + '/' + this.apiOverview.provider
-    // }
-    // else {
-      // this.apiSubscription = this.actions$.pipe(ofType(GetApiOverviewSuccessAction)).subscribe(resp => {
-        // if (resp) {
-          this.partialSwaggerURL = swaggerApiContext + this.apiOverview.context + '/' + this.apiOverview.provider;
-          const ui = SwaggerUIBundle({
-            spec: JSON.parse(this.apiOverview.apiDefinition),
-            domNode: this.container.nativeElement.querySelector('.swagger-container'),
-            presets: [SwaggerUIBundle.presets.apis, SwaggerUIStandalonePreset],
-            plugins: [
-              SwaggerUIBundle.plugins.DownloadUrl,
-              () => {
-                return {
-                  components: {
-                    Topbar: () => null,
-                    Info: () => null
-                  }
-                };
-              }
-            ],
-            requestInterceptor: function (request) {
-              //Intercept the request and inject Bearer token
-              var authorizationHeader = 'Authorization';
-              var key = this.accessToken;
-              if (key && key.trim() != "") {
-                request.headers[authorizationHeader] = "Bearer " + key;
-              } else {
-                request.headers[authorizationHeader] = "Bearer ";
-              }
-              return request;
-            },
-            docExpansion: 'list',
-            jsonEditor: true,
-            defaultModelRendering: 'schema',
-            showRequestHeaders: true,
-            layout: 'StandaloneLayout',
-            deepLinking: false,
-            showExtensions: true,
-            showCommonExtensions: true,
-            sorter: "alpha",
-          });
-        // }
-      // })
-    // }
+    this.partialSwaggerURL = swaggerApiContext + this.apiOverview.context + '/' + this.apiOverview.provider;
+    const ui = SwaggerUIBundle({
+      spec: JSON.parse(this.apiOverview.apiDefinition),
+      domNode: this.container.nativeElement.querySelector('.swagger-container'),
+      presets: [SwaggerUIBundle.presets.apis, SwaggerUIStandalonePreset],
+      plugins: [
+        SwaggerUIBundle.plugins.DownloadUrl,
+        () => {
+          return {
+            components: {
+              Topbar: () => null,
+              Info: () => null
+            }
+          };
+        }
+      ],
+      requestInterceptor: function (request) {
+        //Intercept the request and inject Bearer token
+        var authorizationHeader = 'Authorization';
+        var key = this.accessToken;
+        if (key && key.trim() != "") {
+          request.headers[authorizationHeader] = "Bearer " + key;
+        } else {
+          request.headers[authorizationHeader] = "Bearer ";
+        }
+        return request;
+      },
+      docExpansion: 'list',
+      jsonEditor: true,
+      defaultModelRendering: 'schema',
+      showRequestHeaders: true,
+      layout: 'StandaloneLayout',
+      deepLinking: false,
+      showExtensions: true,
+      showCommonExtensions: true,
+      sorter: "alpha",
+    });
     this.swaggerUiOperation();
   }
 
