@@ -118,6 +118,7 @@ export class ApiConsoleComponent implements OnInit {
       this.fullSwaggerURL = this.partialSwaggerURL + '/' + resp.subscriber;
       this.keyArray = resp.keys;
     });
+    this.reInitiateSwagger(this.accessToken)
   }
 
 
@@ -136,7 +137,6 @@ export class ApiConsoleComponent implements OnInit {
     const component = this;
     this.swaggerUiOperation();
     const ui = SwaggerUIBundle({
-      // url: 'https://localhost:9443/app-store/public/api/swagger/payment/v1.0.0/adminPublisher/admin',
       url: this.fullSwaggerURL,
       spec: '',
       domNode: this.container.nativeElement.querySelector('.swagger-container'),
@@ -182,7 +182,6 @@ export class ApiConsoleComponent implements OnInit {
   }
 
   swaggerUiOperation() {
-    const component = this;
     jQuery.noConflict();
     jQuery(document).ready(function () {
       setTimeout(function () {
