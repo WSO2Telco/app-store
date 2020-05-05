@@ -34,12 +34,8 @@ export class ApiAppSubscriptionsComponent implements OnInit {
     ) { }
 
     ngOnInit() {
-
-        console.log(this.apiTiers);
-
         this.route.params.subscribe(p => {
             this.api_id = p['apiId'];
-            // this.store.dispatch(GetUserSubscriptionsAction({ "payload": this.api_id }));
         })
 
         this.store

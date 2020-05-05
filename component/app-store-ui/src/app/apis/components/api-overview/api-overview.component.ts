@@ -15,7 +15,7 @@ export class ApiOverviewComponent implements OnInit {
   constructor(private notification: NotificationService) { }
 
   ngOnInit() {
-    // console.log(this.apiOverview);
+    
   }
 
   copyToClipboard(ele) {
