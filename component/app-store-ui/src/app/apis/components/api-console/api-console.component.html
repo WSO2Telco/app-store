@@ -10,7 +10,7 @@
                     <label>Try:</label>
                     <ng-container class="content">
                         <ng-container *ngIf="subscriptionList.length > 0">
-                            <mat-select placeholder="Application List" [(ngModel)]="selectedApp" (ngModelChange)="onAppChange($event)">
+                            <mat-select placeholder="Application List" [(ngModel)]="selectedApp" (ngModelChange)="onAppChange()">
                                 <mat-option *ngFor="let app of subscriptionList" [value]="app.applicationId">
                                     {{mapAppName(app.applicationId)}}
                                 </mat-option>

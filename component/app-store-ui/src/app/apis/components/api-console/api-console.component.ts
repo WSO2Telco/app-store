@@ -74,7 +74,6 @@ export class ApiConsoleComponent implements OnInit {
 
     this.actions$.pipe(ofType(GetUserSubscriptionsSuccessAction)).subscribe(res => {
       this.subscriptionList = (res.payload && res.payload.list) ? res.payload.list : [];
-      console.log(this.subscriptionList);
       this.cd.detectChanges();
     })
 
@@ -102,7 +101,6 @@ export class ApiConsoleComponent implements OnInit {
             ],
             requestInterceptor: function (request) {
               //Intercept the request and inject Bearer token
-              var url = this.apiOverview.endpointURLs[0].environmentURLs.https;
               var authorizationHeader = 'Authorization';
               var key = this.accessToken;
               if (key && key.trim() != "") {
@@ -132,11 +130,10 @@ export class ApiConsoleComponent implements OnInit {
     // this.apiSubscription.unsubscribe();
   }
 
-  onAppChange(appId) {
+  onAppChange() {
     this.accessToken = null;
     this.selectedEnv = null;
     this.keyArray = null;
-    console.log(this.selectedApp);
     this.apiSvc.getSelectedAppDetails(this.selectedApp).subscribe(resp => {
       this.fullSwaggerURL = this.partialSwaggerURL + '/' + resp.subscriber;
       this.keyArray = resp.keys;
