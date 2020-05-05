@@ -86,18 +86,18 @@ export class ApisEffects {
     )
   ));
 
-  getSelectedAppDetails$ = createEffect(() => this.actions$.pipe(
-    ofType(apiActions.GetSelectedAppAction),
-    mergeMap(({ payload }) => this.apiService.getSelectedAppDetails(payload)
-      .pipe(
-        map((response: ApplicationDetails) => apiActions.GetSelectedAppSuccessAction({ "payload": response })),
-        catchError((e: HttpErrorResponse) => {
-          this.notification.error(e.message);
-          return EMPTY
-        })
-      )
-    )
-  ));
+  // getSelectedAppDetails$ = createEffect(() => this.actions$.pipe(
+  //   ofType(apiActions.GetSelectedAppAction),
+  //   mergeMap(({ payload }) => this.apiService.getSelectedAppDetails(payload)
+  //     .pipe(
+  //       map((response: ApplicationDetails) => apiActions.GetSelectedAppSuccessAction({ "payload": response })),
+  //       catchError((e: HttpErrorResponse) => {
+  //         this.notification.error(e.message);
+  //         return EMPTY
+  //       })
+  //     )
+  //   )
+  // ));
 
   deleteSubscription$ = createEffect(() => this.actions$.pipe(
     ofType(apiActions.UnsubscribeAction),

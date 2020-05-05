@@ -53,7 +53,16 @@ export interface ApiEntityState extends EntityState<ApiListDetail> {
     next: "",
     previous: ""
     availableApp: ApplicationListResult,
-    pagination: paginationData
+    pagination: paginationData,
+    subscriptionDetails: subscriptionDetails
+}
+
+export class subscriptionDetails {
+    loading: boolean;
+    count: number;
+    next: string;
+    previous: string;
+    list: any
 }
 
 // export class ApiSummary {
