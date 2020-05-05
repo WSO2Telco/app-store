@@ -68,7 +68,7 @@ export class ApiConsoleComponent implements OnInit {
         this.cd.detectChanges();
       });
 
-    this.partialSwaggerURL = swaggerApiContext + this.apiOverview.context + '/' + this.apiOverview.provider;
+    this.partialSwaggerURL = swaggerApiContext + '/' + this.apiOverview.name + '/' + this.apiOverview.version + '/' + this.apiOverview.provider;
     const ui = SwaggerUIBundle({
       spec: JSON.parse(this.apiOverview.apiDefinition),
       domNode: this.container.nativeElement.querySelector('.swagger-container'),
