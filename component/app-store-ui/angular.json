@@ -12,7 +12,7 @@
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
             "aot": true,
-            "outputPath": "/home/telco/Documents/Projects/AXP-roadmap/igw410/wso2telcohub-4.1.0-SNAPSHOT/repository/deployment/server/webapps/app-store/public",
+            "outputPath": "../app-store-service/src/main/webapp/public",
             "index": "src/index.html",
             "main": "src/main.ts",
             "tsConfig": "src/tsconfig.app.json",
