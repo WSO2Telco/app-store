@@ -28,6 +28,9 @@ export class ApiDetailComponent implements OnInit, OnDestroy {
   private apiEntityLoaded = false;
   public apiFullyLoaded = false;
 
+  public appSubscriptionList = [];
+  public appSubscriptionLoading:boolean = false;
+
   public api: ApiOverview;
   public apiPrefix = ApiEndpoints.apiContext;
   public api_id;
@@ -59,7 +62,8 @@ export class ApiDetailComponent implements OnInit, OnDestroy {
           this.loggedUser = true;
           if (this.apiFullyLoaded) {
             this.store.dispatch(apiActions.SearchForumTopicsAction({ payload: this.api.name }));
-            this.store.dispatch(apiActions.GetUserSubscriptionsAction({ "payload": this.api_id }));
+            this.store.dispatch(apiActions.GetUserSubscriptionsAction({ payload: this.api_id }));
+            this.appSubscriptionLoading = true;
           }
         }
         else this.loggedUser = false;
@@ -95,7 +99,10 @@ export class ApiDetailComponent implements OnInit, OnDestroy {
       this.api = overview;
       this.apiFullyLoaded = true;
 
-      if (this.loggedUser) this.store.dispatch(apiActions.GetUserSubscriptionsAction({ "payload": this.api_id }));
+      if (this.loggedUser) {
+        this.store.dispatch(apiActions.GetUserSubscriptionsAction({ payload: this.api_id }));
+        this.appSubscriptionLoading = true;
+      }
 
       if (!this.apiEntityLoaded) {
         this.store.dispatch(
@@ -115,6 +122,13 @@ export class ApiDetailComponent implements OnInit, OnDestroy {
     this.actions$.pipe(ofType(apiActions.SearchForumTopicsSuccessAction)).subscribe(forum => {
       this.forumResult = forum.payload.list;
     })
+
+    this.actions$.pipe(ofType(apiActions.GetUserSubscriptionsSuccessAction)).subscribe(res => {
+      this.appSubscriptionList = (res.payload && res.payload.list) ? res.payload.list : [];
+      this.appSubscriptionLoading = false;
+      console.log(this.appSubscriptionList);
+      this.cd.detectChanges();
+    })
   }
 
   ngOnDestroy(): void {
@@ -131,4 +145,6 @@ export class ApiDetailComponent implements OnInit, OnDestroy {
     this.store.dispatch(SetLastAuthRequiredRouteAction({ "payload": this.router.url }));
     this.store.dispatch(globalActions.ToggleRightPanelAction({ "payload": true }));
   }
+
+  
 }

@@ -22,6 +22,9 @@ const swaggerApiContext = baseUrl.protocol + '//' + baseUrl.host + '/app-store/p
 })
 export class ApiConsoleComponent implements OnInit {
   @Input() public apiOverview: ApiOverview;
+  @Input() public subscriptionList;
+  @Input() public loadingSubscriptions;
+
   @ViewChild('swagger', { static: true }) container: ElementRef;
   private apiSubscription;
   response: string;
@@ -30,7 +33,6 @@ export class ApiConsoleComponent implements OnInit {
   selectedEnv: string;
   selectedApp: string = null;
   public loggedUser: string;
-  subscriptionList = [];
   fullSwaggerURL: string;
   partialSwaggerURL: string;
 
@@ -61,12 +63,12 @@ export class ApiConsoleComponent implements OnInit {
         this.appResult = (this.appResult != null) ? this.appResult.filter(appArr => appArr.status == "APPROVED") : [];
       });
 
-    this.store
-      .select(s => s.apis.subscriptionDetails)
-      .subscribe(subscriptions => {
-        this.subscriptionList = (subscriptions != null) ? subscriptions.list : [];
-        this.cd.detectChanges();
-      });
+    // this.store
+    //   .select(s => s.apis.subscriptionDetails)
+    //   .subscribe(subscriptions => {
+    //     this.subscriptionList = (subscriptions != null) ? subscriptions.list : [];
+    //     this.cd.detectChanges();
+    //   });
 
     this.partialSwaggerURL = swaggerApiContext + '/' + this.apiOverview.name + '/' + this.apiOverview.version + '/' + this.apiOverview.provider;
     const ui = SwaggerUIBundle({

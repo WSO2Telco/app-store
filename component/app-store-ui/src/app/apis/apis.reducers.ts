@@ -17,7 +17,7 @@ export const defaultApiList: ApiEntityState = {
     count: 0,
     availableApp: new ApplicationListResult(),
     pagination: new paginationData(),
-    subscriptionDetails : null
+    // subscriptionDetails : null
 }
 
 export interface AppState extends fromRoot.AppState {
@@ -49,9 +49,9 @@ const _apisReducer = createReducer(initState,
     //     ...state, userApplications: payload
     // })),
 
-    on(GetUserSubscriptionsSuccessAction, (state, { payload }) => ({
-        ...state, subscriptionDetails: payload
-    }))
+    // on(GetUserSubscriptionsSuccessAction, (state, { payload }) => ({
+    //     ...state, subscriptionDetails: payload
+    // }))
 
     // on(AddOperatorToSelectionAction, (state, { payload }) => ({
     //     ...state, selectedOperators: [...state.selectedOperators.filter((op: Operator) => op.mnc !== payload.mnc), payload]
