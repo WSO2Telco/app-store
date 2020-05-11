@@ -32,7 +32,7 @@
                         <mat-icon>info</mat-icon>
                         You require an access token to try the API invoke. Please &nbsp;<button mat-stroked-button (click)="onLoginClick()">login</button> &nbsp;and subscribe to the API to generate an access token.
                     </div>
-                    <store-api-console [apiOverview]="api"></store-api-console>
+                    <store-api-console [apiOverview]="api" [subscriptionList]="appSubscriptionList" [loadingSubscriptions]="appSubscriptionLoading"></store-api-console>
                 </ng-container>
 
                 <ng-template #consoleNotLoaded>
@@ -50,7 +50,7 @@
                 <ng-template mat-tab-label>
                     <i class="fa fa-2x fa-folder"></i> Subscriptions
                 </ng-template>
-                <store-api-app-subscriptions [apiTiers]="api?.tiers"></store-api-app-subscriptions>
+                <store-api-app-subscriptions [apiTiers]="api?.tiers" [subscriptionList]="appSubscriptionList" [(loadingSubscriptions)]="appSubscriptionLoading"></store-api-app-subscriptions>
             </mat-tab>
             <mat-tab>
                 <ng-template mat-tab-label>

@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectorRef, Input } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef, Input, Output, EventEmitter } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { MatDialog } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
@@ -20,9 +20,12 @@ import { AppState } from '../../apis.reducers';
 export class ApiAppSubscriptionsComponent implements OnInit {
     api_id: string;
     appResult;
-    subscriptionList = [];
-    loadingSubscriptions: boolean;
+    // subscriptionList = [];
+    // loadingSubscriptions: boolean;
     @Input() public apiTiers;
+    @Input() public subscriptionList;
+    @Input() public loadingSubscriptions;
+    @Output() loadingSubscriptionsChange = new EventEmitter<boolean>();
 
     constructor(
         private store: Store<AppState>,
@@ -46,13 +49,13 @@ export class ApiAppSubscriptionsComponent implements OnInit {
                     appArr => appArr.status == "APPROVED");
             });
 
-        this.store
-            .select(s => s.apis.subscriptionDetails)
-            .subscribe(subscriptions => {
-                this.subscriptionList = (subscriptions.list) ? subscriptions.list : [];
-                this.loadingSubscriptions = false;
-                this.cd.detectChanges();
-            });
+        // this.store
+        //     .select(s => s.apis.subscriptionDetails)
+        //     .subscribe(subscriptions => {
+        //         this.subscriptionList = (subscriptions.list) ? subscriptions.list : [];
+        //         this.loadingSubscriptions = false;
+        //         this.cd.detectChanges();
+        //     });
     }
 
     openDialog(event: any) {
@@ -87,8 +90,9 @@ export class ApiAppSubscriptionsComponent implements OnInit {
 
                 this.actions$.pipe(ofType(DoNewSubscribeSuccessAction)).subscribe(p => {
                     if (p) {
-                        this.loadingSubscriptions = true;
-                        this.store.dispatch(GetUserSubscriptionsAction({ "payload": this.api_id }));
+                        // this.loadingSubscriptions = true;
+                        this.store.dispatch(GetUserSubscriptionsAction({ payload: this.api_id }));
+                        this.loadingSubscriptionsChange.emit(this.loadingSubscriptions = true);
                     }
                 })
             }
@@ -124,6 +128,7 @@ export class ApiAppSubscriptionsComponent implements OnInit {
 
                     this.actions$.pipe(ofType(UnsubscribeSuccessAction)).subscribe(p => {
                         this.store.dispatch(GetUserSubscriptionsAction({ "payload": this.api_id }));
+                        this.loadingSubscriptionsChange.emit(this.loadingSubscriptions = true);
                     })
                 }
             });
