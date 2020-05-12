@@ -55,7 +55,7 @@ export class DashboardComponent implements OnInit {
       let authtkn = localStorage.getItem('tkx')
       if (authtkn) {
         this.store.dispatch(DoLogoutAction());
-        localStorage.setItem("autologout", "true");
+        sessionStorage.setItem("autologout", "true");
       }
       this.reset();
     });
@@ -65,7 +65,7 @@ export class DashboardComponent implements OnInit {
     this.store.dispatch(globalActions.SetBreadcrumbAction({ payload: [new BreadcrumbItem("Home")] }));
     this.titleService.setTitle("Apigate API Store");
 
-    let autologout = localStorage.getItem('autologout');
+    let autologout = sessionStorage.getItem('autologout');
     if (autologout == 'true') this.autoLogout = true;
 
 
