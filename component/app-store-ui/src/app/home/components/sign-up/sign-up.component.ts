@@ -11,6 +11,7 @@ import { Actions, ofType } from '@ngrx/effects';
 import { SignupUserSuccessAction, SignupUserAction, SignupUserFailedAction } from '../../../authentication/authentication.actions';
 import { ErrorStateMatcher } from '@angular/material/core';
 import { SigUpUserParam } from '../../../authentication/authentication.models';
+import { NotificationService } from '../../../shared/services/notification.service';
 
 export class SignUpErrorStateMatcher implements ErrorStateMatcher {
   isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
@@ -33,6 +34,7 @@ export class SignUpComponent implements OnInit {
   formSignupApp: FormGroup;
   submitted = false;
   public loginError: string;
+  
 
   constructor(
     private store: Store<AppState>,
@@ -40,7 +42,7 @@ export class SignUpComponent implements OnInit {
     private fb: FormBuilder,
     private actions$: Actions,
     private cd: ChangeDetectorRef,
-
+    private notification: NotificationService
   ) {
   this.formSignupApp = this.fb.group({
     firstName: ['', [Validators.required, Validators.maxLength(20), Validators.pattern("[a-zA-Z\s]+$")]],
@@ -57,8 +59,7 @@ export class SignUpComponent implements OnInit {
     this.titleService.setTitle("Create New App | Apigate API Store");
 
     this.actions$.pipe(ofType(SignupUserFailedAction)).subscribe(msg => {
-      this.loginError = msg.payload;
-      this.cd.detectChanges();
+      this.notification.error(msg.payload);
     })
   }
 
