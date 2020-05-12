@@ -33,6 +33,7 @@ export class ApisEffects {
         map((result: any) => (apiActions.ApiSearchSuccessAction({ "payload": result }))),
         catchError((e: HttpErrorResponse) => {
           this.notification.error(e.message);
+          if(e.status == 401) this.store.dispatch(DoLogoutAction());
           return EMPTY
         })
       )
@@ -46,6 +47,7 @@ export class ApisEffects {
         map((result: ApiOverview) => (apiActions.GetApiOverviewSuccessAction({ "payload": result }))),
         catchError((e: HttpErrorResponse) => {
           this.notification.error(e.message);
+          if(e.status == 401) this.store.dispatch(DoLogoutAction());
           return EMPTY
         })
       )
@@ -59,6 +61,7 @@ export class ApisEffects {
         map((result: TagListResult) => (apiActions.GetApiTagSuccessAction({ "payload": result }))),
         catchError((e: HttpErrorResponse) => {
           this.notification.error(e.message);
+          if(e.status == 401) this.store.dispatch(DoLogoutAction());
           return EMPTY
         })
       )
@@ -72,6 +75,7 @@ export class ApisEffects {
         map((result: any) => (this.notification.success('Successfully subscribe to the new application'), apiActions.DoNewSubscribeSuccessAction({ "payload": result }))),
         catchError((e: HttpErrorResponse) => {
           this.notification.error(e.error.message);
+          if(e.status == 401) this.store.dispatch(DoLogoutAction());
           return EMPTY
         })
       )
@@ -84,7 +88,7 @@ export class ApisEffects {
         map((response: ApplicationListResult) => (apiActions.GetAvailableApplicationSuccessAction({ "payload": response }))),
         catchError((e: HttpErrorResponse) => {
           this.notification.error(e.message);
-          // this.store.dispatch(DoLogoutAction());
+          if(e.status == 401) this.store.dispatch(DoLogoutAction());
           return EMPTY
         })
       )
@@ -106,6 +110,7 @@ export class ApisEffects {
         }),
         catchError((e: HttpErrorResponse) => {
           this.notification.error(e.error);
+          if(e.status == 401) this.store.dispatch(DoLogoutAction());
           return EMPTY
         })
       )
@@ -126,6 +131,7 @@ export class ApisEffects {
         }),
         catchError((e: HttpErrorResponse) => {
           this.notification.error(e.message);
+          if(e.status == 401) this.store.dispatch(DoLogoutAction());
           return EMPTY
         })
       )
@@ -139,7 +145,7 @@ export class ApisEffects {
         map((result: SubscribeResult) => (apiActions.DoSubscribeSuccessAction({ "payload": result }))),
         catchError((e: HttpErrorResponse) => {
           this.notification.error(e.message);
-          // this.store.dispatch(DoLogoutAction());
+          if(e.status == 401) this.store.dispatch(DoLogoutAction());
           return EMPTY
         })
       )
@@ -154,7 +160,7 @@ export class ApisEffects {
         catchError((e: HttpErrorResponse) => {
           console.log(e);
           this.notification.error(e.message);
-          // this.store.dispatch(DoLogoutAction());
+          if(e.status == 401) this.store.dispatch(DoLogoutAction());
           return EMPTY
         })
       )
