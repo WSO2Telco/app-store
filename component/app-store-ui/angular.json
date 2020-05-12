@@ -89,6 +89,7 @@
               "node_modules/swagger-ui-dist/swagger-ui.css",
               "node_modules/material-design-icons-iconfont/dist/material-design-icons.css",
               "node_modules/font-awesome/css/font-awesome.css",
+              "node_modules/jsoneditor/dist/jsoneditor.min.css",
               "src/styles/main.scss",
               "src/styles/theme.scss"
             ],
