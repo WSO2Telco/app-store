@@ -25,7 +25,6 @@ export class ApiConsoleComponent implements OnInit {
 
     @Input() public subscriptionList;
     @Input() public loadingSubscriptions;
-    // @Input() public apiOverview: ApiOverview;
     @Input('apiOverview') set setApiOverview(apiOverview: ApiOverview) {
         this.apiOverview = apiOverview;
 
@@ -65,6 +64,12 @@ export class ApiConsoleComponent implements OnInit {
             showCommonExtensions: true,
             sorter: "alpha",
         });
+
+        this.partialSwaggerURL = swaggerApiContext + '/' + this.apiOverview.name + '/' + this.apiOverview.version + '/' + this.apiOverview.provider;
+        this.accessToken = null;
+        this.selectedEnv = null;
+        this.selectedApp = null;
+        this.swaggerUiOperation();
     }
 
     @ViewChild('swagger', { static: true }) container: ElementRef;
@@ -101,11 +106,6 @@ export class ApiConsoleComponent implements OnInit {
                 this.appResult = (this.appResult != null) ? this.appResult.filter(appArr => appArr.status == "APPROVED") : [];
             });
 
-        this.partialSwaggerURL = swaggerApiContext + '/' + this.apiOverview.name + '/' + this.apiOverview.version + '/' + this.apiOverview.provider;
-        
-        this.swaggerUiOperation();
-
-        console.log("x");
     }
 
     onAppChange() {
@@ -115,8 +115,8 @@ export class ApiConsoleComponent implements OnInit {
         this.apiSvc.getSelectedAppDetails(this.selectedApp).subscribe(resp => {
             this.fullSwaggerURL = this.partialSwaggerURL + '/' + resp.subscriber;
             this.keyArray = resp.keys;
+            this.reInitiateSwagger(this.accessToken)
         });
-        this.reInitiateSwagger(this.accessToken)
     }
 
 
