@@ -21,45 +21,14 @@ const swaggerApiContext = baseUrl.protocol + '//' + baseUrl.host + '/app-store/p
     styleUrls: ['./api-console.component.scss']
 })
 export class ApiConsoleComponent implements OnInit {
-    @Input() public apiOverview: ApiOverview;
+    public apiOverview: ApiOverview;
+
     @Input() public subscriptionList;
     @Input() public loadingSubscriptions;
+    // @Input() public apiOverview: ApiOverview;
+    @Input('apiOverview') set setApiOverview(apiOverview: ApiOverview) {
+        this.apiOverview = apiOverview;
 
-    @ViewChild('swagger', { static: true }) container: ElementRef;
-
-    response: string;
-    appResult;
-    listOfEnv = [{ name: 'Production', val: 'PRODUCTION' }, { name: 'Sandbox', val: 'SANDBOX' }]
-    selectedEnv: string;
-    selectedApp: string = null;
-    public loggedUser: string;
-    fullSwaggerURL: string;
-    partialSwaggerURL: string;
-
-    private keyArray: ApplicationDetailsKeys[];
-    public keyObject: ApplicationDetailsKeys;
-    public accessToken;
-
-    constructor(
-        public dialog: MatDialog,
-        private store: Store<AppState>,
-        private apiSvc: ApisService
-    ) { }
-
-    ngOnInit() {
-        let logUser = this.store.select((s) => s.authentication.loggedUser)
-            .subscribe((user) => {
-                this.loggedUser = user;
-            });
-
-        this.store
-            .select(s => s.apis.availableApp)
-            .subscribe(apps => {
-                this.appResult = apps.list;
-                this.appResult = (this.appResult != null) ? this.appResult.filter(appArr => appArr.status == "APPROVED") : [];
-            });
-
-        this.partialSwaggerURL = swaggerApiContext + '/' + this.apiOverview.name + '/' + this.apiOverview.version + '/' + this.apiOverview.provider;
         const ui = SwaggerUIBundle({
             spec: JSON.parse(this.apiOverview.apiDefinition),
             domNode: this.container.nativeElement.querySelector('.swagger-container'),
@@ -96,7 +65,47 @@ export class ApiConsoleComponent implements OnInit {
             showCommonExtensions: true,
             sorter: "alpha",
         });
+    }
+
+    @ViewChild('swagger', { static: true }) container: ElementRef;
+
+    response: string;
+    appResult;
+    listOfEnv = [{ name: 'Production', val: 'PRODUCTION' }, { name: 'Sandbox', val: 'SANDBOX' }]
+    selectedEnv: string;
+    selectedApp: string = null;
+    public loggedUser: string;
+    fullSwaggerURL: string;
+    partialSwaggerURL: string;
+
+    private keyArray: ApplicationDetailsKeys[];
+    public keyObject: ApplicationDetailsKeys;
+    public accessToken;
+
+    constructor(
+        public dialog: MatDialog,
+        private store: Store<AppState>,
+        private apiSvc: ApisService
+    ) { }
+
+    ngOnInit() {
+        let logUser = this.store.select((s) => s.authentication.loggedUser)
+            .subscribe((user) => {
+                this.loggedUser = user;
+            });
+
+        this.store
+            .select(s => s.apis.availableApp)
+            .subscribe(apps => {
+                this.appResult = apps.list;
+                this.appResult = (this.appResult != null) ? this.appResult.filter(appArr => appArr.status == "APPROVED") : [];
+            });
+
+        this.partialSwaggerURL = swaggerApiContext + '/' + this.apiOverview.name + '/' + this.apiOverview.version + '/' + this.apiOverview.provider;
+        
         this.swaggerUiOperation();
+
+        console.log("x");
     }
 
     onAppChange() {

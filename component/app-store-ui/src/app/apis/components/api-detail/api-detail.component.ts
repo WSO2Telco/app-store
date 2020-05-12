@@ -1,21 +1,18 @@
 import { Component, OnInit, OnDestroy, ChangeDetectorRef } from '@angular/core';
-import { Store } from '@ngrx/store';
-import { AppState } from '../../../app.data.models';
-import { ApiOverview, TopicResultPayload } from '../../apis.models';
-import * as apiActions from '../../apis.actions';
-import { ApiEndpoints } from '../../../config/api.endpoints';
 import { ActivatedRoute, Router } from '@angular/router';
-
-//Breadcrumbs
-import * as globalActions from "../../../app.actions";
-import { BreadcrumbItem } from "../../../app.data.models";
 import { Title } from '@angular/platform-browser';
-import { GetApiOverviewAction } from '../../apis.actions';
-import { GetAllApplicationsAction } from '../../../applications/applications.actions';
-import { GetApplicationsParam } from '../../../applications/applications.data.models';
+import { Store } from '@ngrx/store';
 import { Actions, ofType } from '@ngrx/effects';
+
+import { ApiEndpoints } from '../../../config/api.endpoints';
+import { getApi, AppState } from '../../apis.reducers';
+import * as apiActions from '../../apis.actions';
+import * as globalActions from "../../../app.actions";
+import { GetApiOverviewAction } from '../../apis.actions';
 import { SetLastAuthRequiredRouteAction } from '../../../authentication/authentication.actions';
-import { getApi } from '../../apis.reducers';
+import { ApiOverview } from '../../apis.models';
+import { BreadcrumbItem } from "../../../app.data.models";
+
 
 @Component({
   selector: 'store-api-detail',
@@ -29,9 +26,10 @@ export class ApiDetailComponent implements OnInit, OnDestroy {
   public apiFullyLoaded = false;
 
   public appSubscriptionList = [];
-  public appSubscriptionLoading:boolean = false;
+  public appSubscriptionLoading: boolean = false;
 
   public api: ApiOverview;
+  public apiFull: ApiOverview;
   public apiPrefix = ApiEndpoints.apiContext;
   public api_id;
   public loggedUser: boolean;
@@ -97,6 +95,7 @@ export class ApiDetailComponent implements OnInit, OnDestroy {
     this.subscriptions.apiOverview = this.actions$.pipe(ofType(apiActions.GetApiOverviewSuccessAction)).subscribe(resp => {
       let overview = resp.payload;
       this.api = overview;
+      this.apiFull = overview;
       this.apiFullyLoaded = true;
 
       if (this.loggedUser) {
@@ -126,7 +125,6 @@ export class ApiDetailComponent implements OnInit, OnDestroy {
     this.actions$.pipe(ofType(apiActions.GetUserSubscriptionsSuccessAction)).subscribe(res => {
       this.appSubscriptionList = (res.payload && res.payload.list) ? res.payload.list : [];
       this.appSubscriptionLoading = false;
-      console.log(this.appSubscriptionList);
       this.cd.detectChanges();
     })
   }
@@ -146,5 +144,5 @@ export class ApiDetailComponent implements OnInit, OnDestroy {
     this.store.dispatch(globalActions.ToggleRightPanelAction({ "payload": true }));
   }
 
-  
+
 }
