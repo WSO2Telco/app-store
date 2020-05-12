@@ -63,7 +63,7 @@
                     <i class="fa fa-2x fa-cube"></i> SDKs
                 </ng-template>
 
-                <ng-container *ngIf="loggedUser != null; else sdkNotLoggedIn">
+                <ng-container *ngIf="loggedUser; else sdkNotLoggedIn">
                     <store-api-sdk></store-api-sdk>
                 </ng-container>
 
@@ -76,7 +76,7 @@
                     <i class="fa fa-2x fa-comment"></i> Forum
                 </ng-template>
 
-                <ng-container *ngIf="loggedUser != null; else forumNotLoggedIn">
+                <ng-container *ngIf="loggedUser; else forumNotLoggedIn">
 
                     <mat-table #table [dataSource]="forumResult" *ngIf="forumResult?.length > 0; else forumNoContent">
                         <ng-container matColumnDef="title">

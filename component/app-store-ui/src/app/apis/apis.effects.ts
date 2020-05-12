@@ -12,6 +12,9 @@ import {
 } from './apis.models';
 import { Actions, ofType, createEffect } from '@ngrx/effects';
 import { ApplicationListResult, ApplicationDetails } from '../applications/applications.data.models';
+import { Store } from '@ngrx/store';
+import { AppState } from './apis.reducers';
+import { DoLogoutAction } from '../authentication/authentication.actions';
 
 @Injectable()
 export class ApisEffects {
@@ -19,7 +22,8 @@ export class ApisEffects {
   constructor(
     private actions$: Actions,
     private apiService: ApisService,
-    private notification: NotificationService
+    private notification: NotificationService,
+    private store: Store<AppState>
   ) { }
 
   apiSearch$ = createEffect(() => this.actions$.pipe(
@@ -80,24 +84,12 @@ export class ApisEffects {
         map((response: ApplicationListResult) => (apiActions.GetAvailableApplicationSuccessAction({ "payload": response }))),
         catchError((e: HttpErrorResponse) => {
           this.notification.error(e.message);
+          // this.store.dispatch(DoLogoutAction());
           return EMPTY
         })
       )
     )
   ));
-
-  // getSelectedAppDetails$ = createEffect(() => this.actions$.pipe(
-  //   ofType(apiActions.GetSelectedAppAction),
-  //   mergeMap(({ payload }) => this.apiService.getSelectedAppDetails(payload)
-  //     .pipe(
-  //       map((response: ApplicationDetails) => apiActions.GetSelectedAppSuccessAction({ "payload": response })),
-  //       catchError((e: HttpErrorResponse) => {
-  //         this.notification.error(e.message);
-  //         return EMPTY
-  //       })
-  //     )
-  //   )
-  // ));
 
   deleteSubscription$ = createEffect(() => this.actions$.pipe(
     ofType(apiActions.UnsubscribeAction),
@@ -119,27 +111,6 @@ export class ApisEffects {
       )
     )
   ));
-
-  // userApplications$ = createEffect(() => this.actions$.pipe(
-  //   ofType(apiActions.GetUserApplicationsAction),
-  //   mergeMap(({ payload }) => this.apiService.getUserApplicationsActions(payload)
-  //     .pipe(
-  //       map((result: ApplicationsResult) => {
-  //         if (result.error) {
-  //           result.message = 'Load application error';
-  //           throw result;
-  //         } else {
-  //           const approvedApps = result.applications.filter((app) => app.status === 'APPROVED');
-  //           return (apiActions.GetUserApplicationsSuccessAction({ "payload": approvedApps || [] }))
-  //         }
-  //       }),
-  //       catchError((e: HttpErrorResponse) => {
-  //         this.notification.error(e.message);
-  //         return EMPTY
-  //       })
-  //     )
-  //   )
-  // ));
 
   userSubscriptions$ = createEffect(() => this.actions$.pipe(
     ofType(apiActions.GetUserSubscriptionsAction),
@@ -168,6 +139,7 @@ export class ApisEffects {
         map((result: SubscribeResult) => (apiActions.DoSubscribeSuccessAction({ "payload": result }))),
         catchError((e: HttpErrorResponse) => {
           this.notification.error(e.message);
+          // this.store.dispatch(DoLogoutAction());
           return EMPTY
         })
       )
@@ -180,7 +152,9 @@ export class ApisEffects {
       .pipe(
         map((result: TopicResult) => (apiActions.SearchForumTopicsSuccessAction({ payload: result.payload }))),
         catchError((e: HttpErrorResponse) => {
+          console.log(e);
           this.notification.error(e.message);
+          // this.store.dispatch(DoLogoutAction());
           return EMPTY
         })
       )

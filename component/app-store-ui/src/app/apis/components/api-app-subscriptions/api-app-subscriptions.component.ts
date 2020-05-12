@@ -1,10 +1,7 @@
-import { Component, OnInit, ChangeDetectorRef, Input, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { MatDialog } from '@angular/material/dialog';
-import { MatTableDataSource } from '@angular/material/table';
-import { NotificationService } from "../../../shared/services/notification.service";
-import { Subscription, GetApplicationsParam } from "../../../applications/applications.data.models";
-import { GetUserSubscriptionsAction, DoNewSubscribeAction, DoNewSubscribeSuccessAction, UnsubscribeAction, UnsubscribeSuccessAction, GetUserSubscriptionsSuccessAction } from '../../apis.actions';
+import { GetUserSubscriptionsAction, DoNewSubscribeAction, DoNewSubscribeSuccessAction, UnsubscribeAction, UnsubscribeSuccessAction } from '../../apis.actions';
 import { ActivatedRoute } from '@angular/router';
 import { Actions, ofType } from '@ngrx/effects';
 import { ActionDialogComponent } from '../../../commons/components/action-dialog/action-dialog.component';
@@ -20,8 +17,6 @@ import { AppState } from '../../apis.reducers';
 export class ApiAppSubscriptionsComponent implements OnInit {
     api_id: string;
     appResult;
-    // subscriptionList = [];
-    // loadingSubscriptions: boolean;
     @Input() public apiTiers;
     @Input() public subscriptionList;
     @Input() public loadingSubscriptions;
@@ -31,9 +26,7 @@ export class ApiAppSubscriptionsComponent implements OnInit {
         private store: Store<AppState>,
         public dialog: MatDialog,
         private route: ActivatedRoute,
-        private notification: NotificationService,
         private actions$: Actions,
-        private cd: ChangeDetectorRef
     ) { }
 
     ngOnInit() {
@@ -41,24 +34,14 @@ export class ApiAppSubscriptionsComponent implements OnInit {
             this.api_id = p['apiId'];
         })
 
-        this.store
-            .select(s => s.apis.availableApp)
-            .subscribe(apps => {
-                this.appResult = apps.list;
-                this.appResult = this.appResult.filter(
-                    appArr => appArr.status == "APPROVED");
-            });
-
-        // this.store
-        //     .select(s => s.apis.subscriptionDetails)
-        //     .subscribe(subscriptions => {
-        //         this.subscriptionList = (subscriptions.list) ? subscriptions.list : [];
-        //         this.loadingSubscriptions = false;
-        //         this.cd.detectChanges();
-        //     });
+        this.store.select(s => s.apis.availableApp).subscribe(apps => {
+            this.appResult = apps.list;
+            this.appResult = this.appResult.filter(
+                appArr => appArr.status == "APPROVED");
+        });
     }
 
-    openDialog(event: any) {
+    doSubscribe(event: any) {
         var mapResult = this.appResult.filter(appArr => {
             return !this.subscriptionList.some(function (sub) {
                 return appArr.applicationId == sub.applicationId;
@@ -86,18 +69,16 @@ export class ApiAppSubscriptionsComponent implements OnInit {
                     }
                 }
 
-                this.store.dispatch(DoNewSubscribeAction({ "payload": new AddNewSubsParam(tier, this.api_id, result) }));
+                this.store.dispatch(DoNewSubscribeAction({ payload: new AddNewSubsParam(tier, this.api_id, result) }));
 
                 this.actions$.pipe(ofType(DoNewSubscribeSuccessAction)).subscribe(p => {
                     if (p) {
-                        // this.loadingSubscriptions = true;
                         this.store.dispatch(GetUserSubscriptionsAction({ payload: this.api_id }));
                         this.loadingSubscriptionsChange.emit(this.loadingSubscriptions = true);
                     }
                 })
             }
-        }
-        );
+        });
     }
 
     mapAppName(id) {
@@ -108,9 +89,7 @@ export class ApiAppSubscriptionsComponent implements OnInit {
         else return "";
     }
 
-
-    //unsubscribe
-    onAction(sub, action) {
+    doUnsubscribe(sub, action) {
 
         if (action === "unsubscribe") {
             const ref = this.dialog.open(ConfirmDialogComponent, {
@@ -127,13 +106,11 @@ export class ApiAppSubscriptionsComponent implements OnInit {
                     this.store.dispatch(UnsubscribeAction({ subscriptionId: sub.subscriptionId }));
 
                     this.actions$.pipe(ofType(UnsubscribeSuccessAction)).subscribe(p => {
-                        this.store.dispatch(GetUserSubscriptionsAction({ "payload": this.api_id }));
+                        this.store.dispatch(GetUserSubscriptionsAction({ payload : this.api_id }));
                         this.loadingSubscriptionsChange.emit(this.loadingSubscriptions = true);
                     })
                 }
             });
         }
     }
-
-
 }

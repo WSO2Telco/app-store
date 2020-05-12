@@ -1,5 +1,5 @@
 import { ApiListDetail, paginationData, ApiEntityState } from './apis.models';
-import { ApiSearchSuccessAction, GetAvailableApplicationSuccessAction, GetUserSubscriptionsSuccessAction } from './apis.actions';
+import { ApiSearchSuccessAction, GetAvailableApplicationSuccessAction } from './apis.actions';
 import { createReducer, on, createFeatureSelector, createSelector } from '@ngrx/store';
 import { EntityAdapter, createEntityAdapter } from '@ngrx/entity';
 import * as fromRoot from '../app.data.models';
@@ -17,7 +17,6 @@ export const defaultApiList: ApiEntityState = {
     count: 0,
     availableApp: new ApplicationListResult(),
     pagination: new paginationData(),
-    // subscriptionDetails : null
 }
 
 export interface AppState extends fromRoot.AppState {
@@ -43,27 +42,7 @@ const _apisReducer = createReducer(initState,
 
     on(GetAvailableApplicationSuccessAction, (state, { payload }) => ({
         ...state, availableApp: payload
-    })),
-
-    // on(GetUserApplicationsSuccessAction, (state, { payload }) => ({
-    //     ...state, userApplications: payload
-    // })),
-
-    // on(GetUserSubscriptionsSuccessAction, (state, { payload }) => ({
-    //     ...state, subscriptionDetails: payload
-    // }))
-
-    // on(AddOperatorToSelectionAction, (state, { payload }) => ({
-    //     ...state, selectedOperators: [...state.selectedOperators.filter((op: Operator) => op.mnc !== payload.mnc), payload]
-    // })),
-
-    // on(RemoveOperatorFromSelectionAction, (state, { payload }) => ({
-    //     ...state, selectedOperators: state.selectedOperators.filter((op: Operator) => op.mnc !== payload.mnc)
-    // })),
-
-    // on(RemoveAllOperatorFromSelectionAction, (state, { payload }) => ({
-    //     ...state, selectedOperators: []
-    // }))
+    }))
 );
 
 export function apisReducer(state, action) {
