@@ -34,8 +34,7 @@ import {NgIdleModule} from '@ng-idle/core';
 
 const reducers: ActionReducerMap<AppState> = {
   global: globalReducer,
-  authentication: authReducer,
-  applications: applicationsReducer,
+  authentication: authReducer
 };
 
 export function localStorageSyncReducer(

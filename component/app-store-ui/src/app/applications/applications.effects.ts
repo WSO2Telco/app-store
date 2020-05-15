@@ -8,13 +8,17 @@ import * as applicationsActions from './applications.actions';
 import { Application, Subscription, ApplicationListResult, ApplicationDetails, SubscriptionResult, CreateApplicationParam, CreateAppResponseData } from './applications.data.models';
 import { NotificationService } from '../shared/services/notification.service';
 import { HttpErrorResponse } from '@angular/common/http';
+import { Store } from '@ngrx/store';
+import { AppState } from './applications.reducer';
+import { DoLogoutAction } from '../authentication/authentication.actions';
 
 @Injectable()
 export class ApplicationsEffects {
   constructor(
     private actions$: Actions,
     private service: ApplicationsService,
-    private notification: NotificationService
+    private notification: NotificationService,
+    private store: Store<AppState>
   ) { }
 
   getAllAvailableApps$ = createEffect(() => this.actions$.pipe(
@@ -23,7 +27,8 @@ export class ApplicationsEffects {
       .pipe(
         map((response: ApplicationListResult) => applicationsActions.GetAllAvailableApplicationsSuccessAction({ "payload": response })),
         catchError((e: HttpErrorResponse) => {
-          this.notification.error(e.message);
+          if(e.status == 401) this.store.dispatch(DoLogoutAction());
+          else this.notification.error(e.message);
           return EMPTY
         })
       )
@@ -36,7 +41,8 @@ export class ApplicationsEffects {
       .pipe(
         map((response: ApplicationListResult) => applicationsActions.GetAllApplicationsSuccessAction({ "payload": response })),
         catchError((e: HttpErrorResponse) => {
-          this.notification.error(e.message);
+          if(e.status == 401) this.store.dispatch(DoLogoutAction());
+          else this.notification.error(e.message);
           return EMPTY
         })
       )
@@ -49,7 +55,8 @@ export class ApplicationsEffects {
       .pipe(
         map((response: ApplicationDetails) => applicationsActions.GetApplicationDetailsSuccessAction({ "payload": response })),
         catchError((e: HttpErrorResponse) => {
-          this.notification.error(e.message);
+          if(e.status == 401) this.store.dispatch(DoLogoutAction());
+          else this.notification.error(e.message);
           return EMPTY
         })
       )
@@ -62,7 +69,8 @@ export class ApplicationsEffects {
       .pipe(
         map((response: SubscriptionResult) => applicationsActions.GetApplicationSubscriptionsSuccessAction({ "payload": response })),
         catchError((e: HttpErrorResponse) => {
-          this.notification.error(e.message);
+          if(e.status == 401) this.store.dispatch(DoLogoutAction());
+          else this.notification.error(e.message);
           return EMPTY
         })
       )
@@ -82,7 +90,10 @@ export class ApplicationsEffects {
             return applicationsActions.CreateApplicationSuccessAction({ "payload": response });
           }
         }),
-        catchError((e: HttpErrorResponse) => of(applicationsActions.CreateApplicationFailedAction({ payload: e.error.description })))
+        catchError((e: HttpErrorResponse) => {
+          if(e.status == 401) this.store.dispatch(DoLogoutAction());
+          return of(applicationsActions.CreateApplicationFailedAction({ payload: e.error.description }));
+        })
       )
     )
   ));
@@ -102,6 +113,8 @@ export class ApplicationsEffects {
           }
         }),
         catchError((e: HttpErrorResponse) => {
+          if(e.status == 401) this.store.dispatch(DoLogoutAction());
+
           if (e.error.code == '500') {
             this.notification.error("Application is available having the same name");
           } else {
@@ -127,7 +140,8 @@ export class ApplicationsEffects {
           }
         }),
         catchError((e: HttpErrorResponse) => {
-          this.notification.error("Application Delete Unsuccessfull");
+          if(e.status == 401) this.store.dispatch(DoLogoutAction());
+          else this.notification.error("Application Delete Unsuccessfull");
           return EMPTY
         })
       )
@@ -143,7 +157,8 @@ export class ApplicationsEffects {
           return applicationsActions.GenerateAppKeySuccessAction()
         }),
         catchError((e: HttpErrorResponse) => {
-          this.notification.error(e.message);
+          if(e.status == 401) this.store.dispatch(DoLogoutAction());
+          else this.notification.error(e.message);
           return EMPTY
         })
       )
@@ -159,7 +174,8 @@ export class ApplicationsEffects {
           return applicationsActions.UpdateAppKeySuccessAction()
         }),
         catchError((e: HttpErrorResponse) => {
-          this.notification.error(e.message);
+          if(e.status == 401) this.store.dispatch(DoLogoutAction());
+          else this.notification.error(e.message);
           return EMPTY
         })
       )
@@ -175,7 +191,8 @@ export class ApplicationsEffects {
           return applicationsActions.RegenerateSecretSuccessAction()
         }),
         catchError((e: HttpErrorResponse) => {
-          this.notification.error(e.message);
+          if(e.status == 401) this.store.dispatch(DoLogoutAction());
+          else this.notification.error(e.message);
           return EMPTY
         })
       )
@@ -190,7 +207,8 @@ export class ApplicationsEffects {
           return applicationsActions.RegenerateAccessTokenAction2({ "payload": payload })
         }),
         catchError((e: HttpErrorResponse) => {
-          this.notification.error(e.message);
+          if(e.status == 401) this.store.dispatch(DoLogoutAction());
+          else this.notification.error(e.message);
           return EMPTY
         })
       )
@@ -206,7 +224,8 @@ export class ApplicationsEffects {
           return applicationsActions.RegenerateAccessTokenSuccessAction({ "payload": response })
         }),
         catchError((e: HttpErrorResponse) => {
-          this.notification.error(e.message);
+          if(e.status == 401) this.store.dispatch(DoLogoutAction());
+          else this.notification.error(e.message);
           return EMPTY
         })
       )

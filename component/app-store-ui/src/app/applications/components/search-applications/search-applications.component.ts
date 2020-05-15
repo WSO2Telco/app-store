@@ -17,6 +17,7 @@ import { Title } from '@angular/platform-browser';
 import { ClientRegParam } from '../../../authentication/authentication.models';
 import { ConfirmDialogComponent } from '../../../commons/components/confirm-dialog/confirm-dialog.component';
 import { MatPaginator } from '@angular/material/paginator';
+import { getApps } from '../../applications.reducer';
 @Component({
   selector: 'store-search-applications',
   templateUrl: './search-applications.component.html',
@@ -39,24 +40,29 @@ export class SearchApplicationsComponent implements OnInit {
     this.clientData = new ClientRegParam();
     this.store.select((s) => s.authentication.tokenDetails).subscribe((auth) => {
       if (auth) {
-        this.store.dispatch(applicationsActions.GetAllAvailableApplicationsAction({}))
+        this.store.dispatch(applicationsActions.GetAllApplicationsAction({payload : new GetApplicationsParam(1, 10, 0, "")}))
       }
     })
 
-    this.actions$.pipe(ofType(applicationsActions.GetAllAvailableApplicationsSuccessAction)).subscribe(p => {
-      if (p) {
-        this.store
-          .select(s => s.applications.allApplications)
-          .subscribe(apps => {
-            this.dataSource.data = apps.list;
-            this.appResult = apps;
-          });
-      }
-    })
+    // this.actions$.pipe(ofType(applicationsActions.GetAllAvailableApplicationsSuccessAction)).subscribe(p => {
+    //   if (p) {
+    //     this.store
+    //       .select(s => s.applications.allApplications)
+    //       .subscribe(apps => {
+    //         this.dataSource.data = apps.list;
+    //         this.appResult = apps;
+    //       });
+    //   }
+    // })
 
     this.store.dispatch(globalActions.SetBreadcrumbAction({ payload: [new BreadcrumbItem("Applications")] }));
     this.titleService.setTitle("Apps | Apigate API Store");
     this.dataSource.sort = this.sort;
+
+    this.store.select(getApps).subscribe(res => {
+      if(res) this.dataSource.data = res;
+      // this.ref.markForCheck();
+    });
   }
 
   ngAfterViewInit() {

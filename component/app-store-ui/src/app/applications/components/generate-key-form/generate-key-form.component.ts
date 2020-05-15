@@ -3,7 +3,7 @@ import { ApplicationsService } from '../../applications.service';
 import { ActivatedRoute } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { AppState } from '../../../app.data.models';
-import { ApplicationDetailsKeys, GenerateKeyPayload } from '../../applications.data.models';
+import { ApplicationDetailsKeys, GenerateKeyPayload, ApplicationDetails } from '../../applications.data.models';
 import { GenerateAppKeyAction, RegenerateSecretAction, UpdateAppKeyAction, RegenerateAccessTokenAction, RegenerateAccessTokenSuccessAction } from '../../applications.actions';
 import { Actions, ofType } from '@ngrx/effects';
 import { NotificationService } from '../../../shared/services/notification.service';
@@ -34,11 +34,18 @@ export class GenerateKeyFormComponent implements OnInit, OnDestroy {
   public accessTokenUser;
   public accessTokenGrant = 'password';
   public accessTokenAuth;
-  public accessTokenValidity:string = "3600";
+  public accessTokenValidity:number = 3600;
   public accessTokenVisible = false;
 
   private storeSelect;
   keygenForm: FormGroup;
+  public applidationDetails : ApplicationDetails
+
+  @Input() set appData(appData: ApplicationDetails){
+    this.applidationDetails = appData;
+    console.log(appData.keys);
+    this.retrieveKeyObject();
+  }
 
   grantTypes = [
     {
@@ -105,8 +112,6 @@ export class GenerateKeyFormComponent implements OnInit, OnDestroy {
     this.envLabel = (this.keyEnv == 'PRODUCTION') ? "Production" : "Sandbox";
     this.keyPayload.keyType = this.keyEnv;
 
-    this.retrieveKeyObject();
-
     this.store.select((s) => s.authentication.loggedUser).subscribe((user) => {
       this.accessTokenUser = user;
     });
@@ -114,16 +119,18 @@ export class GenerateKeyFormComponent implements OnInit, OnDestroy {
     this.actions$.pipe(ofType(RegenerateAccessTokenSuccessAction)).subscribe(p => {
       this.generatedToken = p.payload.access_token;
       this.generatedTokenValidity = p.payload.expires_in;
+      this.accessTokenValidity =  p.payload.expires_in;
       this.cd.detectChanges();
     })
   }
 
   retrieveKeyObject() {
-    this.storeSelect = this.store.select((s) => s.applications.selectedApplication.keys).subscribe((appDetails) => {
-      this.keyObject = appDetails.find(i => i.keyType == this.keyEnv);
+    // this.storeSelect = this.store.select((s) => s.applications.selectedApplication.keys).subscribe((appDetails) => {
+      this.keyObject = this.applidationDetails.keys.find(i => i.keyType == this.keyEnv);
       if(this.keyObject){
         this.generatedToken = this.keyObject.token.accessToken;
         this.generatedTokenValidity = this.keyObject.token.validityTime;
+        this.accessTokenValidity =  this.keyObject.token.validityTime;
 
         this.grantTypes.forEach((t, i) => {
           this.grantTypes[i].checked = this.keyObject.supportedGrantTypes.includes(t.value)
@@ -140,7 +147,7 @@ export class GenerateKeyFormComponent implements OnInit, OnDestroy {
         this.clientCredEnabled = this.keyObject.supportedGrantTypes.includes('client_credentials');
       }
       this.cd.detectChanges();
-    });
+    // });
   }
 
   switchKeyVisibility(action){
@@ -152,7 +159,7 @@ export class GenerateKeyFormComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(){
-    this.storeSelect.unsubscribe();
+    // this.storeSelect.unsubscribe();
     this.cd.detach();
   }
 
@@ -181,11 +188,7 @@ export class GenerateKeyFormComponent implements OnInit, OnDestroy {
   }
 
   resetAccessToken(){
-    if (!/^([-]?[1-9]\d*|0)$/.test(this.accessTokenValidity)) {
-      this.notification.error("Error regenerating access token. Invalid value value for validity period");
-      return;
-    }
-    const keyValidity = (parseInt(this.accessTokenValidity) > 0) ? parseInt(this.accessTokenValidity) : 9223372036854776;
+    const keyValidity = (this.accessTokenValidity > 0) ? this.accessTokenValidity : 9223372036854776;
     const payload = {"auth":this.accessTokenAuth, "validity": keyValidity, token : this.generatedToken};
     this.store.dispatch(RegenerateAccessTokenAction({ 'payload' : payload}));
   }
