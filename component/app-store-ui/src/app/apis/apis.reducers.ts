@@ -51,7 +51,7 @@ export function apisReducer(state, action) {
 
 
 /*
-  Forum Selectors
+  API Selectors
 */
 
 const getApiFeatureState = createFeatureSelector<ApiEntityState>("apis");

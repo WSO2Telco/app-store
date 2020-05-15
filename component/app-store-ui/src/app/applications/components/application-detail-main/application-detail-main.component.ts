@@ -16,6 +16,7 @@ import { Actions, ofType } from '@ngrx/effects';
 import { Observable } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { ApplicationsService } from '../../applications.service';
+import { getApp } from '../../applications.reducer';
 
 @Component({
   selector: "store-application-detail-main",
@@ -30,6 +31,8 @@ export class ApplicationDetailMainComponent implements OnInit {
 
   appData:ApplicationDetails;
 
+  private appSubscriber;
+
   constructor(
     private route: ActivatedRoute,
     private store: Store<AppState>,
@@ -39,21 +42,6 @@ export class ApplicationDetailMainComponent implements OnInit {
     private actions$: Actions,
     private cd:ChangeDetectorRef
   ) {
-
-    this.route.params.subscribe(params => {
-      this.appId = params['appId'];
-      this.activatedTab = params['tab'];
-      this.store.dispatch(
-        applicationsActions.GetApplicationDetailsAction({ "payload": this.appId })
-      );
-
-      switch(this.activatedTab){
-        case 'prod-key' : this.activatedTabIndex = 0; break;
-        case 'sandbox-key' : this.activatedTabIndex = 1; break;
-        case 'subscriptions' : this.activatedTabIndex = 2; break;
-      }
-    })
-
     this.actions$.pipe(ofType(applicationsActions.GetApplicationDetailsSuccessAction)).pipe(take(1)).subscribe(p => {
       if (p) {
         this.appData = p.payload
@@ -86,7 +74,36 @@ export class ApplicationDetailMainComponent implements OnInit {
   }
 
   ngOnInit() {
-    
+    this.route.params.subscribe(p => {
+      this.appId = p['appId'];
+      this.activatedTab = p['tab'];
+      setTimeout(() => {
+        this.store.dispatch(applicationsActions.GetApplicationDetailsAction({ "payload": this.appId }));
+      }, 1000) // temp
+
+      switch(this.activatedTab){
+        case 'prod-key' : this.activatedTabIndex = 0; break;
+        case 'sandbox-key' : this.activatedTabIndex = 1; break;
+        case 'subscriptions' : this.activatedTabIndex = 2; break;
+      }
+
+      this.appSubscriber = this.store.select(getApp(this.appId)).subscribe(appEntity => {
+        if (appEntity) {
+          this.appData = appEntity;
+          this.store.dispatch(
+            globalActions.SetBreadcrumbAction({
+              payload: [
+                new BreadcrumbItem("Applications", "applications"),
+                new BreadcrumbItem(appEntity.name + " - " + appEntity.version)
+              ]
+            })
+          );
+          this.titleService.setTitle(appEntity.name + " | Apigate API Store");
+        }
+        this.cd.detectChanges();
+      });
+
+    })
   }
 
   switchTab(e) {
