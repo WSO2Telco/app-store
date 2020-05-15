@@ -34,10 +34,10 @@ export class ApplicationSubscriptionsComponent implements OnInit {
 
   ngOnInit() {
     this.actions$.pipe(ofType(applicationsActions.GetApplicationSubscriptionsSuccessAction)).subscribe(p => {
-      if (p) {
-        this.store.select(s => s.applications.appSubscriptions).subscribe(res => (this.datasource.data = res.list));
-        this.cd.detectChanges();
-      }
+      // if (p) {
+      //   this.store.select(s => s.applications.appSubscriptions).subscribe(res => (this.datasource.data = res.list));
+      //   this.cd.detectChanges();
+      // }
     });
 
     this.route.params.subscribe(params => {
