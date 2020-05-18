@@ -24,16 +24,3 @@ export const DeleteApplicationSuccessAction = createAction('[App] Delete App Suc
 
 export const UpdateApplicationsAction = createAction('[App] Update App', props<{ appId: string, payload: CreateApplicationParam }>());
 export const UpdateApplicationSuccessAction = createAction('[App] Update App Success ✓', props<{ payload: CreateAppResponseData }>());
-
-export const GenerateAppKeyAction = createAction('[App] Generate App Key', props<{ appId: string, payload: GenerateKeyPayload }>());
-export const GenerateAppKeySuccessAction = createAction('[App] Generate App Key Success ✓');
-
-export const UpdateAppKeyAction = createAction('[App] Update App Key', props<{ appId: string, payload: GenerateKeyPayload }>());
-export const UpdateAppKeySuccessAction = createAction('[App] Update App Key Success ✓');
-
-export const RegenerateSecretAction = createAction('[App] Regenerate Key Secret', props<{ payload: string }>());
-export const RegenerateSecretSuccessAction = createAction('[App] Regenerate Key Secret Success ✓');
-
-export const RegenerateAccessTokenAction = createAction('[App] Regenerate Access Token 1', props<{ payload: any }>());
-export const RegenerateAccessTokenAction2 = createAction('[App] Regenerate Access Token 2', props<{ payload: any }>());
-export const RegenerateAccessTokenSuccessAction = createAction('[App] Regenerate Access Token Success ✓', props<{ payload: any }>());

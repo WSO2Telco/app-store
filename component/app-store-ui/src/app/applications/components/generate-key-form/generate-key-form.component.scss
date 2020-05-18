@@ -1,46 +1,46 @@
-.ck-gt{
+.ck-gt {
     margin: 5px 20px;
 }
 
-.title{
+.title {
     padding: 10px;
     background-color: #f0eff1;
     color: #2b2828;
     margin-bottom: 10px;
 }
 
-.grant-type-section{
-    margin-top:10px;
-    mat-checkbox{
+.grant-type-section {
+    margin-top: 10px;
+    mat-checkbox {
         display: inline-block;
     }
 }
 
-.gt-title{
+.gt-title {
     padding: 10px;
     margin-bottom: 5px;
 }
 
-mat-form-field{
-    padding :10px;
+mat-form-field {
+    padding: 10px;
 }
 
-.fullwidth-field{
+.fullwidth-field {
     width: 100%;
     box-sizing: border-box;
 }
 
-.validity-field{
+.validity-field {
     width: 20%;
 }
 
-.mat-form-field-disabled{
-    span{
+.mat-form-field-disabled {
+    span {
         color: rgba(0, 0, 0, 0.38);
     }
 }
 
-.generate{
+.generate {
     width: 150px;
 }
 
@@ -49,20 +49,19 @@ mat-form-field{
     display: inline-block;
 }
 
-.no-key{
+.no-key {
     display: flex;
     align-items: center;
     background: #fafafa;
     padding: 10px;
     border: 1px solid #ccc;
     border-radius: 3px;
-
-    .mat-icon{
+    .mat-icon {
         margin-right: 5px;
     }
 }
 
-.gt-caption{
+.gt-caption {
     font-size: 13px;
     line-height: 1.5;
     color: #333;
@@ -71,49 +70,44 @@ mat-form-field{
     margin-bottom: 20px;
 }
 
-.key-block{
+.key-block {
     padding: 0 10px 10px 10px;
-
-    .icon-wrap{
+    .icon-wrap {
         position: absolute;
         margin-top: 6px;
         display: inline-block;
     }
-
-    .mat-icon{
+    .mat-icon {
         cursor: pointer;
         font-size: 17px;
         color: #666;
     }
-
-    .key-label{
+    .key-label {
         display: inline-block;
         width: 25%;
     }
 }
 
-.code-wrap{
+.code-wrap {
     position: relative;
     overflow: hidden;
     margin: 0 10px 20px;
     cursor: pointer;
-
-    .mat-icon{
+    .mat-icon {
         position: absolute;
         right: 10px;
         bottom: 0px;
         cursor: pointer;
         font-size: 18px;
     }
-
-    &:hover{
-        .copy-icon{
+    &:hover {
+        .copy-icon {
             width: 40px;
         }
     }
 }
 
-.copy-icon{
+.copy-icon {
     position: absolute;
     right: -1px;
     bottom: 0px;
@@ -127,8 +121,7 @@ mat-form-field{
     border-bottom-right-radius: 5px;
     transition: all 0.5s;
     width: 0;
-
-    .mat-icon{
+    .mat-icon {
         font-size: 16px;
         position: absolute;
         left: 6px;
@@ -136,13 +129,13 @@ mat-form-field{
     }
 }
 
-.app-key{
+.app-key {
     font-family: monospace;
     margin: 0 10px;
     font-weight: bold;
     letter-spacing: 1px;
     padding: 3px 10px;
-    border: 2px solid rgba(0,0,0,.54);
+    border: 2px solid rgba(0, 0, 0, .54);
     cursor: pointer;
     display: inline-block;
     min-width: 275px;
@@ -150,30 +143,27 @@ mat-form-field{
     border-radius: 3px;
 }
 
-.access-token-block{
+.access-token-block {
     border: 1px solid #999;
     background: #f6f6f6;
     padding: 10px;
     border-radius: 3px;
-
-    h3{
+    margin-top: 50px;
+    h3 {
         margin: 0;
         cursor: pointer;
     }
-
     .access-token-content {
         padding: 15px 0;
     }
-
-    &.expanded{
-        h3{
+    &.expanded {
+        h3 {
             cursor: default;
             border-bottom: 1px solid #999;
             padding-bottom: 5px;
         }
     }
-
-    pre{
+    pre {
         margin-left: 50px;
         word-break: break-all;
         white-space: pre-wrap;
@@ -182,36 +172,29 @@ mat-form-field{
         margin: 0;
         border-radius: 3px;
     }
-
-    .code-blue{
+    .code-blue {
         color: #0000e6;
     }
-
-    .mat-stroked-button{
-        margin-left: 10px;;
+    .mat-stroked-button {
+        margin-left: 10px;
+        ;
     }
-
-    .mat-form-field-infix{
+    .mat-form-field-infix {
         max-width: 85px;
     }
-
-    .test-access-token{
+    .test-access-token {
         padding: 10px;
-
-        .block-title{
+        .block-title {
             font-weight: 500;
             font-size: 16px;
             margin-bottom: 10px;
         }
-
         .caption {
             margin: 10px 0 20px;
         }
-        
         .generated-access-token {
             padding: 0;
-
-            .app-key{
+            .app-key {
                 margin-left: 0;
             }
         }
