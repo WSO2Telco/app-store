@@ -12,6 +12,7 @@ import * as applicationsActions from '../../applications.actions';
 import { Actions, ofType } from '@ngrx/effects';
 import { ActivatedRoute } from '@angular/router';
 import { UnsubscribeAction, UnsubscribeSuccessAction } from '../../../apis/apis.actions';
+import { ApplicationsService } from '../../applications.service';
 
 @Component({
   selector: 'store-application-subscriptions',
@@ -29,7 +30,8 @@ export class ApplicationSubscriptionsComponent implements OnInit {
     private notification: NotificationService,
     private actions$: Actions,
     private route: ActivatedRoute,
-    private cd: ChangeDetectorRef
+    private cd: ChangeDetectorRef,
+    private appSvc: ApplicationsService
   ) { }
 
   ngOnInit() {
@@ -42,7 +44,11 @@ export class ApplicationSubscriptionsComponent implements OnInit {
 
     this.route.params.subscribe(params => {
       this.appId = params['appId'];
-      this.store.dispatch(applicationsActions.GetApplicationSubscriptionsAction({ "payload": this.appId }));
+      // this.store.dispatch(applicationsActions.GetApplicationSubscriptionsAction({ "payload": this.appId }));
+      this.appSvc.getApplicationSubscriptions(this.appId).subscribe(res => {
+        this.datasource.data = res.list;
+        this.cd.detectChanges();
+      })
     })
   }
 

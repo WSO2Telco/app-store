@@ -1,22 +1,19 @@
 import { Component, OnInit, ChangeDetectorRef } from "@angular/core";
 import { ActivatedRoute } from "@angular/router";
 import { Location } from '@angular/common';
-import { MatDialog } from "@angular/material/dialog";
-import { Store, createSelector, select } from '@ngrx/store';
+import { Store } from '@ngrx/store';
 
 import { AppState } from '../../../app.data.models';
-import * as applicationsActions from '../../applications.actions';
 
 //Breadcrumbs
 import * as globalActions from "../../../app.actions";
 import { BreadcrumbItem } from "../../../app.data.models";
 import { Title } from '@angular/platform-browser';
-import { Application, ApplicationDetails } from '../../applications.data.models';
-import { Actions, ofType } from '@ngrx/effects';
-import { Observable } from 'rxjs';
-import { take } from 'rxjs/operators';
+import { ApplicationDetails } from '../../applications.data.models';
 import { ApplicationsService } from '../../applications.service';
 import { getApp } from '../../applications.reducer';
+import { HttpErrorResponse } from '@angular/common/http';
+import { DoLogoutAction } from '../../../authentication/authentication.actions';
 
 @Component({
   selector: "store-application-detail-main",
@@ -63,6 +60,9 @@ export class ApplicationDetailMainComponent implements OnInit {
           this.titleService.setTitle(`${this.appData.name} | Apigate API Store`);
           this.cd.detectChanges();
         }
+      },
+      (error:HttpErrorResponse) => {
+        if(error.status == 401) this.store.dispatch(DoLogoutAction());
       })
 
       switch (this.activatedTab) {
