@@ -46,12 +46,10 @@
                     Enter value in seconds
                 </mat-error>
             </mat-form-field>
-            <div fxLayoutAlign="end center">
+            <div>
                 <button mat-raised-button class="generate" color="accent" (click)="generateKey()"><span *ngIf="!keyObject">Generate Keys</span><span *ngIf="keyObject">Update</span></button>
             </div>
         </form>
-
-        <hr />
 
         <div class="access-token-block" *ngIf="keyObject" [ngClass]="{expanded: accessTokenExpanded}">
             <h3 (click)="accessTokenExpand()">Access Token</h3>

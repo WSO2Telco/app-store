@@ -4,7 +4,6 @@ import { ActivatedRoute } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { AppState } from '../../../app.data.models';
 import { ApplicationDetailsKeys, GenerateKeyPayload, ApplicationDetails } from '../../applications.data.models';
-import { GenerateAppKeyAction, RegenerateSecretAction, UpdateAppKeyAction, RegenerateAccessTokenAction, RegenerateAccessTokenSuccessAction } from '../../applications.actions';
 import { Actions, ofType } from '@ngrx/effects';
 import { NotificationService } from '../../../shared/services/notification.service';
 import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms';
@@ -43,7 +42,6 @@ export class GenerateKeyFormComponent implements OnInit, OnDestroy {
 
   @Input() set appData(appData: ApplicationDetails) {
     this.applidationDetails = appData;
-    // console.log(appData.keys);
     this.keyObject = this.applidationDetails.keys.find(i => i.keyType == this.keyEnv);
     this.retrieveKeyObject();
   }
@@ -91,14 +89,13 @@ export class GenerateKeyFormComponent implements OnInit, OnDestroy {
     }
   ];
   constructor(
-    private appService: ApplicationsService,
+    private appSvc: ApplicationsService,
     private route: ActivatedRoute,
     private store: Store<AppState>,
     private cd: ChangeDetectorRef,
     private actions$: Actions,
     private notification: NotificationService,
-    private fb: FormBuilder,
-    private appSvc: ApplicationsService
+    private fb: FormBuilder
   ) {
     this.route.params.subscribe(params => {
       this.appId = params['appId'];
@@ -117,13 +114,6 @@ export class GenerateKeyFormComponent implements OnInit, OnDestroy {
     this.store.select((s) => s.authentication.loggedUser).subscribe((user) => {
       this.accessTokenUser = user;
     });
-
-    this.actions$.pipe(ofType(RegenerateAccessTokenSuccessAction)).subscribe(p => {
-      this.generatedToken = p.payload.access_token;
-      this.generatedTokenValidity = p.payload.expires_in;
-      this.accessTokenValidity = p.payload.expires_in;
-      this.cd.detectChanges();
-    })
   }
 
   retrieveKeyObject() {
@@ -191,13 +181,30 @@ export class GenerateKeyFormComponent implements OnInit, OnDestroy {
   get f() { return this.keygenForm.controls; }
 
   resetKey() {
-    this.store.dispatch(RegenerateSecretAction({ 'payload': this.keyObject.consumerKey }))
+    this.appSvc.regenerateKeySecret(this.keyObject.consumerKey).subscribe((res: ApplicationDetailsKeys) => {
+      this.keyObject.consumerSecret = res.consumerSecret;
+      this.notification.success("Consumer Secret Regenrated Successfully !!");
+      this.cd.detectChanges();
+    })
   }
 
   resetAccessToken() {
     const keyValidity = (this.accessTokenValidity > 0) ? this.accessTokenValidity : 9223372036854776;
     const payload = { "auth": this.accessTokenAuth, "validity": keyValidity, token: this.generatedToken };
-    this.store.dispatch(RegenerateAccessTokenAction({ 'payload': payload }));
+    this.appSvc.revokeAccessToken(payload).subscribe(res => {
+      this.appSvc.regenerateAccessToken(payload).subscribe(res => {
+        this.generatedToken = res.access_token;
+        this.generatedTokenValidity = res.expires_in;
+        this.notification.success("Token Regenerated Successfully !!");
+        this.cd.detectChanges();
+      },
+        (err) => {
+          this.notification.error("Error occurred !");
+        })
+    },
+      (err) => {
+        this.notification.error("Error occurred !");
+      })
   }
 
   callbackUpdate(value) {
