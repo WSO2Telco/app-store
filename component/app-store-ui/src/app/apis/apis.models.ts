@@ -89,7 +89,7 @@ export class ApiOverview {
     context: string;
     status: string;
     serverURL: string;
-    tiers: Tier[];
+    tiers: string[];
     subscribed: boolean;
     thumbnailUrl: string;
     thumbnailUri: string;

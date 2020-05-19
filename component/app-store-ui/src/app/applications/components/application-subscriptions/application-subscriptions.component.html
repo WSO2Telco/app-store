@@ -1,6 +1,6 @@
 <h3 *ngIf="datasource.data.length == 0"><i class="fa fa-folder" aria-hidden="true"></i> No subscriptions</h3>
 <div class="add-btn ">
-    <!--   <button mat-raised-button color="accent " (click)="newSubscription() ">Add Subscription</button> -->
+    <button mat-raised-button color="accent" (click)="newSubscription() ">Add Subscription</button>
 </div>
 <div class="subs-tbl-container animated fadeIn " *ngIf="datasource.data.length > 0">
     <mat-table #table [dataSource]="datasource">

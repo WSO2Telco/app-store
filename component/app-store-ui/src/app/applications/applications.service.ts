@@ -5,7 +5,7 @@ import { Injectable } from '@angular/core';
 import { ApiEndpoints } from '../config/api.endpoints';
 import {
   GetApplicationsParam, Application, Subscription,
-  ApplicationListResult, ApplicationDetails, SubscriptionResult, CreateApplicationParam, CreateAppResponseData,
+  ApplicationListResult, ApplicationDetails, SubscriptionResult, CreateApplicationParam, CreateAppResponseData, AddNewSubsParam,
 } from './applications.data.models';
 import { Observable } from 'rxjs';
 import { TokenData } from '../authentication/authentication.models';
@@ -113,5 +113,14 @@ export class ApplicationsService {
 
     return httpBasicClient.post(ApiEndpoints.authentication.tokenRevoke, revokeBody.toString(), httpOptions);
   }
+
+  newApiSubscription(param: AddNewSubsParam): Observable<any> {
+    const httpOptions = {
+        headers: new HttpHeaders({
+            'Content-Type': 'application/json'
+        })
+    };
+    return this.http.post(ApiEndpoints.subscriptions, param, httpOptions)
+}
 
 }
