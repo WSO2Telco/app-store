@@ -133,3 +133,11 @@ export class GenerateKeyPayload {
   supportedGrantTypes: string[];
   callbackUrl: string;
 }
+
+export class AddNewSubsParam {
+  constructor(
+      public tier: string,
+      public apiIdentifier: string,
+      public applicationId: string,
+  ) { }
+}
