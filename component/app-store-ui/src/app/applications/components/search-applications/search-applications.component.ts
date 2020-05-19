@@ -1,5 +1,4 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { AppState } from '../../../app.data.models';
 import { Store } from '@ngrx/store';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSort } from '@angular/material/sort';
@@ -17,7 +16,7 @@ import { Title } from '@angular/platform-browser';
 import { ClientRegParam } from '../../../authentication/authentication.models';
 import { ConfirmDialogComponent } from '../../../commons/components/confirm-dialog/confirm-dialog.component';
 import { MatPaginator } from '@angular/material/paginator';
-import { getApps } from '../../applications.reducer';
+import { getApps, AppState } from '../../applications.reducer';
 @Component({
   selector: 'store-search-applications',
   templateUrl: './search-applications.component.html',
@@ -25,43 +24,47 @@ import { getApps } from '../../applications.reducer';
 })
 export class SearchApplicationsComponent implements OnInit {
   dataSource = new MatTableDataSource<Application>();
-  searchQuery: string = '';
   public clientData: ClientRegParam;
   length: number;
-  pageSize: number = 10;
-  pageIndex: number = 0;
   appResult;
+
+  public searchQuery: string = '';
+  public pageSize: number = 10;
+  public hasNextPage = false;
+  public hasPrevPage = false;
+  private page: number = 0;
+
   @ViewChild('scheduledOrdersPaginator') paginator: MatPaginator;
   @ViewChild(MatSort, { static: true }) sort: MatSort;
 
-  constructor(private store: Store<AppState>, private router: Router, private titleService: Title, private actions$: Actions, private dialog: MatDialog) { }
+  constructor(
+    private store: Store<AppState>,
+    private router: Router,
+    private titleService: Title,
+    private actions$: Actions,
+    private dialog: MatDialog
+  ) { }
 
   ngOnInit() {
     this.clientData = new ClientRegParam();
     this.store.select((s) => s.authentication.tokenDetails).subscribe((auth) => {
       if (auth) {
-        this.store.dispatch(applicationsActions.GetAllApplicationsAction({payload : new GetApplicationsParam(1, 10, 0, "")}))
+        this.store.dispatch(applicationsActions.GetAllApplicationsAction({ payload: new GetApplicationsParam(1, this.pageSize, 0, "") }))
       }
     })
-
-    // this.actions$.pipe(ofType(applicationsActions.GetAllAvailableApplicationsSuccessAction)).subscribe(p => {
-    //   if (p) {
-    //     this.store
-    //       .select(s => s.applications.allApplications)
-    //       .subscribe(apps => {
-    //         this.dataSource.data = apps.list;
-    //         this.appResult = apps;
-    //       });
-    //   }
-    // })
 
     this.store.dispatch(globalActions.SetBreadcrumbAction({ payload: [new BreadcrumbItem("Applications")] }));
     this.titleService.setTitle("Apps | Apigate API Store");
     this.dataSource.sort = this.sort;
 
     this.store.select(getApps).subscribe(res => {
-      if(res) this.dataSource.data = res;
-      // this.ref.markForCheck();
+      if (res) this.dataSource.data = res;
+    });
+
+    this.store.select(s => s.apps).subscribe(res => {
+      this.hasNextPage = (res.next != "");
+      this.hasPrevPage = (res.previous != "");
+      console.log(this.hasNextPage);
     });
   }
 
@@ -112,6 +115,16 @@ export class SearchApplicationsComponent implements OnInit {
 
   onSearchClick() {
     this.store.dispatch(applicationsActions.GetAllApplicationsAction({ "payload": new GetApplicationsParam(0, this.pageSize, 0, this.searchQuery) }))
+  }
+
+  onPageChanged(direction) {
+    if (direction == "next") this.page++;
+    else this.page--;
+
+    if (this.page < 0) this.page = 0;
+
+    let offset = this.pageSize * this.page;
+    this.store.dispatch(applicationsActions.GetAllApplicationsAction({ payload: new GetApplicationsParam(1, this.pageSize, offset, "") }))
   }
 
 }
