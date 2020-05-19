@@ -99,7 +99,7 @@ export class ApplicationsService {
     return httpBasicClient.post<TokenData>(ApiEndpoints.authentication.tokenRegeneration, body.toString(), httpOptions);
   }
 
-  revokeAccessToken(payload): Observable<any>{
+  revokeAccessToken(payload): Observable<any> {
     const httpBasicClient: HttpClient = new HttpClient(this.handler);
     const revokeBody = new HttpParams()
       .set('token', payload.token)
@@ -116,11 +116,15 @@ export class ApplicationsService {
 
   newApiSubscription(param: AddNewSubsParam): Observable<any> {
     const httpOptions = {
-        headers: new HttpHeaders({
-            'Content-Type': 'application/json'
-        })
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
     };
     return this.http.post(ApiEndpoints.subscriptions, param, httpOptions)
-}
+  }
+
+  deleteSubscription(subscriptionId): Observable<any> {
+    return this.http.delete(`${ApiEndpoints.subscriptions}/${subscriptionId}`);
+  }
 
 }

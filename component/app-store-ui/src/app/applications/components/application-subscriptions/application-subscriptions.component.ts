@@ -63,11 +63,19 @@ export class ApplicationSubscriptionsComponent implements OnInit {
       });
       ref.afterClosed().subscribe((confirmed: boolean) => {
         if (confirmed) {
-          this.store.dispatch(UnsubscribeAction({ subscriptionId: sub.subscriptionId }));
+          this.appSvc.deleteSubscription(sub.subscriptionId).subscribe(res => {
 
-          this.actions$.pipe(ofType(UnsubscribeSuccessAction)).subscribe(p => {
-            this.store.dispatch(applicationsActions.GetApplicationSubscriptionsAction({ "payload": this.appId }));
+            let subs = this.datasource.data;
+            const index = subs.findIndex(s => s.subscriptionId == sub.subscriptionId);
+            if (index !== undefined) subs.splice(index, 1);
+            this.datasource.data = subs;
+
           })
+          // this.store.dispatch(UnsubscribeAction({ subscriptionId: sub.subscriptionId }));
+
+          // this.actions$.pipe(ofType(UnsubscribeSuccessAction)).subscribe(p => {
+          //   this.store.dispatch(applicationsActions.GetApplicationSubscriptionsAction({ "payload": this.appId }));
+          // })
         }
       });
     }
