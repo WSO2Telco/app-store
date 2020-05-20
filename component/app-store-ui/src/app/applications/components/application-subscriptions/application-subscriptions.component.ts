@@ -1,23 +1,18 @@
 import { Component, OnInit, ChangeDetectorRef, Inject } from '@angular/core';
-import { Store } from '@ngrx/store';
 import { MatDialog, MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
-
-import { AppState } from '../../../app.data.models';
 import { Subscription } from "../../applications.data.models";
 import { ConfirmDialogComponent } from "../../../commons/components/confirm-dialog/confirm-dialog.component";
-// import { ApiSearchResult, ApiSummary } from '../../../apis/apis.models';/
 import { NotificationService } from "../../../shared/services/notification.service";
-import * as applicationsActions from '../../applications.actions';
-import { Actions, ofType } from '@ngrx/effects';
 import { ActivatedRoute } from '@angular/router';
-import { UnsubscribeAction, UnsubscribeSuccessAction } from '../../../apis/apis.actions';
 import { ApplicationsService } from '../../applications.service';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Observable, of } from 'rxjs';
 import { ApisService } from '../../../apis/apis.service';
 import { ApiSearchParam, ApiStatus, AddNewSubsParam } from '../../../apis/apis.models';
 import { map, catchError, startWith, debounceTime, switchMap } from 'rxjs/operators';
+import { Store } from '@ngrx/store';
+import { AppState } from '../../applications.reducer';
 
 @Component({
   selector: 'store-application-subscriptions',
@@ -30,10 +25,8 @@ export class ApplicationSubscriptionsComponent implements OnInit {
   appId: string;
 
   constructor(
-    private store: Store<AppState>,
     public dialog: MatDialog,
     private notification: NotificationService,
-    private actions$: Actions,
     private route: ActivatedRoute,
     private cd: ChangeDetectorRef,
     private appSvc: ApplicationsService
@@ -55,10 +48,7 @@ export class ApplicationSubscriptionsComponent implements OnInit {
       const ref = this.dialog.open(ConfirmDialogComponent, {
         data: {
           title: "Confirm Unsubscribe",
-          message:
-            'Are you sure you want to unsubscribe from "' +
-            sub.apiIdentifier +
-            '"?'
+          message: 'Are you sure you want to unsubscribe from "' + sub.apiIdentifier + '"?'
         }
       });
       ref.afterClosed().subscribe((confirmed: boolean) => {
@@ -71,11 +61,6 @@ export class ApplicationSubscriptionsComponent implements OnInit {
             this.datasource.data = subs;
 
           })
-          // this.store.dispatch(UnsubscribeAction({ subscriptionId: sub.subscriptionId }));
-
-          // this.actions$.pipe(ofType(UnsubscribeSuccessAction)).subscribe(p => {
-          //   this.store.dispatch(applicationsActions.GetApplicationSubscriptionsAction({ "payload": this.appId }));
-          // })
         }
       });
     }
@@ -114,8 +99,12 @@ export class DialogAppAddSubscription implements OnInit {
   constructor(
     private apiSvc: ApisService,
     @Inject(MAT_DIALOG_DATA) public data: any,
-    private dialogRef: MatDialogRef<DialogAppAddSubscription>
+    private dialogRef: MatDialogRef<DialogAppAddSubscription>,
+    private store: Store<AppState>
   ) {
+    this.store.select((s) => s.global.layout.appTheme).subscribe((theme) => {
+      dialogRef.addPanelClass(theme);
+    });
   }
 
   ngOnInit(): void {
@@ -140,7 +129,7 @@ export class DialogAppAddSubscription implements OnInit {
           return !this.data.subs.some(function (sub) {
             let apiname = encodeURIComponent(apiItm.name);
             apiname = apiname.replace(/-/g, '%2D');
-            return `${apiItm.provider}-${apiname}-${apiItm.version}` == sub.apiIdentifier;
+            return (`${apiItm.provider}-${apiname}-${apiItm.version}` == sub.apiIdentifier) || apiItm.status != "PUBLISHED";
           });
         })
       }),

@@ -21,20 +21,6 @@ export class ApplicationsEffects {
     private store: Store<AppState>
   ) { }
 
-  getAllAvailableApps$ = createEffect(() => this.actions$.pipe(
-    ofType(applicationsActions.GetAllAvailableApplicationsAction),
-    mergeMap(({ }) => this.service.getAllAvailableApplications()
-      .pipe(
-        map((response: ApplicationListResult) => applicationsActions.GetAllAvailableApplicationsSuccessAction({ "payload": response })),
-        catchError((e: HttpErrorResponse) => {
-          if(e.status == 401) this.store.dispatch(DoLogoutAction());
-          else this.notification.error(e.message);
-          return EMPTY
-        })
-      )
-    )
-  ));
-
   getAllApps$ = createEffect(() => this.actions$.pipe(
     ofType(applicationsActions.GetAllApplicationsAction),
     mergeMap(({ payload }) => this.service.getAllApplications(payload)
@@ -62,20 +48,6 @@ export class ApplicationsEffects {
       )
     )
   ));
-
-  appSubscriptions$ = createEffect(() => this.actions$.pipe(
-    ofType(applicationsActions.GetApplicationSubscriptionsAction),
-    mergeMap(({ payload }) => this.service.getApplicationSubscriptions(payload)
-      .pipe(
-        map((response: SubscriptionResult) => applicationsActions.GetApplicationSubscriptionsSuccessAction({ "payload": response })),
-        catchError((e: HttpErrorResponse) => {
-          if(e.status == 401) this.store.dispatch(DoLogoutAction());
-          else this.notification.error(e.message);
-          return EMPTY
-        })
-      )
-    )
-  ))
 
   createApps$ = createEffect(() => this.actions$.pipe(
     ofType(applicationsActions.CreateApplicationsAction),
