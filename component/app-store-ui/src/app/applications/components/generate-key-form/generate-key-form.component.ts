@@ -36,7 +36,6 @@ export class GenerateKeyFormComponent implements OnInit, OnDestroy {
   public accessTokenValidity: number = 3600;
   public accessTokenVisible = false;
 
-  private storeSelect;
   keygenForm: FormGroup;
   public applidationDetails: ApplicationDetails
 
