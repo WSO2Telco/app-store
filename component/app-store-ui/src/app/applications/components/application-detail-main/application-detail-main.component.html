@@ -1,7 +1,8 @@
 <div fxLayout="column" fxLayoutGap="20px" class="api-app-details-component">
     <div class="intro-container">
         <h1>{{appData?.name}}</h1>
-        <div class="status-label" [ngClass]="appData?.status"><span class="status-dot"></span> <span class="status-lbl">{{appData?.status}}</span></div>
+        <div class="status-label" [ngClass]="appData?.status"><span class="status-dot"></span> <span
+                class="status-lbl">{{appData?.status}}</span></div>
     </div>
 
     <div class="overview-container">
@@ -39,7 +40,8 @@
     </div>
 
     <div class="detail-container" *ngIf="appData?.status == 'APPROVED'">
-        <mat-tab-group animationDuration="0ms" disableRipple [selectedIndex]="activatedTabIndex" (selectedTabChange)="switchTab($event);">
+        <mat-tab-group animationDuration="0ms" disableRipple [selectedIndex]="activatedTabIndex"
+            (selectedTabChange)="switchTab($event);">
             <mat-tab>
                 <ng-template mat-tab-label>
                     <i class="fa fa-2x fa-key"></i> Production Keys
@@ -75,5 +77,7 @@
             </div>
         </ng-template>
     </div>
-
+    <div fxFlex="100%" fxLayoutGap="10px">
+        <button mat-raised-button type="button" [routerLink]="['/applications']" color="accent">Back</button>
+    </div>
 </div>
