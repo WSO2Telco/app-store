@@ -1,4 +1,4 @@
-import { ApplicationState, Application, ApplicationDetails, ApplicationListItem } from './applications.data.models';
+import { ApplicationState, Application } from './applications.data.models';
 import * as applicationsActions from './applications.actions';
 import { createReducer, on, createFeatureSelector, createSelector } from '@ngrx/store';
 import { EntityAdapter, createEntityAdapter } from '@ngrx/entity';
@@ -25,11 +25,6 @@ const initState = appListAdapter.getInitialState(defaultAppState);
 
 const _applicationsReducer = createReducer(initState,
 
-  // on(applicationsActions.GetAllAvailableApplicationsSuccessAction, (state, { payload }) => ({
-  //   ...state, allApplications: payload
-  // })),
-
-
   on(applicationsActions.GetAllApplicationsSuccessAction, (state, { payload }) => {
     return appListAdapter.addAll(payload.list, {
       ...state,
@@ -39,19 +34,8 @@ const _applicationsReducer = createReducer(initState,
       previous: payload.previous,
       next: payload.next,
     })
-  }),
+  })
 
-  // on(applicationsActions.SetSelectedApplicationsAction, (state, { payload }) => ({
-  //   ...state, selectedApplication: payload
-  // })),
-
-  // on(applicationsActions.GetApplicationDetailsSuccessAction, (state, { payload }) => ({
-  //   ...state, selectedApplication: payload
-  // })),
-
-  // on(applicationsActions.GetApplicationSubscriptionsSuccessAction, (state, { payload }) => ({
-  //   ...state, appSubscriptions: payload
-  // }))
 );
 
 export function applicationsReducer(state, action) {

@@ -20,12 +20,12 @@
             <div class="gt-title"><span>Grant Types</span></div>
             <div class="gt-caption">The application can use the following grant types to generate access tokens. You can enable or disable grant types for this application based on the application requirement.</div>
             <div class="key-grant-type" *ngFor="let t of grantTypes">
-                <mat-checkbox class="ck-gt" value="t.value" [(ngModel)]="t.checked" [disabled]="(t.value == 'implicit' || t.value == 'authorization_code') && (!keyPayload.callbackUrl || keyPayload.callbackUrl.length <= 0)">{{t.name}}</mat-checkbox>
+                <mat-checkbox class="ck-gt" value="t.value" [(ngModel)]="t.checked" [disabled]="(t.value == 'implicit' || t.value == 'authorization_code') && (f.keyUrl.value == '' || !f.keyUrl.valid)">{{t.name}}</mat-checkbox>
             </div>
         </section>
         <form [formGroup]="keygenForm">
             <mat-form-field class="fullwidth-field">
-                <input type="url" matInput placeholder="Callback URL" formControlName="keyUrl" />
+                <input type="url" matInput placeholder="Callback URL" formControlName="keyUrl" (change)="keyUrlChanged($event)" />
                 <mat-error *ngIf="f?.keyUrl?.errors?.required">
                     Callback URL is required
                 </mat-error>

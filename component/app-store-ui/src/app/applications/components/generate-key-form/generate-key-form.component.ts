@@ -36,7 +36,6 @@ export class GenerateKeyFormComponent implements OnInit, OnDestroy {
   public accessTokenValidity: number = 3600;
   public accessTokenVisible = false;
 
-  private storeSelect;
   keygenForm: FormGroup;
   public applidationDetails: ApplicationDetails
 
@@ -144,6 +143,15 @@ export class GenerateKeyFormComponent implements OnInit, OnDestroy {
     this.accessTokenVisible = action;
   }
 
+  keyUrlChanged(e){
+    let keyVal = this.keygenForm.get('keyUrl').value;
+    if(!keyVal || keyVal == ""){
+      this.grantTypes.forEach((t, i) => {
+        if (t.value == 'implicit' || t.value == 'authorization_code') this.grantTypes[i].checked = false;
+      })
+    }
+  }
+
   ngOnDestroy() {
     this.cd.detach();
   }
@@ -205,14 +213,6 @@ export class GenerateKeyFormComponent implements OnInit, OnDestroy {
       (err) => {
         this.notification.error("Error occurred !");
       })
-  }
-
-  callbackUpdate(value) {
-    if (!value || value == '') {
-      this.grantTypes.forEach((t, i) => {
-        if (t.value == 'implicit' || t.value == 'authorization_code') this.grantTypes[i].checked = false;
-      })
-    }
   }
 
   clickToCopy(text) {
