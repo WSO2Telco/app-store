@@ -33,6 +33,7 @@ export class SearchApplicationsComponent implements OnInit {
   public hasNextPage = false;
   public hasPrevPage = false;
   private page: number = 0;
+  private offset: number = 0;
 
   @ViewChild('scheduledOrdersPaginator') paginator: MatPaginator;
   @ViewChild(MatSort, { static: true }) sort: MatSort;
@@ -64,7 +65,6 @@ export class SearchApplicationsComponent implements OnInit {
     this.store.select(s => s.apps).subscribe(res => {
       this.hasNextPage = (res.next != "");
       this.hasPrevPage = (res.previous != "");
-      console.log(this.hasNextPage);
     });
   }
 
@@ -107,7 +107,7 @@ export class SearchApplicationsComponent implements OnInit {
         this.store.dispatch(applicationsActions.DeleteApplicationsAction({ "appId": app.applicationId }))
 
         this.actions$.pipe(ofType(applicationsActions.DeleteApplicationSuccessAction)).subscribe(p => {
-          this.store.dispatch(applicationsActions.GetAllApplicationsAction({ payload: new GetApplicationsParam(1, this.pageSize, 0, "") }))
+          this.store.dispatch(applicationsActions.GetAllApplicationsAction({ payload: new GetApplicationsParam(1, this.pageSize, this.offset, "") }))
         })
       }
     });
@@ -123,8 +123,8 @@ export class SearchApplicationsComponent implements OnInit {
 
     if (this.page < 0) this.page = 0;
 
-    let offset = this.pageSize * this.page;
-    this.store.dispatch(applicationsActions.GetAllApplicationsAction({ payload: new GetApplicationsParam(1, this.pageSize, offset, "") }))
+    this.offset = this.pageSize * this.page;
+    this.store.dispatch(applicationsActions.GetAllApplicationsAction({ payload: new GetApplicationsParam(1, this.pageSize, this.offset, "") }))
   }
 
 }
