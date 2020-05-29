@@ -3,8 +3,9 @@
     <div class="intro-container">
 
         <div class="pull-left">
+            <img [src]="apiPrefix + api?.thumbnailUri" class="api-thumb" *ngIf="api?.thumbnailUri && !api?.thumbnailUrl" />
             <img [src]="apiPrefix + api?.thumbnailUrl" class="api-thumb" *ngIf="api?.thumbnailUrl" />
-            <img src="assets/images/apigate-a.png" class="api-thumb" *ngIf="!api?.thumbnailUrl" />
+            <img src="assets/images/apigate-a.png" class="api-thumb" *ngIf="!api?.thumbnailUri && !api?.thumbnailUrl" />
         </div>
         <h1>{{api?.name}} <span class="version" aria-label="API Version">{{api?.version}}</span></h1>
         <div class="status-label" [ngClass]="api?.status"><span class="status-dot"></span> <span class="status-lbl">{{api?.status}}</span></div>
@@ -12,20 +13,44 @@
 
     <div class="overview">
         <store-api-overview [apiOverview]="api"></store-api-overview>
+        <div class="loading-card" *ngIf="!apiFullyLoaded">
+            <div class="bars nomargin">
+                <div class="bar bar1 loading"></div>
+                <div class="bar bar2 loading"></div>
+            </div>
+        </div>
     </div>
     <div class="detail-container">
         <mat-tab-group animationDuration="0ms" disableRipple>
-            <mat-tab *ngIf="loggedUser != null">
-                <ng-template mat-tab-label>
-                    <i class="fa fa-2x fa-folder"></i> Subscriptions
-                </ng-template>
-                <store-api-app-subscriptions></store-api-app-subscriptions>
-            </mat-tab>
             <mat-tab>
                 <ng-template mat-tab-label>
                     <i class="fa fa-2x fa-terminal"></i> API Console
                 </ng-template>
-                <store-api-console></store-api-console>
+
+                <ng-container *ngIf="apiFullyLoaded; else consoleNotLoaded">
+                    <div class="no-key" *ngIf="!loggedUser">
+                        <mat-icon>info</mat-icon>
+                        You require an access token to try the API invoke. Please &nbsp;<button mat-stroked-button (click)="onLoginClick()">login</button> &nbsp;and subscribe to the API to generate an access token.
+                    </div>
+                    <store-api-console [apiOverview]="apiFull" [subscriptionList]="appSubscriptionList" [loadingSubscriptions]="appSubscriptionLoading"></store-api-console>
+                </ng-container>
+
+                <ng-template #consoleNotLoaded>
+                    <div class="loading-card">
+                        <div class="bars">
+                            <div class="bar bar1 loading"></div>
+                            <div class="bar bar2 loading"></div>
+                            <div class="bar bar3 loading"></div>
+                        </div>
+                    </div>
+                </ng-template>
+
+            </mat-tab>
+            <mat-tab *ngIf="loggedUser">
+                <ng-template mat-tab-label>
+                    <i class="fa fa-2x fa-folder"></i> Subscriptions
+                </ng-template>
+                <store-api-app-subscriptions [apiTiers]="api?.tiers" [subscriptionList]="appSubscriptionList" [(loadingSubscriptions)]="appSubscriptionLoading"></store-api-app-subscriptions>
             </mat-tab>
             <mat-tab>
                 <ng-template mat-tab-label>
@@ -38,7 +63,7 @@
                     <i class="fa fa-2x fa-cube"></i> SDKs
                 </ng-template>
 
-                <ng-container *ngIf="loggedUser != null; else sdkNotLoggedIn">
+                <ng-container *ngIf="loggedUser; else sdkNotLoggedIn">
                     <store-api-sdk></store-api-sdk>
                 </ng-container>
 
@@ -51,7 +76,7 @@
                     <i class="fa fa-2x fa-comment"></i> Forum
                 </ng-template>
 
-                <ng-container *ngIf="loggedUser != null; else forumNotLoggedIn">
+                <ng-container *ngIf="loggedUser; else forumNotLoggedIn">
 
                     <mat-table #table [dataSource]="forumResult" *ngIf="forumResult?.length > 0; else forumNoContent">
                         <ng-container matColumnDef="title">
@@ -109,8 +134,8 @@
                     <span>Version : {{simapi.version}}</span>
                     <!-- <span >{{api.provider}}</span> -->
                     <span class="star-rating">
-            <star-rating [starType]="'svg'" [rating]="simapi.stars" [hoverEnabled]="true"></star-rating>
-          </span>
+                        <star-rating [starType]="'svg'" [rating]="simapi.stars" [hoverEnabled]="true"></star-rating>
+                    </span>
                 </div>
                 <div class="clearfix"></div>
             </div>

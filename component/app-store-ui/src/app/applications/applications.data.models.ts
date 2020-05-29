@@ -1,12 +1,28 @@
+import { EntityState } from '@ngrx/entity';
+
 export enum Tiers {
   DEFAULT = 'DEFAULT',
   UNLIMITED = 'UNLIMITED'
 }
 
-export interface ApplicationsState {
-  allApplications: ApplicationListResult;
-  selectedApplication: ApplicationDetails;
-  appSubscriptions: SubscriptionResult;
+export interface ApplicationState extends EntityState<Application> {
+  ids: [],
+  entities: {},
+  loading: false,
+  loaded: false,
+  next: "",
+  previous: ""
+}
+
+export class ApplicationListItem {
+  applicationId: string;
+  attributes: any;
+  description: string;
+  groupId: string;
+  name: string;
+  status: string;
+  subscriber: string;
+  throttlingTier: string;
 }
 
 export class GetApplicationsParam {
@@ -118,17 +134,10 @@ export class GenerateKeyPayload {
   callbackUrl: string;
 }
 
-// export class GeneratedKey {
-//   consumerSecret: string;
-//   consumerKey: string;
-//   keyState: string;
-//   keyType: string;
-//   supportedGrantTypes: string[];
-//   token: GeneratedKeyToken;
-// }
-
-// export class GeneratedKeyToken {
-//   validityTime: number;
-//   accessToken: string;
-//   tokenScopes: string[]
-// }
+export class AddNewSubsParam {
+  constructor(
+      public tier: string,
+      public apiIdentifier: string,
+      public applicationId: string,
+  ) { }
+}

@@ -1,14 +1,24 @@
 <h2 mat-dialog-title>Add Subscription</h2>
-<mat-dialog-content class="mat-typography">
-    <!-- <h3>Select API</h3> -->
-    <mat-form-field>
+<form [formGroup]="subsForm" (ngSubmit)="onSubmit(subsForm)">
+    <mat-dialog-content class="mat-typography">
+        <!-- <h3>Select API</h3> -->
+        <!-- <mat-form-field>
         <mat-label>API</mat-label>
         <mat-select>
             <mat-option *ngFor="let api of apis" [value]="api.name">{{api.name}}</mat-option>
         </mat-select>
-    </mat-form-field>
-</mat-dialog-content>
-<mat-dialog-actions align="end">
-  <button mat-button mat-dialog-close>Cancel</button>
-  <button mat-button [mat-dialog-close]="true" cdkFocusInitial>Add Subscription</button>
-</mat-dialog-actions>
+    </mat-form-field> -->
+        <mat-form-field>
+            <input [formControl]="apiFormControl" type="text" placeholder="Select API" aria-label="API" matInput [matAutocomplete]="auto">
+            <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete" [displayWith]="displayFn">
+                <mat-option *ngFor="let item of apiAutoComplete$ | async; let index = index" [value]="item">
+                    {{ item.name | titlecase}}
+                </mat-option>
+            </mat-autocomplete>
+        </mat-form-field>
+    </mat-dialog-content>
+    <mat-dialog-actions align="end">
+        <button mat-button mat-dialog-close cdkFocusInitial>Cancel</button>
+        <button mat-raised-button color="accent" type="submit" [disabled]="!subsForm.valid">Add Subscription</button>
+    </mat-dialog-actions>
+</form>

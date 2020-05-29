@@ -3,10 +3,11 @@ import { ApiEndpoints } from '../config/api.endpoints';
 import { Observable } from 'rxjs';
 import { HttpClient, HttpParams, HttpHeaders, HttpBackend } from '@angular/common/http';
 import {
-    ApiSearchParam, ApiSearchResult, ApplicationsResult,
+    ApiSearchParam, ApplicationsResult,
     SubscribeParam, SubscribeResult, ApiOverview, TagListResult, sdkParam, AddNewSubsParam
 } from './apis.models';
 import { NotificationService } from '../shared/services/notification.service';
+import { ApplicationDetails } from '../applications/applications.data.models';
 
 @Injectable()
 export class ApisService {
@@ -25,14 +26,14 @@ export class ApisService {
             .append('offset', <any>param.offset);
         const headerParams = new HttpHeaders()
             .append('Content-Type', 'application/json')
-        return this.http.get<ApiSearchResult>(ApiEndpoints.apis.search, { params: searchParams, headers: headerParams });
+        return this.http.get(ApiEndpoints.apis.search, { params: searchParams, headers: headerParams });
     }
 
-    getUserApplicationsActions(appId: string): Observable<ApplicationsResult> {
-        const searchParams = new HttpParams()
-            .append('apiId', appId);
-        return this.http.get<ApplicationsResult>(ApiEndpoints.apis.applications, { params: searchParams });
-    }
+    // getUserApplicationsActions(appId: string): Observable<ApplicationsResult> {
+    //     const searchParams = new HttpParams()
+    //         .append('apiId', appId);
+    //     return this.http.get<ApplicationsResult>(ApiEndpoints.apis.applications, { params: searchParams });
+    // }
 
     getUserSubscriptions(appId: string): Observable<any> {
         const searchParams = new HttpParams()
@@ -99,6 +100,10 @@ export class ApisService {
     getAvailableApplications(): Observable<any> {
         return this.http.get<any>(ApiEndpoints.apis.availableApp);
     }
+
+    getSelectedAppDetails(appId: string): Observable<ApplicationDetails> {
+        return this.http.get<ApplicationDetails>(`${ApiEndpoints.applications.applications}/${appId}`);
+      }
 
     deleteSubscription(subscriptionId): Observable<any> {
         return this.http.delete(`${ApiEndpoints.apis.applications}/${subscriptionId}`);

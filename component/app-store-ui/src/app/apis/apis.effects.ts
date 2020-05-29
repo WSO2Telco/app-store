@@ -7,11 +7,14 @@ import { ApisService } from './apis.service';
 import { NotificationService } from '../shared/services/notification.service';
 import * as apiActions from './apis.actions';
 import {
-  ApiSearchResult,
+  // ApiSearchResult,
   ApplicationsResult, SubscribeResult, ApiOverview, TagListResult, TopicResult,
 } from './apis.models';
 import { Actions, ofType, createEffect } from '@ngrx/effects';
-import { ApplicationListResult } from '../applications/applications.data.models';
+import { ApplicationListResult, ApplicationDetails } from '../applications/applications.data.models';
+import { Store } from '@ngrx/store';
+import { AppState } from './apis.reducers';
+import { DoLogoutAction } from '../authentication/authentication.actions';
 
 @Injectable()
 export class ApisEffects {
@@ -19,16 +22,18 @@ export class ApisEffects {
   constructor(
     private actions$: Actions,
     private apiService: ApisService,
-    private notification: NotificationService
+    private notification: NotificationService,
+    private store: Store<AppState>
   ) { }
 
   apiSearch$ = createEffect(() => this.actions$.pipe(
     ofType(apiActions.DoApiSearchAction),
     mergeMap(({ payload }) => this.apiService.search(payload)
       .pipe(
-        map((result: ApiSearchResult) => (apiActions.ApiSearchSuccessAction({ "payload": result }))),
+        map((result: any) => (apiActions.ApiSearchSuccessAction({ "payload": result }))),
         catchError((e: HttpErrorResponse) => {
           this.notification.error(e.message);
+          if(e.status == 401) this.store.dispatch(DoLogoutAction());
           return EMPTY
         })
       )
@@ -42,6 +47,7 @@ export class ApisEffects {
         map((result: ApiOverview) => (apiActions.GetApiOverviewSuccessAction({ "payload": result }))),
         catchError((e: HttpErrorResponse) => {
           this.notification.error(e.message);
+          if(e.status == 401) this.store.dispatch(DoLogoutAction());
           return EMPTY
         })
       )
@@ -55,24 +61,12 @@ export class ApisEffects {
         map((result: TagListResult) => (apiActions.GetApiTagSuccessAction({ "payload": result }))),
         catchError((e: HttpErrorResponse) => {
           this.notification.error(e.message);
+          if(e.status == 401) this.store.dispatch(DoLogoutAction());
           return EMPTY
         })
       )
     )
   ));
-
-  // apiSdk$ = createEffect(() => this.actions$.pipe(
-  //   ofType(apiActions.GetApiSdkAction),
-  //   mergeMap(({ payload }) => this.apiService.getApiSdk(payload)
-  //     .pipe(
-  //       map((result: any) => (apiActions.GetApiSdkSuccessAction({ "payload": result }))),
-  //       catchError((e: HttpErrorResponse) => {
-  //         this.notification.error(e.message);
-  //         return EMPTY
-  //       })
-  //     )
-  //   )
-  // ));
 
   addNewSubscription$ = createEffect(() => this.actions$.pipe(
     ofType(apiActions.DoNewSubscribeAction),
@@ -81,6 +75,7 @@ export class ApisEffects {
         map((result: any) => (this.notification.success('Successfully subscribe to the new application'), apiActions.DoNewSubscribeSuccessAction({ "payload": result }))),
         catchError((e: HttpErrorResponse) => {
           this.notification.error(e.error.message);
+          if(e.status == 401) this.store.dispatch(DoLogoutAction());
           return EMPTY
         })
       )
@@ -93,6 +88,7 @@ export class ApisEffects {
         map((response: ApplicationListResult) => (apiActions.GetAvailableApplicationSuccessAction({ "payload": response }))),
         catchError((e: HttpErrorResponse) => {
           this.notification.error(e.message);
+          if(e.status == 401) this.store.dispatch(DoLogoutAction());
           return EMPTY
         })
       )
@@ -114,27 +110,7 @@ export class ApisEffects {
         }),
         catchError((e: HttpErrorResponse) => {
           this.notification.error(e.error);
-          return EMPTY
-        })
-      )
-    )
-  ));
-
-  userApplications$ = createEffect(() => this.actions$.pipe(
-    ofType(apiActions.GetUserApplicationsAction),
-    mergeMap(({ payload }) => this.apiService.getUserApplicationsActions(payload)
-      .pipe(
-        map((result: ApplicationsResult) => {
-          if (result.error) {
-            result.message = 'Load application error';
-            throw result;
-          } else {
-            const approvedApps = result.applications.filter((app) => app.status === 'APPROVED');
-            return (apiActions.GetUserApplicationsSuccessAction({ "payload": approvedApps || [] }))
-          }
-        }),
-        catchError((e: HttpErrorResponse) => {
-          this.notification.error(e.message);
+          if(e.status == 401) this.store.dispatch(DoLogoutAction());
           return EMPTY
         })
       )
@@ -155,6 +131,7 @@ export class ApisEffects {
         }),
         catchError((e: HttpErrorResponse) => {
           this.notification.error(e.message);
+          if(e.status == 401) this.store.dispatch(DoLogoutAction());
           return EMPTY
         })
       )
@@ -168,6 +145,7 @@ export class ApisEffects {
         map((result: SubscribeResult) => (apiActions.DoSubscribeSuccessAction({ "payload": result }))),
         catchError((e: HttpErrorResponse) => {
           this.notification.error(e.message);
+          if(e.status == 401) this.store.dispatch(DoLogoutAction());
           return EMPTY
         })
       )
@@ -180,7 +158,9 @@ export class ApisEffects {
       .pipe(
         map((result: TopicResult) => (apiActions.SearchForumTopicsSuccessAction({ payload: result.payload }))),
         catchError((e: HttpErrorResponse) => {
+          console.log(e);
           this.notification.error(e.message);
+          if(e.status == 401) this.store.dispatch(DoLogoutAction());
           return EMPTY
         })
       )

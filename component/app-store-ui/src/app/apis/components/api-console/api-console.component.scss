@@ -1,0 +1,72 @@
+.button-row {
+  margin-bottom: 20px;
+  button,
+  label {
+    margin-right: 10px;
+  }
+
+  label {
+    display: inline-block;
+    width: 160px;
+  }
+}
+
+.button-row {
+  margin-bottom: 20px;
+  button,
+  label {
+    margin-right: 10px;
+  }
+
+  label {
+    display: inline-block;
+    width: 160px;
+  }
+
+  mat-select,
+  p {
+    display: inline-block;
+    width: 400px !important;
+  }
+
+  .tokenField {
+    // display: inline-block;
+    width: 600px !important;
+  }
+
+  .content {
+    display: inline-block;
+    width: 600px !important;
+  }
+}
+
+.mat-form-field + .mat-form-field {
+  margin-left: 8px;
+}
+
+.example-right-align {
+  text-align: right;
+}
+
+input.example-right-align::-webkit-outer-spin-button,
+input.example-right-align::-webkit-inner-spin-button {
+  display: none;
+}
+
+input.example-right-align {
+  -moz-appearance: textfield;
+}
+
+.no-key {
+  display: flex;
+  align-items: center;
+  background: #fafafa;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+  margin-bottom: 8px;
+
+  .mat-icon {
+    margin-right: 5px;
+  }
+}

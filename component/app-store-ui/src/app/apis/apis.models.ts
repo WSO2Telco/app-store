@@ -1,5 +1,6 @@
 import { Operator, Country, Tier } from '../app.data.models';
 import { ApplicationListResult } from '../applications/applications.data.models';
+import { EntityState } from '@ngrx/entity';
 
 export enum ApiStatus {
     all = 'All',
@@ -19,37 +20,36 @@ export class ApiSearchParam {
     }
 }
 
-export class ApiSearchResult {
-    constructor(
-        public list: ApiSummary[] = [],
-        public count: number = 0,
-        public isMore: boolean = false,
-        public isMonetizationEnabled: boolean = false,
-        public error: any = null,
-        public message: string = null,
-        public isRatingActivated: boolean = false,
-        public pagination: paginationData = new paginationData) { }
+export class ApiListDetail {
+    context: string;
+    description: string;
+    id: number;
+    name: string;
+    provider: string;
+    scopes: []
+    status: string;
+    thumbnailUri: string;
+    version: any
 }
 
-export class ApiSummary {
-    constructor(
-        public id: string = '',
-        public name: string = '',
-        public provider: string = '',
-        public version: string = '',
-        public context: string = '',
-        public status: string = '',
-        public thumbnailUrl: string = '',
-        public visibility: string = '',
-        public visibleRoles: string = '',
-        public description: string = '',
-        public apiOwner: string = '',
-        public isAdvertiseOnly: boolean = false,
-        public apiBusinessOwner: string = '',
-        public rates: number = 0,
-        public tiers: string[] = null,
-        public scopes: string[] = null,
-        public monetizationCategory: string = '') { }
+export interface ApiEntityState extends EntityState<ApiListDetail> {
+    ids: [],
+    entities: {},
+    loading: false,
+    loaded: false
+    count: 0,
+    next: "",
+    previous: ""
+    availableApp: ApplicationListResult,
+    pagination: paginationData,
+}
+
+export class subscriptionDetails {
+    loading: boolean;
+    count: number;
+    next: string;
+    previous: string;
+    list: any
 }
 
 export class paginationData {
@@ -89,9 +89,10 @@ export class ApiOverview {
     context: string;
     status: string;
     serverURL: string;
-    tiers: Tier[];
+    tiers: string[];
     subscribed: boolean;
     thumbnailUrl: string;
+    thumbnailUri: string;
     bizOwner: string;
     bizOwnerMail: string;
     techOwner: string;
@@ -120,17 +121,6 @@ export class BusinessInfo {
     technicalOwnerEmail: string = null;
     businessOwner: string = null;
     businessOwnerEmail: string = null;
-}
-
-export interface ApisState {
-    apiSearchResult: ApiSearchResult;
-    selectedApi: ApiOverview;
-    apiStatus: ApiStatus[];
-    userApplications: Application[];
-    selectedOperators: Operator[];
-    isSubscriptionSuccess: boolean;
-    apiSubscriptions: SubscriptionResult;
-    availableApp: ApplicationListResult;
 }
 
 export class SubscriptionResult {
@@ -166,10 +156,11 @@ export interface ApplicationsResult {
     message: string;
 }
 
-export class ApplicationSearchParam {
-    apiId: string
-}
+// export class ApplicationSearchParam {
+//     apiId: string
+// }
 
+// Subscription Data Models
 export class SubscribeParam {
     constructor(
         public country: Country,

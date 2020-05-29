@@ -20,7 +20,7 @@ import { MatTabsModule } from '@angular/material/tabs';
     SharedModule,
     ApplicationsRoutes,
     MatTabsModule,
-    StoreModule.forFeature('apis', applicationsReducer),
+    StoreModule.forFeature('apps', applicationsReducer),
     EffectsModule.forFeature([ApplicationsEffects])
   ],
   declarations: [

@@ -213,6 +213,11 @@ footer {
         .bar2 {
             width: 30%;
         }
+        &.nomargin {
+            .bar {
+                margin-left: 0;
+            }
+        }
     }
     .loading {
         position: relative;

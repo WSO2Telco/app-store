@@ -46,14 +46,18 @@
                 <ng-template mat-tab-label>
                     <i class="fa fa-2x fa-key"></i> Production Keys
                 </ng-template>
-                <store-generate-key-form keyEnv="PRODUCTION"></store-generate-key-form>
+                <ng-container *ngIf="appData?.keys; else keysNotLoaded">
+                    <store-generate-key-form keyEnv="PRODUCTION" [appData]="appData"></store-generate-key-form>
+                </ng-container>
             </mat-tab>
 
             <mat-tab>
                 <ng-template mat-tab-label>
                     <i class="fa fa-2x fa-archive"></i> Sandbox Keys
                 </ng-template>
-                <store-generate-key-form keyEnv="SANDBOX"></store-generate-key-form>
+                <ng-container *ngIf="appData?.keys; else keysNotLoaded">
+                    <store-generate-key-form keyEnv="SANDBOX" [appData]="appData"></store-generate-key-form>
+                </ng-container>
             </mat-tab>
 
             <mat-tab class="subscription-tab">
@@ -63,6 +67,17 @@
                 <store-application-subscriptions></store-application-subscriptions>
             </mat-tab>
         </mat-tab-group>
+        <ng-template #keysNotLoaded>
+            <div class="loading-card">
+                <div class="bars">
+                    <div class="bar bar1 loading"></div>
+                    <div class="bar bar2 loading"></div>
+                    <div class="bar bar3 loading"></div>
+                </div>
+            </div>
+        </ng-template>
     </div>
-
+    <div fxFlex="100%" fxLayoutGap="10px">
+        <button mat-raised-button type="button" [routerLink]="['/applications']" color="accent">Back</button>
+    </div>
 </div>

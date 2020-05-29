@@ -1,12 +1,10 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { AppState } from '../../../app.data.models';
 import { Store } from '@ngrx/store';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { Application, GetApplicationsParam } from '../../applications.data.models';
 import * as applicationsActions from '../../applications.actions';
-import * as authActions from '../../../authentication/authentication.actions'
 import { Router } from '@angular/router';
 import { Actions, ofType } from '@ngrx/effects';
 
@@ -17,6 +15,7 @@ import { Title } from '@angular/platform-browser';
 import { ClientRegParam } from '../../../authentication/authentication.models';
 import { ConfirmDialogComponent } from '../../../commons/components/confirm-dialog/confirm-dialog.component';
 import { MatPaginator } from '@angular/material/paginator';
+import { getApps, AppState } from '../../applications.reducer';
 @Component({
   selector: 'store-search-applications',
   templateUrl: './search-applications.component.html',
@@ -24,39 +23,46 @@ import { MatPaginator } from '@angular/material/paginator';
 })
 export class SearchApplicationsComponent implements OnInit {
   dataSource = new MatTableDataSource<Application>();
-  searchQuery: string = '';
   public clientData: ClientRegParam;
   length: number;
-  pageSize: number = 10;
-  pageIndex: number = 0;
   appResult;
+
+  public searchQuery: string = '';
+  public pageSize: number = 10;
+  public hasNextPage = false;
+  public hasPrevPage = false;
+
   @ViewChild('scheduledOrdersPaginator') paginator: MatPaginator;
   @ViewChild(MatSort, { static: true }) sort: MatSort;
 
-  constructor(private store: Store<AppState>, private router: Router, private titleService: Title, private actions$: Actions, private dialog: MatDialog) { }
+  constructor(
+    private store: Store<AppState>,
+    private router: Router,
+    private titleService: Title,
+    private actions$: Actions,
+    private dialog: MatDialog
+  ) { }
 
   ngOnInit() {
     this.clientData = new ClientRegParam();
     this.store.select((s) => s.authentication.tokenDetails).subscribe((auth) => {
       if (auth) {
-        this.store.dispatch(applicationsActions.GetAllAvailableApplicationsAction({}))
-      }
-    })
-
-    this.actions$.pipe(ofType(applicationsActions.GetAllAvailableApplicationsSuccessAction)).subscribe(p => {
-      if (p) {
-        this.store
-          .select(s => s.applications.allApplications)
-          .subscribe(apps => {
-            this.dataSource.data = apps.list;
-            this.appResult = apps;
-          });
+        this.store.dispatch(applicationsActions.GetAllApplicationsAction({ payload: new GetApplicationsParam(1, 1000000, 0, "") }))
       }
     })
 
     this.store.dispatch(globalActions.SetBreadcrumbAction({ payload: [new BreadcrumbItem("Applications")] }));
     this.titleService.setTitle("Apps | Apigate API Store");
     this.dataSource.sort = this.sort;
+
+    this.store.select(getApps).subscribe(res => {
+      if (res) this.dataSource.data = res;
+    });
+
+    this.store.select(s => s.apps).subscribe(res => {
+      this.hasNextPage = (res.next != "");
+      this.hasPrevPage = (res.previous != "");
+    });
   }
 
   ngAfterViewInit() {
@@ -98,7 +104,7 @@ export class SearchApplicationsComponent implements OnInit {
         this.store.dispatch(applicationsActions.DeleteApplicationsAction({ "appId": app.applicationId }))
 
         this.actions$.pipe(ofType(applicationsActions.DeleteApplicationSuccessAction)).subscribe(p => {
-          this.store.dispatch(applicationsActions.GetAllAvailableApplicationsAction({}))
+          this.store.dispatch(applicationsActions.GetAllApplicationsAction({ payload: new GetApplicationsParam(1, 1000000, 0, "") }))
         })
       }
     });

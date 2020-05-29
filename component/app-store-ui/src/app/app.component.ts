@@ -34,13 +34,13 @@ export class AppComponent implements OnInit {
     private actions: Actions,
     private idle: Idle
   ) {
-    // sets an idle timeout of 2.5min
-    idle.setIdle(150);
+    // sets an idle timeout of 3min
+    idle.setIdle(180);
     // sets a timeout period of 0.5 min. after 150 seconds of inactivity, the user will be considered timed out.
     idle.setTimeout(30);
     // sets the default interrupts, in this case, things like clicks, scrolls, touches to the document
     idle.setInterrupts(DEFAULT_INTERRUPTSOURCES);
-    
+
     idle.onIdleEnd.subscribe(() => this.idleState = 'No longer idle.');
 
     idle.onIdleStart.subscribe(() => this.idleState = 'You\'ve gone idle!');
@@ -84,7 +84,12 @@ export class AppComponent implements OnInit {
         let authData = localStorage.getItem('authentication');
         if (authData == undefined || authData == null) {
           this.store.dispatch(DoLogoutAction());
+          if (localStorage.getItem("autologout") == "false") {
+            sessionStorage.setItem("autologout", "true");
+          }
+          return;
         }
+        return;
       }
     }, false);
   }
