@@ -5,7 +5,6 @@ import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { Application, GetApplicationsParam } from '../../applications.data.models';
 import * as applicationsActions from '../../applications.actions';
-import * as authActions from '../../../authentication/authentication.actions'
 import { Router } from '@angular/router';
 import { Actions, ofType } from '@ngrx/effects';
 
@@ -32,8 +31,6 @@ export class SearchApplicationsComponent implements OnInit {
   public pageSize: number = 10;
   public hasNextPage = false;
   public hasPrevPage = false;
-  private page: number = 0;
-  private offset: number = 0;
 
   @ViewChild('scheduledOrdersPaginator') paginator: MatPaginator;
   @ViewChild(MatSort, { static: true }) sort: MatSort;
@@ -50,7 +47,7 @@ export class SearchApplicationsComponent implements OnInit {
     this.clientData = new ClientRegParam();
     this.store.select((s) => s.authentication.tokenDetails).subscribe((auth) => {
       if (auth) {
-        this.store.dispatch(applicationsActions.GetAllApplicationsAction({ payload: new GetApplicationsParam(1, this.pageSize, 0, "") }))
+        this.store.dispatch(applicationsActions.GetAllApplicationsAction({ payload: new GetApplicationsParam(1, 1000000, 0, "") }))
       }
     })
 
@@ -107,7 +104,7 @@ export class SearchApplicationsComponent implements OnInit {
         this.store.dispatch(applicationsActions.DeleteApplicationsAction({ "appId": app.applicationId }))
 
         this.actions$.pipe(ofType(applicationsActions.DeleteApplicationSuccessAction)).subscribe(p => {
-          this.store.dispatch(applicationsActions.GetAllApplicationsAction({ payload: new GetApplicationsParam(1, this.pageSize, this.offset, "") }))
+          this.store.dispatch(applicationsActions.GetAllApplicationsAction({ payload: new GetApplicationsParam(1, 1000000, 0, "") }))
         })
       }
     });
@@ -115,16 +112,6 @@ export class SearchApplicationsComponent implements OnInit {
 
   onSearchClick() {
     this.store.dispatch(applicationsActions.GetAllApplicationsAction({ "payload": new GetApplicationsParam(0, this.pageSize, 0, this.searchQuery) }))
-  }
-
-  onPageChanged(direction) {
-    if (direction == "next") this.page++;
-    else this.page--;
-
-    if (this.page < 0) this.page = 0;
-
-    this.offset = this.pageSize * this.page;
-    this.store.dispatch(applicationsActions.GetAllApplicationsAction({ payload: new GetApplicationsParam(1, this.pageSize, this.offset, "") }))
   }
 
 }

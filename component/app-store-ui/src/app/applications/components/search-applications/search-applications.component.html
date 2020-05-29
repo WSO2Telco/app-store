@@ -79,16 +79,7 @@
             <div class="no-result">No Results Found !!</div>
         </ng-container>
 
-        <!-- <mat-paginator #scheduledOrdersPaginator showFirstLastButtons="false" [pageSizeOptions]="[5, 10, 25, 100]" (page)="onPageChanged($event)"></mat-paginator> -->
-
-        <div class="pull-right">
-            <button mat-icon-button type="button" (click)="onPageChanged('prev')" [disabled]="!hasPrevPage">
-                <span class="mat-button-wrapper"><svg viewBox="0 0 24 24" focusable="false" class="mat-paginator-icon"><path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"></path></svg></span>
-            </button>
-            <button mat-icon-button type="button" (click)="onPageChanged('next')" [disabled]="!hasNextPage">
-                <span class="mat-button-wrapper"><svg viewBox="0 0 24 24" focusable="false" class="mat-paginator-icon"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"></path></svg></span>
-            </button>
-        </div>
+         <mat-paginator #scheduledOrdersPaginator showFirstLastButtons="false" [pageSizeOptions]="[10, 25, 100]"></mat-paginator> 
 
     </div>
 
