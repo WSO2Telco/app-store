@@ -98,7 +98,9 @@ export class ApisService {
     }
 
     getAvailableApplications(): Observable<any> {
-        return this.http.get<any>(ApiEndpoints.apis.availableApp);
+        const searchParams = new HttpParams()
+            .append('limit', "1000");
+        return this.http.get<any>(ApiEndpoints.apis.availableApp, { params: searchParams });
     }
 
     getSelectedAppDetails(appId: string): Observable<ApplicationDetails> {
