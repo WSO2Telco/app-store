@@ -85,7 +85,7 @@ export class AppComponent implements OnInit {
         if (authData == undefined || authData == null) {
           this.store.dispatch(DoLogoutAction());
           if (localStorage.getItem("autologout") == "false") {
-            sessionStorage.setItem("autologout", "true");
+         //   sessionStorage.setItem("autologout", "true");
           }
           return;
         }
@@ -109,6 +109,7 @@ export class AppComponent implements OnInit {
 
       case LoginMenuActionTypes.LOGOUT: {
         this.store.dispatch(DoLogoutAction());
+        sessionStorage.removeItem("autologout");
         break;
       }
 
