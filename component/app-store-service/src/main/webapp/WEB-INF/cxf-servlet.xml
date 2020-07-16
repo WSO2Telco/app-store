@@ -35,6 +35,7 @@
 			<ref bean="UserServiceBean" />
 			<ref bean="TokenServiceBean" />
 			<ref bean="SwaggerServiceBean"/>
+			<ref bean="ResponseFilterServiceBean"/>
 		</jaxrs:serviceBeans>
 
 	</jaxrs:server>
@@ -53,4 +54,6 @@
 		class="org.appstore.core.authfilter.Authentication" />
 	<bean id="SwaggerServiceBean"
 		  class="com.wso2telco.dep.storeservice.resource.SwaggerService" />
+	<bean id="ResponseFilterServiceBean"
+		  class="com.wso2telco.dep.storeservice.resource.ResponseFilterService" />
 </beans>
