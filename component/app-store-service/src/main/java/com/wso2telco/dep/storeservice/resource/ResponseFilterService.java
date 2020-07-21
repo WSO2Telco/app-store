@@ -75,11 +75,10 @@ public class ResponseFilterService {
         try {
             ResponseFilterProcessor processor = new ResponseFilterProcessorIml();
             Callback callback = processor.findResponseFilter(sp, application, api, operation);
-            ObjectMapper mapper = new ObjectMapper();
-            String jsonString = mapper.writeValueAsString(callback);
+            String jsonString = new Gson().toJson(callback);
             response = Response.status(Response.Status.OK).entity(jsonString).build();
             logger.log(Level.INFO, "find response filter successfully executed");
-        } catch (BusinessException | JsonProcessingException exception) {
+        } catch (BusinessException exception) {
             response =  Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
             logger.log(Level.SEVERE, "error in find response filter : ", exception);
         }
@@ -95,11 +94,10 @@ public class ResponseFilterService {
         try {
             ResponseFilterProcessor processor = new ResponseFilterProcessorIml();
             Callback callback = processor.findResponseFilter(Integer.parseInt(id));
-            ObjectMapper mapper = new ObjectMapper();
-            String jsonString = mapper.writeValueAsString(callback);
+            String jsonString = new Gson().toJson(callback);
             response = Response.status(Response.Status.OK).entity(jsonString).build();
             logger.log(Level.INFO, "find response filter by ID successfully executed");
-        } catch (BusinessException | JsonProcessingException exception) {
+        } catch (BusinessException exception) {
             response =  Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
             logger.log(Level.SEVERE, "error in find response filter by ID : ", exception);
         }

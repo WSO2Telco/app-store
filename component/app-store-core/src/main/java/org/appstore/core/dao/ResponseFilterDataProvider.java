@@ -24,6 +24,8 @@ import java.sql.Statement;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 import com.wso2telco.core.dbutils.DbUtils;
 import com.wso2telco.core.dbutils.exception.BusinessException;
 import com.wso2telco.core.dbutils.exception.ServiceError;
@@ -72,7 +74,7 @@ public class ResponseFilterDataProvider {
             statement.setString(2, responseFilter.getApplication());
             statement.setString(3, responseFilter.getApi());
             statement.setString(4, responseFilter.getOperation());
-            statement.setString(5, responseFilter.getFields());
+            statement.setString(5, responseFilter.getFields().toString());
             logger.log(Level.INFO, "sql query in addResponseFilter : {}", statement);
             statement.executeUpdate();
             resultSet = statement.getGeneratedKeys();
@@ -136,7 +138,7 @@ public class ResponseFilterDataProvider {
                 responseFilter.setApi(api);
                 responseFilter.setOperation(operation);
                 responseFilter.setId(resultSet.getInt(1));
-                responseFilter.setFields(resultSet.getString(2));
+                responseFilter.setFields(new Gson().fromJson(resultSet.getString(2), JsonObject.class));
             }
         } catch (SQLException e) {
             logger.log(Level.SEVERE, "database operation error in findResponseFilter : ", e);
@@ -189,7 +191,7 @@ public class ResponseFilterDataProvider {
                 responseFilter.setApplication(resultSet.getString(2));
                 responseFilter.setApi(resultSet.getString(3));
                 responseFilter.setOperation(resultSet.getString(4));
-                responseFilter.setFields(resultSet.getString(5));
+                responseFilter.setFields(new Gson().fromJson(resultSet.getString(5), JsonObject.class));
             }
         } catch (SQLException e) {
             logger.log(Level.SEVERE, "database operation error in findResponseFilter : ", e);
