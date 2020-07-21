@@ -16,13 +16,15 @@
 
 package org.appstore.core.dto;
 
+import com.google.gson.JsonObject;
+
 public class ResponseFilter {
     private int id;
     private String sp;
     private String application;
     private String api;
     private String operation;
-    private String fields;
+    private JsonObject fields;
 
     public int getId() {
         return id;
@@ -64,11 +66,11 @@ public class ResponseFilter {
         this.operation = operation;
     }
 
-    public String getFields() {
+    public JsonObject getFields() {
         return fields;
     }
 
-    public void setFields(String fields) {
+    public void setFields(JsonObject fields) {
         this.fields = fields;
     }
 }
