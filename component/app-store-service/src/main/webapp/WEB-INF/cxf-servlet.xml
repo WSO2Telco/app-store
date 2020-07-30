@@ -54,6 +54,7 @@
 		class="org.appstore.core.authfilter.Authentication" />
 	<bean id="SwaggerServiceBean"
 		  class="com.wso2telco.dep.storeservice.resource.SwaggerService" />
-	<bean id="ResponseFilterServiceBean"
-		  class="com.wso2telco.dep.storeservice.resource.ResponseFilterService" />
+	<!--moved to the manage-service-->
+	<!--bean id="ResponseFilterServiceBean"
+		  class="com.wso2telco.dep.storeservice.resource.ResponseFilterService" /-->
 </beans>

@@ -20,6 +20,7 @@ import com.wso2telco.core.dbutils.exception.BusinessException;
 import org.appstore.core.dto.Callback;
 import org.appstore.core.dto.ResponseFilter;
 
+@Deprecated
 public interface ResponseFilterProcessor {
 
     Callback addResponseFilter(ResponseFilter responseFilter) throws BusinessException;
