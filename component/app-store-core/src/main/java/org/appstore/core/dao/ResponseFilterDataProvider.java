@@ -33,6 +33,7 @@ import com.wso2telco.core.dbutils.util.DataSourceNames;
 import org.appstore.core.dto.ResponseFilter;
 import org.appstore.core.util.Tables;
 
+@Deprecated
 public class ResponseFilterDataProvider {
 
     private static final Logger logger = Logger.getLogger(ResponseFilterDataProvider.class.getName());

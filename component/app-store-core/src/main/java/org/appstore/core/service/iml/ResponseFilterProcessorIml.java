@@ -23,6 +23,7 @@ import org.appstore.core.dto.GenericResponseWithIDs;
 import org.appstore.core.dto.ResponseFilter;
 import org.appstore.core.service.ResponseFilterProcessor;
 
+@Deprecated
 public class ResponseFilterProcessorIml implements ResponseFilterProcessor {
 
     /**

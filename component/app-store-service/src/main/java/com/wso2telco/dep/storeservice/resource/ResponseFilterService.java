@@ -38,6 +38,10 @@ import org.appstore.core.dto.ResponseFilter;
 import org.appstore.core.service.ResponseFilterProcessor;
 import org.appstore.core.service.iml.ResponseFilterProcessorIml;
 
+/**
+ * @deprecated use manage-module instead
+ */
+@Deprecated
 @Path("/response-filter")
 public class ResponseFilterService {
 
