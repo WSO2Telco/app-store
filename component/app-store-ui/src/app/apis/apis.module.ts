@@ -19,9 +19,7 @@ import { ApiTagComponent } from './components/api-tag/api-tag.component';
 import { TagCloudModule } from 'angular-tag-cloud-module';
 import { ApiSdkComponent } from './components/api-sdk/api-sdk.component';
 import { MatTabsModule } from '@angular/material/tabs';
-import { NgJsonEditorModule } from 'ang-jsoneditor';
 import { MatDialogModule, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { ApiResponseFilterComponent } from './components/api-response-filter/api-response-filter.component';
 
 @NgModule({
   imports: [
@@ -34,7 +32,6 @@ import { ApiResponseFilterComponent } from './components/api-response-filter/api
     EffectsModule.forFeature([ApisEffects]),
     MatTabsModule,
     MatDialogModule,
-    NgJsonEditorModule
   ],
   declarations: [
     ApiSearchComponent,
@@ -46,7 +43,7 @@ import { ApiResponseFilterComponent } from './components/api-response-filter/api
     ApiTagComponent,
     ApiSdkComponent,
     ApiAppSubscriptionsComponent,
-    ApiResponseFilterComponent],
+  ],
   providers: [ApisService,
     { provide: MatDialogRef, useValue: {} },
     { provide: MAT_DIALOG_DATA, useValue: [] },

@@ -7,7 +7,6 @@ import { ApiOverview } from '../../apis.models';
 import * as jQuery from "jquery";
 import { MatDialog } from '@angular/material/dialog';
 import { ConfirmDialogComponent } from '../../../commons/components/confirm-dialog/confirm-dialog.component';
-import { ApiResponseFilterComponent } from '../api-response-filter/api-response-filter.component';
 import { ApplicationDetailsKeys } from '../../../applications/applications.data.models';
 import { AppState } from '../../apis.reducers';
 import { ApisService } from '../../apis.service';
@@ -158,7 +157,7 @@ export class ApiConsoleComponent implements OnInit {
             },
             responseInterceptor: function (resp) {
                 if (((resp.status == '200') || (resp.status == '201') || (resp.status == '202') || (resp.status == '204')) && !(resp.body.swagger)) {
-                    component.openPOPUP(resp.body);
+                   // component.openPOPUP(resp.body);
                 }
                 return resp;
             },
@@ -191,28 +190,6 @@ export class ApiConsoleComponent implements OnInit {
                 });
 
             }, 1500);
-        });
-    }
-
-
-    openPOPUP(param) {
-        const ref = this.dialog.open(ConfirmDialogComponent, {
-            data: {
-                title: "Response Filtering",
-                message:
-                    'Do you want to filter the Response?'
-            }
-        });
-        ref.afterClosed().subscribe((confirmed: boolean) => {
-            if (confirmed) {
-                const dialogRef = this.dialog.open(ApiResponseFilterComponent, {
-                    width: '700px',
-                    data: param
-                });
-                dialogRef.afterClosed().subscribe(result => {
-                    this.response = result;
-                });
-            }
         });
     }
 
