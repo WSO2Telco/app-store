@@ -31,7 +31,6 @@
     "@ngrx/store": "^9.1.2",
     "@types/intro.js": "^2.4.5",
     "@types/jquery": "^3.3.38",
-    "ang-jsoneditor": "^1.9.4",
     "angular-star-rating": "^4.0.0-beta.3",
     "angular-tag-cloud-module": "^4.2.0",
     "animate.css": "^4.1.0",
