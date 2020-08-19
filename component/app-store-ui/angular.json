@@ -31,7 +31,8 @@
             ],
             "scripts": [
               "node_modules/intro.js/intro.js",
-              "node_modules/jquery/dist/jquery.min.js"
+              "node_modules/jquery/dist/jquery.min.js",
+              "src/assets/js/cloud.js"
             ]
           },
           "configurations": {
