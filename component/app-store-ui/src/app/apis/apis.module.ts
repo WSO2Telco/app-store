@@ -16,7 +16,6 @@ import { ApiDocumentationComponent } from './components/api-documentation/api-do
 // import { StarRatingModule } from 'angular-star-rating';
 import { ApiAppSubscriptionsComponent } from './components/api-app-subscriptions/api-app-subscriptions.component';
 import { ApiTagComponent } from './components/api-tag/api-tag.component';
-import { TagCloudModule } from 'angular-tag-cloud-module';
 import { ApiSdkComponent } from './components/api-sdk/api-sdk.component';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatDialogModule, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
@@ -26,8 +25,6 @@ import { MatDialogModule, MatDialogRef, MAT_DIALOG_DATA } from '@angular/materia
     CommonModule,
     SharedModule,
     ApisRoutes,
-    // StarRatingModule.forRoot(),
-    TagCloudModule,
     StoreModule.forFeature('apis', apisReducer),
     EffectsModule.forFeature([ApisEffects]),
     MatTabsModule,
