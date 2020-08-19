@@ -38,12 +38,12 @@ export class ApiSearchComponent implements OnInit {
   ) {
 
     this.store.select(s => s.apis.pagination).subscribe(res => {
-      if(res) this.length = res.total;
+      if (res) this.length = res.total;
       this.ref.markForCheck();
     });
 
     this.store.select(getApis).subscribe(res => {
-      if(res) this.apiList = res;
+      if (res) this.apiList = res;
       this.ref.markForCheck();
     });
 
@@ -73,7 +73,8 @@ export class ApiSearchComponent implements OnInit {
 
   openDialog(): void {
     const dialogRef = this.dialog.open(ApiTagComponent, {
-      width: '500px',
+      width: '900px',
+      height: '600px'
     });
   }
 
