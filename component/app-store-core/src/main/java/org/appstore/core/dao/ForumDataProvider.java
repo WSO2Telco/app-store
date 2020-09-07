@@ -50,7 +50,7 @@ public class ForumDataProvider {
 			ps = con.prepareStatement(query.toString());
 
 
-			logger.log(Level.INFO, "sql query in getTopic : " + ps);
+			logger.log(Level.FINE, "sql query in getTopic : {0}", ps);
 
 			ps.setInt(1, topicID);
 
@@ -121,7 +121,7 @@ public class ForumDataProvider {
 
 			ps = con.prepareStatement(query.toString());
 
-			logger.log(Level.INFO, "sql query in getTopics : " + ps);
+			logger.log(Level.FINE, "sql query in getTopics : {0}", ps);
 
 			ps.setInt(1, start);
 			ps.setInt(2, count);
@@ -191,7 +191,7 @@ public class ForumDataProvider {
 
 			ps = con.prepareStatement(query.toString());
 
-			logger.log(Level.INFO, "sql query in getTopics : " + ps);
+			logger.log(Level.FINE, "sql query in getTopics : {0}", ps);
 
 			String keywordForQueary="%"+keyWord+"%";
 
@@ -263,7 +263,7 @@ public class ForumDataProvider {
 
 			ps = con.prepareStatement(query.toString());
 
-			logger.log(Level.INFO, "sql query in getTopics : " + ps);
+			logger.log(Level.FINE, "sql query in getTopics : {0}", ps);
 
 
 			rs = ps.executeQuery();
@@ -324,7 +324,7 @@ public class ForumDataProvider {
 			ps = con.prepareStatement(query.toString());
 
 
-			logger.log(Level.INFO, "sql query in getReply : " + ps);
+			logger.log(Level.FINE, "sql query in getReply : {0}", ps);
 
 			ps.setInt(1, replyID);
 
@@ -392,7 +392,7 @@ public class ForumDataProvider {
 
 			ps = con.prepareStatement(query.toString());
 
-			logger.log(Level.INFO, "sql query in getReplies : " + ps);
+			logger.log(Level.FINE, "sql query in getReplies : {0}", ps);
 
 			ps.setInt(1, topicID);
 
@@ -459,7 +459,7 @@ public class ForumDataProvider {
 
 			ps = con.prepareStatement(query.toString(), Statement.RETURN_GENERATED_KEYS);
 
-			logger.log(Level.INFO, "sql query in addReply : " + ps);
+			logger.log(Level.FINE, "sql query in addReply : {0}", ps);
 
 			ps.setString(1, reply.getReplyText());
 			ps.setString(2, reply.getReplyUsername());
@@ -520,12 +520,12 @@ public class ForumDataProvider {
 
 			ps = con.prepareStatement(query.toString(), Statement.RETURN_GENERATED_KEYS);
 
-			logger.log(Level.INFO, "sql query in addTopic : " + ps);
+			logger.log(Level.FINE, "sql query in addTopic : {0}", ps);
 
 			ps.setString(1, topic.getTitle());
 			ps.setString(2, topic.getAuthor());
 			ps.setString(3, topic.getContent());
-			logger.log(Level.INFO, "sql query in addTopic : " + ps);
+			logger.log(Level.FINE, "sql query in addTopic : {0}", ps);
 			ps.executeUpdate();
 
 			rs = ps.getGeneratedKeys();
@@ -580,7 +580,7 @@ public class ForumDataProvider {
 
 			if(replyInDB.isCanModify()) {
 
-				logger.log(Level.INFO, "sql query in deleteReply : " + ps);
+				logger.log(Level.FINE, "sql query in deleteReply : {0}", ps);
 
 				ps.setInt(1, reply.getReplyId());
 
@@ -629,7 +629,7 @@ public class ForumDataProvider {
 
 			ps = con.prepareStatement(query.toString());
 
-			logger.log(Level.INFO, "sql query in deleteReplies : " + ps);
+			logger.log(Level.FINE, "sql query in deleteReplies : {0}", ps);
 			ps.setInt(1, topic.getId());
 
 			ps.executeUpdate();
@@ -676,7 +676,7 @@ public class ForumDataProvider {
 
 
 			if(topicInDB.isCanModify()) {
-				logger.log(Level.INFO, "sql query in deleteTopic : " + ps);
+				logger.log(Level.FINE, "sql query in deleteTopic : {0}", ps);
 
 				ps.setInt(1, topic.getId());
 
