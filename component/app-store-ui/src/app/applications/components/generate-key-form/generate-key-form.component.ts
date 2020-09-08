@@ -215,6 +215,19 @@ export class GenerateKeyFormComponent implements OnInit, OnDestroy {
       })
   }
 
+  regenerateJwtToken() {
+    const keyValidity = (this.accessTokenValidity > 0) ? this.accessTokenValidity : 9223372036854776;
+    const payload = { "auth": this.accessTokenAuth, "validity": keyValidity};
+    this.appSvc.regenerateAccessToken(payload).subscribe(res => {
+      this.generatedToken = res.access_token;
+      this.generatedTokenValidity = res.expires_in;
+      this.notification.success("JWT Token Regenerated Successfully !!");
+      this.cd.detectChanges();
+    }, (err) => {
+      this.notification.error("Error occurred !");
+    })
+  }
+
   clickToCopy(text) {
     const event = (e: ClipboardEvent) => {
       e.clipboardData.setData('text/plain', text);

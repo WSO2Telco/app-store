@@ -85,7 +85,7 @@ curl <strong>-k -d</strong> "<span class="code-blue">grant_type={{accessTokenGra
                     </div>
                 </div>
 
-                <div class="test-access-token" *ngIf="keyObject.token?.accessToken">
+                <div class="test-access-token" *ngIf="keyObject.token?.accessToken && applidationDetails?.tokenType!='JWT'">
                     <div class="block-title">Test Access Token</div>
 
                     <div class="caption">Token below has a validity period of <span class="soft-bold">{{generatedTokenValidity}}</span> seconds. And the token has ( <span class="soft-bold" *ngFor="let scope of keyObject.token.tokenScopes">{{scope}} </span> ) scopes.</div>
@@ -100,6 +100,30 @@ curl <strong>-k -d</strong> "<span class="code-blue">grant_type={{accessTokenGra
                             <mat-icon *ngIf="accessTokenVisible" (click)="switchAccessTokenVisibility(false)" matTooltip="Hide Access Token">visibility_off</mat-icon>
                             <mat-icon *ngIf="clientCredEnabled" (click)="resetAccessToken()" matTooltip="Regenerate Access Token">refresh</mat-icon>
                         </div>
+                    </div>
+                </div>
+
+                <div class="test-access-token" *ngIf="applidationDetails?.tokenType=='JWT'">
+                    <div class="block-title">Generate JWT Token</div>
+                    <div class="caption">Use the "Regenerate" button to generate a JWT token with validity period of
+                        <span class="soft-bold">{{generatedTokenValidity}}</span> seconds and (
+                        <span class="soft-bold" *ngFor="let scope of keyObject.token.tokenScopes">{{scope}} </span> ) scopes.
+                        <span style="color: red">Please copy the generated JWT value as it will be displayed only once.</span>
+                    </div>
+                    <div class="generated-access-token key-block" *ngIf="generatedToken">
+                        <span class="app-key" matTooltip="Click to copy the token" matTooltipPosition="below" (click)="clickToCopy(generatedToken)">
+                            <span *ngIf="!accessTokenVisible">
+                                &bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;
+                            </span>
+                            <span *ngIf="accessTokenVisible">{{generatedToken}}</span>
+                        </span>
+                        <div class="icon-wrap">
+                            <mat-icon *ngIf="!accessTokenVisible" (click)="switchAccessTokenVisibility(true)" matTooltip="Show Access Token">visibility</mat-icon>
+                            <mat-icon *ngIf="accessTokenVisible" (click)="switchAccessTokenVisibility(false)" matTooltip="Hide Access Token">visibility_off</mat-icon>
+                        </div>
+                    </div>
+                    <div>
+                        <button mat-raised-button class="generate" color="accent" (click)="regenerateJwtToken()">Regenerate</button>
                     </div>
                 </div>
 
