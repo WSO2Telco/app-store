@@ -95,11 +95,11 @@ public class UserInfoServiceUtil {
         options.setProperty(HTTPConstants.COOKIE_STRING, sessionCookie);
     }
 
-    public VerificationBean sendNotification(String username) throws RemoteException, UserInformationRecoveryServiceIdentityMgtServiceExceptionException {
+    public VerificationBean sendNotification(String username , String callbackUrl) throws RemoteException, UserInformationRecoveryServiceIdentityMgtServiceExceptionException {
 
 
         if (isIsEnable()) {
-            sendNotifFromIS(username);
+            sendNotifFromIS(username , callbackUrl);
         } else {
             CaptchaInfoBean captchaInfoBean = stub.getCaptcha();
             VerificationBean userBean = stub.verifyUser(username, captchaInfoBean);
@@ -237,7 +237,7 @@ public class UserInfoServiceUtil {
     }
 
 
-    public void sendNotifFromIS(String username) {
+    public void sendNotifFromIS(String username , String callbackUrl) {
 
         try {
 
@@ -246,7 +246,7 @@ public class UserInfoServiceUtil {
             String notifyUrl = url.concat("api/identity/recovery/v0.9/recover-password?type=email&notify=true");
             CloseableHttpClient client = HttpClients.createDefault();
             HttpPost httpPost = new HttpPost(notifyUrl);
-            String json = "{\"user\": {\"username\": \"" + username + "\",\"realm\": \"PRIMARY\",\"tenant-domain\":\"carbon.super\"},\"properties\": []}";
+            String json = "{\"user\": {\"username\": \""  + username + "\",\"realm\": \"PRIMARY\",\"tenant-domain\":\"carbon.super\"},\"properties\": [ {\"key\":\"callback\", \"value\":\"" +callbackUrl+ "\"}]}";
             StringEntity entity = new StringEntity(json);
             httpPost.setEntity(entity);
             httpPost.addHeader("Accept", "application/json");
