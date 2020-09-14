@@ -23,6 +23,7 @@ public class ResetPasswordRequest {
     //CaptchaInfoBean captcha;
     String newPassword;
     String theme;
+    String callbackurl;
 
     public String getUsername() {
         return username;
@@ -34,7 +35,12 @@ public class ResetPasswordRequest {
 
     public String getCode() {return code; }
 
+    public String getCallbackurl() { return callbackurl; }
+
+    public void setCallbackurl(String callbackurl) { this.callbackurl = callbackurl; }
+
     public void setCode(String code) {this.code = code; }
+
 
 //    public CaptchaInfoBean getCaptcha() { return captcha; }
 //

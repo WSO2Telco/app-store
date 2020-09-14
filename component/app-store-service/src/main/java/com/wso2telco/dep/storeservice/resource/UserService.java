@@ -3,6 +3,7 @@ package com.wso2telco.dep.storeservice.resource;
 import org.apache.axis2.client.Options;
 import org.apache.axis2.client.ServiceClient;
 import org.apache.axis2.transport.http.HTTPConstants;
+import org.apache.http.HttpHeaders;
 import org.appstore.core.dto.AuthenticationRequest;
 import org.appstore.core.dto.ChangePasswordByUsrRequest;
 import org.appstore.core.dto.ChangePasswordRequest;
@@ -395,7 +396,8 @@ public class UserService {
 
 	@POST
 	@Path("/forget-password")
-	public Response sendNotification(String jsonBody) {
+	public Response sendNotification(String jsonBody , @HeaderParam(HttpHeaders.HOST) String host) {
+
 		Response response;
 		Gson gson = new GsonBuilder().serializeNulls().create();
 
@@ -410,7 +412,11 @@ public class UserService {
 				UserInfoServiceUtil.handleException("User does not exists");
 			}
 
-			VerificationBean verificationBean = userInfoServiceUtil.sendNotification(resetPasswordRequest.getUsername());
+			if(resetPasswordRequest.getCallbackurl() == null || resetPasswordRequest.getCallbackurl().isEmpty()){
+				resetPasswordRequest.setCallbackurl("https://"+host+"/app-store/public");
+			}
+
+			VerificationBean verificationBean = userInfoServiceUtil.sendNotification(resetPasswordRequest.getUsername() , resetPasswordRequest.getCallbackurl());
 			ObjectMapper mapper = new ObjectMapper();
 			//Converting the Object to JSONString
 			String jsonString = mapper.writeValueAsString(new GenericResponse(false, "notification sent successfully"));
