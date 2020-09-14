@@ -16,25 +16,19 @@ import { ApiDocumentationComponent } from './components/api-documentation/api-do
 // import { StarRatingModule } from 'angular-star-rating';
 import { ApiAppSubscriptionsComponent } from './components/api-app-subscriptions/api-app-subscriptions.component';
 import { ApiTagComponent } from './components/api-tag/api-tag.component';
-import { TagCloudModule } from 'angular-tag-cloud-module';
 import { ApiSdkComponent } from './components/api-sdk/api-sdk.component';
 import { MatTabsModule } from '@angular/material/tabs';
-import { NgJsonEditorModule } from 'ang-jsoneditor';
 import { MatDialogModule, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { ApiResponseFilterComponent } from './components/api-response-filter/api-response-filter.component';
 
 @NgModule({
   imports: [
     CommonModule,
     SharedModule,
     ApisRoutes,
-    // StarRatingModule.forRoot(),
-    TagCloudModule,
     StoreModule.forFeature('apis', apisReducer),
     EffectsModule.forFeature([ApisEffects]),
     MatTabsModule,
     MatDialogModule,
-    NgJsonEditorModule
   ],
   declarations: [
     ApiSearchComponent,
@@ -46,7 +40,7 @@ import { ApiResponseFilterComponent } from './components/api-response-filter/api
     ApiTagComponent,
     ApiSdkComponent,
     ApiAppSubscriptionsComponent,
-    ApiResponseFilterComponent],
+  ],
   providers: [ApisService,
     { provide: MatDialogRef, useValue: {} },
     { provide: MAT_DIALOG_DATA, useValue: [] },

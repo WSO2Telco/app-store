@@ -30,7 +30,8 @@ public enum Tables {
 	DEP_OPERATORS("operators"),
 	DEP_OPERATOR_APPS("operatorapps"),
 	FORUM_TOPICS("forum_topics"),
-	FORUM_REPLIES("forum_replies");
+	FORUM_REPLIES("forum_replies"),
+	RESPONSE_FILTER("response_filter");
 	/**
 	 * Instantiates a new reporting table.
 	 *

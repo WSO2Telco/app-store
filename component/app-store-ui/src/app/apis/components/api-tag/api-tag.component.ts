@@ -1,13 +1,13 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { AppState } from "../../../app.data.models";
 import { Store } from "@ngrx/store";
-import { CloudData, CloudOptions, ZoomOnHoverOptions } from 'angular-tag-cloud-module';
 import { GetApiTagAction } from '../../apis.actions';
 import { Actions, ofType } from '@ngrx/effects';
 import * as apisActions from '../../apis.actions';
 import { TagListResult } from '../../apis.models';
 import { Router } from "@angular/router";
 import { MatDialogRef } from '@angular/material/dialog';
+declare var Clouder: any;
 
 @Component({
   selector: 'store-api-tag',
@@ -16,7 +16,8 @@ import { MatDialogRef } from '@angular/material/dialog';
 })
 export class ApiTagComponent implements OnInit {
   tagList: TagListResult;
-  data: CloudData[] = [];
+  data: any = [];
+  isTagAvailable: boolean;
 
   constructor(private store: Store<AppState>, private actions$: Actions, private router: Router, private dialogRef: MatDialogRef<ApiTagComponent>) {
     this.store.dispatch(GetApiTagAction({}));
@@ -24,36 +25,64 @@ export class ApiTagComponent implements OnInit {
   }
 
   ngOnInit() {
+  }
 
+  init() {
+    var w = Math.max(window.innerWidth, document.body.clientWidth), h = Math.max(window.innerHeight, document.body.clientHeight);
+    var clouder = document.getElementById('clouder');
+
+    clouder.style.width = this.asPixels(w * 2 / 3);
+    clouder.style.height = this.asPixels(h * 2 / 3);
+    clouder.style.position = "absolute";
+    clouder.style.left = this.asPixels(w / 6);
+    clouder.style.top = this.asPixels(h / 6);
+
+    var params: {
+      colorMin: "#0000FF",
+      colorMax: "#FF0000",
+      colorBgr: "#FFFFFF",
+      interval: 50,
+      fontSize: 12,
+      fontShift: 4,
+      opaque: 0.3
+    }
+
+    clouder = new Clouder({
+      container: clouder,
+      tags: this.createTags(this.data),
+      callback: (data) => {
+        this.logClicked(data);
+      }
+    });
+  } // init
+
+  asPixels(number) {
+    return number + 'px';
+  } // asPixels
+
+  createTags(elems: any) {
+    return elems;
   }
 
   ngAfterContentChecked() {
     this.actions$.pipe(ofType(apisActions.GetApiTagSuccessAction)).subscribe(p => {
       if (p) {
         this.tagList = p.payload;
-        var result = this.tagList.list.map(tagArr => ({ text: tagArr.name, weight: tagArr.weight, tooltip: tagArr.name }));
+        var result = this.tagList.list.map(tagArr => ({ text: tagArr.name, weight: tagArr.weight, id: tagArr.name }));
         this.data = result;
+        this.isTagAvailable = true;
       }
     })
+
+    if (this.isTagAvailable) {
+      this.isTagAvailable = false;
+      this.init();
+    }
   }
 
-  options: CloudOptions = {
-    // if width is between 0 and 1 it will be set to the size of the upper element multiplied by the value 
-    width: 450,
-    height: 300,
-    overflow: false,
-    randomizeAngle: true
-  };
-
-  zoomOnHoverOptions: ZoomOnHoverOptions = {
-    scale: 1.3, // Elements will become 130 % of current zize on hover
-    transitionTime: 1.2, // it will take 1.2 seconds until the zoom level defined in scale property has been reached
-    delay: 0.2 // Zoom will take affect after 0.8 seconds
-  };
-
-  logClicked(clicked: CloudData) {
+  logClicked(clicked: any) {
     this.dialogRef.close();
-    this.router.navigate([`/apis/filter/${clicked.text}`]);
+    this.router.navigate([`/apis/filter/${clicked}`]);
   }
 
 

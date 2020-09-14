@@ -35,6 +35,7 @@ export class GenerateKeyFormComponent implements OnInit, OnDestroy {
   public accessTokenAuth;
   public accessTokenValidity: number = 3600;
   public accessTokenVisible = false;
+  public tokenValidationPattern = "^([-]?[1-9]\\d*|0)$";
 
   keygenForm: FormGroup;
   public applidationDetails: ApplicationDetails
@@ -197,22 +198,41 @@ export class GenerateKeyFormComponent implements OnInit, OnDestroy {
   }
 
   resetAccessToken() {
-    const keyValidity = (this.accessTokenValidity > 0) ? this.accessTokenValidity : 9223372036854776;
-    const payload = { "auth": this.accessTokenAuth, "validity": keyValidity, token: this.generatedToken };
-    this.appSvc.revokeAccessToken(payload).subscribe(res => {
+    if (this.accessTokenValidity.toString().match(this.tokenValidationPattern)) {
+      const keyValidity = (this.accessTokenValidity > 0) ? this.accessTokenValidity : 9223372036854776;
+      const payload = { "auth": this.accessTokenAuth, "validity": keyValidity, token: this.generatedToken };
+      this.appSvc.revokeAccessToken(payload).subscribe(res => {
+        this.appSvc.regenerateAccessToken(payload).subscribe(res => {
+          this.generatedToken = res.access_token;
+          this.generatedTokenValidity = res.expires_in;
+          this.notification.success("Token Regenerated Successfully !!");
+          this.cd.detectChanges();
+        }, (err) => {
+          this.notification.error("Error occurred !");
+        })
+      }, (err) => {
+        this.notification.error("Error occurred !");
+      })
+    } else {
+      this.notification.error("Invalid Validity Period");
+    }
+  }
+
+  regenerateJwtToken() {
+    if (this.accessTokenValidity.toString().match(this.tokenValidationPattern)) {
+      const keyValidity = (this.accessTokenValidity > 0) ? this.accessTokenValidity : 9223372036854776;
+      const payload = {"auth": this.accessTokenAuth, "validity": keyValidity};
       this.appSvc.regenerateAccessToken(payload).subscribe(res => {
         this.generatedToken = res.access_token;
         this.generatedTokenValidity = res.expires_in;
-        this.notification.success("Token Regenerated Successfully !!");
+        this.notification.success("JWT Token Regenerated Successfully !!");
         this.cd.detectChanges();
-      },
-        (err) => {
-          this.notification.error("Error occurred !");
-        })
-    },
-      (err) => {
+      }, (err) => {
         this.notification.error("Error occurred !");
       })
+    } else {
+      this.notification.error("Invalid Validity Period");
+    }
   }
 
   clickToCopy(text) {

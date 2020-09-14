@@ -194,8 +194,13 @@ mat-form-field {
         }
         .generated-access-token {
             padding: 0;
+            margin-bottom: 10px;
             .app-key {
                 margin-left: 0;
+                max-width: 724px;
+                white-space: nowrap;
+                overflow-x: scroll;
+                text-align: left;
             }
         }
     }
