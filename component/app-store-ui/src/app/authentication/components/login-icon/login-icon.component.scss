@@ -1,24 +1,48 @@
-$icon-sze : 30px;
-mat-icon{
-    font-size: $icon-sze;
-    line-height: $icon-sze;
-    height: $icon-sze;
-    width: $icon-sze;
+$icon-sze: 30px;
+mat-icon {
+  font-size: $icon-sze;
+  line-height: $icon-sze;
+  height: $icon-sze;
+  width: $icon-sze;
 }
 
-.top-right-block{
-    display: inline-block;
-    cursor: pointer;
+.top-right-block {
+  display: inline-block;
+  cursor: pointer;
 
-    img{
-        float: left;
-        margin: 10px 10px 0 0;
-    }
+  img {
+    float: left;
+    margin: 10px 10px 0 0;
+  }
 
-    .logged-user{
-        padding: 10px 10px 0 10px;
-        float: left;
-        font-weight: 500;
-        font-size: 16px;
-    }
+  .logged-user {
+    padding: 10px 10px 0 10px;
+    float: left;
+    font-weight: 500;
+    font-size: 16px;
+  }
+}
+
+.mr-5 {
+  margin-right: 6px;
+}
+
+.signCon {
+  display: inline-block;
+  width: 200px;
+}
+
+.userBtn {
+  width: 95px !important;
+}
+
+.caret {
+  display: inline-block;
+  width: 0;
+  height: 0;
+  margin-left: 2px;
+  vertical-align: text-top;
+  border-top: 4px dashed;
+  border-right: 4px solid transparent;
+  border-left: 4px solid transparent;
 }

@@ -1,15 +1,27 @@
 <mat-menu #storeMenu="matMenu">
   <button mat-menu-item (click)="onMenuSelected(item.action)" *ngFor="let item of menu$|async"> {{item.name}} </button>
 </mat-menu>
-
-<div class="top-right-block">
-  <button mat-icon-button [matMenuTriggerFor]="storeMenu" *ngIf="!username">
-    <mat-icon aria-label="Example icon-button with a heart icon">account_circle</mat-icon>
-  </button> 
+<div class="signCon">
+  <button mat-icon-button class="userBtn" [routerLink]="['home/signup']" *ngIf="!username">
+    <mat-icon aria-label="Example icon-button with a heart icon">person_add</mat-icon> Sign Up
+  </button>
+  <button mat-icon-button class="userBtn" (click)="onSigninAction()" *ngIf="!username">
+    <mat-icon aria-label="Example icon-button with a heart icon">person</mat-icon> Sign In
+  </button>
 </div>
-<div class="image-wrap top-right-block" *ngIf="username" [matMenuTriggerFor]="storeMenu">
-  <div class="logged-user">
-    <span>{{username}}</span>
+<div class="top-right-block">
+
+  <!-- <button mat-icon-button [matMenuTriggerFor]="storeMenu" *ngIf="!username">
+    <mat-icon aria-label="Example icon-button with a heart icon">account_circle</mat-icon>
+  </button> -->
+</div>
+<div class="top-right-block mr-5" [matMenuTriggerFor]="storeMenu" *ngIf="username">
+  <div class="image-wrap top-right-block" >
+    <div class="logged-user">
+      <span>{{username}}</span>
+    </div>
+    <img src="https://www.gravatar.com/avatar/{{username}}?d=monsterid" width="30" [alt]="username" />
+
   </div>
-  <img src="https://www.gravatar.com/avatar/{{username}}?d=monsterid" width="30" [alt]="username" />
+  <span class="caret"></span>
 </div>
