@@ -3,6 +3,7 @@ import { LoginMenuAction, IMenuItem, LoginMenuActionTypes } from '../../authenti
 import { AppState } from '../../../app.data.models';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
+import * as globalActions from '../../../../app/app.actions';
 
 @Component({
   selector: 'store-login-icon',
@@ -15,7 +16,7 @@ export class LoginIconComponent implements OnInit {
   private menuSelect: EventEmitter<LoginMenuAction> = new EventEmitter();
 
   public menu$: Observable<IMenuItem[]>;
-  public username:string = null;
+  public username: string = null;
 
   constructor(private store: Store<AppState>) { }
 
@@ -29,6 +30,10 @@ export class LoginIconComponent implements OnInit {
 
   private onMenuSelected(type: LoginMenuActionTypes) {
     this.menuSelect.emit(new LoginMenuAction(type));
+  }
+
+  onSigninAction() {
+    this.store.dispatch(globalActions.ToggleRightPanelAction({ "payload": true }));
   }
 
 }

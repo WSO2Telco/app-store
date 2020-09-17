@@ -6,13 +6,13 @@ import { createReducer, on } from '@ngrx/store';
 const defaultMenu = [
     { name: 'Login', action: LoginMenuActionTypes.LOGIN },
     { name: 'Sign up', action: LoginMenuActionTypes.SIGNUP },
-   /*  { name: 'Theme', action: LoginMenuActionTypes.THEME }, */
     { name: 'Help', action: LoginMenuActionTypes.HELP }
 ];
 
 const loggedInMenu = [
     { name: 'Account', action: LoginMenuActionTypes.MYACCOUNT },
     { name: 'Theme', action: LoginMenuActionTypes.THEME },
+    { name: 'Help', action: LoginMenuActionTypes.HELP },
     { name: 'Logout', action: LoginMenuActionTypes.LOGOUT }
 ];
 
