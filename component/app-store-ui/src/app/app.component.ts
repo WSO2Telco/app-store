@@ -83,9 +83,12 @@ export class AppComponent implements OnInit {
       if (event.storageArea == localStorage) {
         let authData = localStorage.getItem('authentication');
         if (authData == undefined || authData == null) {
-          this.store.dispatch(DoLogoutAction());
+          //  this.store.dispatch(DoLogoutAction());
+          let keysToRemove = ["global", "authentication", "apis", "applications", "forum", "tkx", "rtkn", "loggedUser"];
+          keysToRemove.forEach(k =>
+            localStorage.removeItem(k))
           if (localStorage.getItem("autologout") == "false") {
-         //   sessionStorage.setItem("autologout", "true");
+            //   sessionStorage.setItem("autologout", "true");
           }
           return;
         }
